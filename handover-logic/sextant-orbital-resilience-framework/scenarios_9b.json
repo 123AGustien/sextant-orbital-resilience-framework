@@ -1,0 +1,56 @@
+# Sextant Orbital Resilience Framework
+# Batch Simulation Engine (Multi-Scenario Runner)
+
+import json
+from orchestrator.system_orchestrator import SystemOrchestrator
+
+
+class BatchRunner:
+
+    def __init__(self, scenario_file="scenarios.json"):
+        self.scenario_file = scenario_file
+        self.system = SystemOrchestrator()
+        self.results = []
+
+    def load_scenarios(self):
+        with open(self.scenario_file, "r") as f:
+            return json.load(f)
+
+    def run_all(self):
+        scenarios = self.load_scenarios()
+
+        print("\n🛰 BATCH SIMULATION STARTED\n")
+
+        for scenario in scenarios:
+
+            print(f"\n▶ Running: {scenario['name']}")
+
+            result = self.system.run_scenario(
+                scenario["component"],
+                scenario["severity"]
+            )
+
+            self.results.append({
+                "scenario": scenario["name"],
+                "result": result
+            })
+
+        print("\n✅ BATCH SIMULATION COMPLETE\n")
+
+        return self.results
+
+    def summary(self):
+        print("\n📊 BATCH SUMMARY REPORT")
+        print("--------------------------------")
+
+        for r in self.results:
+            print(f"\nScenario: {r['scenario']}")
+            print(f"Risk: {r['result']['overall_risk']}")
+            print(f"Events: {len(r['result']['events'])}")
+
+
+if __name__ == "__main__":
+
+    runner = BatchRunner()
+    runner.run_all()
+    runner.summary()
