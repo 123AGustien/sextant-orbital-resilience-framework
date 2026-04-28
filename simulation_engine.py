@@ -1,27 +1,31 @@
-import json
+from handover_logic.orchestrator.system_orchestrator import SystemOrchestrator
 
-def load_scenarios(file_path):
-    with open(file_path, "r") as f:
-        return json.load(f)
 
-def run_simulation(scenarios):
+def run_simulation():
+
+    system = SystemOrchestrator()
+
+    scenarios = [
+        ("orbital_sensor", 0.3),
+        ("comms_failure", 0.6),
+        ("ground_system", 0.8)
+    ]
+
     results = []
 
-    for scenario in scenarios.get("scenarios", []):
-        result = {
-            "id": scenario.get("id"),
-            "status": "simulated",
-            "risk_score": scenario.get("risk_score", 0),
-            "notes": "baseline propagation model"
-        }
+    for anomaly, severity in scenarios:
+
+        result = system.run_scenario(anomaly, severity)
         results.append(result)
+
+        print("\n--- SCENARIO RESULT ---")
+        print(result)
+
+    print("\n=== FINAL AUDIT ===")
+    print(system.get_audit_trail())
 
     return results
 
 
 if __name__ == "__main__":
-    base = load_scenarios("scenarios.json")
-
-    output = run_simulation(base)
-
-    print(json.dumps(output, indent=2))
+    run_simulation()
