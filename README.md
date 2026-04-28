@@ -1,27 +1,30 @@
-# sextant-orbital-resilience-framework
-A supervisory AI + governance + simulation framework for orbital-to-ground operational resilience systems
-/sextant-orbital-resilience-framework
-│
-├── README.md
-├── /docs
-│     ├── executive-brief.md
-│     ├── architecture-9-stack.md
-│     ├── governance-model.md
-│     ├── space-resilience-layer.md
-│
-├── /diagrams
-│     ├── 9-stack-architecture.png
-│     ├── orbital-to-ground-flow.png
-│     ├── ai-supervision-model.png
-│
-├── /simulation-core
-│     ├── cascade_model.md
-│     ├── failure_propagation_logic.md
-│
-├── /governance
-│     ├── audit-framework.md
-│     ├── human-in-loop-policy.md
-│
-└── /handover-logic
-      ├── escalation_rules.md
-      ├── ai_to_human_transition.md
+# Sextant Orbital Resilience Framework
+
+## Overview
+A supervisory AI architecture for orbital-to-ground resilience systems with:
+
+- Primary AI decision layer  
+- Secondary AI validation layer  
+- Human-in-the-loop control  
+- Deterministic simulation engine  
+- Governance and audit framework  
+
+## Purpose
+To maintain operational stability across space-enabled and critical infrastructure systems by ensuring:
+- Early anomaly detection  
+- Controlled AI decision flow  
+- Human command authority  
+- Failure simulation and audit traceability  
+
+## System Structure
+
+Core modules are separated into functional layers:
+
+- Architecture → docs/architecture-9-stack.md  
+- Governance → docs/governance-model.md  
+- Simulation → simulation-core/  
+- Handover Logic → handover-logic/  
+
+## Entry Point
+Start here:
+docs/executive-brief.md
