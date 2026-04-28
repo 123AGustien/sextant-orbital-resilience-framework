@@ -1,5 +1,11 @@
 # Sextant Orbital Resilience Framework
-# Entry Point: Simulation Engine
+# Entry Point
+
+import sys
+import os
+
+# Add handover-logic folder to Python path
+sys.path.append(os.path.join(os.path.dirname(__file__), "handover-logic"))
 
 from trigger_layer import TriggerLayer
 
@@ -7,7 +13,6 @@ from trigger_layer import TriggerLayer
 def run_simulation():
     """
     Main system entry point for running resilience simulations.
-    Initializes trigger layer and executes default scenarios.
     """
     trigger = TriggerLayer()
     return trigger.run_default_scenarios()
