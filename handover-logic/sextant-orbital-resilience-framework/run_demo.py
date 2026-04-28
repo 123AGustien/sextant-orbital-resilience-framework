@@ -1,55 +1,30 @@
-# Sextant Orbital Resilience Framework
-# Demo Runner: End-to-End System Execution
-
+import json
 from orchestrator.system_orchestrator import SystemOrchestrator
 
 
+def load_scenarios(file_path="scenarios.json"):
+    with open(file_path, "r") as f:
+        return json.load(f)
+
+
 def main():
-    print("\n🛰 Sextant Orbital Resilience Framework - DEMO RUN\n")
 
-    system = SystemOrchestrator()
+    orchestrator = SystemOrchestrator()
+    scenarios = load_scenarios()
 
-    # -----------------------------
-    # Step 1: Inject Scenario
-    # -----------------------------
-    print("Injecting anomaly into orbital subsystem...\n")
+    print("\n=== SEXTANT ORBITAL RESILIENCE SIMULATION ===\n")
 
-    result = system.run_scenario(
-        anomaly_component="orbital",
-        severity=0.7
-    )
+    for scenario in scenarios:
 
-    # -----------------------------
-    # Step 2: Output Simulation Result
-    # -----------------------------
-    print("📊 SYSTEM STATE REPORT")
-    print("--------------------------------")
+        anomaly = scenario["anomaly_component"]
+        severity = scenario["severity"]
 
-    for k, v in result.items():
-        print(f"{k}: {v}")
+        print(f"Running scenario: {anomaly} | severity: {severity}")
 
-    # -----------------------------
-    # Step 3: Simulate Human Override
-    # -----------------------------
-    print("\n👤 Triggering Human Override...\n")
+        report = orchestrator.run_scenario(anomaly, severity)
 
-    system.trigger_human_override(
-        operator="Mission_Controller_01",
-        action="Reduce orbital load / initiate safe mode"
-    )
-
-    # -----------------------------
-    # Step 4: Audit Trail Output
-    # -----------------------------
-    print("\n🧾 GOVERNANCE AUDIT TRAIL")
-    print("--------------------------------")
-
-    audit = system.get_audit_trail()
-
-    for entry in audit:
-        print(entry)
-
-    print("\n✅ DEMO COMPLETE - SYSTEM EXECUTION SUCCESSFUL\n")
+        print("Result:", report)
+        print("-" * 50)
 
 
 if __name__ == "__main__":
