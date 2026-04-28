@@ -2,7 +2,7 @@
 # System Orchestrator: Integration Layer  
 
 from cascade_model import CascadeSimulationEngine, SystemState  
-from audit_framework import GovernanceAuditEngine  
+from governance.audit_framework import GovernanceAuditEngine  
 
 
 class SystemOrchestrator:  
