@@ -1,8 +1,8 @@
 # Sextant Orbital Resilience Framework
 # System Orchestrator: Integration Layer
 
-from handover_logic.simulation_core.cascade_model import CascadeSimulationEngine, SystemState
-from handover_logic.governance.audit_framework import GovernanceAuditEngine
+from simulation_core.cascade_model import CascadeSimulationEngine, SystemState
+from governance.audit_framework import GovernanceAuditEngine
 
 
 class SystemOrchestrator:
@@ -22,6 +22,7 @@ class SystemOrchestrator:
 
     def run_scenario(self, anomaly_component: str, severity: float):
         """
+        Execute full simulation pipeline:
         1. Inject anomaly
         2. Run cascade simulation
         3. Generate system report
@@ -44,7 +45,7 @@ class SystemOrchestrator:
             result=f"risk={report['overall_risk']}"
         )
 
-        # Step 5: Escalation logic (fixed)
+        # Step 5: Escalation logic
         if report["overall_risk"] >= 0.5:
             self.governance.log_escalation(
                 level=2,
