@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Orbital Stress Low",
+    "component": "orbital",
+    "severity": 0.3
+  },
+  {
+    "name": "Comms Degradation Medium",
+    "component": "comms",
+    "severity": 0.6
+  },
+  {
+    "name": "AI Confidence Collapse",
+    "component": "ai",
+    "severity": 0.8
+  },
+  {
+    "name": "Ground System Failure",
+    "component": "ground",
+    "severity": 0.9
+  }
+]
