@@ -4,8 +4,13 @@
 import sys
 import os
 
-# Add handover-logic folder to Python path
-sys.path.append(os.path.join(os.path.dirname(__file__), "handover-logic"))
+BASE_DIR = os.path.dirname(__file__)
+
+# Core module paths
+sys.path.append(os.path.join(BASE_DIR, "handover-logic"))
+sys.path.append(os.path.join(BASE_DIR, "handover-logic", "simulation-core"))
+sys.path.append(os.path.join(BASE_DIR, "handover-logic", "governance"))
+sys.path.append(os.path.join(BASE_DIR, "handover-logic", "orchestrator"))
 
 from trigger_layer import TriggerLayer
 
