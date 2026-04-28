@@ -1,30 +1,23 @@
-import json
 from orchestrator.system_orchestrator import SystemOrchestrator
-
-
-def load_scenarios(file_path="scenarios.json"):
-    with open(file_path, "r") as f:
-        return json.load(f)
-
 
 def main():
 
-    orchestrator = SystemOrchestrator()
-    scenarios = load_scenarios()
+    system = SystemOrchestrator()
 
-    print("\n=== SEXTANT ORBITAL RESILIENCE SIMULATION ===\n")
+    # Example scenario injection
+    result = system.run_scenario(
+        anomaly_component="orbital_sensor",
+        severity=0.7
+    )
 
-    for scenario in scenarios:
+    print("\n=== SYSTEM OUTPUT ===")
+    print(result)
 
-        anomaly = scenario["anomaly_component"]
-        severity = scenario["severity"]
+    # Audit trail check
+    audit = system.get_audit_trail()
 
-        print(f"Running scenario: {anomaly} | severity: {severity}")
-
-        report = orchestrator.run_scenario(anomaly, severity)
-
-        print("Result:", report)
-        print("-" * 50)
+    print("\n=== AUDIT LOG ===")
+    print(audit)
 
 
 if __name__ == "__main__":
