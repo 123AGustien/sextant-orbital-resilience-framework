@@ -1,68 +1,46 @@
-# Sextant Orbital Resilience Framework
-# System Orchestrator: Integration Layer
+# Sextant Orbital Resilience Framework  
+# System Orchestrator: Integration Layer  
 
-from simulation_core.cascade_model import CascadeSimulationEngine, SystemState
-from governance.audit_framework import GovernanceAuditEngine
+from cascade_model import CascadeSimulationEngine, SystemState  
+from audit_framework import GovernanceAuditEngine  
 
 
-class SystemOrchestrator:
+class SystemOrchestrator:  
 
-    def __init__(self):
-        # Initial safe system state
-        self.state = SystemState(
-            orbital_health=1.0,
-            comms_health=1.0,
-            ai_confidence=1.0,
-            ground_system_health=1.0
-        )
+    def __init__(self):  
+        self.state = SystemState(  
+            orbital_health=1.0,  
+            comms_health=1.0,  
+            ai_confidence=1.0,  
+            ground_system_health=1.0  
+        )  
 
-        # Core engines
-        self.simulation = CascadeSimulationEngine(self.state)
-        self.governance = GovernanceAuditEngine()
+        self.simulation = CascadeSimulationEngine(self.state)  
+        self.governance = GovernanceAuditEngine()  
 
-    def run_scenario(self, anomaly_component: str, severity: float):
-        """
-        Execute full simulation pipeline:
-        1. Inject anomaly
-        2. Run cascade simulation
-        3. Generate system report
-        4. Log governance event
-        5. Evaluate risk state
-        """
+    def run_scenario(self, anomaly_component: str, severity: float):  
 
-        # Step 1: Inject anomaly
-        self.simulation.inject_anomaly(anomaly_component, severity)
+        self.simulation.inject_anomaly(anomaly_component, severity)  
+        self.simulation.propagate_cascade()  
 
-        # Step 2: Propagate cascade effects
-        self.simulation.propagate_cascade()
+        report = self.simulation.report()  
 
-        # Step 3: Generate report
-        report = self.simulation.report()
+        self.governance.log_simulation(  
+            scenario=f"{anomaly_component}_severity_{severity}",  
+            result=f"risk={report['overall_risk']}"  
+        )  
 
-        # Step 4: Log simulation result
-        self.governance.log_simulation(
-            scenario=f"{anomaly_component}_severity_{severity}",
-            result=f"risk={report['overall_risk']}"
-        )
+        if report["overall_risk"] >= 0.5:  
+            self.governance.log_escalation(  
+                level=2,  
+                reason="System instability detected - human review required"  
+            )  
 
-        # Step 5: Escalation logic
-        if report["overall_risk"] >= 0.5:
-            self.governance.log_escalation(
-                level=2,
-                reason="System instability detected - human review required"
-            )
+        return report  
 
-        return report
+    def trigger_human_override(self, operator: str, action: str):  
+        self.governance.log_human_override(operator, action)  
+        return "OVERRIDE_LOGGED"  
 
-    def trigger_human_override(self, operator: str, action: str):
-        """
-        Manual override interface
-        """
-        self.governance.log_human_override(operator, action)
-        return "OVERRIDE_LOGGED"
-
-    def get_audit_trail(self):
-        """
-        Returns full system audit log
-        """
+    def get_audit_trail(self):  
         return self.governance.export_log()
