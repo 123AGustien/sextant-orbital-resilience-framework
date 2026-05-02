@@ -1,7 +1,6 @@
 # 🌐 Sextant Orbital Resilience Framework  
-**Supervisory AI + Governance + Simulation Framework for Orbital-to-Ground Systems**
-
-**Status:** Research Proof of Concept (PoC) – For Technical Review
+**Supervisory AI + Governance + Simulation Framework for Orbital-to-Ground Systems**  
+**Status:** Research Proof of Concept (PoC) – For Technical Review  
 
 ---
 
@@ -73,17 +72,14 @@ This repository is structured for rapid technical and conceptual evaluation.
 ---
 
 ## ⚙️ Repository Structure
-
-## ⚙️ Repository Structure
-
 - `/handover-logic/` → Control and transition mechanisms  
 - `simulation_engine.py` → Core simulation engine  
 - `cascade_model.py` → Failure and cascade modelling  
 - `ai_interpretation_layer.py` → AI decision and validation logic  
 - `.github/workflows/` → Automation workflows  
-- `README.md` → Project documentation
+- `README.md` → Project documentation  
 
-- ---
+---
 
 ## 🚧 Development Status
 This repository represents a Proof of Concept (PoC).
