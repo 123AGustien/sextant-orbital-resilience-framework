@@ -1,18 +1,20 @@
 # 🌐 Sextant Orbital Resilience Framework  
 **Supervisory AI + Governance + Simulation Framework for Orbital-to-Ground Systems**
 
+**Status:** Research Proof of Concept (PoC) – For Technical Review
+
 ---
 
 ## 📌 Executive Overview
 The Sextant Orbital Resilience Framework is a research-based Proof of Concept (PoC) designed to model, simulate, and govern resilience in orbital-to-ground and mission-critical infrastructure systems.
 
-It introduces a supervisory AI architecture combining:
+It introduces a structured supervisory AI architecture combining:
 - Multi-layered AI decision-making  
-- Deterministic simulation  
-- Human-in-the-loop control  
+- Deterministic simulation systems  
+- Human-in-the-loop control mechanisms  
 - Governance and audit structures  
 
-The objective is to support operational stability, risk visibility, and controlled system behavior in high-reliability environments.
+The objective is to support operational stability, risk visibility, and controlled system behaviour in high-reliability environments.
 
 ---
 
@@ -21,11 +23,11 @@ This framework is developed to explore and demonstrate:
 
 - Early anomaly detection and risk identification  
 - Controlled AI decision execution pathways  
-- Human command authority over critical actions  
+- Human authority over critical system actions  
 - Failure simulation and cascade modelling  
-- Full auditability and traceable system behavior  
+- Full auditability and traceable system behaviour  
 
-Applicable domains include:
+### Applicable Domains
 - Space and satellite systems  
 - Financial and digital infrastructure  
 - Cloud and distributed systems  
@@ -37,12 +39,12 @@ Applicable domains include:
 For reviewers:
 
 1. Framework overview → this document  
-2. Simulation engine → simulation_engine.py  
-3. Cascade modelling logic → cascade_model.py  
-4. AI interpretation layer → ai_interpretation_layer.py  
-5. Handover / control logic → /handover-logic/  
+2. Simulation engine → `simulation_engine.py`  
+3. Cascade modelling → `cascade_model.py`  
+4. AI interpretation layer → `ai_interpretation_layer.py`  
+5. Handover / control logic → `/handover-logic/`  
 
-This repository is structured to support rapid technical and conceptual evaluation.
+This repository is structured for rapid technical and conceptual evaluation.
 
 ---
 
@@ -50,24 +52,58 @@ This repository is structured to support rapid technical and conceptual evaluati
 
 ### AI Decision Layer
 - Primary AI generates system decisions  
-- Secondary AI validates outputs  
+- Secondary AI validates and cross-checks outputs  
 
 ### Human-in-the-Loop Control
-- Critical decisions remain subject to human authority  
-- Ensures override capability and accountability  
+- Critical decisions remain under human authority  
+- Ensures override capability and operational accountability  
 
 ### Simulation Layer
-- Deterministic simulation engine models system behavior  
-- Enables failure and stress scenario testing  
+- Deterministic simulation engine models system behaviour  
+- Enables stress testing and failure scenario analysis  
 
 ### Cascade Modelling
-- Simulates cascading failures across systems  
-- Supports dependency and risk analysis  
+- Simulates cascading failures across interconnected systems  
+- Supports dependency and systemic risk analysis  
 
 ### Governance & Audit Layer
-- Structured oversight of AI decisions  
+- Structured oversight of AI decision pathways  
 - Full traceability and audit readiness  
 
 ---
 
 ## ⚙️ Repository Structure
+
+## ⚙️ Repository Structure
+
+- `/handover-logic/` → Control and transition mechanisms  
+- `simulation_engine.py` → Core simulation engine  
+- `cascade_model.py` → Failure and cascade modelling  
+- `ai_interpretation_layer.py` → AI decision and validation logic  
+- `.github/workflows/` → Automation workflows  
+- `README.md` → Project documentation
+
+- ---
+
+## 🚧 Development Status
+This repository represents a Proof of Concept (PoC).
+
+- Intended for concept validation and technical review  
+- Not intended for production deployment  
+- Architecture and components are subject to refinement  
+
+---
+
+## 📄 License
+This project is licensed under the MIT License.
+
+---
+
+## 📬 Contact
+Sextant Protocol  
+Email: donweerasekera@gmail.com  
+
+---
+
+## ⚖️ Disclaimer
+This repository is a conceptual and technical research artifact intended for evaluation purposes only. It does not represent an operational or production system.
