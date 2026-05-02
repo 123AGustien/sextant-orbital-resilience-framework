@@ -1,5 +1,6 @@
 # 🌐 Sextant Orbital Resilience Framework  
 **Supervisory AI + Governance + Simulation Framework for Orbital-to-Ground Systems**  
+
 **Status:** Research Proof of Concept (PoC) – For Technical Review  
 
 ---
