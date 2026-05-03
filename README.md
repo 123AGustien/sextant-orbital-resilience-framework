@@ -1,106 +1,114 @@
-# 🌐 Sextant Orbital Resilience Framework  
-**Supervisory AI + Governance + Simulation Framework for Orbital-to-Ground Systems**  
+# 🌐 Sextant Orbital Resilience Framework
 
-**Status:** Research Proof of Concept (PoC) – For Technical Review  
+## Overview
 
----
+The Sextant Orbital Resilience Framework is a research-based Proof of Concept (PoC) designed to model, simulate, and analyse resilience in complex, mission-critical systems.
 
-## 📌 Executive Overview
-The Sextant Orbital Resilience Framework is a research-based Proof of Concept (PoC) designed to model, simulate, and govern resilience in orbital-to-ground and mission-critical infrastructure systems.
+It provides a structured environment for:
+- system behaviour simulation
+- cascade failure analysis
+- AI-assisted decision interpretation
+- governance and audit traceability
 
-It introduces a structured supervisory AI architecture combining:
-- Multi-layered AI decision-making  
-- Deterministic simulation systems  
-- Human-in-the-loop control mechanisms  
-- Governance and audit structures  
-
-The objective is to support operational stability, risk visibility, and controlled system behaviour in high-reliability environments.
+This framework is intended for research, evaluation, and conceptual validation only.
 
 ---
 
-## 🎯 Purpose
-This framework is developed to explore and demonstrate:
+## 🧭 System Purpose
 
-- Early anomaly detection and risk identification  
-- Controlled AI decision execution pathways  
-- Human authority over critical system actions  
-- Failure simulation and cascade modelling  
-- Full auditability and traceable system behaviour  
+The objective of this framework is to explore how complex systems behave under stress conditions and dependency failure scenarios.
 
-### Applicable Domains
-- Space and satellite systems  
-- Financial and digital infrastructure  
-- Cloud and distributed systems  
-- Critical national infrastructure  
+Key focus areas:
+- systemic risk propagation
+- controlled simulation of operational conditions
+- AI decision interpretation layers
+- human oversight and governance control structures
 
 ---
 
-## 🔎 Quick Review Guide (2-Minute Overview)
-For reviewers:
+## 🏗 System Architecture
 
-1. Framework overview → this document  
-2. Simulation engine → `simulation_engine.py`  
-3. Cascade modelling → `cascade_model.py`  
-4. AI interpretation layer → `ai_interpretation_layer.py`  
-5. Handover / control logic → `/handover-logic/`  
+The framework is organised into four primary layers:
 
-This repository is structured for rapid technical and conceptual evaluation.
+### 1. Simulation Layer
+Responsible for deterministic simulation of system behaviour.
+
+- `simulation_engine.py`
 
 ---
 
-## 🧱 System Architecture
+### 2. Cascade Modelling Layer
+Models dependency failures and propagation effects across systems.
 
-### AI Decision Layer
-- Primary AI generates system decisions  
-- Secondary AI validates and cross-checks outputs  
-
-### Human-in-the-Loop Control
-- Critical decisions remain under human authority  
-- Ensures override capability and operational accountability  
-
-### Simulation Layer
-- Deterministic simulation engine models system behaviour  
-- Enables stress testing and failure scenario analysis  
-
-### Cascade Modelling
-- Simulates cascading failures across interconnected systems  
-- Supports dependency and systemic risk analysis  
-
-### Governance & Audit Layer
-- Structured oversight of AI decision pathways  
-- Full traceability and audit readiness  
+- `cascade_model.py`
 
 ---
 
-## ⚙️ Repository Structure
-- `/handover-logic/` → Control and transition mechanisms  
-- `simulation_engine.py` → Core simulation engine  
-- `cascade_model.py` → Failure and cascade modelling  
-- `ai_interpretation_layer.py` → AI decision and validation logic  
-- `.github/workflows/` → Automation workflows  
-- `README.md` → Project documentation  
+### 3. AI Interpretation Layer
+Processes and evaluates system states and decision pathways.
+
+- `ai_interpretation_layer.py`
+
+---
+
+### 4. Governance / Control Layer
+Defines oversight and structural control logic for system evaluation.
+
+- `/handover-logic/`
+
+---
+
+## 🔄 System Flow
+
+1. Simulation engine generates system state evolution  
+2. Cascade model evaluates dependency impacts  
+3. AI layer interprets system conditions  
+4. Governance layer enforces control and audit structure  
+
+---
+
+## 📂 Repository Structure
+
+- `core/` → core system logic modules (if used)
+- `simulation_engine.py` → main simulation runtime
+- `cascade_model.py` → failure propagation model
+- `ai_interpretation_layer.py` → AI decision interpretation
+- `handover-logic/` → governance and control mechanisms
+- `.github/workflows/` → automation and CI processes
 
 ---
 
 ## 🚧 Development Status
-This repository represents a Proof of Concept (PoC).
 
-- Intended for concept validation and technical review  
-- Not intended for production deployment  
-- Architecture and components are subject to refinement  
+This repository is a Proof of Concept (PoC).
+
+It is:
+- non-operational
+- non-production
+- intended for research and evaluation only
 
 ---
 
-## 📄 License
-This project is licensed under the MIT License.
+## ⚖️ Safety & Scope Definition
+
+This framework operates strictly within a simulated computational environment.
+
+It does not:
+- control physical systems
+- interface with operational infrastructure
+- execute real-world autonomous actions
+
+All behaviour described is abstract and simulation-based.
 
 ---
 
 ## 📬 Contact
+
 Sextant Protocol  
 Email: donweerasekera@gmail.com  
 
 ---
 
-## ⚖️ Disclaimer
-This repository is a conceptual and technical research artifact intended for evaluation purposes only. It does not represent an operational or production system.
+## 📄 License
+
+MIT License
