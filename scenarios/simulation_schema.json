@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "description": "Standard simulation input/output schema for Sextant Orbital Resilience Framework",
+
+  "simulation_id": "string",
+  "timestamp": "ISO-8601",
+
+  "environment": {
+    "domain": "simulation_domain",
+    "mode": "deterministic",
+    "time_step": 1,
+    "duration": 100
+  },
+
+  "system_state": {
+    "nodes": [],
+    "dependencies": [],
+    "initial_conditions": {}
+  },
+
+  "scenario": {
+    "name": "baseline_scenario",
+    "type": "baseline",
+    "parameters": {
+      "stress_level": 0,
+      "perturbation_vector": {},
+      "constraints": []
+    }
+  },
+
+  "execution_pipeline": {
+    "simulation_engine": "simulation_engine.py",
+    "cascade_model": "cascade_model.py",
+    "ai_interpretation_layer": "ai_interpretation_layer.py",
+    "governance_layer": "handover-logic"
+  },
+
+  "event_log": [
+    {
+      "time": 0,
+      "event_type": "initialisation",
+      "description": "Simulation start",
+      "impact_score": 0
+    }
+  ],
+
+  "outputs": {
+    "resilience_score": 0,
+    "cascade_depth": 0,
+    "recovery_time": 0,
+    "ai_decision_trace": []
+  }
+}
