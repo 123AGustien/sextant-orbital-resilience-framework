@@ -1,3 +1,4 @@
+
 import json
 from datetime import datetime
 from cascade_model import CascadeModel
@@ -34,6 +35,7 @@ class SimulationEngine:
         self.state = self.scenario.get("system_state", {})
 
         dependencies = self.state.get("dependencies", {})
+
         self.cascade_model = CascadeModel(dependencies)
 
         self._log_event(
@@ -60,18 +62,17 @@ class SimulationEngine:
     # -------------------------------------------------
     def step(self, t: int):
         """
-        Executes a single deterministic simulation step.
+        Single deterministic simulation step.
 
-        Future extensions:
-        - AI interpretation layer hooks
-        - dynamic system evolution
-        - advanced cascade propagation timing
+        Handles:
+        - Cascade injection (t = 0)
+        - Event logging
         """
 
         nodes = self.state.get("nodes", [])
 
         # -------------------------
-        # CASCADE INJECTION LOGIC
+        # CASCADE INJECTION (t=0 only)
         # -------------------------
         if t == 0 and nodes and self.cascade_model:
             failed_node = nodes[-1]
@@ -83,65 +84,43 @@ class SimulationEngine:
                 f"Failure injected at {failed_node}; affected nodes: {affected_nodes}"
             )
 
-        # -------------------------------------------------
-# SIMULATION STEP
-# -------------------------------------------------
-def step(self, t: int):
-    """
-    Single deterministic simulation step.
-    Handles cascade injection and event logging.
-    """
-
-    nodes = self.state.get("nodes", [])
-
-    # -------------------------
-    # CASCADE INJECTION (t=0 only)
-    # -------------------------
-    if t == 0 and nodes and self.cascade_model:
-        failed_node = nodes[-1]
-
-        affected_nodes = self.cascade_model.propagate_failure(failed_node)
-
+        # -------------------------
+        # STANDARD STEP EVENT
+        # -------------------------
         self._log_event(
-            "cascade_triggered",
-            f"Failure injected at {failed_node}; affected nodes: {affected_nodes}"
+            "step",
+            f"Simulation step {t} executed"
         )
 
-    # -------------------------
-    # STANDARD STEP EVENT
-    # -------------------------
-    self._log_event(
-        "step",
-        f"Simulation step {t} executed"
-    )
+    # -------------------------------------------------
+    # SIMULATION EXECUTION
+    # -------------------------------------------------
+    def run(self):
+        """
+        Executes full deterministic simulation lifecycle.
 
+        Returns:
+        - final system state
+        - event log for downstream analysis
+        """
 
-# -------------------------------------------------
-# SIMULATION EXECUTION
-# -------------------------------------------------
-def run(self):
-    """
-    Executes full deterministic simulation lifecycle.
-    Returns structured output for downstream analysis layers.
-    """
+        duration = self.scenario.get("environment", {}).get("duration", 0)
 
-    duration = self.scenario.get("environment", {}).get("duration", 0)
+        self._log_event("start", "Simulation lifecycle initiated")
 
-    self._log_event("start", "Simulation lifecycle initiated")
+        for t in range(duration):
+            self.step(t)
 
-    for t in range(duration):
-        self.step(t)
+        self._log_event("end", "Simulation lifecycle completed")
 
-    self._log_event("end", "Simulation lifecycle completed")
-
-    return {
-        "execution_metadata": {
-            "duration": duration,
-            "steps_executed": duration
-        },
-        "final_state": self.state,
-        "event_log": self.event_log
-    }
+        return {
+            "execution_metadata": {
+                "duration": duration,
+                "steps_executed": duration
+            },
+            "final_state": self.state,
+            "event_log": self.event_log
+        }
 
 
 # -------------------------------------------------
