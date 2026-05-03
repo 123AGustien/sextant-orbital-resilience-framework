@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1",
-  "description": "Canonical simulation schema for the Sextant Orbital Resilience Framework (SORF). Defines structured input, execution flow, and traceable outputs for deterministic system resilience modelling.",
+  "description": "Canonical simulation schema for the Sextant Orbital Resilience Framework (SORF). Defines structured input, execution pipeline, and traceable outputs for deterministic resilience modelling.",
 
   "simulation_id": "string",
   "timestamp": "ISO-8601",
@@ -17,24 +17,30 @@
     "nodes": [],
     "dependencies": [],
     "initial_conditions": {},
-    "state_metadata": {
-      "versioning": "1.0",
-      "normalisation": true
+    "metadata": {
+      "schema_version": "1.0",
+      "normalized": true
     }
   },
 
   "scenario": {
     "name": "baseline_scenario",
-    "type": "baseline | stress_test | failure_injection | cascade_analysis",
+    "type": "baseline",
     "parameters": {
       "stress_level": 0,
       "perturbation_vector": {},
-      "constraint_set": []
+      "constraints": []
     }
   },
 
   "execution_pipeline": {
-    "stages": {
+    "stages": [
+      "simulation_engine",
+      "cascade_model",
+      "ai_interpretation_layer",
+      "governance_layer"
+    ],
+    "module_mapping": {
       "simulation_engine": "simulation_engine.py",
       "cascade_model": "cascade_model.py",
       "ai_interpretation_layer": "ai_interpretation_layer.py",
