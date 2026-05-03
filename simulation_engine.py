@@ -1,4 +1,3 @@
-
 import json
 from datetime import datetime
 from cascade_model import CascadeModel
@@ -26,7 +25,7 @@ class SimulationEngine:
     # -------------------------------------------------
     def load_scenario(self, filepath: str):
         """
-        Load and initialise simulation scenario from JSON file.
+        Load and initialise scenario from JSON file.
         """
 
         with open(filepath, "r") as f:
@@ -36,11 +35,12 @@ class SimulationEngine:
 
         dependencies = self.state.get("dependencies", {})
 
+        # Initialise cascade model safely
         self.cascade_model = CascadeModel(dependencies)
 
         self._log_event(
             "scenario_loaded",
-            "Scenario successfully loaded and cascade model initialised"
+            "Scenario loaded and cascade model initialised"
         )
 
     # -------------------------------------------------
@@ -48,7 +48,7 @@ class SimulationEngine:
     # -------------------------------------------------
     def _log_event(self, event_type: str, description: str):
         """
-        Appends structured event entry to simulation trace.
+        Append structured event entry to simulation trace.
         """
 
         self.event_log.append({
@@ -62,11 +62,11 @@ class SimulationEngine:
     # -------------------------------------------------
     def step(self, t: int):
         """
-        Single deterministic simulation step.
+        Executes a single deterministic simulation step.
 
-        Handles:
-        - Cascade injection (t = 0)
-        - Event logging
+        Behaviour:
+        - Cascade injection occurs at t = 0
+        - Every step is logged for traceability
         """
 
         nodes = self.state.get("nodes", [])
@@ -85,7 +85,7 @@ class SimulationEngine:
             )
 
         # -------------------------
-        # STANDARD STEP EVENT
+        # STEP EVENT
         # -------------------------
         self._log_event(
             "step",
@@ -99,9 +99,9 @@ class SimulationEngine:
         """
         Executes full deterministic simulation lifecycle.
 
-        Returns:
-        - final system state
-        - event log for downstream analysis
+        Output:
+        - final_state
+        - event_log (for downstream resilience + AI layers)
         """
 
         duration = self.scenario.get("environment", {}).get("duration", 0)
@@ -124,7 +124,7 @@ class SimulationEngine:
 
 
 # -------------------------------------------------
-# EXECUTION ENTRY POINT (LOCAL TESTING ONLY)
+# ENTRY POINT (LOCAL TESTING ONLY)
 # -------------------------------------------------
 if __name__ == "__main__":
 
