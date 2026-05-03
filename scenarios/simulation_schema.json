@@ -1,46 +1,56 @@
 {
-  "schema_version": "1.0",
-  "description": "Standard simulation input/output schema for Sextant Orbital Resilience Framework",
+  "schema_version": "1.1",
+  "description": "Canonical simulation schema for the Sextant Orbital Resilience Framework (SORF). Defines structured input, execution flow, and traceable outputs for deterministic system resilience modelling.",
 
   "simulation_id": "string",
   "timestamp": "ISO-8601",
 
   "environment": {
-    "domain": "simulation_domain",
+    "domain": "state_space_simulation_domain",
     "mode": "deterministic",
     "time_step": 1,
-    "duration": 100
+    "duration": 100,
+    "resolution": "discrete"
   },
 
   "system_state": {
     "nodes": [],
     "dependencies": [],
-    "initial_conditions": {}
+    "initial_conditions": {},
+    "state_metadata": {
+      "versioning": "1.0",
+      "normalisation": true
+    }
   },
 
   "scenario": {
     "name": "baseline_scenario",
-    "type": "baseline",
+    "type": "baseline | stress_test | failure_injection | cascade_analysis",
     "parameters": {
       "stress_level": 0,
       "perturbation_vector": {},
-      "constraints": []
+      "constraint_set": []
     }
   },
 
   "execution_pipeline": {
-    "simulation_engine": "simulation_engine.py",
-    "cascade_model": "cascade_model.py",
-    "ai_interpretation_layer": "ai_interpretation_layer.py",
-    "governance_layer": "handover-logic"
+    "stages": {
+      "simulation_engine": "simulation_engine.py",
+      "cascade_model": "cascade_model.py",
+      "ai_interpretation_layer": "ai_interpretation_layer.py",
+      "governance_layer": "handover-logic"
+    },
+    "execution_mode": "sequential",
+    "trace_enabled": true
   },
 
   "event_log": [
     {
       "time": 0,
       "event_type": "initialisation",
-      "description": "Simulation start",
-      "impact_score": 0
+      "description": "Simulation initialisation completed",
+      "impact_score": 0,
+      "source_module": "simulation_engine"
     }
   ],
 
@@ -48,6 +58,14 @@
     "resilience_score": 0,
     "cascade_depth": 0,
     "recovery_time": 0,
-    "ai_decision_trace": []
+    "system_stability_index": 0,
+
+    "ai_decision_trace": [],
+
+    "execution_trace": {
+      "steps": [],
+      "module_interactions": [],
+      "decision_path": []
+    }
   }
 }
