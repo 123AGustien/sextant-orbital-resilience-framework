@@ -1,37 +1,57 @@
-# Sextant Orbital Resilience Framework
-# Entry Point
 
-import sys
-import os
+import json
+from datetime import datetime
 
-BASE_DIR = os.path.dirname(__file__)
+class SimulationEngine:
+    def __init__(self):
+        self.state = None
+        self.scenario = None
+        self.event_log = []
 
-# Core module paths
-MODULE_PATHS = [
-    "handover-logic",
-    "handover-logic/simulation-core",
-    "handover-logic/governance",
-    "handover-logic/orchestrator",
-]
+    def load_scenario(self, filepath: str):
+        """Load scenario JSON into engine"""
+        with open(filepath, "r") as f:
+            self.scenario = json.load(f)
 
-for path in MODULE_PATHS:
-    sys.path.append(os.path.join(BASE_DIR, path))
+        self.state = self.scenario.get("system_state", {})
+        self._log_event("scenario_loaded", "Scenario successfully loaded")
 
-from trigger_layer import TriggerLayer
+    def _log_event(self, event_type, description):
+        self.event_log.append({
+            "timestamp": datetime.utcnow().isoformat(),
+            "event_type": event_type,
+            "description": description
+        })
+
+    def step(self, t: int):
+        """Single simulation step (minimal deterministic placeholder)"""
+        # Future: integrate cascade + AI layers here
+        self._log_event("step", f"Simulation step {t} executed")
+
+    def run(self):
+        """Run full simulation"""
+        duration = self.scenario["environment"]["duration"]
+
+        self._log_event("start", "Simulation started")
+
+        for t in range(duration):
+            self.step(t)
+
+        self._log_event("end", "Simulation completed")
+
+        return {
+            "final_state": self.state,
+            "event_log": self.event_log
+        }
 
 
-def run_simulation():
-    """
-    Main system entry point for running resilience simulations.
-
-    NOTE:
-    - This execution is intended for GitHub Actions / local testing
-    - No email, external notification, or manual reporting is required
-    - All outputs are displayed in GitHub Actions logs only
-    """
-    trigger = TriggerLayer()
-    return trigger.run_default_scenarios()
-
-
+# Example usage (safe for testing)
 if __name__ == "__main__":
-    run_simulation()
+    engine = SimulationEngine()
+
+    # You can switch this to any scenario file
+    engine.load_scenario("scenarios/baseline_scenario.json")
+
+    result = engine.run()
+
+    print(json.dumps(result, indent=2))
