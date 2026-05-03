@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.1",
+  "simulation_id": "orbital_resilience_001",
+  "timestamp": "ISO-8601",
+
+  "environment": {
+    "domain": "state_space_simulation_domain",
+    "mode": "deterministic",
+    "time_step": 1,
+    "duration": 100,
+    "resolution": "discrete"
+  },
+
+  "system_state": {
+    "nodes": ["Orbital", "Relay", "Ground"],
+    "dependencies": {
+      "Orbital": ["Relay"],
+      "Relay": ["Ground"],
+      "Ground": []
+    },
+    "initial_conditions": {
+      "Orbital": 1,
+      "Relay": 1,
+      "Ground": 1
+    }
+  },
+
+  "scenario": {
+    "name": "orbital_resilience_scenario",
+    "type": "cascade_analysis",
+    "parameters": {
+      "stress_level": 5,
+      "perturbation_vector": {
+        "Orbital": -0.3
+      },
+      "constraints": [
+        "redundancy_activation",
+        "signal_delay_tolerance",
+        "self_recovery_enabled"
+      ]
+    }
+  }
+}
