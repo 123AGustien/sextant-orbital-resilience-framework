@@ -83,43 +83,65 @@ class SimulationEngine:
                 f"Failure injected at {failed_node}; affected nodes: {affected_nodes}"
             )
 
-        # -------------------------
-        # STANDARD STEP EVENT
-        # -------------------------
+        # -------------------------------------------------
+# SIMULATION STEP
+# -------------------------------------------------
+def step(self, t: int):
+    """
+    Single deterministic simulation step.
+    Handles cascade injection and event logging.
+    """
+
+    nodes = self.state.get("nodes", [])
+
+    # -------------------------
+    # CASCADE INJECTION (t=0 only)
+    # -------------------------
+    if t == 0 and nodes and self.cascade_model:
+        failed_node = nodes[-1]
+
+        affected_nodes = self.cascade_model.propagate_failure(failed_node)
+
         self._log_event(
-            "step",
-            f"Simulation step {t} executed"
+            "cascade_triggered",
+            f"Failure injected at {failed_node}; affected nodes: {affected_nodes}"
         )
 
-    # -------------------------------------------------
-    # SIMULATION EXECUTION
-    # -------------------------------------------------
-    def run(self):
-        """
-        Executes full deterministic simulation lifecycle.
+    # -------------------------
+    # STANDARD STEP EVENT
+    # -------------------------
+    self._log_event(
+        "step",
+        f"Simulation step {t} executed"
+    )
 
-        Returns:
-        - final system state
-        - full event log (for post-processing analysis layers)
-        """
 
-        duration = self.scenario.get("environment", {}).get("duration", 0)
+# -------------------------------------------------
+# SIMULATION EXECUTION
+# -------------------------------------------------
+def run(self):
+    """
+    Executes full deterministic simulation lifecycle.
+    Returns structured output for downstream analysis layers.
+    """
 
-        self._log_event("start", "Simulation lifecycle initiated")
+    duration = self.scenario.get("environment", {}).get("duration", 0)
 
-        for t in range(duration):
-            self.step(t)
+    self._log_event("start", "Simulation lifecycle initiated")
 
-        self._log_event("end", "Simulation lifecycle completed")
+    for t in range(duration):
+        self.step(t)
 
-        return {
-            "execution_metadata": {
-                "duration": duration,
-                "steps_executed": duration
-            },
-            "final_state": self.state,
-            "event_log": self.event_log
-        }
+    self._log_event("end", "Simulation lifecycle completed")
+
+    return {
+        "execution_metadata": {
+            "duration": duration,
+            "steps_executed": duration
+        },
+        "final_state": self.state,
+        "event_log": self.event_log
+    }
 
 
 # -------------------------------------------------
