@@ -6,7 +6,12 @@ from cascade_model import CascadeModel
 class SimulationEngine:
     """
     Core deterministic simulation engine for the Sextant Orbital Resilience Framework.
-    Handles scenario loading, execution loop, and event trace generation.
+
+    Responsibilities:
+    - Scenario loading and initialization
+    - Deterministic execution loop
+    - Event trace generation
+    - Cascade failure injection (simulation-level)
     """
 
     def __init__(self):
@@ -15,11 +20,14 @@ class SimulationEngine:
         self.event_log = []
         self.cascade_model = None
 
-    # ----------------------------
+    # -------------------------------------------------
     # SCENARIO LOADING
-    # ----------------------------
+    # -------------------------------------------------
     def load_scenario(self, filepath: str):
-        """Load and initialize scenario from JSON file"""
+        """
+        Load and initialise simulation scenario from JSON file.
+        """
+
         with open(filepath, "r") as f:
             self.scenario = json.load(f)
 
@@ -28,30 +36,43 @@ class SimulationEngine:
         dependencies = self.state.get("dependencies", {})
         self.cascade_model = CascadeModel(dependencies)
 
-        self._log_event("scenario_loaded", "Scenario successfully loaded and initialized")
+        self._log_event(
+            "scenario_loaded",
+            "Scenario successfully loaded and cascade model initialised"
+        )
 
-    # ----------------------------
+    # -------------------------------------------------
     # EVENT LOGGING
-    # ----------------------------
+    # -------------------------------------------------
     def _log_event(self, event_type: str, description: str):
+        """
+        Appends structured event entry to simulation trace.
+        """
+
         self.event_log.append({
             "timestamp": datetime.utcnow().isoformat(),
             "event_type": event_type,
             "description": description
         })
 
-    # ----------------------------
+    # -------------------------------------------------
     # SIMULATION STEP
-    # ----------------------------
+    # -------------------------------------------------
     def step(self, t: int):
         """
-        Single deterministic simulation step.
-        Future extensions: AI interpretation + advanced system dynamics.
+        Executes a single deterministic simulation step.
+
+        Future extensions:
+        - AI interpretation layer hooks
+        - dynamic system evolution
+        - advanced cascade propagation timing
         """
 
         nodes = self.state.get("nodes", [])
 
-        # Minimal cascade injection (time-triggered example)
+        # -------------------------
+        # CASCADE INJECTION LOGIC
+        # -------------------------
         if t == 0 and nodes and self.cascade_model:
             failed_node = nodes[-1]
 
@@ -59,35 +80,51 @@ class SimulationEngine:
 
             self._log_event(
                 "cascade_triggered",
-                f"Failure injected at {failed_node}, affected nodes: {affected_nodes}"
+                f"Failure injected at {failed_node}; affected nodes: {affected_nodes}"
             )
 
-        self._log_event("step", f"Simulation step {t} executed")
+        # -------------------------
+        # STANDARD STEP EVENT
+        # -------------------------
+        self._log_event(
+            "step",
+            f"Simulation step {t} executed"
+        )
 
-    # ----------------------------
-    # RUN SIMULATION
-    # ----------------------------
+    # -------------------------------------------------
+    # SIMULATION EXECUTION
+    # -------------------------------------------------
     def run(self):
-        """Execute full simulation lifecycle"""
+        """
+        Executes full deterministic simulation lifecycle.
+
+        Returns:
+        - final system state
+        - full event log (for post-processing analysis layers)
+        """
 
         duration = self.scenario.get("environment", {}).get("duration", 0)
 
-        self._log_event("start", "Simulation started")
+        self._log_event("start", "Simulation lifecycle initiated")
 
         for t in range(duration):
             self.step(t)
 
-        self._log_event("end", "Simulation completed")
+        self._log_event("end", "Simulation lifecycle completed")
 
         return {
+            "execution_metadata": {
+                "duration": duration,
+                "steps_executed": duration
+            },
             "final_state": self.state,
             "event_log": self.event_log
         }
 
 
-# ----------------------------
-# EXECUTION ENTRY POINT
-# ----------------------------
+# -------------------------------------------------
+# EXECUTION ENTRY POINT (LOCAL TESTING ONLY)
+# -------------------------------------------------
 if __name__ == "__main__":
 
     engine = SimulationEngine()
