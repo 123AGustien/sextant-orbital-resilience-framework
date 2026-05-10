@@ -7,14 +7,18 @@ Deterministic cascade propagation engine using a dictionary-based system model.
 
 class OrbitalCascadeModel:
     def __init__(self, system_model):
-        # system_model format:
-        # {
-        #   "node_id": {
-        #       "status": "nominal",
-        #       "dependencies": [...]
-        #   }
-        # }
         self.system = system_model
+
+    # ----------------------------
+    # TYPE SAFETY HELPER
+    # ----------------------------
+    def _get_node(self, node):
+        """
+        Ensures node is always treated as dict safely.
+        """
+        if isinstance(node, dict):
+            return node
+        return None
 
     # ----------------------------
     # CORE FAILURE ENTRY POINT
@@ -23,7 +27,9 @@ class OrbitalCascadeModel:
         if node_id not in self.system:
             return
 
-        node = self.system[node_id]
+        node = self._get_node(self.system[node_id])
+        if not node:
+            return
 
         if node.get("status", "").startswith("failed"):
             return
@@ -44,6 +50,10 @@ class OrbitalCascadeModel:
 
         for node_id, node in self.system.items():
 
+            node = self._get_node(node)
+            if not node:
+                continue
+
             dependencies = node.get("dependencies", [])
 
             if (
@@ -54,7 +64,7 @@ class OrbitalCascadeModel:
                 self._propagate_failure(node_id, visited)
 
     # ----------------------------
-    # SIMULATION HELPERS (REQUIRED BY ENGINE)
+    # SIMULATION HELPERS
     # ----------------------------
     def simulate_ground_station_outage(self, station_id):
         self.trigger_failure(station_id, "ground_outage")
@@ -66,16 +76,17 @@ class OrbitalCascadeModel:
         self.trigger_failure(node_id, "link_degradation")
 
     # ----------------------------
-    # SYSTEM STATE OUTPUT
+    # OUTPUT
     # ----------------------------
     def get_cascade_impact(self):
-        impact = {
-            "failed": [],
-            "degraded": [],
-            "nominal": []
-        }
+        impact = {"failed": [], "degraded": [], "nominal": []}
 
         for node_id, node in self.system.items():
+
+            node = self._get_node(node)
+            if not node:
+                continue
+
             status = node.get("status", "nominal")
 
             if status.startswith("failed"):
@@ -88,8 +99,9 @@ class OrbitalCascadeModel:
         return impact
 
     # ----------------------------
-    # RESET SYSTEM
+    # RESET
     # ----------------------------
     def reset_system(self):
         for node in self.system.values():
-            node["status"] = "nominal"
+            if isinstance(node, dict):
+                node["status"] = "nominal"
