@@ -1,104 +1,100 @@
-# 🌐 Sextant Orbital Resilience Framework
+# 🌐 Sextant Orbital Resilience Framework (Orbital Systems Simulation Layer)
 
-## Overview
+## 🛰️ Overview
 
-The Sextant Orbital Resilience Framework is a research-based Proof of Concept (PoC) designed to model, simulate, and analyse resilience in complex, mission-critical systems.
+The Sextant Orbital Resilience Framework is a deterministic simulation and modelling system for analysing resilience, dependency structures, and failure propagation in satellite constellation environments.
 
-It provides a structured environment for:
-- system behaviour simulation
-- cascade failure analysis
-- AI-assisted decision interpretation
-- governance and audit traceability
+It is designed for research, conceptual validation, and systems architecture exploration.
 
-This framework is intended for research, evaluation, and conceptual validation only.
+This framework models how orbital systems behave under stress conditions, including cascading failures across space and ground segments.
 
 ---
 
 ## 🧭 System Purpose
 
-The objective of this framework is to explore how complex systems behave under stress conditions and dependency failure scenarios.
+This framework simulates:
 
-Key focus areas:
-- systemic risk propagation
-- controlled simulation of operational conditions
-- AI decision interpretation layers
-- human oversight and governance control structures
-
----
-
-## 🏗 System Architecture
-
-The framework is organised into four primary layers:
-
-### 1. Simulation Layer
-Responsible for deterministic simulation of system behaviour.
-
-- `simulation_engine.py`
+- satellite constellation behaviour under stress
+- ground-to-space dependency structures
+- inter-satellite communication resilience
+- mission continuity under subsystem failure
+- cascade propagation across orbital networks
 
 ---
 
-### 2. Cascade Modelling Layer
-Models dependency failures and propagation effects across systems.
+## 🛰️ Orbital System Model
 
-- `cascade_model.py`
+The system is structured around three core domains:
+
+### 1. Space Segment
+- Satellites
+- Payload systems
+- Onboard subsystems (power, comms, propulsion)
+
+### 2. Ground Segment
+- Ground stations
+- Mission control nodes
+- Downlink processing hubs
+
+### 3. Network Segment
+- Inter-satellite links (ISL)
+- RF / optical communication paths
+- Data routing topology
 
 ---
 
-### 3. AI Interpretation Layer
-Processes and evaluates system states and decision pathways.
+## 🔗 Dependency & Cascade Model
 
-- `ai_interpretation_layer.py`
+The system simulates:
+
+- power dependency failures
+- communication link degradation
+- orbital visibility constraints
+- ground station outages
+- multi-node cascade propagation
 
 ---
 
-### 4. Governance / Control Layer
-Defines oversight and structural control logic for system evaluation.
+## 🧠 AI Interpretation Layer
 
-- `/handover-logic/`
+The AI layer interprets system states into:
+
+- constellation health status
+- coverage integrity analysis
+- failure propagation forecasts
+- mission degradation risk scoring
+
+---
+
+## ⚖️ Governance Layer
+
+The governance layer provides:
+
+- system state oversight logic
+- controlled simulation evaluation
+- auditability of system transitions
+- structured handover logic for state changes
 
 ---
 
 ## 🔄 System Flow
 
-1. Simulation engine generates system state evolution  
-2. Cascade model evaluates dependency impacts  
-3. AI layer interprets system conditions  
-4. Governance layer enforces control and audit structure  
-
----
-
-## 📂 Repository Structure
-
-- `core/` → core system logic modules (if used)
-- `simulation_engine.py` → main simulation runtime
-- `cascade_model.py` → failure propagation model
-- `ai_interpretation_layer.py` → AI decision interpretation
-- `handover-logic/` → governance and control mechanisms
-- `.github/workflows/` → automation and CI processes
+1. Orbital simulation engine generates system state
+2. Dependency model evaluates system relationships
+3. Cascade model simulates failure propagation
+4. AI layer interprets system conditions
+5. Governance layer applies structured oversight rules
 
 ---
 
 ## 🚧 Development Status
 
-This repository is a Proof of Concept (PoC).
+This is a research-grade proof of concept system.
 
 It is:
 - non-operational
-- non-production
-- intended for research and evaluation only
-
----
-
-## ⚖️ Safety & Scope Definition
-
-This framework operates strictly within a simulated computational environment.
-
-It does not:
-- control physical systems
-- interface with operational infrastructure
-- execute real-world autonomous actions
-
-All behaviour described is abstract and simulation-based.
+- non-connected to live spacecraft systems
+- intended for simulation and modelling only
 
 ---
 
