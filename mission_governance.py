@@ -1,4 +1,4 @@
-Freeze v0.1 - Stabilized Governance Layer
+class MissionGovernanceLayer:
     def __init__(self, runtime=None, cascade=None, mechanics=None):
         """
         Accepts optional system references for full simulation context.
@@ -16,14 +16,12 @@ Freeze v0.1 - Stabilized Governance Layer
         Evaluates mission health state based on actual cascade signals.
         """
 
-        # Extract real signal strength (not just object existence)
         has_signal = bool(cascade_data)
 
         if not has_signal:
             status = "nominal"
             risk = "low"
         else:
-            # Minimal deterministic classification layer
             event_count = len(cascade_data) if isinstance(cascade_data, (list, tuple)) else 1
 
             if event_count == 1:
