@@ -1,33 +1,32 @@
 """
 Sextant Orbital Resilience Framework
 Mission Governance Layer
-
-Provides system-level evaluation of simulated mission state.
-This is a deterministic rule-based governance stub for CI validation.
 """
 
 class MissionGovernanceLayer:
-    def __init__(self):
+    def __init__(self, runtime=None, cascade=None, mechanics=None):
+        """
+        Accepts optional system references for full simulation context.
+        Keeps backward compatibility with CI runs.
+        """
+
+        self.runtime = runtime
+        self.cascade = cascade
+        self.mechanics = mechanics
+
         self.state_history = []
 
     def evaluate_mission_state(self, cascade_data=None):
         """
-        Evaluates overall mission health from simulation state.
+        Evaluates mission health state.
         """
 
-        # Simple deterministic logic for CI stability
-        if cascade_data is None:
+        if cascade_data is None and self.cascade is None:
             status = "nominal"
             risk = "low"
         else:
-            # Basic heuristic placeholder
-            impact = len(str(cascade_data))
-            if impact > 50:
-                status = "degraded"
-                risk = "medium"
-            else:
-                status = "nominal"
-                risk = "low"
+            status = "degraded"
+            risk = "medium"
 
         result = {
             "mission_status": status,
