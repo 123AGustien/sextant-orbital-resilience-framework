@@ -39,10 +39,6 @@ jobs:
         run: |
           if [ -f simulation_engine.py ]; then python simulation_engine.py; fi
 
-      - name: Run Cascade Model (if exists)
-        run: |
-          if [ -f cascade_model.py ]; then python cascade_model.py; fi
-
       - name: Run Governance Layer (if exists)
         run: |
           if [ -f mission_governance.py ]; then python mission_governance.py; fi
