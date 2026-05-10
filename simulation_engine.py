@@ -1,6 +1,6 @@
 import json
 from datetime import datetime
-from cascade_model import CascadeModel
+from cascade_model import OrbitalCascadeModel
 
 
 class SimulationEngine:
@@ -36,7 +36,7 @@ class SimulationEngine:
         dependencies = self.state.get("dependencies", {})
 
         # Initialise cascade model safely
-        self.cascade_model = CascadeModel(dependencies)
+        self.cascade_model = OrbitalCascadeModel(dependencies)
 
         self._log_event(
             "scenario_loaded",
@@ -77,11 +77,13 @@ class SimulationEngine:
         if t == 0 and nodes and self.cascade_model:
             failed_node = nodes[-1]
 
-            affected_nodes = self.cascade_model.propagate_failure(failed_node)
+            affected_nodes = self.cascade_model.trigger_failure(
+                failed_node, "simulation_injection"
+            )
 
             self._log_event(
                 "cascade_triggered",
-                f"Failure injected at {failed_node}; affected nodes: {affected_nodes}"
+                f"Failure injected at {failed_node}"
             )
 
         # -------------------------
@@ -98,10 +100,6 @@ class SimulationEngine:
     def run(self):
         """
         Executes full deterministic simulation lifecycle.
-
-        Output:
-        - final_state
-        - event_log (for downstream resilience + AI layers)
         """
 
         duration = self.scenario.get("environment", {}).get("duration", 0)
