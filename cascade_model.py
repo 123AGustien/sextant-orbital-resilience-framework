@@ -13,6 +13,9 @@ class OrbitalCascadeModel:
         """
         self.system = system_model
 
+    # ----------------------------
+    # CORE FAILURE ENTRY POINT
+    # ----------------------------
     def trigger_failure(self, node_id, failure_type="unknown"):
         """
         Marks a node as failed and triggers cascade propagation.
@@ -21,45 +24,56 @@ class OrbitalCascadeModel:
             return
 
         node = self.system.nodes[node_id]
+
+        # Prevent re-processing already failed nodes
+        if node.status.startswith("failed"):
+            return
+
         node.set_status(f"failed:{failure_type}")
 
-        # Start cascade propagation
-        self._propagate_failure(node)
+        # Start cascade propagation with safety tracking
+        visited = set()
+        self._propagate_failure(node, visited)
 
-    def _propagate_failure(self, failed_node):
+    # ----------------------------
+    # SAFE CASCADE PROPAGATION
+    # ----------------------------
+    def _propagate_failure(self, failed_node, visited):
         """
-        Propagates failure through dependency graph.
+        Propagates failure through dependency graph safely (cycle-resistant).
         """
+        if failed_node in visited:
+            return
+
+        visited.add(failed_node)
+
         for node in self.system.nodes.values():
 
-            # If this node depends on the failed node
-            if failed_node in node.dependencies:
+            # Ensure dependency exists and is not already failed
+            if (
+                failed_node in node.dependencies
+                and not node.status.startswith("failed")
+            ):
+                node.set_status("degraded:cascade")
 
-                # Only propagate if not already failed
-                if not node.status.startswith("failed"):
-                    node.set_status("degraded:cascade")
+                # Continue propagation safely
+                self._propagate_failure(node, visited)
 
-                    # Continue cascading recursively
-                    self._propagate_failure(node)
-
+    # ----------------------------
+    # SIMULATION HELPERS
+    # ----------------------------
     def simulate_ground_station_outage(self, station_id):
-        """
-        Simulates loss of a ground station and its systemic impact.
-        """
         self.trigger_failure(station_id, "ground_outage")
 
     def simulate_satellite_failure(self, satellite_id):
-        """
-        Simulates onboard satellite failure.
-        """
         self.trigger_failure(satellite_id, "satellite_failure")
 
     def simulate_link_degradation(self, node_id):
-        """
-        Simulates communication degradation event.
-        """
         self.trigger_failure(node_id, "link_degradation")
 
+    # ----------------------------
+    # SYSTEM STATE OUTPUT
+    # ----------------------------
     def get_cascade_impact(self):
         """
         Returns system-wide impact summary after cascade events.
@@ -71,15 +85,21 @@ class OrbitalCascadeModel:
         }
 
         for node_id, node in self.system.nodes.items():
+
             if node.status.startswith("failed"):
                 impact["failed"].append(node_id)
+
             elif node.status.startswith("degraded"):
                 impact["degraded"].append(node_id)
+
             else:
                 impact["nominal"].append(node_id)
 
         return impact
 
+    # ----------------------------
+    # RESET FUNCTION
+    # ----------------------------
     def reset_system(self):
         """
         Resets all nodes to nominal state.
