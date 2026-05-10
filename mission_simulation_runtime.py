@@ -1,101 +1,93 @@
 """
 Sextant Orbital Resilience Framework
-Mission Simulation Runtime (Orchestrator)
+Orbital Dependency Cascade Model
 
-This module serves as the unified execution entry point for the
-orbital resilience simulation stack, integrating:
-
-- Orbital system model (nodes + dependencies)
-- Cascade failure engine
-- AI mission interpretation layer
-- Governance decision layer
-
-This is a deterministic simulation environment for research and
-conceptual validation of orbital system resilience.
+Deterministic cascade propagation engine using a dictionary-based system model.
 """
 
-from orbital_system_model import OrbitalSystemModel
-from cascade_model import OrbitalCascadeModel
-from ai_interpretation_layer import MissionResilienceInterpreter
-from mission_governance import MissionGovernanceLayer
+class OrbitalCascadeModel:
+    def __init__(self, system_model):
+        # system_model is a dict:
+        # {
+        #   "node_id": {"status": "...", "dependencies": [...]}
+        # }
+        self.system = system_model
 
+    # ----------------------------
+    # CORE FAILURE ENTRY POINT
+    # ----------------------------
+    def trigger_failure(self, node_id, failure_type="unknown"):
+        if node_id not in self.system:
+            return
 
-class MissionSimulationRuntime:
-    def __init__(self):
-        """
-        Initialize full orbital simulation stack.
-        """
+        node = self.system[node_id]
 
-        self.system = OrbitalSystemModel()
-        self.cascade = OrbitalCascadeModel(self.system)
-        self.interpreter = MissionResilienceInterpreter(
-            self.system,
-            self.cascade
-        )
-        self.governance = MissionGovernanceLayer(
-            self.system,
-            self.cascade,
-            self.interpreter
-        )
+        # prevent duplicate failure processing
+        if node.get("status", "").startswith("failed"):
+            return
 
-    def build_sample_constellation(self):
-        """
-        Constructs a minimal satellite constellation model
-        for simulation purposes.
-        """
+        node["status"] = f"failed:{failure_type}"
 
-        # Space segment
-        self.system.add_node("SAT-1", "satellite")
-        self.system.add_node("SAT-2", "satellite")
+        visited = set()
+        self._propagate_failure(node_id, visited)
 
-        # Ground segment
-        self.system.add_node("GS-1", "ground_station")
+    # ----------------------------
+    # SAFE CASCADE PROPAGATION
+    # ----------------------------
+    def _propagate_failure(self, failed_node_id, visited):
+        if failed_node_id in visited:
+            return
 
-        # Dependency relationships
-        self.system.link_dependency("SAT-1", "GS-1")
-        self.system.link_dependency("SAT-2", "GS-1")
+        visited.add(failed_node_id)
 
-    def run_failure_scenario(self):
-        """
-        Executes a controlled orbital failure scenario:
+        for node_id, node in self.system.items():
 
-        - Simulates ground station outage
-        - Triggers cascade propagation
-        - Runs interpretation layer
-        - Applies governance decision logic
-        """
+            dependencies = node.get("dependencies", [])
 
-        # Trigger primary failure event
-        self.cascade.simulate_ground_station_outage("GS-1")
+            if (
+                failed_node_id in dependencies
+                and not node.get("status", "").startswith("failed")
+            ):
+                node["status"] = "degraded:cascade"
+                self._propagate_failure(node_id, visited)
 
-        # Evaluate full mission state
-        return self.governance.evaluate_mission_state()
+    # ----------------------------
+    # SIMULATION HELPERS (REQUIRED BY ENGINE)
+    # ----------------------------
+    def simulate_ground_station_outage(self, station_id):
+        self.trigger_failure(station_id, "ground_outage")
 
-    def reset(self):
-        """
-        Resets system state for repeatable simulation runs.
-        """
-        self.cascade.reset_system()
+    def simulate_satellite_failure(self, satellite_id):
+        self.trigger_failure(satellite_id, "satellite_failure")
 
+    def simulate_link_degradation(self, node_id):
+        self.trigger_failure(node_id, "link_degradation")
 
-# ============================================================
-# ENTRY POINT
-# ============================================================
+    # ----------------------------
+    # SYSTEM STATE OUTPUT
+    # ----------------------------
+    def get_cascade_impact(self):
+        impact = {
+            "failed": [],
+            "degraded": [],
+            "nominal": []
+        }
 
-if __name__ == "__main__":
+        for node_id, node in self.system.items():
+            status = node.get("status", "nominal")
 
-    runtime = MissionSimulationRuntime()
+            if status.startswith("failed"):
+                impact["failed"].append(node_id)
+            elif status.startswith("degraded"):
+                impact["degraded"].append(node_id)
+            else:
+                impact["nominal"].append(node_id)
 
-    print("\n🛰️ Initializing Orbital Resilience Simulation...\n")
+        return impact
 
-    runtime.build_sample_constellation()
-
-    result = runtime.run_failure_scenario()
-
-    print("🧭 MISSION SIMULATION OUTPUT")
-    print("====================================")
-    print(result)
-
-    runtime.reset()
-
-    print("\n🔄 System reset complete. Ready for next run.\n")
+    # ----------------------------
+    # RESET SYSTEM
+    # ----------------------------
+    def reset_system(self):
+        for node in self.system.values():
+            node["status"] = "nominal"
