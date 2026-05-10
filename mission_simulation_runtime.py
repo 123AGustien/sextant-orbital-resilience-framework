@@ -36,6 +36,10 @@ class MissionSimulationRuntime:
             }
         }
 
+        # IMPORTANT: sync cascade model if it exists
+        if self.cascade:
+            self.cascade.system = self.state["nodes"]
+
         return self.state
 
     # ---------------------------------
@@ -47,6 +51,10 @@ class MissionSimulationRuntime:
         """
 
         self.state = scenario.get("system_state", {})
+
+        # sync cascade model with runtime state
+        if self.cascade and "nodes" in self.state:
+            self.cascade.system = self.state["nodes"]
 
         events = scenario.get("events", [])
 
