@@ -1,8 +1,3 @@
-"""
-Sextant Orbital Resilience Framework
-Mission Governance Layer
-"""
-
 class MissionGovernanceLayer:
     def __init__(self, runtime=None, cascade=None, mechanics=None):
         """
@@ -18,15 +13,19 @@ class MissionGovernanceLayer:
 
     def evaluate_mission_state(self, cascade_data=None):
         """
-        Evaluates mission health state.
+        Evaluates mission health state based on actual cascade signals.
         """
 
-        if cascade_data is None and self.cascade is None:
+        # Determine system activity level
+        cascade_active = bool(cascade_data or self.cascade)
+
+        if not cascade_active:
             status = "nominal"
             risk = "low"
         else:
-            status = "degraded"
-            risk = "medium"
+            # In real systems, you'd refine this using severity metrics
+            status = "active_events"
+            risk = "elevated"
 
         result = {
             "mission_status": status,
