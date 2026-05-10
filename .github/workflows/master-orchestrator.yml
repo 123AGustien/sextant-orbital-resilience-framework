@@ -2,9 +2,9 @@ name: Sextant Master Orchestrator CI
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ main ]
-  pull_request:
+  
+
+  
 
 jobs:
   orchestrate:
