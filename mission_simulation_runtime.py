@@ -1,93 +1,58 @@
 """
 Sextant Orbital Resilience Framework
-Orbital Dependency Cascade Model
+Mission Simulation Runtime Layer
 
-Deterministic cascade propagation engine using a dictionary-based system model.
+Provides deterministic scenario execution wrapper for cascade simulation.
 """
 
-class OrbitalCascadeModel:
-    def __init__(self, system_model):
-        # system_model is a dict:
-        # {
-        #   "node_id": {"status": "...", "dependencies": [...]}
-        # }
-        self.system = system_model
+class MissionSimulationRuntime:
+    def __init__(self, cascade_model=None):
+        self.cascade = cascade_model
+        self.state = {}
+        self.results = {}
 
-    # ----------------------------
-    # CORE FAILURE ENTRY POINT
-    # ----------------------------
-    def trigger_failure(self, node_id, failure_type="unknown"):
-        if node_id not in self.system:
-            return
+    # ---------------------------------
+    # SCENARIO EXECUTION ENTRY POINT
+    # ---------------------------------
+    def run_scenario(self, scenario: dict):
+        """
+        Executes a scenario in deterministic mode.
+        """
 
-        node = self.system[node_id]
+        self.state = scenario.get("system_state", {})
 
-        # prevent duplicate failure processing
-        if node.get("status", "").startswith("failed"):
-            return
+        events = scenario.get("events", [])
 
-        node["status"] = f"failed:{failure_type}"
+        for event in events:
+            self._execute_event(event)
 
-        visited = set()
-        self._propagate_failure(node_id, visited)
-
-    # ----------------------------
-    # SAFE CASCADE PROPAGATION
-    # ----------------------------
-    def _propagate_failure(self, failed_node_id, visited):
-        if failed_node_id in visited:
-            return
-
-        visited.add(failed_node_id)
-
-        for node_id, node in self.system.items():
-
-            dependencies = node.get("dependencies", [])
-
-            if (
-                failed_node_id in dependencies
-                and not node.get("status", "").startswith("failed")
-            ):
-                node["status"] = "degraded:cascade"
-                self._propagate_failure(node_id, visited)
-
-    # ----------------------------
-    # SIMULATION HELPERS (REQUIRED BY ENGINE)
-    # ----------------------------
-    def simulate_ground_station_outage(self, station_id):
-        self.trigger_failure(station_id, "ground_outage")
-
-    def simulate_satellite_failure(self, satellite_id):
-        self.trigger_failure(satellite_id, "satellite_failure")
-
-    def simulate_link_degradation(self, node_id):
-        self.trigger_failure(node_id, "link_degradation")
-
-    # ----------------------------
-    # SYSTEM STATE OUTPUT
-    # ----------------------------
-    def get_cascade_impact(self):
-        impact = {
-            "failed": [],
-            "degraded": [],
-            "nominal": []
+        return {
+            "final_state": self.state,
+            "results": self.results
         }
 
-        for node_id, node in self.system.items():
-            status = node.get("status", "nominal")
+    # ---------------------------------
+    # EVENT HANDLER
+    # ---------------------------------
+    def _execute_event(self, event: dict):
+        event_type = event.get("type")
+        node_id = event.get("node_id")
 
-            if status.startswith("failed"):
-                impact["failed"].append(node_id)
-            elif status.startswith("degraded"):
-                impact["degraded"].append(node_id)
-            else:
-                impact["nominal"].append(node_id)
+        if not self.cascade:
+            return
 
-        return impact
+        if event_type == "ground_outage":
+            self.cascade.simulate_ground_station_outage(node_id)
 
-    # ----------------------------
-    # RESET SYSTEM
-    # ----------------------------
-    def reset_system(self):
-        for node in self.system.values():
-            node["status"] = "nominal"
+        elif event_type == "satellite_failure":
+            self.cascade.simulate_satellite_failure(node_id)
+
+        elif event_type == "link_degradation":
+            self.cascade.simulate_link_degradation(node_id)
+
+    # ---------------------------------
+    # OPTIONAL RESET
+    # ---------------------------------
+    def reset(self):
+        self.state = {}
+        self.results = {}
