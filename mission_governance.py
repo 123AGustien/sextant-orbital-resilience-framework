@@ -16,16 +16,25 @@ class MissionGovernanceLayer:
         Evaluates mission health state based on actual cascade signals.
         """
 
-        # Determine system activity level
-        cascade_active = bool(cascade_data or self.cascade)
+        # Extract real signal strength (not just object existence)
+        has_signal = bool(cascade_data)
 
-        if not cascade_active:
+        if not has_signal:
             status = "nominal"
             risk = "low"
         else:
-            # In real systems, you'd refine this using severity metrics
-            status = "active_events"
-            risk = "elevated"
+            # Minimal deterministic classification layer
+            event_count = len(cascade_data) if isinstance(cascade_data, (list, tuple)) else 1
+
+            if event_count == 1:
+                status = "single_event"
+                risk = "low"
+            elif event_count <= 3:
+                status = "multi_event"
+                risk = "medium"
+            else:
+                status = "cascade_active"
+                risk = "high"
 
         result = {
             "mission_status": status,
