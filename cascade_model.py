@@ -1,8 +1,5 @@
 class OrbitalCascadeModel:
     def __init__(self, system_model):
-        """
-        system_model: OrbitalSystemModel instance
-        """
         self.system = system_model
 
     # ----------------------------
@@ -20,22 +17,23 @@ class OrbitalCascadeModel:
         node.set_status(f"failed:{failure_type}")
 
         visited = set()
-        self._propagate_failure(node, visited)
+        self._propagate_failure(node_id, visited)
 
     # ----------------------------
     # SAFE CASCADE PROPAGATION
     # ----------------------------
-    def _propagate_failure(self, failed_node, visited):
-        if failed_node in visited:
+    def _propagate_failure(self, failed_node_id, visited):
+        if failed_node_id in visited:
             return
 
-        visited.add(failed_node)
+        visited.add(failed_node_id)
 
-        for node in self.system.nodes.values():
+        for node_id, node in self.system.nodes.items():
 
             if (
-                failed_node in node.dependencies
+                failed_node_id in node.dependencies
                 and not node.status.startswith("failed")
             ):
                 node.set_status("degraded:cascade")
-                self._propagate_failure(node, visited)
+
+                self._propagate_failure(node_id, visited)
