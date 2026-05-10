@@ -12,6 +12,33 @@ class MissionSimulationRuntime:
         self.results = {}
 
     # ---------------------------------
+    # SAMPLE CONSTELLATION BUILDER (REQUIRED BY TEST SUITE)
+    # ---------------------------------
+    def build_sample_constellation(self):
+        """
+        Creates a minimal deterministic test constellation for CI validation.
+        """
+
+        self.state = {
+            "nodes": {
+                "SAT-1": {
+                    "status": "nominal",
+                    "dependencies": []
+                },
+                "SAT-2": {
+                    "status": "nominal",
+                    "dependencies": ["SAT-1"]
+                },
+                "GS-1": {
+                    "status": "nominal",
+                    "dependencies": ["SAT-2"]
+                }
+            }
+        }
+
+        return self.state
+
+    # ---------------------------------
     # SCENARIO EXECUTION ENTRY POINT
     # ---------------------------------
     def run_scenario(self, scenario: dict):
