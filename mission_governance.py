@@ -1,4 +1,4 @@
-class MissionGovernanceLayer:
+Freeze v0.1 - Stabilized Governance Layer
     def __init__(self, runtime=None, cascade=None, mechanics=None):
         """
         Accepts optional system references for full simulation context.
