@@ -1,95 +1,85 @@
-class AIInterpretationLayer:
-    """
-    Translates simulation event logs and resilience metrics
-    into structured system-level explanations.
+"""
+Sextant Orbital Resilience Framework
+Mission Resilience Interpreter Layer
 
-    This is NOT generative AI — it is deterministic interpretation logic
-    designed for auditability and research reproducibility.
-    """
+Translates orbital system state and cascade outcomes into
+mission-level insights, health scoring, and operational interpretation.
+"""
 
-    def __init__(self):
-        pass
+class MissionResilienceInterpreter:
+    def __init__(self, system_model, cascade_model):
+        self.system = system_model
+        self.cascade = cascade_model
 
-    def interpret(self, event_log: list, metrics: dict = None):
+    def analyze_constellation_health(self):
         """
-        Produces structured system interpretation.
+        Evaluates overall constellation health state.
         """
+        impact = self.cascade.get_cascade_impact()
 
-        cascade_events = 0
-        steps = 0
-        failure_points = []
+        total_nodes = len(self.system.nodes)
+        failed = len(impact["failed"])
+        degraded = len(impact["degraded"])
 
-        # ----------------------------
-        # ANALYSE EVENT LOG
-        # ----------------------------
-        for event in event_log:
-            etype = event.get("event_type", "")
+        health_score = (total_nodes - failed - (0.5 * degraded)) / total_nodes
 
-            if etype == "step":
-                steps += 1
-
-            if etype == "cascade_triggered":
-                cascade_events += 1
-                failure_points.append(event.get("description", ""))
-
-        # ----------------------------
-        # SYSTEM CLASSIFICATION
-        # ----------------------------
-        if cascade_events == 0:
-            system_state = "stable"
-        elif cascade_events < 3:
-            system_state = "degraded"
+        if health_score > 0.85:
+            status = "healthy"
+        elif health_score > 0.6:
+            status = "degraded"
         else:
-            system_state = "unstable"
-
-        # ----------------------------
-        # INTERPRETATION OUTPUT
-        # ----------------------------
-        interpretation = {
-            "system_state": system_state,
-            "analysis_summary": self._generate_summary(
-                steps, cascade_events, failure_points
-            ),
-            "key_events": failure_points,
-            "observed_cascades": cascade_events,
-            "total_steps": steps
-        }
-
-        # Optional integration with resilience metrics
-        if metrics:
-            interpretation["resilience_context"] = self._interpret_metrics(metrics)
-
-        return interpretation
-
-    # ----------------------------
-    # INTERNAL SUMMARY ENGINE
-    # ----------------------------
-    def _generate_summary(self, steps, cascades, failures):
-        if cascades == 0:
-            return "System operated without cascade propagation. No structural degradation observed."
-
-        return (
-            f"System executed {steps} steps with {cascades} cascade event(s). "
-            f"Failure propagation detected across dependent nodes. "
-            f"Key affected transitions: {len(failures)}."
-        )
-
-    # ----------------------------
-    # METRICS INTERPRETATION
-    # ----------------------------
-    def _interpret_metrics(self, metrics: dict):
-        score = metrics.get("resilience_score", 0)
-        stability = metrics.get("system_stability_index", 0)
-
-        if score > 80:
-            grade = "high_resilience"
-        elif score > 50:
-            grade = "moderate_resilience"
-        else:
-            grade = "low_resilience"
+            status = "critical"
 
         return {
-            "resilience_grade": grade,
-            "resilience_score": score,
-            "stability_index": stability
+            "status": status,
+            "health_score": round(health_score, 3),
+            "failed_nodes": impact["failed"],
+            "degraded_nodes": impact["degraded"]
+        }
+
+    def analyze_coverage_integrity(self):
+        """
+        Simplified coverage integrity estimation.
+        """
+        failed = len(self.cascade.get_cascade_impact()["failed"])
+        total = len(self.system.nodes)
+
+        coverage = 1 - (failed / total)
+
+        return {
+            "coverage_integrity": round(coverage, 3)
+        }
+
+    def detect_cascade_risk(self):
+        """
+        Identifies whether system is in active cascade state.
+        """
+        degraded = len(self.cascade.get_cascade_impact()["degraded"])
+
+        if degraded > 3:
+            risk = "high_cascade_risk"
+        elif degraded > 0:
+            risk = "elevated_risk"
+        else:
+            risk = "stable"
+
+        return {
+            "cascade_risk": risk
+        }
+
+    def generate_mission_report(self):
+        """
+        Full mission-level interpretation output.
+        """
+        health = self.analyze_constellation_health()
+        coverage = self.analyze_coverage_integrity()
+        risk = self.detect_cascade_risk()
+
+        return {
+            "mission_status": health["status"],
+            "health_score": health["health_score"],
+            "coverage": coverage["coverage_integrity"],
+            "cascade_risk": risk["cascade_risk"],
+            "failed_nodes": health["failed_nodes"],
+            "degraded_nodes": health["degraded_nodes"]
         }
