@@ -2,6 +2,10 @@ from mission_simulation_runtime import MissionSimulationRuntime
 from scenario_engine import ScenarioEngine
 from orbital_mechanics_layer import OrbitalMechanicsLayer
 
+import json
+from datetime import datetime
+
+
 class ScenarioTestSuite:
     def __init__(self):
         self.runtime = MissionSimulationRuntime()
@@ -34,7 +38,19 @@ class ScenarioTestSuite:
         for s in scenarios:
             results.append(self.scenario_engine.run_scenario(s))
 
-        print("\n✅ TEST SUITE COMPLETE")
+        # 📊 ARTIFACT REPORT
+        report = {
+            "timestamp": datetime.utcnow().isoformat(),
+            "system": "Sextant Orbital Resilience Framework",
+            "results": results
+        }
+
+        # 💾 Save artifact file
+        with open("mission_report.json", "w") as f:
+            json.dump(report, f, indent=2)
+
+        print("\n✅ TEST SUITE COMPLETE - REPORT GENERATED")
+
         return results
 
 
