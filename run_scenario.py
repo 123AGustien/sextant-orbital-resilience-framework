@@ -70,7 +70,11 @@ def main():
     # LOAD DEFAULT SCENARIO
     # --------------------------------------------------
 
-    scenario = engine.load_default_scenario()
+    scenario = {
+        "scenario_name": "default_resilience_test",
+        "nodes": [],
+        "dependencies": []
+    }
 
     print("📦 Scenario Loaded")
 
