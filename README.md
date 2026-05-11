@@ -38,51 +38,38 @@ The system models infrastructure as a **deterministic dependency graph**, where 
 
 ---
 
-## 🏗️ System Architecture
+## 📦 Version State
 
-The framework is composed of four core layers:
-
-### 1. Orbital Cascade Layer
-- Deterministic failure propagation  
-- Dependency-based cascade simulation  
-- Recursive impact traversal  
-
-### 2. Mission Runtime Layer
-- Scenario execution engine  
-- Event-driven simulation interface  
-- Deterministic state management  
-
-### 3. Scenario Engine Layer
-- Time-sequenced mission events  
-- Multi-step failure simulation  
-- System state evaluation pipeline  
-
-### 4. Governance Layer (In Development)
-- Mission health evaluation  
-- System resilience scoring  
-- Policy-driven simulation control  
+### 🧊 v1.0 – Frozen Deterministic Baseline
+- Stable reference model  
+- Do not modify core logic directly  
 
 ---
 
-## ⚙️ Core Capabilities
+## 🛰️ Reprisory Principles (Governance Layer)
 
-- Deterministic cascade propagation across dependency graphs  
-- Ground station, satellite, and link failure simulation  
-- Recursive cascade safety handling  
-- Scenario-based mission execution  
-- CI-integrated simulation validation  
-- System-wide impact assessment  
+The Sextant Orbital Resilience Framework operates under the following guiding principles:
+
+### 1. Deterministic Traceability
+All system behaviour must be reproducible under identical inputs and event sequences.
+
+### 2. Dependency Transparency
+All system nodes must explicitly declare dependencies and influence paths.
+
+### 3. Cascade Legibility
+Failure propagation must remain observable across all system layers without hidden transitions.
+
+### 4. Structural Separation
+Simulation logic, evaluation logic, and interpretation logic must remain functionally isolated.
+
+### 5. Sandbox Constraint Principle
+All execution must remain within controlled simulation or sandbox environments only.
+
+### 6. Non-Operational Boundary
+The framework does not interface with or control live operational systems.
 
 ---
 
-## 🧪 Simulation Model
+## ⚖️ License
 
-Each system is represented as a deterministic dependency graph:
-
-```json
-{
-  "node_id": {
-    "status": "nominal | degraded | failed",
-    "dependencies": ["node_id_1", "node_id_2"]
-  }
-}
+MIT License
