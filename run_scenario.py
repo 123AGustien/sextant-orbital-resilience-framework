@@ -5,36 +5,70 @@
 
 ## 🧠 Purpose
 
-This script is the **primary execution entry point** for running a deterministic scenario simulation.
+This script is the **primary execution entry point** for deterministic scenario simulation within the Sextant Orbital Resilience Framework.
 
-It connects:
-- Simulation runtime
-- Orbital mechanics layer
-- Scenario engine
+It connects the core system layers:
 
-and produces a final resilience output.
+- 🧩 Mission Simulation Runtime  
+- 🛰️ Orbital Mechanics Layer  
+- ⚙️ Scenario Engine  
+
+and produces a **final resilience output based on cascade evaluation and system state transitions**.
 
 ---
 
-## ⚙️ Execution Flow
+## ⚙️ System Dependencies
+
+The runner requires the following core modules:
+
+- `MissionSimulationRuntime`
+- `OrbitalMechanicsLayer`
+- `ScenarioEngine`
+
+All dependencies must be initialised before execution begins.
+
+---
+
+## 🔁 Execution Flow (Deterministic Pipeline)
 
 ```text
 INITIALISE DEPENDENCIES
         │
         ▼
-CREATE RUNTIME CONTEXT (MissionSimulationRuntime)
+CREATE RUNTIME CONTEXT
+(MissionSimulationRuntime)
         │
         ▼
-LOAD MECHANICS ENGINE (OrbitalMechanicsLayer)
+LOAD ORBITAL MECHANICS ENGINE
+(OrbitalMechanicsLayer)
         │
         ▼
 INITIALISE SCENARIO ENGINE
+(ScenarioEngine)
         │
         ▼
 LOAD DEFAULT SCENARIO
         │
         ▼
-RUN SIMULATION
+VALIDATE SCENARIO STRUCTURE
+(scenario_validator)
         │
         ▼
-PRINT FINAL OUTPUT
+RUN SIMULATION
+(simulation_engine + cascade_model)
+        │
+        ▼
+EVALUATE SYSTEM STATE TRANSITIONS
+(node state updates)
+        │
+        ▼
+OPTIONAL TRACE LOGGING
+(cascade_trace_logger)
+        │
+        ▼
+GENERATE FINAL REPORT
+(report_generator)
+        │
+        ▼
+OUTPUT FINAL RESULT
+(resilience score + cascade analysis)
