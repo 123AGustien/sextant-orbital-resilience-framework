@@ -1,6 +1,7 @@
 # 🛰️ Sextant Orbital Resilience Framework
 # Scenario Runner (Root Entry Point)
 
+import json
 from scenario_engine import ScenarioEngine
 
 def main():
@@ -8,11 +9,12 @@ def main():
 
     engine = ScenarioEngine()
 
-    # Load default or test scenario
-    scenario = engine.load_default_scenario()
+    # Load scenario from file (single source of truth)
+    with open("scenarios/example_scenario.json", "r") as f:
+        scenario = json.load(f)
 
     print("📦 Scenario Loaded")
-    
+
     result = engine.run(scenario)
 
     print("\n📊 FINAL OUTPUT")
