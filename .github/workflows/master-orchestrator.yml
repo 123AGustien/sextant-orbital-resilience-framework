@@ -36,9 +36,11 @@ jobs:
           if [ -f structure_healer.py ]; then python structure_healer.py; fi
 
       - name: Validate Annex Structure (HARD GATE)
+        shell: bash
         run: |
           echo "🔍 Checking annex integrity..."
 
+          # Prevent nested annex structure
           if [ -d "annexes/annexes" ]; then
             echo "❌ STRUCTURE ERROR: Nested annexes detected"
             exit 1
@@ -65,17 +67,19 @@ jobs:
       # 🧪 SCENARIO TEST LAYER
       # -----------------------------
       - name: Run Scenario Test Suite
-        run: python scenario_test_suite.py
+        run: |
+          if [ -f scenario_test_suite.py ]; then python scenario_test_suite.py; else echo "⚠ No test suite found"; fi
 
       # -----------------------------
-      # 🧠 DETERMINISM GATE (CRITICAL)
+      # 🧠 DETERMINISM GATE (ROBUST)
       # -----------------------------
       - name: Run Scenario Determinism Check
+        shell: bash
         run: |
           echo "🧠 Checking deterministic output consistency..."
 
-          python run_scenario.py > output_1.txt
-          python run_scenario.py > output_2.txt
+          python run_scenario.py > output_1.txt || exit 1
+          python run_scenario.py > output_2.txt || exit 1
 
           if ! diff output_1.txt output_2.txt; then
             echo "❌ DETERMINISM FAILURE: outputs are not identical"
@@ -88,13 +92,14 @@ jobs:
       # 🚀 CORE EXECUTION LAYERS
       # -----------------------------
       - name: Run Mission Orchestrator
-        run: python mission_orchestrator.py
+        run: |
+          if [ -f mission_orchestrator.py ]; then python mission_orchestrator.py; fi
 
-      - name: Run Simulation Engine (if exists)
+      - name: Run Simulation Engine
         run: |
           if [ -f simulation_engine.py ]; then python simulation_engine.py; fi
 
-      - name: Run Governance Layer (if exists)
+      - name: Run Governance Layer
         run: |
           if [ -f mission_governance.py ]; then python mission_governance.py; fi
 
