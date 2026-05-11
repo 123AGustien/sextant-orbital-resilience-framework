@@ -1,5 +1,7 @@
 # 📄 Annex A — Input Structure Specification
 
+---
+
 ## 🧭 Purpose
 
 This annex defines the formal input schema used by the Sextant Orbital Resilience Framework for deterministic simulation execution.
