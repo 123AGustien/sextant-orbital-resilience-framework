@@ -52,3 +52,44 @@ def main():
 
     # --------------------------------------------------
     # INITIALISE DEP
+
+# --------------------------------------------------
+    # INITIALISE DEPENDENCIES
+    # --------------------------------------------------
+
+    runtime = MissionSimulationRuntime()
+    mechanics = OrbitalMechanicsLayer()
+
+    # --------------------------------------------------
+    # INITIALISE SCENARIO ENGINE
+    # --------------------------------------------------
+
+    engine = ScenarioEngine(
+        runtime=runtime,
+        mechanics=mechanics
+    )
+
+    # --------------------------------------------------
+    # LOAD DEFAULT SCENARIO
+    # --------------------------------------------------
+
+    scenario = engine.load_default_scenario()
+
+    print("📦 Scenario Loaded")
+
+    # --------------------------------------------------
+    # RUN SIMULATION
+    # --------------------------------------------------
+
+    result = engine.run(scenario)
+
+    # --------------------------------------------------
+    # OUTPUT FINAL RESULT
+    # --------------------------------------------------
+
+    print("\n📊 FINAL OUTPUT")
+    print(result)
+
+
+if __name__ == "__main__":
+    main()
