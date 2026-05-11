@@ -2,9 +2,8 @@ name: Sextant Master Orchestrator CI
 
 on:
   workflow_dispatch:
-  
-
-  
+  push:
+  pull_request:
 
 jobs:
   orchestrate:
@@ -29,9 +28,65 @@ jobs:
         run: |
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
+      # -----------------------------
+      # 🧱 STRUCTURE VALIDATION GATE
+      # -----------------------------
+      - name: Run Structure Healer
+        run: |
+          if [ -f structure_healer.py ]; then python structure_healer.py; fi
+
+      - name: Validate Annex Structure (HARD GATE)
+        run: |
+          echo "🔍 Checking annex integrity..."
+
+          if [ -d "annexes/annexes" ]; then
+            echo "❌ STRUCTURE ERROR: Nested annexes detected"
+            exit 1
+          fi
+
+          REQUIRED=(
+            "ANNEX_A_input_structure.md"
+            "ANNEX_B_dependency_logic.md"
+            "ANNEX_C_cascade_rules.md"
+            "ANNEX_D_output_interpretation.md"
+            "ANNEX_E_sandbox_protocol.md"
+          )
+
+          for file in "${REQUIRED[@]}"; do
+            if [ ! -f "annexes/$file" ]; then
+              echo "❌ MISSING ANNEX: $file"
+              exit 1
+            fi
+          done
+
+          echo "✔ Annex structure valid"
+
+      # -----------------------------
+      # 🧪 SCENARIO TEST LAYER
+      # -----------------------------
       - name: Run Scenario Test Suite
         run: python scenario_test_suite.py
 
+      # -----------------------------
+      # 🧠 DETERMINISM GATE (CRITICAL)
+      # -----------------------------
+      - name: Run Scenario Determinism Check
+        run: |
+          echo "🧠 Checking deterministic output consistency..."
+
+          python run_scenario.py > output_1.txt
+          python run_scenario.py > output_2.txt
+
+          if ! diff output_1.txt output_2.txt; then
+            echo "❌ DETERMINISM FAILURE: outputs are not identical"
+            exit 1
+          fi
+
+          echo "✔ Deterministic behaviour confirmed"
+
+      # -----------------------------
+      # 🚀 CORE EXECUTION LAYERS
+      # -----------------------------
       - name: Run Mission Orchestrator
         run: python mission_orchestrator.py
 
@@ -43,5 +98,8 @@ jobs:
         run: |
           if [ -f mission_governance.py ]; then python mission_governance.py; fi
 
+      # -----------------------------
+      # 🛰️ FINAL STATUS
+      # -----------------------------
       - name: Final Status
-        run: echo "MASTER ORCHESTRATOR COMPLETE"
+        run: echo "🛰️ MASTER ORCHESTRATOR COMPLETE - ALL SYSTEMS VERIFIED"
