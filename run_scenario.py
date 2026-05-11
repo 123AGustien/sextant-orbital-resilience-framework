@@ -1,105 +1,54 @@
-# 🛰️ Sextant Orbital Resilience Framework  
-## 📄 Scenario Runner (Root Execution Entry Point)
+# 🛰️ Sextant Orbital Resilience Framework
+# 📄 Scenario Runner (Root Execution Entry Point)
 
----
+"""
+Purpose
+-------
+This module is the primary deterministic execution entry point
+for running scenario simulations within the
+Sextant Orbital Resilience Framework.
 
-## 🧠 Purpose
+The runner initialises:
 
-The Scenario Runner is the **primary deterministic execution entry point** for scenario simulation within the Sextant Orbital Resilience Framework.
+- MissionSimulationRuntime
+- OrbitalMechanicsLayer
+- ScenarioEngine
 
-It orchestrates all core system layers to produce a reproducible resilience output based on dependency evaluation and cascade propagation.
+and executes the deterministic simulation pipeline
+to produce a final resilience output.
 
----
+Execution Flow
+--------------
+1. Initialise dependencies
+2. Create runtime context
+3. Load orbital mechanics layer
+4. Initialise scenario engine
+5. Load default scenario
+6. Run simulation
+7. Generate final output
 
-## 🧩 System Architecture Layers
+Determinism Rule
+----------------
+Identical inputs must produce identical outputs.
 
-The runner integrates the following core modules:
+This module is intended only for:
+- sandbox execution
+- research simulations
+- deterministic resilience evaluation
 
-- MissionSimulationRuntime (execution context layer)  
-- OrbitalMechanicsLayer (system physics / behaviour model)  
-- ScenarioEngine (scenario orchestration layer)  
-- ScenarioValidator (input validation layer)  
-- SimulationEngine (runtime execution layer)  
-- CascadeModel (dependency + propagation engine)  
-- ReportGenerator (output synthesis layer)  
-- CascadeTraceLogger (optional observability layer)  
+This module must NOT:
+- interface with live systems
+- perform operational control
+- execute external infrastructure actions
+"""
 
----
+from scenario_engine import ScenarioEngine
+from mission_simulation_runtime import MissionSimulationRuntime
+from orbital_mechanics_layer import OrbitalMechanicsLayer
 
-## ⚙️ Deterministic Execution Rules
 
-All runs must follow these principles:
+def main():
+    print("🛰️ Starting Sextant Scenario Simulation...\n")
 
-- Identical inputs MUST produce identical outputs  
-- No hidden state mutations across runs  
-- All dependencies MUST be explicitly initialised  
-- Execution order MUST remain fixed  
-- Cascade propagation MUST be fully traceable  
-
----
-
-## 🔁 Execution Flow (Deterministic Pipeline)
-
-```text
-INITIALISE DEPENDENCIES
-        │
-        ▼
-CREATE RUNTIME CONTEXT
-(MissionSimulationRuntime)
-
-        │
-        ▼
-LOAD ORBITAL MECHANICS ENGINE
-(OrbitalMechanicsLayer)
-
-        │
-        ▼
-INITIALISE SCENARIO ENGINE
-(ScenarioEngine)
-
-        │
-        ▼
-LOAD DEFAULT SCENARIO
-(or injected scenario input)
-
-        │
-        ▼
-VALIDATE SCENARIO STRUCTURE
-(ScenarioValidator)
-
-        │
-        ▼
-INITIALISE SIMULATION ENGINE
-(SimulationEngine)
-
-        │
-        ▼
-RUN DEPENDENCY EVALUATION
-(CascadeModel - dependency graph resolution)
-
-        │
-        ▼
-EXECUTE CASCADE PROPAGATION
-(CascadeModel - failure / influence spread)
-
-        │
-        ▼
-APPLY NODE STATE UPDATES
-(System State Transition Layer)
-
-        │
-        ▼
-OPTIONAL TRACE LOGGING
-(CascadeTraceLogger)
-
-        │
-        ▼
-GENERATE OUTPUT REPORT
-(ReportGenerator)
-
-        │
-        ▼
-RETURN FINAL RESULT
-- Resilience Score
-- Cascade Impact Map
-- System State Summary
+    # --------------------------------------------------
+    # INITIALISE DEP
