@@ -1,50 +1,40 @@
-# Branch & Contribution Guidance
-
-The `main` branch of this repository is maintained as a stable conceptual and reference baseline.
-
-Contributors, evaluators, researchers, and developers are strongly encouraged to:
-- create a separate branch for all exploratory or experimental work
-- avoid direct modification of the `main` branch
-- isolate prototype implementations, validation logic, and derivative concepts within independent branches
-
-Suggested workflow:
-
-1. Create a new branch from `main`
-2. Perform development or experimentation within that branch
-3. Open a Pull Request (PR) if review or merge consideration is required
-
-This repository follows a baseline-preservation model intended to maintain:
-- architectural traceability
-- conceptual stability
-- reproducibility of reference documentation
-- separation between archival concepts and experimental development
-
-The `main` branch should be treated as the canonical reference index unless otherwise stated.
 # 🛰️ Sextant Orbital Resilience Framework
 
-Deterministic cascade simulation and resilience modelling framework for orbital infrastructure systems.
+A deterministic simulation framework for modelling dependency-driven cascade behaviour in complex distributed systems.
 
 ---
 
-## 📌 Current Release
+## 🧭 Purpose
 
-### 🧊 Stable Baseline
-**v0.2-stable-freeze**
+The framework is designed for research and sandbox-based simulation of system resilience, focusing on:
 
-This release establishes the deterministic runtime baseline for orbital cascade simulation, including:
-
-- OrbitalCascadeModel propagation engine
-- MissionSimulationRuntime execution layer
-- ScenarioEngine orchestration pipeline
-- CI-safe deterministic execution flow
+- dependency structures  
+- cascade failure propagation  
+- system state evolution under stress  
+- reproducible deterministic simulation outcomes  
 
 ---
 
-## 🌿 Development Branch
+## 🔬 Intended Use
 
-- `feature/governance-layer-v1`
+This framework is intended for:
 
-Active development for governance and mission intelligence expansion.
+- simulation-based research  
+- infrastructure resilience modelling  
+- dependency and cascade analysis  
+- academic and institutional evaluation in controlled sandbox environments  
+
+It is not designed for:
+
+- operational mission control  
+- real-time system execution  
+- live infrastructure interaction  
+
+---
+
+## 🧠 Core Concept
+
+The system models infrastructure as a **deterministic dependency graph**, where node states evolve based on upstream influence and defined cascade rules.
 
 ---
 
@@ -53,46 +43,46 @@ Active development for governance and mission intelligence expansion.
 The framework is composed of four core layers:
 
 ### 1. Orbital Cascade Layer
-- Deterministic failure propagation
-- Dependency-based cascade simulation
-- Recursive impact traversal
+- Deterministic failure propagation  
+- Dependency-based cascade simulation  
+- Recursive impact traversal  
 
 ### 2. Mission Runtime Layer
-- Scenario execution engine
-- Event-driven simulation interface
-- Deterministic state management
+- Scenario execution engine  
+- Event-driven simulation interface  
+- Deterministic state management  
 
 ### 3. Scenario Engine Layer
-- Time-sequenced mission events
-- Multi-step failure simulation
-- System state evaluation pipeline
+- Time-sequenced mission events  
+- Multi-step failure simulation  
+- System state evaluation pipeline  
 
 ### 4. Governance Layer (In Development)
-- Mission health evaluation
-- System resilience scoring
-- Policy-driven simulation control
+- Mission health evaluation  
+- System resilience scoring  
+- Policy-driven simulation control  
 
 ---
 
 ## ⚙️ Core Capabilities
 
-- Deterministic cascade propagation across dependency graphs
-- Ground station, satellite, and link failure simulation
-- Recursive cascade safety handling
-- Scenario-based mission execution
-- CI-integrated simulation validation
-- System-wide impact assessment
+- Deterministic cascade propagation across dependency graphs  
+- Ground station, satellite, and link failure simulation  
+- Recursive cascade safety handling  
+- Scenario-based mission execution  
+- CI-integrated simulation validation  
+- System-wide impact assessment  
 
 ---
 
 ## 🧪 Simulation Model
 
-The system operates on a dictionary-based deterministic model:
+Each system is represented as a deterministic dependency graph:
 
-```python
+```json
 {
   "node_id": {
-    "status": "nominal | failed:* | degraded:*",
-    "dependencies": ["other_node_ids"]
+    "status": "nominal | degraded | failed",
+    "dependencies": ["node_id_1", "node_id_2"]
   }
 }
