@@ -1,30 +1,31 @@
-
-# 🛰️ Sextant Orbital Resilience Framework  
-## 📄 Scenario Flow Diagram (Execution Model)
-
----
-
-## 🧭 Purpose
-
-This document defines the execution flow of a scenario within the Sextant Orbital Resilience Framework.
-
-It maps how a scenario moves through:
-
-- validation  
-- simulation  
-- dependency evaluation  
-- cascade propagation  
-- state updates  
-- output generation  
-
----
-
-## 🧠 System Execution Principle
-
-> A scenario is executed as a deterministic pipeline over a dependency graph.
-
-Each run must produce identical results for identical inputs.
-
----
-
 ## 🔁 Scenario Execution Flow
+
+```text
+INPUT SCENARIO
+    │
+    ▼
+SCENARIO VALIDATION (scenario_validator)
+    │
+    ▼
+SCENARIO LOADING (scenario_engine)
+    │
+    ▼
+SIMULATION INITIALISATION (simulation_engine)
+    │
+    ▼
+DEPENDENCY EVALUATION (cascade_model / dependency logic)
+    │
+    ▼
+CASCADE PROPAGATION (cascade_model)
+    │
+    ▼
+NODE STATE UPDATES (system state transitions)
+    │
+    ▼
+TRACE LOGGING (optional) (cascade_trace_logger)
+    │
+    ▼
+OUTPUT GENERATION (report_generator)
+    │
+    ▼
+FINAL RESULT (resilience score + cascade report)
