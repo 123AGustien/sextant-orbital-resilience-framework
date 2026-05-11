@@ -1,24 +1,40 @@
-# 🛰️ Sextant Orbital Resilience Framework
-# Scenario Runner (Root Entry Point)
+# 🛰️ Sextant Orbital Resilience Framework  
+## 📄 Scenario Runner (Root Execution Entry Point)
 
-import json
-from scenario_engine import ScenarioEngine
+---
 
-def main():
-    print("🛰️ Starting Sextant Scenario Simulation...\n")
+## 🧠 Purpose
 
-    engine = ScenarioEngine()
+This script is the **primary execution entry point** for running a deterministic scenario simulation.
 
-    # Load scenario from file (single source of truth)
-    with open("scenarios/example_scenario.json", "r") as f:
-        scenario = json.load(f)
+It connects:
+- Simulation runtime
+- Orbital mechanics layer
+- Scenario engine
 
-    print("📦 Scenario Loaded")
+and produces a final resilience output.
 
-    result = engine.run(scenario)
+---
 
-    print("\n📊 FINAL OUTPUT")
-    print(result)
+## ⚙️ Execution Flow
 
-if __name__ == "__main__":
-    main()
+```text
+INITIALISE DEPENDENCIES
+        │
+        ▼
+CREATE RUNTIME CONTEXT (MissionSimulationRuntime)
+        │
+        ▼
+LOAD MECHANICS ENGINE (OrbitalMechanicsLayer)
+        │
+        ▼
+INITIALISE SCENARIO ENGINE
+        │
+        ▼
+LOAD DEFAULT SCENARIO
+        │
+        ▼
+RUN SIMULATION
+        │
+        ▼
+PRINT FINAL OUTPUT
