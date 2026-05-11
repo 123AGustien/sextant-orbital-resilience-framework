@@ -51,9 +51,6 @@ def main():
     print("🛰️ Starting Sextant Scenario Simulation...\n")
 
     # --------------------------------------------------
-    # INITIALISE DEP
-
-# --------------------------------------------------
     # INITIALISE DEPENDENCIES
     # --------------------------------------------------
 
