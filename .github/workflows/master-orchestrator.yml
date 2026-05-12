@@ -1,7 +1,6 @@
-workflow:
-  auto: disabled
-  manual: enabled
-name: Sextant Master Orchestrator CI
+on:
+  workflow_dispatch:
+namenamenamenamename: Sextant Master Orchestrator CI
 
 on:
   workflow_dispatch:
