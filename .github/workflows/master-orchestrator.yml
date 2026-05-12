@@ -1,3 +1,6 @@
+workflow:
+  auto: disabled
+  manual: enabled
 name: Sextant Master Orchestrator CI
 
 on:
