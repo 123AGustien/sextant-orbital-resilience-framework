@@ -1,6 +1,8 @@
+
 on:
   workflow_dispatch:
-namenamenamenamename: Sextant Master Orchestrator CI
+
+: Sextant Master Orchestrator CI
 
 on:
   workflow_dispatch:
