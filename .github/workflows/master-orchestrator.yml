@@ -1,13 +1,7 @@
+name: Sextant Master Orchestrator CI
 
 on:
   workflow_dispatch:
-
-: Sextant Master Orchestrator CI
-
-on:
-  workflow_dispatch:
-  push:
-  pull_request:
 
 jobs:
   orchestrate:
@@ -82,7 +76,7 @@ jobs:
           fi
 
       # -----------------------------
-      # 🧠 DETERMINISM GATE (HARDENED)
+      # 🧠 DETERMINISM GATE
       # -----------------------------
 
       - name: Run Scenario Determinism Check
@@ -98,14 +92,13 @@ jobs:
           python run_scenario.py > output_1.txt || exit 1
           python run_scenario.py > output_2.txt || exit 1
 
-          # Prevent empty-output false passes
           if [ ! -s output_1.txt ] || [ ! -s output_2.txt ]; then
             echo "❌ EMPTY OUTPUT DETECTED"
             exit 1
           fi
 
           if ! diff output_1.txt output_2.txt; then
-            echo "❌ DETERMINISM FAILURE: outputs are not identical"
+            echo "❌ DETERMINISM FAILURE"
             exit 1
           fi
 
