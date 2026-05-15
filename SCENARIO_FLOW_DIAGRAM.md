@@ -1,5 +1,16 @@
 ## 🔁 Scenario Execution Flow
 
+Client Request
+    ↓
+api/main.py (Gateway)
+    ↓
+├── api/server.py → /run-scenario
+└── api/risk.py   → /risk-score
+    ↓
+core.engine
+    ↓
+simulation output
+
 ```text
 INPUT SCENARIO
     │
