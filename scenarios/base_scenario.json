@@ -1,0 +1,10 @@
+{
+  "scenario_name": "base_cascade",
+  "nodes": ["A", "B", "C", "D"],
+  "dependencies": [
+    { "from": "B", "to": "A" },
+    { "from": "C", "to": "B" },
+    { "from": "D", "to": "C" }
+  ],
+  "initial_failure": "A"
+}
