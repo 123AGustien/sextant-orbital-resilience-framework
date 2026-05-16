@@ -1,105 +1,80 @@
 """
 Sextant Orbital Resilience Framework
-v1.1 System Flow Controller
+v1.2 System Flow Controller
 
-Central orchestration layer that connects:
-
-- SimulationEngine
-- CascadeModel
-- PredictiveEngine
-- ScenarioEngine
-- RuntimeContext
-- Governance layer
+Enterprise-grade deterministic orchestration layer.
 """
+
+from orchestration.unified_runtime_bridge import UnifiedRuntimeBridge
+
 
 class SystemFlowController:
     """
-    Deterministic orchestration brain for full system runtime.
+    Central orchestration engine that coordinates:
+    - Simulation execution
+    - Cascade evaluation
+    - Governance decision flow
+    - Runtime state persistence
     """
 
-    def __init__(self, runtime_context):
-        self.runtime = runtime_context
+    def __init__(self, simulation_engine, runtime):
+        self.simulation_engine = simulation_engine
+        self.runtime = runtime
 
-        # injected at runtime
-        self.simulation = None
-        self.cascade = None
-        self.predictor = None
-        self.governance = None
-        self.audit = None
+        # 🔗 Runtime Bridge (v1.2 control link)
+        self.runtime_bridge = UnifiedRuntimeBridge(runtime)
 
-    # -----------------------------------------
-    # SYSTEM WIRING
-    # -----------------------------------------
-    def attach_simulation(self, simulation_engine):
-        self.simulation = simulation_engine
-
-    def attach_cascade(self, cascade_model):
-        self.cascade = cascade_model
-
-    def attach_predictor(self, predictive_engine):
-        self.predictor = predictive_engine
-
-    def attach_governance(self, governance_engine):
-        self.governance = governance_engine
-
-    def attach_audit(self, audit_logger):
-        self.audit = audit_logger
-
-    # -----------------------------------------
-    # ORCHESTRATION STEP
-    # -----------------------------------------
-    def step(self, t: int):
+    # =========================================================
+    # EXECUTION PIPELINE
+    # =========================================================
+    def execute(self, scenario):
         """
-        Single unified system evaluation step.
+        Deterministic execution pipeline:
+        Scenario → Simulation → Governance → Runtime Commit
         """
 
-        # 1. Run simulation step
-        if self.simulation:
-            sim_state = self.simulation.step(t)
-            self.runtime.update_system_model(sim_state)
+        scenario_name = scenario.get("scenario_name", "unnamed")
 
-        # 2. Cascade evaluation
-        if self.cascade:
-            cascade_state = self.cascade.get_cascade_impact()
-            self.runtime.update_cascade_state(cascade_state)
+        # -----------------------------
+        # STEP 1: Bind scenario to runtime
+        # -----------------------------
+        self.runtime_bridge.bind_scenario(scenario_name)
 
-        # 3. Predictive evaluation
-        if self.predictor:
-            prediction_state = self.predictor.identify_critical_nodes()
-            self.runtime.update_prediction_state(prediction_state)
+        # -----------------------------
+        # STEP 2: Run simulation engine
+        # -----------------------------
+        simulation_result = self.simulation_engine.run(scenario)
 
-        # 4. Governance evaluation
-        if self.governance:
-            gov_state = self.governance.evaluate_mission_state()
-            self.runtime.update_governance_state(gov_state)
+        # -----------------------------
+        # STEP 3: Capture cascade output
+        # -----------------------------
+        cascade_result = simulation_result.get("failed_nodes", [])
 
-        # 5. Audit log
-        if self.audit:
-            self.audit.record(
-                "flow_step",
-                f"Unified step executed at t={t}",
-                self.runtime.snapshot()
-            )
+        # -----------------------------
+        # STEP 4: Build governance input
+        # -----------------------------
+        governance_result = {
+            "scenario": scenario_name,
+            "failed_nodes": cascade_result,
+            "status": simulation_result.get("status", "unknown")
+        }
 
-        return self.runtime.snapshot()
+        # -----------------------------
+        # STEP 5: Commit result to runtime
+        # -----------------------------
+        self.runtime_bridge.commit_result(governance_result)
 
-    # -----------------------------------------
-    # FULL EXECUTION LOOP
-    # -----------------------------------------
-    def run(self, duration: int):
-        """
-        Runs full deterministic orchestration lifecycle.
-        """
+        # -----------------------------
+        # STEP 6: Update runtime snapshot marker
+        # -----------------------------
+        self.runtime.update("last_result", governance_result)
 
-        results = []
-
-        for t in range(duration):
-            snapshot = self.step(t)
-            results.append(snapshot)
-
+        # -----------------------------
+        # FINAL OUTPUT (deterministic contract)
+        # -----------------------------
         return {
-            "status": "completed",
-            "duration": duration,
-            "final_state": results[-1] if results else {},
-            "trace": results
+            "scenario": scenario_name,
+            "simulation": simulation_result,
+            "governance": governance_result,
+            "runtime_snapshot": self.runtime.snapshot()
         }
