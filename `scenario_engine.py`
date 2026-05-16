@@ -1,108 +1,121 @@
 """
 Sextant Orbital Resilience Framework
-Mission Control Dashboard Layer
+Scenario Engine Layer (v2 - Safe Upgrade Patch)
 
-Provides a deterministic, human-readable operational view of:
-- constellation state
-- cascade propagation
-- mission evaluation
-- scenario execution timeline
-
-This is a simulation-only observability layer.
+Enhancements:
+- Deterministic execution preserved
+- Scenario trace enrichment
+- Optional stealth-safe log trimming
+- Quantum hook (non-operational placeholder)
 """
 
-class MissionDashboard:
-    """
-    Read-only system observability interface for simulation runtime.
-    """
-
-    def __init__(self, runtime, scenario_engine):
+class ScenarioEngine:
+    def __init__(self, runtime, mechanics):
         self.runtime = runtime
-        self.scenario_engine = scenario_engine
+        self.mechanics = mechanics
 
-    # ----------------------------------------
-    # CONSTELLATION STATE VIEW
-    # ----------------------------------------
-    def render_constellation_state(self):
+        self.scenario_log = []
+
+        # -----------------------------
+        # TRACE CONTROL (SAFE ADDITION)
+        # -----------------------------
+        self.trace_mode = "full"  # full | stealth
+
+    # -----------------------------------
+    # MAIN SCENARIO EXECUTION LOOP
+    # -----------------------------------
+    def run_scenario(self, scenario_steps):
+        results = []
+
+        for step in scenario_steps:
+
+            target_time = step["time"]
+            event_type, node_id = step["event"]
+
+            # deterministic time advance
+            self.mechanics.advance_time(
+                target_time - self.mechanics.time_step
+            )
+
+            # execute event
+            result = self._execute_event(event_type, node_id)
+
+            # governance evaluation (safe optional dependency)
+            evaluation = None
+            if hasattr(self.runtime, "governance") and self.runtime.governance:
+                evaluation = self.runtime.governance.evaluate_mission_state()
+
+            record = {
+                "time": self.mechanics.time_step,
+                "event": step["event"],
+                "execution": result,
+                "evaluation": evaluation,
+                "phase": "deterministic"
+            }
+
+            results.append(record)
+            self.scenario_log.append(record)
+
+        return results
+
+    # -----------------------------------
+    # EVENT EXECUTOR
+    # -----------------------------------
+    def _execute_event(self, event_type, node_id):
+
+        cascade = getattr(self.runtime, "cascade", None)
+
+        if not cascade:
+            return {
+                "status": "skipped",
+                "reason": "cascade_not_initialized",
+                "event": event_type,
+                "target": node_id
+            }
+
+        if event_type == "ground_outage":
+            cascade.simulate_ground_station_outage(node_id)
+
+        elif event_type == "satellite_failure":
+            cascade.simulate_satellite_failure(node_id)
+
+        elif event_type == "link_degradation":
+            cascade.simulate_link_degradation(node_id)
+
+        return {
+            "status": "executed",
+            "event": event_type,
+            "target": node_id
+        }
+
+    # -----------------------------------
+    # LOG ACCESS (STEALTH SAFE EXTENSION)
+    # -----------------------------------
+    def get_scenario_log(self, mode="full"):
         """
-        Displays current system node states.
+        mode:
+        - full   → complete deterministic trace
+        - stealth → last N events only (observability reduction layer)
         """
 
-        state = self.runtime.system.get_system_state()
+        if mode == "stealth":
+            return self.scenario_log[-5:]
 
-        print("\n🛰️ CONSTELLATION STATE")
-        print("=" * 30)
+        return self.scenario_log
 
-        for node_id, data in state.items():
-            node_type = data.get("type", "unknown")
-            status = data.get("status", "unknown")
-
-            print(f"{node_id} | {node_type} | {status}")
-
-    # ----------------------------------------
-    # CASCADE VIEW
-    # ----------------------------------------
-    def render_cascade_snapshot(self):
+    # -----------------------------------
+    # QUANTUM HOOK (NON-OPERATIONAL)
+    # -----------------------------------
+    def branch_scenario(self, scenario_steps):
         """
-        Displays deterministic cascade impact summary.
+        Placeholder for future Quantum Transition Model.
+        Currently deterministic single-path execution.
         """
+        return self.run_scenario(scenario_steps)
 
-        impact = self.runtime.cascade.get_cascade_impact()
-
-        print("\n💥 CASCADE SNAPSHOT")
-        print("=" * 30)
-
-        print(f"Failed Nodes   : {impact.get('failed', [])}")
-        print(f"Degraded Nodes : {impact.get('degraded', [])}")
-        print(f"Nominal Nodes  : {impact.get('nominal', [])}")
-
-    # ----------------------------------------
-    # MISSION REPORT VIEW
-    # ----------------------------------------
-    def render_mission_report(self):
-        """
-        Displays governance + AI interpretation output.
-        """
-
-        report = self.runtime.governance.evaluate_mission_state()
-
-        print("\n🧠 MISSION REPORT")
-        print("=" * 30)
-        print(report.get("report", "No report available"))
-
-        print("\n⚖️ GOVERNANCE DECISION")
-        print("=" * 30)
-        print(report.get("governance_decision", "undefined"))
-
-    # ----------------------------------------
-    # SCENARIO TIMELINE VIEW
-    # ----------------------------------------
-    def render_scenario_timeline(self):
-        """
-        Displays deterministic scenario execution history.
-        """
-
-        log = self.scenario_engine.get_scenario_log()
-
-        print("\n⏱️ SCENARIO TIMELINE")
-        print("=" * 30)
-
-        for entry in log:
-            time = entry.get("time")
-            event = entry.get("event")
-            decision = entry.get("evaluation", {}).get("governance_decision", "unknown")
-
-            print(f"t={time} | {event} | decision={decision}")
-
-    # ----------------------------------------
-    # FULL DASHBOARD
-    # ----------------------------------------
-    def full_dashboard(self):
-        """
-        Executes complete system observability snapshot.
-        """
-
-        self.render_constellation_state()
-        self.render_cascade_snapshot()
-        self.render_mission_report()
-        self.render_scenario_timeline()
+    # -----------------------------------
+    # RESET
+    # -----------------------------------
+    def reset(self):
+        self.scenario_log = []
+        self.mechanics.reset_time()
