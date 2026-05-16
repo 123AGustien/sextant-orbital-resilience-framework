@@ -1,0 +1,97 @@
+# 🛰️ Sextant Orbital Resilience Framework  
+## v1.1 Architecture Layer — Unified Runtime Specification
+
+## 🧭 Overview
+v1.1 introduces a modular orchestration architecture that separates simulation, prediction, and governance into structured execution layers while maintaining deterministic system behavior.
+
+This version evolves the framework from a standalone simulation engine into a coordinated unified runtime system.
+
+---
+
+## 🧱 Core Architecture Stack (v1.1)
+
+### 1. Core Layer (Deterministic Engine)
+- SimulationEngine
+- deterministic step execution
+- scenario loading
+- event trace logging
+
+### 2. Cascade Layer
+- OrbitalCascadeModel
+- failure propagation
+- dependency impact tracking
+
+### 3. Predictive Layer
+- PredictiveCascadeEngine
+- risk scoring
+- critical node detection
+
+### 4. Orchestration Layer (NEW)
+- SystemFlowController
+- coordinates cascade + prediction + governance
+- produces unified runtime audit
+
+### 5. Unified Runtime Layer (NEW)
+- UnifiedRuntime
+- single system entrypoint
+- aggregates execution outputs
+
+### 6. Scenario Layer
+- ScenarioEngine
+- event sequencing
+- time-based cascade simulation
+
+### 7. Observability Layer
+- MissionDashboard
+- system state visualization
+- cascade and timeline inspection
+
+### 8. Runtime Context Layer
+- shared system state container
+- cross-module synchronization
+
+### 9. Concept Layers (Non-Executable)
+
+#### 🕶 Stealth Mode
+- controlled observability abstraction
+- reduced logging / filtered outputs
+
+#### ⚛ Quantum Transition Model
+- conceptual scenario branching model
+- multi-path system evolution
+
+---
+
+## 🔗 Execution Flow
+
+Scenario Input  
+→ SimulationEngine  
+→ CascadeModel  
+→ PredictiveEngine  
+→ SystemFlowController  
+→ UnifiedRuntime  
+→ MissionDashboard  
+
+---
+
+## 🧠 Design Principles
+
+- Deterministic execution
+- Strict layer separation
+- Full traceability
+- Non-operational boundary (simulation only)
+- Modular extensibility
+
+---
+
+## 📦 Version Status
+
+v1.1 = Architecture Layer Complete (Experimental Sandbox)
+
+---
+
+## 🚀 Next Evolution
+
+- v1.2 → governance expansion  
+- v1.3 → multi-scenario parallel execution  
+- v2.0 → distributed simulation mesh
