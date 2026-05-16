@@ -1,33 +1,53 @@
 from collections import defaultdict
 import time
 
-# In-memory usage tracking (upgrade to DB later)
+# -------------------------
+# In-memory usage tracking
+# (upgrade to DB in production)
+# -------------------------
 USAGE = defaultdict(list)
 
-# SaaS tier limits
+# -------------------------
+# Tier-based limits
+# -------------------------
 LIMITS = {
-    "free": 10,
-    "pro": 100,
-    "enterprise": float("inf")
+    "free": 10,   # 10 requests
+    "pro": 100    # 100 requests
 }
 
+
 def log_request(api_key: str):
-    """Log timestamp of each API request"""
+    """
+    Log timestamp of API request
+    """
     USAGE[api_key].append(time.time())
 
+
 def get_usage(api_key: str) -> int:
-    """Return total requests made by API key"""
+    """
+    Return total request count
+    """
     return len(USAGE[api_key])
 
-def get_limit(tier: str) -> int:
-    return LIMITS.get(tier, 10)
+
+def get_usage_with_window(api_key: str, window_seconds: int = 3600) -> int:
+    """
+    Optional: count requests in time window (1 hour default)
+    SaaS-grade upgrade for real rate limiting
+    """
+    now = time.time()
+    USAGE[api_key] = [
+        t for t in USAGE[api_key]
+        if now - t < window_seconds
+    ]
+    return len(USAGE[api_key])
+
 
 def check_limit(api_key: str, tier: str = "free") -> bool:
     """
-    Check if API key is within allowed usage limit
+    Check if user is within tier limit
     """
-    return get_usage(api_key) < get_limit(tier)
+    usage = get_usage(api_key)
+    limit = LIMITS.get(tier, LIMITS["free"])
 
-def reset_usage(api_key: str):
-    """Reset usage counter (admin / billing reset)"""
-    USAGE[api_key] = []
+    return usage < limit
