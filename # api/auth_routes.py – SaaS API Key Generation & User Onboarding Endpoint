@@ -1,0 +1,29 @@
+from fastapi import APIRouter
+from core.auth import create_user_api_key
+
+router = APIRouter()
+
+
+class CreateKeyRequest:
+    def __init__(self, user: str, tier: str = "free"):
+        self.user = user
+        self.tier = tier
+
+
+@router.post("/create-key")
+def create_key(request: CreateKeyRequest):
+    """
+    SaaS endpoint:
+    Generates API key for new users (onboarding flow)
+    """
+
+    api_key = create_user_api_key(
+        user=request.user,
+        tier=request.tier
+    )
+
+    return {
+        "status": "success",
+        "api_key": api_key,
+        "tier": request.tier
+    }
