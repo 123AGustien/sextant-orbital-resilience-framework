@@ -1,0 +1,31 @@
+{
+  "scenario_id": "SCN-001",
+  "name": "Satellite Node Failure Cascade Test",
+  "initial_state": {
+    "nodes": [
+      {
+        "node_id": "SAT-1",
+        "type": "satellite",
+        "status": "failed",
+        "dependencies": ["GS-1", "REL-1"]
+      },
+      {
+        "node_id": "GS-1",
+        "type": "ground_station",
+        "status": "nominal",
+        "dependencies": []
+      },
+      {
+        "node_id": "REL-1",
+        "type": "relay",
+        "status": "nominal",
+        "dependencies": ["GS-1"]
+      }
+    ]
+  },
+  "expected_behaviour": "cascade_propagation_test",
+  "constraints": {
+    "deterministic": true,
+    "sandbox_only": true
+  }
+}
