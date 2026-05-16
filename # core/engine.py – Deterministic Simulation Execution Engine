@@ -1,0 +1,23 @@
+class Engine:
+    """
+    Core deterministic execution engine for Sextant simulations.
+    """
+
+    def __init__(self, scenario_path: str):
+        self.scenario_path = scenario_path
+        self.state = {}
+
+    def run(self):
+        """
+        Executes simulation and returns deterministic result.
+        """
+
+        # Placeholder deterministic output (expand with graph logic)
+        result = {
+            "status": "completed",
+            "scenario": self.scenario_path,
+            "nodes_processed": 0,
+            "cascade_events": []
+        }
+
+        return result
