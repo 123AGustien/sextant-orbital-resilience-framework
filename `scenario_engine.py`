@@ -1,0 +1,108 @@
+"""
+Sextant Orbital Resilience Framework
+Mission Control Dashboard Layer
+
+Provides a deterministic, human-readable operational view of:
+- constellation state
+- cascade propagation
+- mission evaluation
+- scenario execution timeline
+
+This is a simulation-only observability layer.
+"""
+
+class MissionDashboard:
+    """
+    Read-only system observability interface for simulation runtime.
+    """
+
+    def __init__(self, runtime, scenario_engine):
+        self.runtime = runtime
+        self.scenario_engine = scenario_engine
+
+    # ----------------------------------------
+    # CONSTELLATION STATE VIEW
+    # ----------------------------------------
+    def render_constellation_state(self):
+        """
+        Displays current system node states.
+        """
+
+        state = self.runtime.system.get_system_state()
+
+        print("\n🛰️ CONSTELLATION STATE")
+        print("=" * 30)
+
+        for node_id, data in state.items():
+            node_type = data.get("type", "unknown")
+            status = data.get("status", "unknown")
+
+            print(f"{node_id} | {node_type} | {status}")
+
+    # ----------------------------------------
+    # CASCADE VIEW
+    # ----------------------------------------
+    def render_cascade_snapshot(self):
+        """
+        Displays deterministic cascade impact summary.
+        """
+
+        impact = self.runtime.cascade.get_cascade_impact()
+
+        print("\n💥 CASCADE SNAPSHOT")
+        print("=" * 30)
+
+        print(f"Failed Nodes   : {impact.get('failed', [])}")
+        print(f"Degraded Nodes : {impact.get('degraded', [])}")
+        print(f"Nominal Nodes  : {impact.get('nominal', [])}")
+
+    # ----------------------------------------
+    # MISSION REPORT VIEW
+    # ----------------------------------------
+    def render_mission_report(self):
+        """
+        Displays governance + AI interpretation output.
+        """
+
+        report = self.runtime.governance.evaluate_mission_state()
+
+        print("\n🧠 MISSION REPORT")
+        print("=" * 30)
+        print(report.get("report", "No report available"))
+
+        print("\n⚖️ GOVERNANCE DECISION")
+        print("=" * 30)
+        print(report.get("governance_decision", "undefined"))
+
+    # ----------------------------------------
+    # SCENARIO TIMELINE VIEW
+    # ----------------------------------------
+    def render_scenario_timeline(self):
+        """
+        Displays deterministic scenario execution history.
+        """
+
+        log = self.scenario_engine.get_scenario_log()
+
+        print("\n⏱️ SCENARIO TIMELINE")
+        print("=" * 30)
+
+        for entry in log:
+            time = entry.get("time")
+            event = entry.get("event")
+            decision = entry.get("evaluation", {}).get("governance_decision", "unknown")
+
+            print(f"t={time} | {event} | decision={decision}")
+
+    # ----------------------------------------
+    # FULL DASHBOARD
+    # ----------------------------------------
+    def full_dashboard(self):
+        """
+        Executes complete system observability snapshot.
+        """
+
+        self.render_constellation_state()
+        self.render_cascade_snapshot()
+        self.render_mission_report()
+        self.render_scenario_timeline()
