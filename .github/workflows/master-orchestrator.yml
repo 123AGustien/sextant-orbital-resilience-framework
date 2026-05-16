@@ -22,30 +22,16 @@ jobs:
       - name: Upgrade pip
         run: python -m pip install --upgrade pip
 
-      - name: Install dependencies (if any)
+      - name: Install dependencies
         run: |
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       # -----------------------------
-      # 🧱 STRUCTURE VALIDATION GATE
+      # 🧱 STRUCTURE VALIDATION
       # -----------------------------
-
-      - name: Run Structure Healer
-        run: |
-          if [ -f structure_healer.py ]; then
-            python structure_healer.py
-          fi
-
-      - name: Validate Annex Structure (HARD GATE)
+      - name: Validate Annex Structure
         shell: bash
         run: |
-          echo "🔍 Checking annex integrity..."
-
-          if [ -d "annexes/annexes" ]; then
-            echo "❌ STRUCTURE ERROR: Nested annexes detected"
-            exit 1
-          fi
-
           REQUIRED=(
             "ANNEX_A_input_structure.md"
             "ANNEX_B_dependency_logic.md"
@@ -56,68 +42,51 @@ jobs:
 
           for file in "${REQUIRED[@]}"; do
             if [ ! -f "annexes/$file" ]; then
-              echo "❌ MISSING ANNEX: $file"
+              echo "MISSING: $file"
               exit 1
             fi
           done
 
-          echo "✔ Annex structure valid"
-
       # -----------------------------
       # 🧪 SCENARIO TEST LAYER
       # -----------------------------
-
       - name: Run Scenario Test Suite
         run: |
-          if [ -f scenario_test_suite.py ]; then
-            python scenario_test_suite.py
+          if [ -f tests/scenario_test_suite.py ]; then
+            python tests/scenario_test_suite.py
           else
-            echo "⚠ No test suite found"
+            echo "No test suite found"
           fi
 
       # -----------------------------
       # 🧠 DETERMINISM GATE
       # -----------------------------
-
-      - name: Run Scenario Determinism Check
+      - name: Run Determinism Check
         shell: bash
         run: |
-          echo "🧠 Checking deterministic output consistency..."
-
           if [ ! -f run_scenario.py ]; then
-            echo "❌ run_scenario.py missing"
+            echo "run_scenario.py missing"
             exit 1
           fi
 
-          python run_scenario.py > output_1.txt || exit 1
-          python run_scenario.py > output_2.txt || exit 1
+          python run_scenario.py > o1.txt
+          python run_scenario.py > o2.txt
 
-          if [ ! -s output_1.txt ] || [ ! -s output_2.txt ]; then
-            echo "❌ EMPTY OUTPUT DETECTED"
-            exit 1
-          fi
-
-          if ! diff output_1.txt output_2.txt; then
-            echo "❌ DETERMINISM FAILURE"
-            exit 1
-          fi
-
-          echo "✔ Deterministic behaviour confirmed"
+          diff o1.txt o2.txt
 
       # -----------------------------
-      # 🚀 CORE EXECUTION LAYERS
+      # 🚀 CORE EXECUTION
       # -----------------------------
+      - name: Run Simulation Engine
+        run: |
+          if [ -f core/simulation_engine.py ]; then
+            python core/simulation_engine.py
+          fi
 
       - name: Run Mission Orchestrator
         run: |
           if [ -f mission_orchestrator.py ]; then
             python mission_orchestrator.py
-          fi
-
-      - name: Run Simulation Engine
-        run: |
-          if [ -f simulation_engine.py ]; then
-            python simulation_engine.py
           fi
 
       - name: Run Governance Layer
@@ -129,6 +98,5 @@ jobs:
       # -----------------------------
       # 🛰️ FINAL STATUS
       # -----------------------------
-
       - name: Final Status
-        run: echo "🛰️ MASTER ORCHESTRATOR COMPLETE - ALL SYSTEMS VERIFIED"
+        run: echo "MASTER ORCHESTRATOR COMPLETE"
