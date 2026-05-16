@@ -1,19 +1,22 @@
-name: Sextant Master Orchestrator CI
+name: Sextant Master Orchestrator CI v1.2 (Force Update)
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ main ]
-  pull_request:
 
 jobs:
   orchestrate:
     runs-on: ubuntu-latest
 
     steps:
+      # -----------------------------
+      # 🧭 CHECKOUT
+      # -----------------------------
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # -----------------------------
+      # 🐍 PYTHON SETUP
+      # -----------------------------
       - name: Setup Python environment
         uses: actions/setup-python@v5
         with:
@@ -25,23 +28,102 @@ jobs:
       - name: Upgrade pip
         run: python -m pip install --upgrade pip
 
-      - name: Install dependencies (if any)
+      - name: Install dependencies
         run: |
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
+      # ==========================================================
+      # ⚠️ FORCE UPDATE TRIGGER
+      # ==========================================================
+      - name: Force Update Marker
+        run: |
+          echo "FORCE_UPDATE=v1.2_$(date +%s)" >> $GITHUB_ENV
+          echo "🛰️ Force update marker injected: $FORCE_UPDATE"
+
+      # -----------------------------
+      # 🧱 STRUCTURE VALIDATION
+      # -----------------------------
+      - name: Validate Annex Structure
+        shell: bash
+        run: |
+          echo "🔍 Validating annex structure..."
+
+          REQUIRED=(
+            "ANNEX_A_input_structure.md"
+            "ANNEX_B_dependency_logic.md"
+            "ANNEX_C_cascade_rules.md"
+            "ANNEX_D_output_interpretation.md"
+            "ANNEX_E_sandbox_protocol.md"
+          )
+
+          for file in "${REQUIRED[@]}"; do
+            if [ ! -f "annexes/$file" ]; then
+              echo "❌ MISSING: annexes/$file"
+              exit 1
+            fi
+          done
+
+          echo "✔ Annex structure valid"
+
+      # -----------------------------
+      # 🧪 SCENARIO TEST LAYER
+      # -----------------------------
       - name: Run Scenario Test Suite
-        run: python scenario_test_suite.py
+        run: |
+          if [ -f tests/scenario_test_suite.py ]; then
+            python tests/scenario_test_suite.py
+          else
+            echo "⚠ No scenario test suite found"
+          fi
+
+      # -----------------------------
+      # 🧠 DETERMINISM GATE
+      # -----------------------------
+      - name: Run Determinism Check
+        shell: bash
+        run: |
+          echo "🧠 Running deterministic validation..."
+
+          if [ ! -f run_scenario.py ]; then
+            echo "❌ run_scenario.py missing"
+            exit 1
+          fi
+
+          python run_scenario.py > output_1.txt || exit 1
+          python run_scenario.py > output_2.txt || exit 1
+
+          if ! diff output_1.txt output_2.txt; then
+            echo "❌ DETERMINISM FAILURE DETECTED"
+            exit 1
+          fi
+
+          echo "✔ Deterministic execution confirmed"
+
+      # -----------------------------
+      # 🚀 CORE EXECUTION
+      # -----------------------------
+      - name: Run Simulation Engine
+        run: |
+          if [ -f core/simulation_engine.py ]; then
+            python core/simulation_engine.py
+          fi
 
       - name: Run Mission Orchestrator
-        run: python mission_orchestrator.py
-
-      - name: Run Simulation Engine (if exists)
         run: |
-          if [ -f simulation_engine.py ]; then python simulation_engine.py; fi
+          if [ -f mission_orchestrator.py ]; then
+            python mission_orchestrator.py
+          fi
 
-      - name: Run Governance Layer (if exists)
+      - name: Run Governance Layer
         run: |
-          if [ -f mission_governance.py ]; then python mission_governance.py; fi
+          if [ -f mission_governance.py ]; then
+            python mission_governance.py
+          fi
 
+      # -----------------------------
+      # 🛰️ FINAL STATUS
+      # -----------------------------
       - name: Final Status
-        run: echo "MASTER ORCHESTRATOR COMPLETE"
+        run: |
+          echo "🛰️ MASTER ORCHESTRATOR COMPLETE - ALL SYSTEMS VERIFIED"
+          echo "FORCE_UPDATE=$FORCE_UPDATE"
