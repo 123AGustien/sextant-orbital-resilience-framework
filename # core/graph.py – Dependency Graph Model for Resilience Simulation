@@ -1,0 +1,26 @@
+class DependencyGraph:
+    """
+    Represents a deterministic dependency graph for simulation.
+    """
+
+    def __init__(self):
+        self.nodes = {}
+        self.edges = {}
+
+    def add_node(self, node_id: str, data=None):
+        """Add a node to the graph"""
+        self.nodes[node_id] = data or {}
+
+    def add_edge(self, from_node: str, to_node: str):
+        """Define dependency relationship between nodes"""
+        if from_node not in self.edges:
+            self.edges[from_node] = []
+        self.edges[from_node].append(to_node)
+
+    def get_dependencies(self, node_id: str):
+        """Return downstream dependencies"""
+        return self.edges.get(node_id, [])
+
+    def get_nodes(self):
+        """Return all nodes"""
+        return self.nodes
