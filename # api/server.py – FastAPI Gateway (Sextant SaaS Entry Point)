@@ -1,0 +1,28 @@
+from fastapi import FastAPI
+
+from api.auth_routes import router as auth_router
+from api.risk import router as risk_router
+from api.server_simulation import router as simulation_router  # adjust if your file name differs
+
+app = FastAPI(
+    title="Sextant Orbital Resilience API",
+    version="1.0.0"
+)
+
+# -----------------------
+# Health Check Endpoint
+# -----------------------
+@app.get("/")
+def health():
+    return {
+        "status": "online",
+        "service": "sextant-orbital-resilience-api"
+    }
+
+
+# -----------------------
+# Register SaaS Modules
+# -----------------------
+app.include_router(auth_router, prefix="/auth")
+app.include_router(simulation_router, prefix="/simulation")
+app.include_router(risk_router, prefix="/risk")
