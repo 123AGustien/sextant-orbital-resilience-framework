@@ -1,107 +1,94 @@
-"""
-Sextant Orbital Resilience Framework
-Orbital Dependency Cascade Model
+# 🛰️ Sextant Orbital Resilience Framework  
+## Topology Transition Engine (Conceptual Specification)
 
-Deterministic cascade propagation engine using a dictionary-based system model.
-"""
+---
 
-class OrbitalCascadeModel:
-    def __init__(self, system_model):
-        self.system = system_model
+## 📄 Overview
 
-    # ----------------------------
-    # TYPE SAFETY HELPER
-    # ----------------------------
-    def _get_node(self, node):
-        """
-        Ensures node is always treated as dict safely.
-        """
-        if isinstance(node, dict):
-            return node
-        return None
+The Topology Transition Engine is a conceptual governance and simulation extension within the Sextant Orbital Resilience Framework.
 
-    # ----------------------------
-    # CORE FAILURE ENTRY POINT
-    # ----------------------------
-    def trigger_failure(self, node_id, failure_type="unknown"):
-        if node_id not in self.system:
-            return
+It defines how a system can transition between structured dependency states in a deterministic simulation environment.
 
-        node = self._get_node(self.system[node_id])
-        if not node:
-            return
+This document describes the **meaning, rules, and constraints** of the module.
 
-        if node.get("status", "").startswith("failed"):
-            return
+---
 
-        node["status"] = f"failed:{failure_type}"
+## 🧭 Purpose
 
-        visited = set()
-        self._propagate_failure(node_id, visited)
+This module supports research into:
 
-    # ----------------------------
-    # SAFE CASCADE PROPAGATION
-    # ----------------------------
-    def _propagate_failure(self, failed_node_id, visited):
-        if failed_node_id in visited:
-            return
+- Structural changes in dependency graphs  
+- System reconfiguration under cascade conditions  
+- Transition between defined topology states  
+- Resilience behaviour under structural change  
 
-        visited.add(failed_node_id)
+---
 
-        for node_id, node in self.system.items():
+## 🔄 Definition: Topology Transition
 
-            node = self._get_node(node)
-            if not node:
-                continue
+A topology transition is defined as:
 
-            dependencies = node.get("dependencies", [])
+> A deterministic change in the structure of a dependency graph resulting in a new system configuration state.
 
-            if (
-                failed_node_id in dependencies
-                and not node.get("status", "").startswith("failed")
-            ):
-                node["status"] = "degraded:cascade"
-                self._propagate_failure(node_id, visited)
+This includes:
+- node relationship changes  
+- dependency path updates  
+- system state reconfiguration  
+- resilience recalculation conditions  
 
-    # ----------------------------
-    # SIMULATION HELPERS
-    # ----------------------------
-    def simulate_ground_station_outage(self, station_id):
-        self.trigger_failure(station_id, "ground_outage")
+---
 
-    def simulate_satellite_failure(self, satellite_id):
-        self.trigger_failure(satellite_id, "satellite_failure")
+## 🧠 System Role
 
-    def simulate_link_degradation(self, node_id):
-        self.trigger_failure(node_id, "link_degradation")
+This module represents the **interpretation layer** of structural change.
 
-    # ----------------------------
-    # OUTPUT
-    # ----------------------------
-    def get_cascade_impact(self):
-        impact = {"failed": [], "degraded": [], "nominal": []}
+It does NOT:
+- execute real-world operations  
+- control live systems  
+- interact with external infrastructure  
 
-        for node_id, node in self.system.items():
+It IS:
+- a conceptual model  
+- a simulation definition layer  
+- a governance-aligned behaviour description  
 
-            node = self._get_node(node)
-            if not node:
-                continue
+---
 
-            status = node.get("status", "nominal")
+## ⚙️ Relationship to System Layers
 
-            if status.startswith("failed"):
-                impact["failed"].append(node_id)
-            elif status.startswith("degraded"):
-                impact["degraded"].append(node_id)
-            else:
-                impact["nominal"].append(node_id)
+| Layer | Role |
+|------|------|
+| `.py` | Executes logic (system behaviour) |
+| `.md` | Defines meaning (system interpretation) |
+| `core/` | Defines system structure (system ontology) |
 
-        return impact
+---
 
-    # ----------------------------
-    # RESET
-    # ----------------------------
-    def reset_system(self):
-        for node in self.system.values():
-            if isinstance(node, dict):
-                node["status"] = "nominal"
+## 🛰️ Integration Context
+
+The Topology Transition Engine operates alongside:
+
+- Cascade Model (failure propagation)
+- AI Interpretation Layer (system meaning extraction)
+- Governance Layer (decision control)
+
+It acts as a **bridge between cascade events and system reconfiguration logic**.
+
+---
+
+## ⚠️ Operational Boundary
+
+This module is strictly:
+
+- simulation-based  
+- deterministic in definition  
+- non-operational  
+- non-connected to real systems  
+
+It exists only within the Sextant research framework.
+
+---
+
+## 📌 Summary
+
+The Topology Transition Engine defines how system structure evolves under controlled simulation conditions, ensuring that all changes remain deterministic, traceable, and governance-aligned.
