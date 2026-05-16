@@ -1,0 +1,30 @@
+from fastapi import APIRouter
+from pydantic import BaseModel
+
+router = APIRouter()
+
+
+class RiskRequest(BaseModel):
+    scenario_name: str
+
+
+@router.post("/risk-score")
+def risk_score(request: RiskRequest):
+    """
+    SaaS endpoint:
+    Computes risk score for a given simulation scenario
+    """
+
+    # Placeholder deterministic scoring logic (upgrade later)
+    base_risk = len(request.scenario_name) * 7 % 100
+
+    return {
+        "status": "success",
+        "scenario": request.scenario_name,
+        "risk_score": base_risk,
+        "interpretation": (
+            "low" if base_risk < 30 else
+            "medium" if base_risk < 70 else
+            "high"
+        )
+    }
