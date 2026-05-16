@@ -1,24 +1,54 @@
-def trigger_failure(graph, initial_failure):
-    queue = [initial_failure]
-    failed = []
+class CascadeEngine:
+    """
+    Deterministic cascade propagation engine.
 
-    while queue:
-        current = queue.pop(0)
+    Responsibilities:
+    - Execute failure propagation
+    - Maintain deterministic traversal order
+    - Operate only on graph abstraction + state map
+    """
 
-        if current not in graph.nodes:
-            continue
+    def __init__(self, graph):
+        self.graph = graph
 
-        node = graph.nodes[current]
+    def trigger_failure(self, initial_failure: str, state: dict):
+        """
+        Triggers deterministic failure cascade from a single node.
 
-        if node.failed:
-            continue
+        Args:
+            initial_failure (str): Node ID where failure starts
+            state (dict): System state map {node_id: state}
 
-        node.failed = True
-        failed.append(current)
+        Returns:
+            tuple:
+                - failed_nodes (list)
+                - updated_state (dict)
+        """
 
-        # propagate failure to dependent nodes
-        for n in graph.nodes.values():
-            if current in n.dependencies:
-                queue.append(n.id)
+        queue = [initial_failure]
+        failed_nodes = []
+        visited = set()
 
-    return failed
+        while queue:
+            current = queue.pop(0)
+
+            if current in visited:
+                continue
+            visited.add(current)
+
+            if current not in state:
+                continue
+
+            # deterministic state transition
+            if state[current] == "failed":
+                continue
+
+            state[current] = "failed"
+            failed_nodes.append(current)
+
+            # propagate downstream
+            for neighbor in self.graph.get_downstream(current):
+                if state.get(neighbor) != "failed":
+                    queue.append(neighbor)
+
+        return failed_nodes, state
