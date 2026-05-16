@@ -1,0 +1,42 @@
+import uuid
+
+# Temporary in-memory store (upgrade to database later)
+API_KEYS = {
+    "test-key": {
+        "user": "demo-user",
+        "tier": "free"
+    }
+}
+
+
+def generate_api_key() -> str:
+    """Generate unique API key"""
+    return str(uuid.uuid4())
+
+
+def create_user_api_key(user: str, tier: str = "free") -> str:
+    """Create and store API key for a user"""
+    key = generate_api_key()
+
+    API_KEYS[key] = {
+        "user": user,
+        "tier": tier
+    }
+
+    return key
+
+
+def validate_api_key(key: str) -> bool:
+    """Check if API key exists"""
+    return key in API_KEYS
+
+
+def get_user(key: str):
+    """Return user object from API key"""
+    return API_KEYS.get(key)
+
+
+def get_tier(key: str) -> str:
+    """Return subscription tier for API key"""
+    user = get_user(key)
+    return user["tier"] if user else "free"
