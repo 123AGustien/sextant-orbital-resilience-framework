@@ -1,0 +1,33 @@
+from collections import defaultdict
+import time
+
+# In-memory usage tracking (upgrade to DB later)
+USAGE = defaultdict(list)
+
+# SaaS tier limits
+LIMITS = {
+    "free": 10,
+    "pro": 100,
+    "enterprise": float("inf")
+}
+
+def log_request(api_key: str):
+    """Log timestamp of each API request"""
+    USAGE[api_key].append(time.time())
+
+def get_usage(api_key: str) -> int:
+    """Return total requests made by API key"""
+    return len(USAGE[api_key])
+
+def get_limit(tier: str) -> int:
+    return LIMITS.get(tier, 10)
+
+def check_limit(api_key: str, tier: str = "free") -> bool:
+    """
+    Check if API key is within allowed usage limit
+    """
+    return get_usage(api_key) < get_limit(tier)
+
+def reset_usage(api_key: str):
+    """Reset usage counter (admin / billing reset)"""
+    USAGE[api_key] = []
