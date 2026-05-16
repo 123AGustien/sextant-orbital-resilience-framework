@@ -1,0 +1,34 @@
+scenario_id: ORBITAL-BASE-001
+
+description: >
+  Baseline deterministic scenario for testing dependency-driven cascade behavior
+  in a simplified orbital-to-ground communication network.
+
+nodes:
+  - id: satellite_alpha
+    type: orbital_node
+  - id: satellite_beta
+    type: orbital_node
+  - id: ground_station_gamma
+    type: ground_node
+
+dependencies:
+  - source: satellite_alpha
+    target: satellite_beta
+    type: relay_link
+
+  - source: satellite_beta
+    target: ground_station_gamma
+    type: downlink
+
+initial_conditions:
+  satellite_alpha: healthy
+  satellite_beta: healthy
+  ground_station_gamma: healthy
+
+failure_rules:
+  - condition: node_failure
+    propagation: downstream
+
+  - condition: link_failure
+    propagation: route_break
