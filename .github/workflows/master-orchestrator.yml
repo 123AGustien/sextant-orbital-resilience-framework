@@ -1,7 +1,6 @@
 # ==========================================================
 # Sextant Master Orchestrator CI v1.2 (FORCE UPDATE SAFE)
-# Frozen Architecture Compatible | Deterministic Execution
-# ==========================================================
+# Frozen Architecture Compatible | Deterministic Execu
 
 name: Sextant Master Orchestrator CI v1.2 (Force Update)
 
@@ -39,7 +38,7 @@ jobs:
 
       # ==========================================================
       # ⚠️ FORCE UPDATE TRIGGER (ENSURES GIT DIFF IS ALWAYS ACTIVE)
-      # ==========================================================
+      # ================================================
       - name: Force Update Marker
         run: |
           echo "FORCE_UPDATE=v1.2_$(date +%s)" >> $GITHUB_ENV

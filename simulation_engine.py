@@ -1,84 +1,84 @@
 import json
 from datetime import datetime
+
 from cascade_model import OrbitalCascadeModel
+from predictive_cascade_engine import PredictiveCascadeEngine
 
 
 class SimulationEngine:
     """
-    Core deterministic simulation engine for the Sextant Orbital Resilience Framework.
+    Core deterministic simulation engine for Sextant Orbital Resilience Framework.
 
-    Responsibilities:
-    - Scenario loading and initialization
-    - Deterministic execution loop
-    - Event trace generation
-    - Cascade failure injection (simulation-level)
+    Integrates:
+    - Cascade propagation model
+    - Predictive risk engine
+    - Deterministic event trace logging
     """
 
     def __init__(self):
         self.state = {}
         self.scenario = {}
         self.event_log = []
+
         self.cascade_model = None
+        self.predictor = None
 
     # -------------------------------------------------
     # SCENARIO LOADING
     # -------------------------------------------------
     def load_scenario(self, filepath: str):
-        """
-        Load and initialise scenario from JSON file.
-        """
-
         with open(filepath, "r") as f:
             self.scenario = json.load(f)
 
         self.state = self.scenario.get("system_state", {})
 
-        dependencies = self.state.get("dependencies", {})
+        system_model = self.state.get("nodes", {})
 
-        # Initialise cascade model safely
-        self.cascade_model = OrbitalCascadeModel(dependencies)
+        self.cascade_model = OrbitalCascadeModel(system_model)
+        self.predictor = PredictiveCascadeEngine(system_model)
 
         self._log_event(
             "scenario_loaded",
-            "Scenario loaded and cascade model initialised"
+            "Scenario loaded with cascade + predictive engines initialised"
         )
 
     # -------------------------------------------------
     # EVENT LOGGING
     # -------------------------------------------------
-    def _log_event(self, event_type: str, description: str):
-        """
-        Append structured event entry to simulation trace.
-        """
-
+    def _log_event(self, event_type: str, description: str, data=None):
         self.event_log.append({
             "timestamp": datetime.utcnow().isoformat(),
             "event_type": event_type,
-            "description": description
+            "description": description,
+            "data": data if data is not None else {}
         })
 
     # -------------------------------------------------
     # SIMULATION STEP
     # -------------------------------------------------
     def step(self, t: int):
-        """
-        Executes a single deterministic simulation step.
+        nodes = self.state.get("nodes", {})
 
-        Behaviour:
-        - Cascade injection occurs at t = 0
-        - Every step is logged for traceability
-        """
+        # -------------------------
+        # 🧠 PREDICTION PHASE
+        # -------------------------
+        prediction = self.predictor.identify_critical_nodes()
 
-        nodes = self.state.get("nodes", [])
+        self._log_event(
+            "prediction",
+            f"Risk evaluation at step {t}",
+            prediction
+        )
 
         # -------------------------
         # CASCADE INJECTION (t=0 only)
         # -------------------------
         if t == 0 and nodes and self.cascade_model:
-            failed_node = nodes[-1]
+            failed_node = list(nodes.keys())[-1]
 
-            affected_nodes = self.cascade_model.trigger_failure(
-                failed_node, "simulation_injection"
+            self.cascade_model.trigger_failure(
+                failed_node,
+                "simulation_injection"
             )
 
             self._log_event(
@@ -98,10 +98,6 @@ class SimulationEngine:
     # SIMULATION EXECUTION
     # -------------------------------------------------
     def run(self):
-        """
-        Executes full deterministic simulation lifecycle.
-        """
-
         duration = self.scenario.get("environment", {}).get("duration", 0)
 
         self._log_event("start", "Simulation lifecycle initiated")
@@ -122,10 +118,9 @@ class SimulationEngine:
 
 
 # -------------------------------------------------
-# ENTRY POINT (LOCAL TESTING ONLY)
+# ENTRY POINT (SAFE LOCAL EXECUTION ONLY)
 # -------------------------------------------------
 if __name__ == "__main__":
-
     engine = SimulationEngine()
 
     engine.load_scenario("scenarios/baseline_scenario.json")

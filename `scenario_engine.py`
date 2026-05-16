@@ -1,0 +1,121 @@
+"""
+Sextant Orbital Resilience Framework
+Scenario Engine Layer (v2 - Safe Upgrade Patch)
+
+Enhancements:
+- Deterministic execution preserved
+- Scenario trace enrichment
+- Optional stealth-safe log trimming
+- Quantum hook (non-operational placeholder)
+"""
+
+class ScenarioEngine:
+    def __init__(self, runtime, mechanics):
+        self.runtime = runtime
+        self.mechanics = mechanics
+
+        self.scenario_log = []
+
+        # -----------------------------
+        # TRACE CONTROL (SAFE ADDITION)
+        # -----------------------------
+        self.trace_mode = "full"  # full | stealth
+
+    # -----------------------------------
+    # MAIN SCENARIO EXECUTION LOOP
+    # -----------------------------------
+    def run_scenario(self, scenario_steps):
+        results = []
+
+        for step in scenario_steps:
+
+            target_time = step["time"]
+            event_type, node_id = step["event"]
+
+            # deterministic time advance
+            self.mechanics.advance_time(
+                target_time - self.mechanics.time_step
+            )
+
+            # execute event
+            result = self._execute_event(event_type, node_id)
+
+            # governance evaluation (safe optional dependency)
+            evaluation = None
+            if hasattr(self.runtime, "governance") and self.runtime.governance:
+                evaluation = self.runtime.governance.evaluate_mission_state()
+
+            record = {
+                "time": self.mechanics.time_step,
+                "event": step["event"],
+                "execution": result,
+                "evaluation": evaluation,
+                "phase": "deterministic"
+            }
+
+            results.append(record)
+            self.scenario_log.append(record)
+
+        return results
+
+    # -----------------------------------
+    # EVENT EXECUTOR
+    # -----------------------------------
+    def _execute_event(self, event_type, node_id):
+
+        cascade = getattr(self.runtime, "cascade", None)
+
+        if not cascade:
+            return {
+                "status": "skipped",
+                "reason": "cascade_not_initialized",
+                "event": event_type,
+                "target": node_id
+            }
+
+        if event_type == "ground_outage":
+            cascade.simulate_ground_station_outage(node_id)
+
+        elif event_type == "satellite_failure":
+            cascade.simulate_satellite_failure(node_id)
+
+        elif event_type == "link_degradation":
+            cascade.simulate_link_degradation(node_id)
+
+        return {
+            "status": "executed",
+            "event": event_type,
+            "target": node_id
+        }
+
+    # -----------------------------------
+    # LOG ACCESS (STEALTH SAFE EXTENSION)
+    # -----------------------------------
+    def get_scenario_log(self, mode="full"):
+        """
+        mode:
+        - full   → complete deterministic trace
+        - stealth → last N events only (observability reduction layer)
+        """
+
+        if mode == "stealth":
+            return self.scenario_log[-5:]
+
+        return self.scenario_log
+
+    # -----------------------------------
+    # QUANTUM HOOK (NON-OPERATIONAL)
+    # -----------------------------------
+    def branch_scenario(self, scenario_steps):
+        """
+        Placeholder for future Quantum Transition Model.
+        Currently deterministic single-path execution.
+        """
+        return self.run_scenario(scenario_steps)
+
+    # -----------------------------------
+    # RESET
+    # -----------------------------------
+    def reset(self):
+        self.scenario_log = []
+        self.mechanics.reset_time()
