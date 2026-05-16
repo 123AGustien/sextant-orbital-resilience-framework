@@ -1,0 +1,29 @@
+# 🛰️ Sextant Orbital Resilience Framework v1.1
+
+## 📁 System Architecture Layout
+
+core/
+  simulation_engine.py        (v1.0 stable - reused)
+  cascade_model.py            (stable)
+  predictive_engine.py       (stable)
+
+orchestration/
+  system_flow_controller.py   (NEW - coordination layer)
+  unified_runtime.py          (NEW - entrypoint)
+
+scenario/
+  scenario_engine.py          (stable interface wrapper)
+
+observability/
+  mission_dashboard.py        (stable)
+  audit_logger.py             (NEW optional)
+
+concept_layers/
+  stealth_mode.py             (NON-EXECUTION concept layer)
+  quantum_transition.py       (NON-EXECUTION concept layer)
+
+runtime/
+  runtime_context.py          (shared system state container)
+
+tests/
+  test_orchestration_flow.py
