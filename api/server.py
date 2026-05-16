@@ -18,14 +18,10 @@ def run_scenario(request: RunScenarioRequest):
     Flow:
     scenario file → loader → engine → cascade simulation → result
     """
-    Executes deterministic cascade simulation.
-    """
 
     scenario_path = f"scenarios/{request.scenario_name}.json"
 
-    scenario_path = f"scenarios/{request.scenario_name}.json"
-
-    # Load scenario (validation layer)
+    # Load scenario (validation / metadata layer)
     loader = ScenarioLoader()
     scenario = loader.load(scenario_path)
 
