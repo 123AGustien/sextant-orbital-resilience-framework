@@ -1,29 +1,37 @@
-from fastapi import FastAPI
-from core.engine import SimulationEngine
-from core.scenario_loader import load_scenario
+from fastapi import APIRouter
+from pydantic import BaseModel
+from core.engine import Engine
+from core.scenario_loader import ScenarioLoader
 
-app = FastAPI(title="Sextant Orbital Simulation API")
-
-engine = SimulationEngine()
+router = APIRouter()
 
 
-@app.post("/run-scenario")
-def run_scenario(scenario_name: str):
+class RunScenarioRequest(BaseModel):
+    scenario_name: str
+
+
+@router.post("/run-scenario")
+def run_scenario(request: RunScenarioRequest):
     """
-    Runs a deterministic cascade simulation.
+    Executes deterministic cascade simulation using Sextant Engine.
 
-    Parameters:
-        scenario_name (str): Name of scenario file (without .json)
-
-    Returns:
-        dict: Simulation result including cascade outcome
+    Flow:
+    scenario file → loader → engine → cascade simulation → result
     """
 
-    scenario = load_scenario(f"scenarios/{scenario_name}.json")
-    result = engine.run(scenario)
+    scenario_path = f"scenarios/{request.scenario_name}.json"
+
+    # Load scenario (validation layer)
+    loader = ScenarioLoader()
+    scenario = loader.load(scenario_path)
+
+    # Run engine (core simulation layer)
+    engine = Engine(scenario_path)
+    result = engine.run()
 
     return {
         "status": "success",
-        "scenario": scenario_name,
+        "scenario": request.scenario_name,
+        "nodes": len(scenario.get("nodes", [])),
         "result": result
     }
