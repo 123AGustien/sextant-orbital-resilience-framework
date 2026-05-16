@@ -1,4 +1,9 @@
-name: Sextant Master Orchestrator CI
+# ==========================================================
+# Sextant Master Orchestrator CI v1.2 (FORCE UPDATE SAFE)
+# Frozen Architecture Compatible | Deterministic Execution
+# ==========================================================
+
+name: Sextant Master Orchestrator CI v1.2 (Force Update)
 
 on:
   workflow_dispatch:
@@ -8,9 +13,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # -----------------------------
+      # 🧭 CHECKOUT
+      # -----------------------------
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # -----------------------------
+      # 🐍 PYTHON SETUP
+      # -----------------------------
       - name: Setup Python environment
         uses: actions/setup-python@v5
         with:
@@ -26,12 +37,22 @@ jobs:
         run: |
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
+      # ==========================================================
+      # ⚠️ FORCE UPDATE TRIGGER (ENSURES GIT DIFF IS ALWAYS ACTIVE)
+      # ==========================================================
+      - name: Force Update Marker
+        run: |
+          echo "FORCE_UPDATE=v1.2_$(date +%s)" >> $GITHUB_ENV
+          echo "🛰️ Force update marker injected: $FORCE_UPDATE"
+
       # -----------------------------
       # 🧱 STRUCTURE VALIDATION
       # -----------------------------
       - name: Validate Annex Structure
         shell: bash
         run: |
+          echo "🔍 Validating annex structure..."
+
           REQUIRED=(
             "ANNEX_A_input_structure.md"
             "ANNEX_B_dependency_logic.md"
@@ -42,10 +63,12 @@ jobs:
 
           for file in "${REQUIRED[@]}"; do
             if [ ! -f "annexes/$file" ]; then
-              echo "MISSING: $file"
+              echo "❌ MISSING: annexes/$file"
               exit 1
             fi
           done
+
+          echo "✔ Annex structure valid"
 
       # -----------------------------
       # 🧪 SCENARIO TEST LAYER
@@ -55,7 +78,7 @@ jobs:
           if [ -f tests/scenario_test_suite.py ]; then
             python tests/scenario_test_suite.py
           else
-            echo "No test suite found"
+            echo "⚠ No scenario test suite found"
           fi
 
       # -----------------------------
@@ -64,15 +87,22 @@ jobs:
       - name: Run Determinism Check
         shell: bash
         run: |
+          echo "🧠 Running deterministic validation..."
+
           if [ ! -f run_scenario.py ]; then
-            echo "run_scenario.py missing"
+            echo "❌ run_scenario.py missing"
             exit 1
           fi
 
-          python run_scenario.py > o1.txt
-          python run_scenario.py > o2.txt
+          python run_scenario.py > output_1.txt || exit 1
+          python run_scenario.py > output_2.txt || exit 1
 
-          diff o1.txt o2.txt
+          if ! diff output_1.txt output_2.txt; then
+            echo "❌ DETERMINISM FAILURE DETECTED"
+            exit 1
+          fi
+
+          echo "✔ Deterministic execution confirmed"
 
       # -----------------------------
       # 🚀 CORE EXECUTION
@@ -99,4 +129,6 @@ jobs:
       # 🛰️ FINAL STATUS
       # -----------------------------
       - name: Final Status
-        run: echo "MASTER ORCHESTRATOR COMPLETE"
+        run: |
+          echo "🛰️ MASTER ORCHESTRATOR COMPLETE - ALL SYSTEMS VERIFIED"
+          echo "FORCE_UPDATE=$FORCE_UPDATE"
