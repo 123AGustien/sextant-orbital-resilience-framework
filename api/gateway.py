@@ -7,13 +7,16 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Health check (Render uses this often)
+# Health check (Render / uptime monitoring)
 @app.get("/")
 def health():
-    return {"status": "online"}
+    return {
+        "status": "online",
+        "service": "sextant-orbital-resilience-api"
+    }
 
-# Simulation endpoints
+# Simulation module
 app.include_router(simulation_router, prefix="/simulation")
 
-# Risk endpoints
+# Risk module
 app.include_router(risk_router, prefix="/risk")
