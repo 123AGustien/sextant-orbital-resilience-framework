@@ -2,7 +2,9 @@ from fastapi import FastAPI
 
 from api.auth_routes import router as auth_router
 from api.risk import router as risk_router
-from api.server_simulation import router as simulation_router  # adjust if your file name differs
+from api.server_simulation import router as simulation_router
+
+from api.middleware import api_key_middleware
 
 app = FastAPI(
     title="Sextant Orbital Resilience API",
@@ -10,7 +12,12 @@ app = FastAPI(
 )
 
 # -----------------------
-# Health Check Endpoint
+# Middleware (IMPORTANT)
+# -----------------------
+app.middleware("http")(api_key_middleware)
+
+# -----------------------
+# Health Check
 # -----------------------
 @app.get("/")
 def health():
@@ -19,9 +26,8 @@ def health():
         "service": "sextant-orbital-resilience-api"
     }
 
-
 # -----------------------
-# Register SaaS Modules
+# Routers
 # -----------------------
 app.include_router(auth_router, prefix="/auth")
 app.include_router(simulation_router, prefix="/simulation")
