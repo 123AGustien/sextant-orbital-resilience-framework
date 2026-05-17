@@ -1,32 +1,26 @@
-import secrets
 from fastapi import Header, HTTPException
+from core.billing import get_usage, increment_usage
 
-API_KEYS = {}  # api_key -> user_id
-
-
-def create_api_key(user_id: str) -> str:
-    key = secrets.token_hex(16)
-    API_KEYS[key] = user_id
-    return key
+FREE_LIMIT = 100  # per month (example)
 
 
-def verify_api_key(api_key: str):
-    return API_KEYS.get(api_key)
-
-
-def require_api_key(x_api_key: str = Header(None)):
-    """
-    FastAPI dependency:
-    - blocks request if API key is missing or invalid
-    - returns user_id if valid
-    """
-
+def verify_api_key(x_api_key: str = Header(None)):
     if not x_api_key:
         raise HTTPException(status_code=401, detail="Missing API key")
 
-    user = verify_api_key(x_api_key)
+    usage = get_usage(x_api_key)
 
-    if not user:
+    if usage is None:
         raise HTTPException(status_code=401, detail="Invalid API key")
 
-    return user
+    # enforce free tier limit
+    if usage["count"] >= FREE_LIMIT:
+        raise HTTPException(
+            status_code=403,
+            detail="Usage limit exceeded. Upgrade plan required."
+        )
+
+    # increment usage
+    increment_usage(x_api_key)
+
+    return x_api_key
