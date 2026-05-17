@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Header
 from pydantic import BaseModel
 from typing import Optional
 
@@ -7,72 +7,63 @@ from pathlib import Path
 
 from core.billing import log_usage
 from core.cascade import CascadeEngine
+from core.auth import verify_api_key
 
 router = APIRouter()
 
 
-# ----------------------------
-# Request Schema
-# ----------------------------
 class ScenarioRequest(BaseModel):
     scenario_id: str
-    user_id: str = "anonymous"
-
-    # Optional override (for testing only)
-    nodes: Optional[list[str]] = None
-    dependencies: Optional[list[dict]] = None
-    initial_failure: Optional[str] = None
+    user_id: Optional[str] = "anonymous"
 
 
 # ----------------------------
-# Scenario Loader
+# Load Scenario File
 # ----------------------------
 def load_scenario(scenario_id: str):
     path = Path("scenarios") / f"{scenario_id}.json"
 
     if not path.exists():
-        raise HTTPException(
-            status_code=404,
-            detail=f"Scenario '{scenario_id}' not found"
-        )
+        raise HTTPException(status_code=404, detail="Scenario not found")
 
     with open(path, "r") as f:
         return json.load(f)
 
 
 # ----------------------------
-# Run Simulation Endpoint
+# RUN SCENARIO (PROTECTED API)
 # ----------------------------
 @router.post("/run-scenario")
-def run_scenario(req: ScenarioRequest):
+def run_scenario(
+    req: ScenarioRequest,
+    x_api_key: str = Header(None)
+):
 
-    # STEP 1 — billing (track usage per request)
-    log_usage(req.user_id, cost=1)
+    # STEP 1 — AUTH CHECK
+    user_id = verify_api_key(x_api_key)
 
-    # STEP 2 — load scenario (file-driven system)
+    if not user_id:
+        raise HTTPException(status_code=401, detail="Invalid API key")
+
+    # STEP 2 — billing
+    log_usage(user_id, cost=1)
+
+    # STEP 3 — load scenario
     scenario = load_scenario(req.scenario_id)
 
-    # STEP 3 — allow override (optional dev mode)
-    nodes = req.nodes or scenario["nodes"]
-    dependencies = req.dependencies or scenario["dependencies"]
-    initial_failure = req.initial_failure or scenario["initial_failure"]
-
-    # STEP 4 — run cascade engine
+    # STEP 4 — run engine
     engine = CascadeEngine(
-        nodes=nodes,
-        dependencies=dependencies
+        nodes=scenario["nodes"],
+        dependencies=scenario["dependencies"]
     )
 
-    result = engine.run(initial_failure)
+    result = engine.run(scenario["initial_failure"])
 
-    # STEP 5 — structured response (SaaS-ready format)
+    # STEP 5 — response
     return {
         "status": "success",
+        "user": user_id,
         "scenario_id": req.scenario_id,
-        "user_id": req.user_id,
-        "billing": {
-            "logged": True,
-            "cost": 1
-        },
+        "billing": "logged",
         "simulation": result
     }
