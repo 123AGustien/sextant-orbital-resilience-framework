@@ -19,9 +19,7 @@ def run_scenario(payload: dict, api_key: str):
             "status": "blocked",
             "reason": limit["reason"],
             "message": limit.get("message", "Access denied"),
-            "remaining": 0,
-            "upgrade_endpoint": "/upgrade/request-upgrade",
-            "cta": "Upgrade required to continue running simulations"
+            "remaining": 0
         }
 
     # -------------------------
@@ -45,7 +43,7 @@ def run_scenario(payload: dict, api_key: str):
     increment_usage(api_key)
 
     # -------------------------
-    # SIMULATION OUTPUT
+    # ORBITAL SIMULATION OUTPUT
     # -------------------------
     return {
         "status": "success",
@@ -67,15 +65,11 @@ def run_scenario(payload: dict, api_key: str):
             },
             {
                 "step": 3,
-                "event": "System degradation propagating across nodes"
+                "event": "System degradation threshold reached"
             },
             {
                 "step": 4,
-                "event": "Critical instability threshold reached"
-            },
-            {
-                "step": 5,
-                "event": "Final stabilized orbital state computed"
+                "event": "Final stabilization state computed"
             }
         ]
     }
