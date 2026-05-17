@@ -1,29 +1,11 @@
-from core.engine import SimulationEngine
+from fastapi import FastAPI
+from api.server import simulation_app
+from api.risk import router as risk_router
 
+app = FastAPI(title="Sextant Orbital Resilience API Gateway")
 
-def main():
-    print("🛰️ Sextant Orbital Resilience Framework Starting...\n")
+# Simulation engine mounted under /simulation
+app.mount("/simulation", simulation_app)
 
-    engine = SimulationEngine()
-
-    # Example deterministic scenario
-    scenario = {
-        "scenario_name": "baseline_cascade_test",
-        "nodes": ["A", "B", "C", "D"],
-        "dependencies": [
-            {"from": "B", "to": "A"},
-            {"from": "C", "to": "B"},
-            {"from": "D", "to": "C"}
-        ],
-        "initial_failure": "A"
-    }
-
-    result = engine.run(scenario)
-
-    print("\n📊 SIMULATION RESULT")
-    print("====================")
-    print(result)
-
-
-if __name__ == "__main__":
-    main()
+# Risk scoring module
+app.include_router(risk_router)
