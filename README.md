@@ -1,16 +1,15 @@
-Architecture
+# 🧭 Sextant Orbital Resilience Framework  
+## Deterministic Dependency Cascade Simulation Engine
 
-rereant Orbital Resilience Framework
-
-A deterministic simulation engine for modeling dependency-driven cascade behavior in complex distributed systems.
+> A deterministic simulation framework for modeling dependency-driven cascade behavior in complex distributed systems.
 
 ---
 
-## 🧭 Overview
+## 📌 Overview
 
-Sextant is a **deterministic dependency graph simulation framework** designed to model how systems degrade, fail, and recover under cascading stress conditions.
+The Sextant Orbital Resilience Framework is a **deterministic dependency graph simulation engine** designed to model how distributed systems degrade, fail, and recover under cascading stress conditions.
 
-It provides a controlled environment for analyzing systemic resilience through reproducible simulation.
+It provides a structured environment for analyzing **systemic resilience through reproducible simulation of dependency-based failure propagation**.
 
 ---
 
@@ -19,8 +18,8 @@ It provides a controlled environment for analyzing systemic resilience through r
 This framework focuses on:
 
 - Dependency-driven system structures  
-- Cascade failure propagation  
-- Multi-step state evolution under stress  
+- Cascade failure propagation modeling  
+- Multi-step system state evolution under stress  
 - Deterministic and reproducible simulation outcomes  
 - Structural resilience analysis of complex systems  
 
@@ -40,12 +39,12 @@ Sextant is intended for:
 
 ## 🚫 Out of Scope
 
-Sextant is NOT intended for:
+This framework is NOT intended for:
 
 - Live production system control  
 - Real-time operational decision systems  
-- Direct integration with mission-critical infrastructure  
-- Autonomous execution environments  
+- Integration with mission-critical infrastructure  
+- Autonomous execution in production environments  
 
 ---
 
@@ -55,44 +54,42 @@ Systems are modeled as a **directed dependency graph**:
 
 - Nodes represent system components  
 - Edges represent dependency relationships  
-- Failures propagate deterministically through dependencies  
-- System state evolves over discrete time steps  
+- Propagation models deterministic failure spread  
+- State evolution occurs in discrete simulation steps  
 
 ---
 
 ## ⚙️ Simulation Model
 
-Each node can exist in one of the following states:
+Each node exists in one of four states:
 
-- `HEALTHY`
-- `DEGRADED`
-- `FAILED`
-- `RECOVERING`
+- `HEALTHY`  
+- `DEGRADED`  
+- `FAILED`  
+- `RECOVERING`  
 
 State transitions are governed by:
 
-- dependency rules  
-- propagation logic  
-- recovery cycles  
-- deterministic execution steps  
+- Dependency rules  
+- Propagation logic  
+- Recovery cycles  
+- Deterministic execution steps  
 
 ---
 
-## 🛰️ Reprisory Governance Principles
-
-The framework operates under strict structural constraints:
+## 🛰️ Design Principles
 
 ### 1. Deterministic Traceability
-All simulations must be fully reproducible from identical inputs.
+All simulations are fully reproducible given identical inputs.
 
 ### 2. Dependency Transparency
-All relationships between system components must be explicitly defined.
+All system relationships are explicitly defined.
 
 ### 3. Cascade Legibility
-Failure propagation must remain observable at every step.
+Failure propagation is observable at every simulation step.
 
 ### 4. Structural Separation
-Simulation logic, evaluation logic, and interpretation layers must remain isolated.
+Simulation, evaluation, and output layers remain isolated.
 
 ### 5. Sandbox Constraint
 All execution occurs strictly within controlled simulation boundaries.
@@ -102,37 +99,71 @@ This framework does not interact with or control live production systems.
 
 ---
 
-## 📦 System Architecture
+## 🏗️ System Architecture
 
-## 📦 System Architecture
+Client Request ↓ FastAPI Gateway (/run-scenario) ↓ API Router ↓ Scenario Loader (JSON / request input) ↓ Cascade Engine (core simulation engine) ↓ State Propagation Engine ↓ Timeline Generator ↓ Response Formatter (JSON output)
 
-The Sextant framework follows a layered deterministic execution pipeline:
 
-Client Request ↓ FastAPI Gateway ↓ API Router (/run-scenario) ↓ Authentication Layer (API key validation) ↓ Scenario Loader (JSON / request-based input) ↓ CascadeEngine (core simulation engine) ↓ State Propagation Engine ↓ Timeline Generator ↓ Response Formatter (JSON output)
+---
 
 ## 🔁 Execution Flow
 
-1. Client sends `/run-scenario` request  
-2. API validates request and optional authentication  
+1. Client submits `/run-scenario` request  
+2. API validates input parameters  
 3. Scenario is loaded or constructed  
-4. CascadeEngine initializes system graph  
+4. Dependency graph is initialized  
 5. Initial failure is injected into target node  
-6. Dependency propagation is executed step-by-step  
-7. Node states are updated per simulation tick  
-8. Timeline of system states is generated  
-9. Final simulation result is returned as JSresponse
-10.
-11.
-12. nse## 📊 Simulation Output Model
+6. Cascade propagation executes step-by-step  
+7. Node states update per simulation tick  
+8. System timeline is generated  
+9. Final simulation output is returned as JSON  
 
-Each simulation returns:
+---
 
-- step-by-step timeline
-- node state evolution
-- failure propagation chain
-- final system stability snapshot
+## 📊 Simulation Output
 
-This enables:
-- risk visualization
-- dependency mapping
-- resilience scoring (future feature)
+Each run produces:
+
+- Step-by-step system timeline  
+- Node state evolution history  
+- Failure propagation chain  
+- Final system stability snapshot  
+
+---
+
+## 📌 Research Value
+
+This framework enables:
+
+- Dependency graph modeling  
+- System fragility detection  
+- Cascading failure simulation  
+- Infrastructure resilience analysis  
+- Scenario-based stress testing  
+
+---
+
+## ⚠️ Key Constraint
+
+All simulations are:
+
+- Deterministic  
+- Sandbox-isolated  
+- Non-operational  
+- Fully reproducible  
+
+---
+
+## 📬 Contact
+
+Mr. Don Herman Oswald Weerasekera  
+Founder – Sextant Protocol Doctrine – Resilience  
+DonDonna Trust Fund  
+Email: donweerasekera@gmail.com  
+Mobile: +65 80645753  
+
+---
+
+## 🧭 Closing Principle
+
+Dependency Mapping → Cascade Propagation → State Transition → Systemic Impact → Resilience Evaluation
