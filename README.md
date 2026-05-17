@@ -104,6 +104,12 @@ This framework does not interact with or control live production systems.
 
 ## 📦 System Architecture
 
+## 📦 System Architecture
+
+The Sextant framework follows a layered deterministic execution pipeline:
+
+Client Request ↓ FastAPI Gateway ↓ API Router (/run-scenario) ↓ Authentication Layer (API key validation) ↓ Scenario Loader (JSON / request-based input) ↓ CascadeEngine (core simulation engine) ↓ State Propagation Engine ↓ Timeline Generator ↓ Response Formatter (JSON output)
+
 ## 🔁 Execution Flow
 
 1. Client sends `/run-scenario` request  
