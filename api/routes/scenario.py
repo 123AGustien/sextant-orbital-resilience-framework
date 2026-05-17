@@ -1,69 +1,38 @@
-from fastapi import APIRouter, HTTPException, Header
+from fastapi import APIRouter, Depends
 from pydantic import BaseModel
-from typing import Optional
 
-import json
-from pathlib import Path
-
+from core.auth import require_api_key
 from core.billing import log_usage
 from core.cascade import CascadeEngine
-from core.auth import verify_api_key
 
 router = APIRouter()
 
 
 class ScenarioRequest(BaseModel):
     scenario_id: str
-    user_id: Optional[str] = "anonymous"
+    nodes: list[str]
+    dependencies: list[dict]
+    initial_failure: str
 
 
-# ----------------------------
-# Load Scenario File
-# ----------------------------
-def load_scenario(scenario_id: str):
-    path = Path("scenarios") / f"{scenario_id}.json"
-
-    if not path.exists():
-        raise HTTPException(status_code=404, detail="Scenario not found")
-
-    with open(path, "r") as f:
-        return json.load(f)
-
-
-# ----------------------------
-# RUN SCENARIO (PROTECTED API)
-# ----------------------------
 @router.post("/run-scenario")
-def run_scenario(
-    req: ScenarioRequest,
-    x_api_key: str = Header(None)
-):
+def run_scenario(req: ScenarioRequest, user_id: str = Depends(require_api_key)):
 
-    # STEP 1 — AUTH CHECK
-    user_id = verify_api_key(x_api_key)
-
-    if not user_id:
-        raise HTTPException(status_code=401, detail="Invalid API key")
-
-    # STEP 2 — billing
+    # STEP 1 — billing
     log_usage(user_id, cost=1)
 
-    # STEP 3 — load scenario
-    scenario = load_scenario(req.scenario_id)
-
-    # STEP 4 — run engine
+    # STEP 2 — engine
     engine = CascadeEngine(
-        nodes=scenario["nodes"],
-        dependencies=scenario["dependencies"]
+        nodes=req.nodes,
+        dependencies=req.dependencies
     )
 
-    result = engine.run(scenario["initial_failure"])
+    result = engine.run(req.initial_failure)
 
-    # STEP 5 — response
+    # STEP 3 — response
     return {
-        "status": "success",
+        "status": "ok",
         "user": user_id,
         "scenario_id": req.scenario_id,
-        "billing": "logged",
         "simulation": result
     }
