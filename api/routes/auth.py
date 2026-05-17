@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+
 from core.auth_service import create_api_key
 from core.leads import store_lead
 
@@ -10,13 +11,15 @@ def create_key(email: str, company: str = "unknown"):
 
     key = create_api_key(tier="free")
 
-    store_lead(email, company, key)
+    store_lead(
+        email=email,
+        company=company,
+        api_key=key
+    )
 
     return {
-        "api_key": key,
+        "status": "success",
         "tier": "free",
-        "status": "active",
-        "message": "Added to waitlist. Pro billing coming soon.",
-        "contact_email": email,
-        "company": company
+        "api_key": key,
+        "message": "API key created successfully"
     }
