@@ -1,65 +1,13 @@
-name: Master Orchestrator
+deploy:
+  needs: build
+  runs-on: ubuntu-latest
 
-on:
-  push:
-    branches:
-      - main
+  environment:
+    name: github-pages
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+  steps:
+    - name: Setup Pages
+      uses: actions/configure-pages@v5
 
-concurrency:
-  group: "orchestrator"
-  cancel-in-progress: true
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      # -----------------------------
-      # OPTIONAL BUILD STEP
-      # Uncomment if using Node/React/Vite
-      # -----------------------------
-      # - name: Setup Node
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: 20
-
-      # - name: Install dependencies
-      #   run: npm install
-
-      # - name: Build project
-      #   run: npm run build
-
-      # -----------------------------
-      # SELECT OUTPUT DIRECTORY
-      # -----------------------------
-      - name: Prepare artifact
-        run: |
-          echo "Preparing deployment package..."
-
-          # If you have a build system, replace "." below with "dist" or "build"
-          mkdir -p deploy
-          cp -r . deploy/
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: deploy
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
+    - name: Deploy to GitHub Pages
+      uses: actions/deploy-pages@v4
