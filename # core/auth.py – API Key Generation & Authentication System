@@ -1,7 +1,10 @@
 import uuid
+from typing import Optional, Dict
 
-# Temporary in-memory store (upgrade to database later)
-API_KEYS = {
+# -----------------------------
+# In-memory store (replace with DB later)
+# -----------------------------
+API_KEYS: Dict[str, dict] = {
     "test-key": {
         "user": "demo-user",
         "tier": "free"
@@ -9,13 +12,17 @@ API_KEYS = {
 }
 
 
+# -----------------------------
+# Generate API Key
+# -----------------------------
 def generate_api_key() -> str:
-    """Generate unique API key"""
     return str(uuid.uuid4())
 
 
+# -----------------------------
+# Create API Key
+# -----------------------------
 def create_user_api_key(user: str, tier: str = "free") -> str:
-    """Create and store API key for a user"""
     key = generate_api_key()
 
     API_KEYS[key] = {
@@ -26,17 +33,24 @@ def create_user_api_key(user: str, tier: str = "free") -> str:
     return key
 
 
-def validate_api_key(key: str) -> bool:
-    """Check if API key exists"""
-    return key in API_KEYS
-
-
-def get_user(key: str):
-    """Return user object from API key"""
+# -----------------------------
+# Validate + Return User Context
+# (IMPORTANT: SaaS-safe version)
+# -----------------------------
+def validate_api_key(key: str) -> Optional[dict]:
     return API_KEYS.get(key)
 
 
+# -----------------------------
+# Get user safely
+# -----------------------------
+def get_user(key: str) -> Optional[dict]:
+    return API_KEYS.get(key)
+
+
+# -----------------------------
+# Get tier safely
+# -----------------------------
 def get_tier(key: str) -> str:
-    """Return subscription tier for API key"""
     user = get_user(key)
     return user["tier"] if user else "free"
