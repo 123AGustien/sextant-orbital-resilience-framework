@@ -12,8 +12,8 @@ from core.billing import get_usage
 # -------------------------
 app = FastAPI(
     title="Sextant Orbital Resilience Framework",
-    version="1.5.0",
-    description="Deterministic orbital + systemic risk simulation API with monetization layer"
+    version="1.6.0",
+    description="Orbital dependency simulation + resilience intelligence + SaaS control layer"
 )
 
 
@@ -26,13 +26,26 @@ app.include_router(admin_router, prefix="/admin", tags=["Admin"])
 
 
 # -------------------------
-# BILLING / USAGE ENDPOINT
+# HEALTH CHECK
+# -------------------------
+@app.get("/")
+def root():
+    return {
+        "status": "online",
+        "system": "Sextant Orbital Engine",
+        "version": "1.6.0"
+    }
+
+
+# -------------------------
+# BILLING ENDPOINT
 # -------------------------
 @app.get("/billing")
 def billing(api_key: str):
+
     usage = get_usage(api_key)
 
-    if usage is None:
+    if not usage:
         return {
             "status": "error",
             "message": "Invalid API key"
