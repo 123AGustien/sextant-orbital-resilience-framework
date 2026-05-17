@@ -1,17 +1,11 @@
 from fastapi import FastAPI
+from api.v1.orbital_engine import OrbitalEngineV1
 
-from api.routes.auth import router as auth_router
-from api.routes.scenario import router as scenario_router
-from core.billing import get_usage
+simulation_app = FastAPI(title="Sextant Simulation Engine v1")
 
-app = FastAPI(title="Sextant Orbital Resilience Framework")
-
-# ROUTES
-app.include_router(auth_router)
-app.include_router(scenario_router)
+engine = OrbitalEngineV1()
 
 
-# BILLING ENDPOINT
-@app.get("/billing")
-def billing(api_key: str):
-    return get_usage(api_key)
+@simulation_app.post("/run-scenario")
+def run_scenario(payload: dict):
+    return engine.run_scenario(payload)
