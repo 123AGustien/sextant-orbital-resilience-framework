@@ -5,117 +5,70 @@ from typing import Dict, List, Set
 
 
 class CascadeEngine:
-    """
-    Deterministic dependency cascade simulation engine.
-
-    States:
-        HEALTHY
-        DEGRADED
-        FAILED
-        RECOVERING
-    """
-
-    def __init__(self, nodes: List[str], dependencies: List[Dict]):
+    def __init__(self, nodes, dependencies):
         self.nodes = nodes
         self.dependencies = dependencies
 
-        # Initial system state
-        self.state: Dict[str, str] = {n: "HEALTHY" for n in nodes}
+        # node states: HEALTHY | DEGRADED | FAILED | RECOVERING
+        self.state = {n: "HEALTHY" for n in nodes}
 
-        # Reverse dependency map: node → upstream dependencies
-        self.reverse_map: Dict[str, List[str]] = {}
-
+        # dependency map (A ← B means B depends on A)
+        self.reverse_map = {}
         for d in dependencies:
             self.reverse_map.setdefault(d["to"], []).append(d["from"])
 
-        # Recovery tracking (deterministic delay system)
-        self.recovery_timer: Dict[str, int] = {n: 0 for n in nodes}
+        self.recovery_timer = {n: 0 for n in nodes}
 
-    # -----------------------------
-    # CORE STATE TRANSITIONS
-    # -----------------------------
-
-    def fail_node(self, node: str):
+    def fail_node(self, node):
         if self.state[node] == "FAILED":
             return
 
         self.state[node] = "FAILED"
-        self.recovery_timer[node] = 2  # fixed deterministic recovery delay
+        self.recovery_timer[node] = 2  # recovery delay steps
 
-    def degrade_node(self, node: str):
+    def degrade_node(self, node):
         if self.state[node] == "HEALTHY":
             self.state[node] = "DEGRADED"
 
-    def recover_node(self, node: str):
+    def recover_node(self, node):
         if self.state[node] == "RECOVERING":
             self.state[node] = "HEALTHY"
             self.recovery_timer[node] = 0
 
-    # -----------------------------
-    # CASCADE PROPAGATION LOGIC
-    # -----------------------------
-
-    def propagate(self, failed_nodes: Set[str]) -> Set[str]:
-        """
-        S1 → S2 → S3 propagation logic:
-        - First hit: HEALTHY → DEGRADED
-        - Second hit: DEGRADED → FAILED
-        """
-
+    def propagate(self, failed_nodes):
         next_failures = set()
 
         for node in failed_nodes:
             for dependent in self.reverse_map.get(node, []):
-
-                if self.state[dependent] == "HEALTHY":
+                if self.state[dependent] != "FAILED":
                     self.state[dependent] = "DEGRADED"
-
-                elif self.state[dependent] == "DEGRADED":
-                    self.state[dependent] = "FAILED"
                     next_failures.add(dependent)
 
         return next_failures
 
-    # -----------------------------
-    # RECOVERY SYSTEM
-    # -----------------------------
-
     def update_recovery(self):
         for node in self.nodes:
-
-            # FAILED → RECOVERING
             if self.state[node] == "FAILED":
                 self.recovery_timer[node] -= 1
 
                 if self.recovery_timer[node] <= 0:
                     self.state[node] = "RECOVERING"
 
-            # RECOVERING → HEALTHY
-            elif self.state[node] == "RECOVERING":
-                self.state[node] = "HEALTHY"
-                self.recovery_timer[node] = 0
-
-            # DEGRADED → self-heal (optional stabilisation)
-            elif self.state[node] == "DEGRADED":
-                self.state[node] = "HEALTHY"
-
-    # -----------------------------
-    # SIMULATION ENGINE
-    # -----------------------------
-
-    def run(self, initial_failure: str, max_steps: int = 20):
+    def run(self, initial_failure):
         timeline = []
 
         current_failed = {initial_failure}
         step = 1
 
-        while step <= max_steps:
+        while current_failed or any(
+            s in ["FAILED", "DEGRADED", "RECOVERING"] for s in self.state.values()
+        ):
 
             # 1. Apply failures
-            for node in current_failed:
-                self.fail_node(node)
+            for n in current_failed:
+                self.fail_node(n)
 
-            # 2. Propagate cascade
+            # 2. Propagation
             next_failed = self.propagate(current_failed)
 
             # 3. Recovery tick
@@ -128,12 +81,12 @@ class CascadeEngine:
                 "states": dict(self.state)
             })
 
-            # Stop condition: system stable
-            if not next_failed and all(s == "HEALTHY" for s in self.state.values()):
-                break
-
             current_failed = next_failed
             step += 1
+
+            # safety break (avoid infinite loops)
+            if step > 20:
+                break
 
         return {
             "initial_failure": initial_failure,
