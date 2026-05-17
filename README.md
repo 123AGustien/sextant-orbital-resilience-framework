@@ -1,4 +1,6 @@
-# 🛰️ Sextant Orbital Resilience Framework
+Architecture
+
+rereant Orbital Resilience Framework
 
 A deterministic simulation engine for modeling dependency-driven cascade behavior in complex distributed systems.
 
@@ -101,3 +103,30 @@ This framework does not interact with or control live production systems.
 ---
 
 ## 📦 System Architecture
+
+## 🔁 Execution Flow
+
+1. Client sends `/run-scenario` request  
+2. API validates request and optional authentication  
+3. Scenario is loaded or constructed  
+4. CascadeEngine initializes system graph  
+5. Initial failure is injected into target node  
+6. Dependency propagation is executed step-by-step  
+7. Node states are updated per simulation tick  
+8. Timeline of system states is generated  
+9. Final simulation result is returned as JSresponse
+10.
+11.
+12. nse## 📊 Simulation Output Model
+
+Each simulation returns:
+
+- step-by-step timeline
+- node state evolution
+- failure propagation chain
+- final system stability snapshot
+
+This enables:
+- risk visualization
+- dependency mapping
+- resilience scoring (future feature)
