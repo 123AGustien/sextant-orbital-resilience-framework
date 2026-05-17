@@ -1,19 +1,30 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
-from core.auth import create_api_key
+import uuid
 
 router = APIRouter()
 
+API_KEYS = {}
 
-class UserRequest(BaseModel):
-    user_id: str
+class SignupRequest(BaseModel):
+    email: str
+
+
+def generate_key():
+    return str(uuid.uuid4())
 
 
 @router.post("/create-key")
-def create_key(req: UserRequest):
-    api_key = create_api_key(req.user_id)
+def create_api_key(req: SignupRequest):
+
+    api_key = generate_key()
+
+    API_KEYS[api_key] = {
+        "email": req.email,
+        "usage": 0
+    }
 
     return {
-        "user_id": req.user_id,
-        "api_key": api_key
+        "api_key": api_key,
+        "email": req.email
     }
