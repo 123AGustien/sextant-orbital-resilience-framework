@@ -25,10 +25,21 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
+      # If you have a build system (React/Vite/etc), uncomment this:
+      # - name: Install dependencies
+      #   run: npm install
+      #
+      # - name: Build project
+      #   run: npm run build
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./public
+          # CHANGE THIS depending on your project:
+          # .   → plain HTML repo
+          # dist → Vite/React build
+          # docs → documentation site
+          path: .
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
