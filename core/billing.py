@@ -1,18 +1,13 @@
-from collections import defaultdict
-from datetime import datetime
-
-USAGE = defaultdict(int)
-
-
-def log_usage(api_key: str, cost: int = 1):
-    USAGE[api_key] += cost
+# simple in-memory usage store (upgrade later to DB)
+USAGE_DB = {}
 
 
 def get_usage(api_key: str):
-    return {
-        "api_key": api_key,
-        "total_runs": USAGE[api_key],
-        "cost_usd": USAGE[api_key] * 0.05,
-        "currency": "USD",
-        "timestamp": datetime.utcnow().isoformat()
-    }
+    return USAGE_DB.get(api_key, {"count": 0})
+
+
+def increment_usage(api_key: str):
+    if api_key not in USAGE_DB:
+        USAGE_DB[api_key] = {"count": 0}
+
+    USAGE_DB[api_key]["count"] += 1
