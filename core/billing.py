@@ -1,35 +1,41 @@
-from core.db import get_conn
+import json
+import os
 
-FREE_LIMIT = 100
+USAGE_FILE = "data/usage.json"
 
 
-def get_usage(api_key: str):
-    conn = get_conn()
-    cur = conn.cursor()
+def load_usage():
 
-    cur.execute("SELECT usage_count, tier FROM api_keys WHERE key=?", (api_key,))
-    row = cur.fetchone()
+    if not os.path.exists(USAGE_FILE):
+        return {}
 
-    conn.close()
+    with open(USAGE_FILE, "r") as file:
+        return json.load(file)
 
-    if not row:
-        return None
 
-    return {
-        "count": row[0],
-        "tier": row[1]
-    }
+def save_usage(data):
+
+    with open(USAGE_FILE, "w") as file:
+        json.dump(data, file, indent=2)
 
 
 def increment_usage(api_key: str):
-    conn = get_conn()
-    cur = conn.cursor()
 
-    cur.execute("""
-        UPDATE api_keys
-        SET usage_count = usage_count + 1
-        WHERE key=?
-    """, (api_key,))
+    data = load_usage()
 
-    conn.commit()
-    conn.close()
+    if api_key not in data:
+        data[api_key] = {
+            "count": 0,
+            "tier": "free"
+        }
+
+    data[api_key]["count"] += 1
+
+    save_usage(data)
+
+
+def get_usage(api_key: str):
+
+    data = load_usage()
+
+    return data.get(api_key)
