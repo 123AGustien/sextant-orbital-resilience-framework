@@ -25,30 +25,29 @@
       padding: 90px 20px;
     }
 
-    .hero h1 {
+    .badge {
+      display: inline-block;
+      background: #1f2a44;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      color: #9fb3d1;
+      margin-bottom: 10px;
+    }
+
+    h1 {
       font-size: 42px;
       margin-bottom: 10px;
     }
 
-    .hero p {
-      font-size: 18px;
+    p {
       color: #b0b8c5;
       max-width: 700px;
       margin: auto;
     }
 
-    .button {
-      background: #4f7cff;
-      color: white;
-      padding: 14px 22px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
     .section {
-      margin-top: 80px;
+      margin-top: 70px;
     }
 
     .card {
@@ -60,10 +59,26 @@
 
     input[type="email"] {
       padding: 14px;
-      width: 260px;
+      width: 280px;
       border-radius: 8px;
       border: none;
       margin-right: 10px;
+      font-size: 14px;
+    }
+
+    .button {
+      background: #4f7cff;
+      color: white;
+      padding: 14px 22px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .button:hover {
+      opacity: 0.9;
     }
 
     @media (max-width: 600px) {
@@ -71,6 +86,13 @@
         width: 100%;
         margin-bottom: 10px;
       }
+    }
+
+    .footer {
+      margin-top: 100px;
+      text-align: center;
+      color: #6c768a;
+      font-size: 13px;
     }
   </style>
 </head>
@@ -82,14 +104,19 @@
   <!-- HERO -->
   <div class="hero">
 
+    <div class="badge">Enterprise System Intelligence Platform</div>
+
     <h1>Predict System Failures Before They Cascade</h1>
 
     <p>
-      Sextant models how interconnected infrastructure fails, propagates, and recovers in real time.
+      Sextant models how interconnected infrastructure fails, propagates, and recovers — enabling engineering teams to prevent outages before they reach production.
     </p>
 
     <!-- EMAIL CAPTURE -->
-    <form action="https://formspree.io/f/mredzana" method="POST" style="margin-top:25px;">
+    <form action="https://formspree.io/f/mredzana" method="POST"
+      onsubmit="setTimeout(() => window.location='thank-you.html', 300)"
+      style="margin-top:25px;">
+
       <input 
         type="email"
         name="email"
@@ -100,29 +127,80 @@
       <button type="submit" class="button">
         Request API Access
       </button>
+
     </form>
+
+    <div style="margin-top:12px; color:#b0b8c5; font-size:12px;">
+      No spam. Access granted for qualified engineering teams only.
+    </div>
 
   </div>
 
   <!-- PROBLEM -->
   <div class="section">
+    <h2>The Problem</h2>
     <div class="card">
-      Modern systems are interconnected but lack visibility into failure propagation risks.
+      Modern infrastructure is deeply interconnected, yet most organizations lack visibility into how failures propagate across systems.
     </div>
   </div>
 
   <!-- SOLUTION -->
   <div class="section">
+    <h2>The Solution</h2>
     <div class="card">
-      Sextant simulates dependency failures and system cascades before production incidents occur.
+      Sextant simulates dependency-driven failure propagation in real time, allowing teams to understand systemic risk before incidents occur.
     </div>
+  </div>
+
+  <!-- API -->
+  <div class="section">
+    <h2>Developer API</h2>
+    <div class="card">
+      <code>POST /run-scenario</code><br><br>
+      Submit a dependency graph and receive a full cascade simulation timeline.
+    </div>
+  </div>
+
+  <!-- EXAMPLE -->
+  <div class="section">
+    <h2>Example Simulation</h2>
+    <div class="card">
+<pre>
+A → B → C → D
+
+Initial Failure: A
+
+Result:
+- B degrades
+- C destabilizes
+- D collapses
+</pre>
+    </div>
+  </div>
+
+  <!-- VALUE -->
+  <div class="section">
+    <h2>What Teams Use It For</h2>
+
+    <div class="card">Pre-production failure modeling</div>
+    <div class="card">Infrastructure dependency mapping</div>
+    <div class="card">Systemic risk analysis</div>
+    <div class="card">Incident impact forecasting</div>
   </div>
 
   <!-- CTA -->
   <div class="section" style="text-align:center;">
+
     <h2>Start Preventing System Failures</h2>
 
-    <form action="https://formspree.io/f/mredzana" method="POST">
+    <p style="color:#b0b8c5;">
+      Join engineering teams building resilient infrastructure systems.
+    </p>
+
+    <form action="https://formspree.io/f/mredzana" method="POST"
+      onsubmit="setTimeout(() => window.location='thank-you.html', 300)"
+      style="margin-top:20px;">
+
       <input 
         type="email"
         name="email"
@@ -133,7 +211,14 @@
       <button type="submit" class="button">
         Get API Access
       </button>
+
     </form>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    Sextant — Systemic Risk Intelligence Infrastructure for Modern Systems
   </div>
 
 </div>
