@@ -1,0 +1,23 @@
+# 🚀 Sextant SaaS – Production Hardening Plan
+
+This document defines the final steps required to move the Sextant SaaS API from MVP to production-grade deployment.
+
+---
+
+# 🧭 1. Database Upgrade (Critical)
+
+Current system uses in-memory storage.
+
+## Replace:
+- API_KEYS (dict)
+- USAGE (defaultdict)
+
+## With:
+- PostgreSQL (recommended)
+- or SQLite (temporary staging)
+
+### Tables:
+```text id="db_tables"
+users
+api_keys
+usage_logs

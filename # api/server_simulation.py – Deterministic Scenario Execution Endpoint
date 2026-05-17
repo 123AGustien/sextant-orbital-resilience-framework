@@ -1,0 +1,36 @@
+from fastapi import APIRouter
+from pydantic import BaseModel
+
+from core.engine import Engine
+from core.scenario_loader import ScenarioLoader
+
+router = APIRouter()
+
+
+class RunScenarioRequest(BaseModel):
+    scenario_name: str
+
+
+@router.post("/run-scenario")
+def run_scenario(request: RunScenarioRequest):
+    """
+    SaaS endpoint:
+    Executes deterministic cascade simulation using Sextant Engine
+    """
+
+    scenario_path = f"scenarios/{request.scenario_name}.json"
+
+    # Load scenario
+    loader = ScenarioLoader()
+    scenario = loader.load(scenario_path)
+
+    # Run deterministic engine
+    engine = Engine(scenario_path)
+    result = engine.run()
+
+    return {
+        "status": "success",
+        "scenario": request.scenario_name,
+        "nodes": len(scenario.get("nodes", [])),
+        "result": result
+    }

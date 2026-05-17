@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Sextant | Systemic Risk Intelligence Platform</title>
+  <title>Sextant | Orbital & Systemic Risk Intelligence</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -75,10 +75,27 @@
       cursor: pointer;
       font-weight: bold;
       font-size: 14px;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .button.secondary {
+      background: transparent;
+      border: 1px solid #4f7cff;
     }
 
     .button:hover {
       opacity: 0.9;
+    }
+
+    .cta-row {
+      margin-top: 25px;
+    }
+
+    .trust {
+      margin-top: 12px;
+      color: #b0b8c5;
+      font-size: 12px;
     }
 
     @media (max-width: 600px) {
@@ -94,6 +111,19 @@
       color: #6c768a;
       font-size: 13px;
     }
+
+    .float-whatsapp {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #25D366;
+      color: white;
+      padding: 14px 16px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
   </style>
 </head>
 
@@ -104,43 +134,46 @@
   <!-- HERO -->
   <div class="hero">
 
-    <div class="badge">Enterprise System Intelligence Platform</div>
+    <div class="badge">Orbital & Systemic Risk Intelligence Platform</div>
 
     <h1>Predict System Failures Before They Cascade</h1>
 
     <p>
-      Sextant models how interconnected infrastructure fails, propagates, and recovers — enabling engineering teams to prevent outages before they reach production.
+      Sextant simulates failure propagation across orbital, satellite, and infrastructure systems — enabling engineering teams to prevent mission-critical outages before deployment.
     </p>
 
-    <!-- EMAIL CAPTURE -->
-    <form action="https://formspree.io/f/mredzana" method="POST"
-      onsubmit="setTimeout(() => window.location='thank-you.html', 300)"
-      style="margin-top:25px;">
+    <div class="cta-row">
 
-      <input 
-        type="email"
-        name="email"
-        placeholder="Enter your business email"
-        required
-      />
-
-      <button type="submit" class="button">
+      <a href="https://formspree.io/f/mredzana" class="button">
         Request API Access
-      </button>
+      </a>
 
-    </form>
+      <a href="https://wa.me/6580645753" class="button secondary">
+        Talk on WhatsApp
+      </a>
 
-    <div style="margin-top:12px; color:#b0b8c5; font-size:12px;">
-      No spam. Access granted for qualified engineering teams only.
     </div>
 
+    <div class="trust">
+      For engineering teams: fastest response via WhatsApp or email.
+    </div>
+
+  </div>
+
+  <!-- TRUST -->
+  <div class="section">
+    <div class="card">
+      <strong>Deployment Model</strong><br><br>
+      Sextant is deployed into your infrastructure environment to simulate failure propagation across system dependencies.<br><br>
+      Designed for mission assurance, satellite systems, and high-reliability engineering teams.
+    </div>
   </div>
 
   <!-- PROBLEM -->
   <div class="section">
     <h2>The Problem</h2>
     <div class="card">
-      Modern infrastructure is deeply interconnected, yet most organizations lack visibility into how failures propagate across systems.
+      Modern infrastructure and orbital systems are deeply interconnected, yet most organizations cannot predict cascade failures across dependencies.
     </div>
   </div>
 
@@ -148,7 +181,21 @@
   <div class="section">
     <h2>The Solution</h2>
     <div class="card">
-      Sextant simulates dependency-driven failure propagation in real time, allowing teams to understand systemic risk before incidents occur.
+      Sextant models deterministic failure propagation across distributed systems, revealing systemic risk before real-world impact occurs.
+    </div>
+  </div>
+
+  <!-- PILOT -->
+  <div class="section">
+    <h2>Deployment Pilot</h2>
+    <div class="card">
+      <strong>What we deliver:</strong><br>
+      • Dependency graph mapping<br>
+      • Failure cascade simulation<br>
+      • Risk propagation analysis report<br><br>
+
+      <strong>Duration:</strong> 2–3 weeks<br>
+      <strong>Engagement:</strong> $2,500 – $10,000 (invoice via Wise or bank transfer)
     </div>
   </div>
 
@@ -157,35 +204,8 @@
     <h2>Developer API</h2>
     <div class="card">
       <code>POST /run-scenario</code><br><br>
-      Submit a dependency graph and receive a full cascade simulation timeline.
+      Submit a dependency graph and receive a deterministic cascade simulation output.
     </div>
-  </div>
-
-  <!-- EXAMPLE -->
-  <div class="section">
-    <h2>Example Simulation</h2>
-    <div class="card">
-<pre>
-A → B → C → D
-
-Initial Failure: A
-
-Result:
-- B degrades
-- C destabilizes
-- D collapses
-</pre>
-    </div>
-  </div>
-
-  <!-- VALUE -->
-  <div class="section">
-    <h2>What Teams Use It For</h2>
-
-    <div class="card">Pre-production failure modeling</div>
-    <div class="card">Infrastructure dependency mapping</div>
-    <div class="card">Systemic risk analysis</div>
-    <div class="card">Incident impact forecasting</div>
   </div>
 
   <!-- CTA -->
@@ -194,34 +214,34 @@ Result:
     <h2>Start Preventing System Failures</h2>
 
     <p style="color:#b0b8c5;">
-      Join engineering teams building resilient infrastructure systems.
+      Join engineering teams building resilient orbital and infrastructure systems.
     </p>
 
-    <form action="https://formspree.io/f/mredzana" method="POST"
-      onsubmit="setTimeout(() => window.location='thank-you.html', 300)"
-      style="margin-top:20px;">
+    <div class="cta-row">
 
-      <input 
-        type="email"
-        name="email"
-        placeholder="Enter your business email"
-        required
-      />
-
-      <button type="submit" class="button">
+      <a href="https://formspree.io/f/mredzana" class="button">
         Get API Access
-      </button>
+      </a>
 
-    </form>
+      <a href="https://wa.me/6580645753" class="button secondary">
+        WhatsApp Us
+      </a>
+
+    </div>
 
   </div>
 
   <!-- FOOTER -->
   <div class="footer">
-    Sextant — Systemic Risk Intelligence Infrastructure for Modern Systems
+    Sextant — Orbital & Infrastructure Resilience Intelligence Layer
   </div>
 
 </div>
+
+<!-- FLOATING WHATSAPP -->
+<a href="https://wa.me/6580645753" class="float-whatsapp">
+  WhatsApp
+</a>
 
 </body>
 </html>

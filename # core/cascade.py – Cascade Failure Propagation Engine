@@ -1,0 +1,43 @@
+class CascadeEngine:
+    """
+    Handles deterministic cascade failure propagation
+    across dependency graphs.
+    """
+
+    def __init__(self, graph):
+        self.graph = graph
+        self.failed_nodes = set()
+        self.events = []
+
+    def trigger_failure(self, node_id: str):
+        """Start cascade from a failed node"""
+        self.failed_nodes.add(node_id)
+        self.events.append({
+            "node": node_id,
+            "event": "initial_failure"
+        })
+        self.propagate(node_id)
+
+    def propagate(self, node_id: str):
+        """Propagate failure to dependent nodes"""
+        dependents = self.graph.get_dependencies(node_id)
+
+        for dep in dependents:
+            if dep not in self.failed_nodes:
+                self.failed_nodes.add(dep)
+
+                self.events.append({
+                    "node": dep,
+                    "event": f"cascade_from_{node_id}"
+                })
+
+                # recursive propagation
+                self.propagate(dep)
+
+    def get_result(self):
+        """Return cascade simulation result"""
+        return {
+            "total_failed_nodes": len(self.failed_nodes),
+            "failed_nodes": list(self.failed_nodes),
+            "events": self.events
+        }

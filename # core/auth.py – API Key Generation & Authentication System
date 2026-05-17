@@ -1,0 +1,56 @@
+import uuid
+from typing import Optional, Dict
+
+# -----------------------------
+# In-memory store (replace with DB later)
+# -----------------------------
+API_KEYS: Dict[str, dict] = {
+    "test-key": {
+        "user": "demo-user",
+        "tier": "free"
+    }
+}
+
+
+# -----------------------------
+# Generate API Key
+# -----------------------------
+def generate_api_key() -> str:
+    return str(uuid.uuid4())
+
+
+# -----------------------------
+# Create API Key
+# -----------------------------
+def create_user_api_key(user: str, tier: str = "free") -> str:
+    key = generate_api_key()
+
+    API_KEYS[key] = {
+        "user": user,
+        "tier": tier
+    }
+
+    return key
+
+
+# -----------------------------
+# Validate + Return User Context
+# (IMPORTANT: SaaS-safe version)
+# -----------------------------
+def validate_api_key(key: str) -> Optional[dict]:
+    return API_KEYS.get(key)
+
+
+# -----------------------------
+# Get user safely
+# -----------------------------
+def get_user(key: str) -> Optional[dict]:
+    return API_KEYS.get(key)
+
+
+# -----------------------------
+# Get tier safely
+# -----------------------------
+def get_tier(key: str) -> str:
+    user = get_user(key)
+    return user["tier"] if user else "free"

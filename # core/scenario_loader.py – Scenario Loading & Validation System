@@ -1,0 +1,37 @@
+import json
+import os
+
+
+class ScenarioLoader:
+    """
+    Loads and validates simulation scenario files.
+    """
+
+    def __init__(self):
+        pass
+
+    def load(self, path: str):
+        """
+        Load scenario JSON file and validate structure
+        """
+
+        if not os.path.exists(path):
+            raise FileNotFoundError(f"Scenario not found: {path}")
+
+        with open(path, "r") as f:
+            data = json.load(f)
+
+        # Basic validation
+        if "nodes" not in data:
+            data["nodes"] = []
+
+        if "edges" not in data:
+            data["edges"] = []
+
+        return data
+
+    def validate(self, data: dict) -> bool:
+        """
+        Validate scenario structure
+        """
+        return isinstance(data, dict) and "nodes" in data and "edges" in data
