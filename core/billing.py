@@ -1,20 +1,18 @@
 from collections import defaultdict
 from datetime import datetime
 
-USAGE_STORE = defaultdict(int)
-COST_STORE = defaultdict(float)
+USAGE = defaultdict(int)
 
 
-def log_usage(user_id: str, cost: int = 1):
-    USAGE_STORE[user_id] += 1
-    COST_STORE[user_id] += cost * 0.05  # $0.05 per run
+def log_usage(api_key: str, cost: int = 1):
+    USAGE[api_key] += cost
 
 
-def get_bill(user_id: str):
+def get_usage(api_key: str):
     return {
-        "user": user_id,
-        "total_runs": USAGE_STORE[user_id],
-        "amount_due": round(COST_STORE[user_id], 4),
+        "api_key": api_key,
+        "total_runs": USAGE[api_key],
+        "cost_usd": USAGE[api_key] * 0.05,
         "currency": "USD",
         "timestamp": datetime.utcnow().isoformat()
     }

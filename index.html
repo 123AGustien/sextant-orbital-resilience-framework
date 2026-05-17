@@ -47,11 +47,6 @@
       text-decoration: none;
       margin: 10px;
       display: inline-block;
-      cursor: pointer;
-    }
-
-    .button:hover {
-      background: #3b63d6;
     }
 
     .section {
@@ -98,10 +93,10 @@
   <!-- HERO -->
   <div class="hero">
     <h1>Predict System Failures Before They Happen</h1>
-    <p>Dependency-driven cascade simulation for complex infrastructure systems.</p>
+    <p>A simulation engine that models how complex systems break, propagate, and recover in real time.</p>
 
     <div class="cta">
-      <a class="button" onclick="createKey()">Get API Key</a>
+      <a href="#" class="button">Get API Access</a>
       <a href="#" class="button">View Documentation</a>
     </div>
   </div>
@@ -110,7 +105,7 @@
   <div class="section">
     <h2>The Problem</h2>
     <div class="card">
-      Modern systems are highly interconnected. A single failure can cascade across infrastructure unpredictably.
+      Modern infrastructure is deeply interconnected. When one component fails, the impact spreads unpredictably across systems, causing outages, downtime, and financial loss.
     </div>
   </div>
 
@@ -118,16 +113,16 @@
   <div class="section">
     <h2>The Solution</h2>
     <div class="card">
-      Sextant simulates deterministic dependency-driven failure propagation for system resilience analysis.
+      Sextant simulates dependency-driven failure propagation so teams can understand how systems behave under stress before production incidents occur.
     </div>
   </div>
 
   <!-- API -->
   <div class="section">
-    <h2>API</h2>
+    <h2>Simple API</h2>
     <div class="card">
       <code>POST /run-scenario</code><br><br>
-      Send nodes + dependencies → receive full cascade simulation output.
+      Send a system graph and receive a full cascade simulation timeline.
     </div>
   </div>
 
@@ -136,12 +131,13 @@
     <h2>Example</h2>
     <div class="card">
 <pre>
-A → B → C → D
-Failure: A
+Nodes: A → B → C → D
 
-Result:
+Initial Failure: A
+
+Output:
 - B degrades
-- C propagates
+- C follows
 - D collapses
 </pre>
     </div>
@@ -152,10 +148,10 @@ Result:
     <h2>What You Get</h2>
 
     <div class="grid">
-      <div class="card">Dependency mapping</div>
-      <div class="card">Cascade visibility</div>
+      <div class="card">Risk propagation mapping</div>
+      <div class="card">Dependency visibility</div>
       <div class="card">System fragility insights</div>
-      <div class="card">Failure simulation timeline</div>
+      <div class="card">Failure timeline simulation</div>
     </div>
   </div>
 
@@ -167,51 +163,38 @@ Result:
       <div class="card">
         <h3>Free</h3>
         100 runs/month<br>
-        API access
+        API access<br>
+        Sandbox usage
       </div>
 
       <div class="card">
         <h3>Pro</h3>
         $99/month<br>
-        10,000 runs
+        10,000 runs<br>
+        Analytics
       </div>
 
       <div class="card">
         <h3>Enterprise</h3>
         Custom pricing<br>
-        SLA + integrations
+        SLA + integrations<br>
+        Private deployment
       </div>
     </div>
   </div>
 
   <!-- CTA -->
   <div class="section" style="text-align:center;">
-    <h2>Start Now</h2>
-    <a class="button" onclick="createKey()">Get API Key</a>
+    <h2>Start Simulating System Risk Today</h2>
+    <a href="#" class="button">Get API Key</a>
   </div>
 
   <!-- FOOTER -->
   <div class="footer">
-    Sextant Orbital Resilience Framework
+    Sextant Orbital Resilience Framework — Systemic Risk Intelligence Infrastructure
   </div>
 
 </div>
-
-<script>
-async function createKey() {
-  const email = prompt("Enter your email:");
-
-  const res = await fetch("https://YOUR_BACKEND_URL/create-key", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({ email })
-  });
-
-  const data = await res.json();
-
-  alert("Your API Key:\n" + data.api_key);
-}
-</script>
 
 </body>
 </html>
