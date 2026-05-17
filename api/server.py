@@ -1,5 +1,7 @@
-from core.billing import log_usage import FastAPI
+from fastapi import FastAPI
+
 from api.routes.scenario import router as scenario_router
+from core.billing import log_usage
 
 app = FastAPI(title="Sextant Orbital Resilience Framework")
 
