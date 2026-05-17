@@ -1,12 +1,11 @@
 from fastapi import FastAPI
-from api.server import app as simulation_app
-from api.risk import router as risk_router
+from api.v1.orbital_engine import OrbitalEngineV1
 
-# Main API gateway
-app = FastAPI(title="Sextant Orbital Resilience API Gateway")
+simulation_app = FastAPI(title="Simulation Engine")
 
-# Mount simulation endpoints
-app.mount("/", simulation_app)
+engine = OrbitalEngineV1()
 
-# Register risk scoring endpoints
-app.include_router(risk_router)
+
+@simulation_app.post("/run-scenario")
+def run_scenario(payload: dict):
+    return engine.run_scenario(payload)
