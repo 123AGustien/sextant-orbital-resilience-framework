@@ -1,21 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Sextant | Enterprise System Intelligence Platform</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="description" content="Sextant is an enterprise resilience intelligence platform for deterministic cascade simulation, dependency graph analysis, and infrastructure risk forecasting." />
 
   <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
       margin: 0;
+      padding: 0;
       background: #0b0f19;
       color: #ffffff;
-      line-height: 1.6;
+      font-family: Arial, sans-serif;
+      line-height: 1.7;
     }
 
     .container {
-      max-width: 1050px;
+      max-width: 1100px;
       margin: auto;
       padding: 60px 20px;
     }
@@ -27,41 +36,56 @@
 
     .badge {
       display: inline-block;
-      background: #1f2a44;
-      padding: 6px 10px;
-      border-radius: 6px;
-      font-size: 12px;
+      background: #1d2740;
       color: #9fb3d1;
-      margin-bottom: 10px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      margin-bottom: 18px;
+      letter-spacing: 0.5px;
     }
 
     h1 {
-      font-size: 42px;
-      margin-bottom: 10px;
+      font-size: 48px;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    h2 {
+      margin-bottom: 15px;
+      font-size: 28px;
     }
 
     p {
-      color: #b0b8c5;
-      max-width: 750px;
+      color: #b8c1d1;
+      max-width: 760px;
       margin: auto;
     }
 
     .section {
-      margin-top: 70px;
+      margin-top: 80px;
     }
 
     .card {
       background: #121826;
-      padding: 20px;
-      border-radius: 10px;
-      margin-top: 15px;
+      border: 1px solid #1f2a44;
+      padding: 24px;
+      border-radius: 14px;
+      margin-top: 18px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 18px;
+      margin-top: 20px;
     }
 
     .button {
       background: #4f7cff;
       color: white;
       padding: 14px 22px;
-      border-radius: 8px;
+      border-radius: 10px;
       border: none;
       cursor: pointer;
       font-weight: bold;
@@ -69,6 +93,12 @@
       text-decoration: none;
       display: inline-block;
       margin-top: 20px;
+      transition: 0.2s ease;
+    }
+
+    .button:hover {
+      opacity: 0.92;
+      transform: translateY(-1px);
     }
 
     .button.secondary {
@@ -77,27 +107,72 @@
       margin-left: 10px;
     }
 
-    .button:hover {
-      opacity: 0.9;
+    .hero-form {
+      max-width: 760px;
+      margin: 40px auto 0 auto;
+      text-align: left;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 14px;
+      margin-top: 12px;
+      border-radius: 10px;
+      border: 1px solid #2a3550;
+      background: #0f1523;
+      color: white;
+      font-size: 14px;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    pre {
+      overflow-x: auto;
+      color: #d7deed;
+    }
+
+    code {
+      color: #8db3ff;
     }
 
     .footer {
       margin-top: 100px;
       text-align: center;
-      color: #6c768a;
+      color: #71809d;
       font-size: 13px;
+      padding-bottom: 30px;
     }
 
-    .cta {
-      text-align: center;
+    .subtext {
+      margin-top: 18px;
+      font-size: 14px;
+      color: #90a0bc;
+    }
+
+    .contact-links {
       margin-top: 30px;
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 700px) {
+
       h1 {
-        font-size: 30px;
+        font-size: 34px;
       }
+
+      h2 {
+        font-size: 24px;
+      }
+
+      .button.secondary {
+        margin-left: 0;
+      }
+
     }
+
   </style>
 </head>
 
@@ -106,116 +181,275 @@
 <div class="container">
 
   <!-- HERO -->
-  <div class="hero">
+  <section class="hero">
 
-    <div class="badge">Enterprise System Intelligence Platform</div>
+    <div class="badge">
+      Enterprise System Intelligence Platform
+    </div>
 
-    <h1>Predict System Failures Before They Cascade</h1>
+    <h1>
+      Predict System Failures Before They Cascade
+    </h1>
 
     <p>
-      Sextant simulates how interconnected orbital and infrastructure systems fail, propagate, and recover — enabling engineering teams to detect cascade risks before they reach production or mission environments.
+      Sextant models deterministic cascade propagation across interconnected orbital,
+      cloud, infrastructure, and dependency systems — enabling engineering teams to
+      simulate resilience outcomes before deployment or mission execution.
     </p>
 
-    <div class="cta">
-      <a href="https://formspree.io/f/mredzana" class="button">
-        Request API Access
-      </a>
+    <!-- ENTERPRISE INTAKE FORM -->
+    <div class="card hero-form">
 
-      <a href="https://wa.me/6580645753" class="button secondary">
-        WhatsApp Us
-      </a>
+      <form action="https://formspree.io/f/mredzana" method="POST">
+
+        <input
+          type="text"
+          name="name"
+          placeholder="Full Name"
+          required
+        />
+
+        <input
+          type="email"
+          name="email"
+          placeholder="Email Address"
+          required
+        />
+
+        <input
+          type="text"
+          name="company"
+          placeholder="Organization / Company"
+        />
+
+        <select name="interest">
+
+          <option value="api">
+            API Access
+          </option>
+
+          <option value="pilot">
+            Pilot Deployment
+          </option>
+
+          <option value="enterprise">
+            Enterprise Partnership
+          </option>
+
+          <option value="research">
+            Research Collaboration
+          </option>
+
+        </select>
+
+        <textarea
+          name="message"
+          rows="6"
+          placeholder="Describe your infrastructure, deployment environment, or resilience modeling requirements."
+        ></textarea>
+
+        <button type="submit" class="button">
+          Submit Enterprise Request
+        </button>
+
+      </form>
+
+      <div class="contact-links">
+
+        <a
+          href="https://wa.me/6580645753?text=Hi%20Sextant%2C%20I%20submitted%20a%20request%20through%20the%20website"
+          class="button secondary"
+        >
+          Continue on WhatsApp
+        </a>
+
+        <a
+          href="https://github.com/123AGustien/sextant-orbital-resilience-framework"
+          class="button secondary"
+          target="_blank"
+        >
+          View GitHub Repository
+        </a>
+
+      </div>
+
+      <div class="subtext">
+        Enterprise inquiries are reviewed manually for deployment suitability,
+        infrastructure scope, and resilience simulation requirements.
+      </div>
+
     </div>
 
-  </div>
+  </section>
 
   <!-- PROBLEM -->
-  <div class="section">
+  <section class="section">
+
     <h2>The Problem</h2>
+
     <div class="card">
-      Modern satellite, cloud, and infrastructure systems are deeply interconnected.  
-      Most organizations lack visibility into how failures propagate across dependencies and escalate into system-wide outages.
+      Modern infrastructure systems are deeply interconnected across orbital,
+      cloud, networking, compute, and operational layers.
+      Most organizations lack deterministic visibility into how failures
+      propagate across dependencies and escalate into large-scale outages.
     </div>
-  </div>
+
+  </section>
 
   <!-- SOLUTION -->
-  <div class="section">
-    <h2>The Solution</h2>
+  <section class="section">
+
+    <h2>The Sextant Solution</h2>
+
     <div class="card">
-      Sextant models deterministic failure propagation across system dependency graphs, enabling teams to simulate cascade risks before deployment.
+      Sextant models infrastructure dependencies as deterministic graph structures,
+      enabling engineering teams to simulate node degradation, cascade propagation,
+      systemic destabilization, and resilience recovery outcomes before deployment.
     </div>
-  </div>
+
+  </section>
 
   <!-- API -->
-  <div class="section">
+  <section class="section">
+
     <h2>Developer API</h2>
+
     <div class="card">
-      <code>POST /run-scenario</code><br><br>
-      Submit a dependency graph and receive a full cascade simulation timeline with node-level state transitions.
+
+      <code>POST /run-scenario</code>
+
+      <br /><br />
+
+      Submit dependency graphs, infrastructure relationships,
+      or orbital network structures and receive:
+
+      <ul>
+        <li>Cascade propagation timeline</li>
+        <li>Node-level state transitions</li>
+        <li>Dependency impact mapping</li>
+        <li>Recovery pathway modeling</li>
+      </ul>
+
     </div>
-  </div>
+
+  </section>
 
   <!-- EXAMPLE -->
-  <div class="section">
-    <h2>Example Simulation</h2>
+  <section class="section">
+
+    <h2>Example Cascade Simulation</h2>
+
     <div class="card">
+
 <pre>
 A → B → C → D
 
 Initial Failure: A
 
-Result:
+Propagation Result:
 - B degrades
 - C destabilizes
 - D collapses
 </pre>
+
     </div>
-  </div>
+
+  </section>
 
   <!-- USE CASES -->
-  <div class="section">
-    <h2>What Engineering Teams Use It For</h2>
+  <section class="section">
 
-    <div class="card">Pre-deployment failure modeling</div>
-    <div class="card">Satellite system dependency mapping</div>
-    <div class="card">Mission assurance analysis</div>
-    <div class="card">Infrastructure risk forecasting</div>
-    <div class="card">Cascade impact simulation</div>
+    <h2>Engineering Use Cases</h2>
 
-  </div>
+    <div class="grid">
+
+      <div class="card">
+        Pre-deployment failure modeling
+      </div>
+
+      <div class="card">
+        Orbital dependency simulation
+      </div>
+
+      <div class="card">
+        Mission assurance analysis
+      </div>
+
+      <div class="card">
+        Infrastructure resilience forecasting
+      </div>
+
+      <div class="card">
+        Deterministic cascade analysis
+      </div>
+
+      <div class="card">
+        System recovery pathway modeling
+      </div>
+
+    </div>
+
+  </section>
 
   <!-- PILOT -->
-  <div class="section">
-    <h2>Deployment Pilot</h2>
+  <section class="section">
+
+    <h2>Enterprise Pilot Deployment</h2>
+
     <div class="card">
-      <strong>Duration:</strong> 2–3 weeks<br>
-      <strong>Scope:</strong> Single system or subsystem<br>
-      <strong>Output:</strong> Full dependency + cascade risk report<br>
-      <strong>Engagement:</strong> $2,500 – $10,000 (invoice via Wise or bank transfer)
+
+      <strong>Duration:</strong> 2–3 weeks
+      <br /><br />
+
+      <strong>Scope:</strong> Single infrastructure system,
+      subsystem, or resilience environment
+      <br /><br />
+
+      <strong>Deliverables:</strong>
+      <ul>
+        <li>Dependency mapping</li>
+        <li>Cascade simulation report</li>
+        <li>Risk propagation analysis</li>
+        <li>Resilience assessment summary</li>
+      </ul>
+
+      <strong>Engagement Range:</strong>
+      USD $2,500 – $10,000
+
     </div>
-  </div>
 
-  <!-- CTA -->
-  <div class="section cta">
+  </section>
 
-    <h2>Start Preventing System Failures</h2>
+  <!-- FINAL CTA -->
+  <section class="section" style="text-align:center;">
+
+    <h2>
+      Start Building Resilient Systems
+    </h2>
 
     <p>
-      Join engineering teams building resilient orbital and infrastructure systems.
+      Sextant supports engineering organizations operating
+      complex infrastructure, orbital, and mission-critical systems.
     </p>
 
-    <a href="https://formspree.io/f/mredzana" class="button">
-      Get API Access
+    <a
+      href="https://wa.me/6580645753?text=Hi%20Sextant%2C%20I%20would%20like%20to%20discuss%20a%20deployment"
+      class="button"
+    >
+      Contact Sextant
     </a>
 
-    <a href="https://wa.me/6580645753" class="button secondary">
-      Talk to Us
-    </a>
-
-  </div>
+  </section>
 
   <!-- FOOTER -->
   <div class="footer">
+
     Sextant — Orbital & Systemic Resilience Intelligence Layer
+
+    <br /><br />
+
+    © 2026 Sextant Protocol
+
   </div>
 
 </div>
