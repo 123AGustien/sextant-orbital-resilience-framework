@@ -1,13 +1,35 @@
-# simple in-memory usage store (upgrade later to DB)
-USAGE_DB = {}
+from core.db import get_conn
+
+FREE_LIMIT = 100
 
 
 def get_usage(api_key: str):
-    return USAGE_DB.get(api_key, {"count": 0})
+    conn = get_conn()
+    cur = conn.cursor()
+
+    cur.execute("SELECT usage_count, tier FROM api_keys WHERE key=?", (api_key,))
+    row = cur.fetchone()
+
+    conn.close()
+
+    if not row:
+        return None
+
+    return {
+        "count": row[0],
+        "tier": row[1]
+    }
 
 
 def increment_usage(api_key: str):
-    if api_key not in USAGE_DB:
-        USAGE_DB[api_key] = {"count": 0}
+    conn = get_conn()
+    cur = conn.cursor()
 
-    USAGE_DB[api_key]["count"] += 1
+    cur.execute("""
+        UPDATE api_keys
+        SET usage_count = usage_count + 1
+        WHERE key=?
+    """, (api_key,))
+
+    conn.commit()
+    conn.close()
