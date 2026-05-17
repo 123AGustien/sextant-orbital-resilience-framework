@@ -1,19 +1,13 @@
-import uuid
-from core.db import get_conn
+import secrets
 
 
 def create_api_key(tier: str = "free"):
-    key = str(uuid.uuid4())
 
-    conn = get_conn()
-    cur = conn.cursor()
+    prefix = "sx"
 
-    cur.execute(
-        "INSERT INTO api_keys (key, usage_count, tier) VALUES (?, 0, ?)",
-        (key, tier)
-    )
+    if tier == "pro":
+        prefix = "sxpro"
 
-    conn.commit()
-    conn.close()
+    token = secrets.token_hex(16)
 
-    return key
+    return f"{prefix}_{token}"
