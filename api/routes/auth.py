@@ -5,10 +5,14 @@ router = APIRouter()
 
 
 @router.post("/create-key")
-def create_key(tier: str = "free"):
-    key = create_api_key(tier)
+def create_key(email: str, company: str = "unknown"):
+    key = create_api_key(tier="free")
+
     return {
         "api_key": key,
-        "tier": tier,
-        "status": "active"
+        "tier": "free",
+        "status": "active",
+        "message": "You are on the waitlist. Billing will be enabled for Pro tier access later.",
+        "contact_email": email,
+        "company": company
     }
