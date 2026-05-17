@@ -34,4 +34,9 @@ def dashboard(admin_token: str):
             "usage": usage
         })
 
-    # Return
+    # Return dashboard data
+    return {
+        "status": "success",
+        "total_leads": len(leads),
+        "clients": enriched_clients
+    }
