@@ -85,4 +85,42 @@ All executions are fully reproducible given identical inputs.
 
 ## 6. Research Value
 
-The framework
+## 7. Intended Users
+
+- Academic researchers in systems engineering and complexity science  
+- Infrastructure resilience analysts  
+- Distributed systems engineers  
+- Simulation and modeling specialists  
+- Institutional research laboratories  
+
+---
+
+## 8. Safety and Operational Boundary
+
+The framework is explicitly designed as a **non-operational simulation system**.
+
+It does not:
+
+- control real-world systems  
+- execute external commands  
+- interface with live infrastructure  
+- provide operational decision authority  
+
+All outputs represent simulated system behavior only.
+
+---
+
+## 9. Strategic Significance
+
+The Sextant framework introduces a structured approach to understanding systemic failure propagation through deterministic modeling.
+
+It bridges the gap between theoretical dependency graphs and executable simulation environments, enabling reproducible resilience analysis at scale.
+
+---
+
+## 10. Conclusion
+
+The Sextant Orbital Resilience Framework provides a controlled, deterministic environment for analyzing cascading failures in complex systems.
+
+Its value lies not in operational control, but in **predictive structural insight into how interconnected systems fail and recover under stress**.
+
