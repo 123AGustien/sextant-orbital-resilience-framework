@@ -83,8 +83,18 @@ All executions are fully reproducible given identical inputs.
 
 ---
 
+
 ## 6. Research Value
 
+The Sextant Orbital Resilience Framework contributes to the study of complex systems by enabling:
+
+- deterministic modeling of dependency-driven infrastructures
+- reproducible simulation of cascade failure propagation
+- analysis of systemic fragility under controlled stress conditions
+- evaluation of recovery dynamics in distributed systems
+- structured comparison of resilience across scenario classes
+
+This enables researchers to move from descriptive analysis of failures to executable and repeatable simulation-based experimentation.
 ## 7. Intended Users
 
 - Academic researchers in systems engineering and complexity science  
