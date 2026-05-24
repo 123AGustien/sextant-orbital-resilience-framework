@@ -4,7 +4,15 @@ from api.routes.auth import router as auth_router
 from api.routes.scenario import router as scenario_router
 from api.routes.admin import router as admin_router
 
-from core.billing import get_usage
+from core.billing_sqlite import (
+    init_db,
+    get_usage
+)
+
+# -------------------------
+# INITIALIZE SQLITE DATABASE
+# -------------------------
+init_db()
 
 
 # -------------------------
@@ -20,9 +28,23 @@ app = FastAPI(
 # -------------------------
 # ROUTE REGISTRATION
 # -------------------------
-app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
-app.include_router(scenario_router, prefix="/scenario", tags=["Simulation"])
-app.include_router(admin_router, prefix="/admin", tags=["Admin"])
+app.include_router(
+    auth_router,
+    prefix="/auth",
+    tags=["Authentication"]
+)
+
+app.include_router(
+    scenario_router,
+    prefix="/scenario",
+    tags=["Simulation"]
+)
+
+app.include_router(
+    admin_router,
+    prefix="/admin",
+    tags=["Admin"]
+)
 
 
 # -------------------------
