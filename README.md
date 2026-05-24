@@ -1,3 +1,8 @@
+
+This repository is a deterministic simulation framework for modeling dependency-driven cascade failure in complex systems.
+It is intended for research and analysis only.
+It does not control, operate, or interact with real-world systems.
+
 # 🧭 Sextant Orbital Resilience Framework  
 ## Deterministic Dependency Cascade Simulation Engine
 
