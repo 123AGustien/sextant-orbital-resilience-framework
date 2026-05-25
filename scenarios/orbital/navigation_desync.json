@@ -1,0 +1,37 @@
+{
+  "scenario_id": "orbital_navigation_desync_v1",
+
+  "domain": "orbital",
+
+  "nodes": [
+    "STAR_TRACKER",
+    "INERTIAL_GUIDANCE_UNIT",
+    "NAVIGATION_CORE",
+    "MISSION_CONTROL_INTERFACE"
+  ],
+
+  "dependencies": {
+    "NAVIGATION_CORE": [
+      "STAR_TRACKER",
+      "INERTIAL_GUIDANCE_UNIT"
+    ],
+
+    "MISSION_CONTROL_INTERFACE": [
+      "NAVIGATION_CORE"
+    ]
+  },
+
+  "initial_state": {
+    "STAR_TRACKER": "FAILED",
+    "INERTIAL_GUIDANCE_UNIT": "DEGRADED",
+    "NAVIGATION_CORE": "HEALTHY",
+    "MISSION_CONTROL_INTERFACE": "HEALTHY"
+  },
+
+  "expected_states": {
+    "STAR_TRACKER": "FAILED",
+    "INERTIAL_GUIDANCE_UNIT": "DEGRADED",
+    "NAVIGATION_CORE": "DEGRADED",
+    "MISSION_CONTROL_INTERFACE": "DEGRADED"
+  }
+}
