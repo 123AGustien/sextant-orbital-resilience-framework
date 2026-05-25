@@ -1,0 +1,40 @@
+{
+  "scenario_id": "orbital_power_failure_v1",
+
+  "domain": "orbital",
+
+  "nodes": [
+    "SOLAR_ARRAY",
+    "POWER_DISTRIBUTION_NODE",
+    "SATELLITE_ALPHA",
+    "TELEMETRY_NODE"
+  ],
+
+  "dependencies": {
+    "POWER_DISTRIBUTION_NODE": [
+      "SOLAR_ARRAY"
+    ],
+
+    "SATELLITE_ALPHA": [
+      "POWER_DISTRIBUTION_NODE"
+    ],
+
+    "TELEMETRY_NODE": [
+      "SATELLITE_ALPHA"
+    ]
+  },
+
+  "initial_state": {
+    "SOLAR_ARRAY": "FAILED",
+    "POWER_DISTRIBUTION_NODE": "DEGRADED",
+    "SATELLITE_ALPHA": "HEALTHY",
+    "TELEMETRY_NODE": "HEALTHY"
+  },
+
+  "expected_states": {
+    "SOLAR_ARRAY": "FAILED",
+    "POWER_DISTRIBUTION_NODE": "FAILED",
+    "SATELLITE_ALPHA": "DEGRADED",
+    "TELEMETRY_NODE": "DEGRADED"
+  }
+}
