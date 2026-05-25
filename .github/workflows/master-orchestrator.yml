@@ -7,12 +7,10 @@ on:
 
   workflow_dispatch:
 
-
 permissions:
   contents: read
   pages: write
   id-token: write
-
 
 concurrency:
   group: "pages"
@@ -21,9 +19,6 @@ concurrency:
 
 jobs:
 
-  # ---------------------------------
-  # BUILD + LOAD SCENARIOS
-  # ---------------------------------
   build:
     runs-on: ubuntu-latest
 
@@ -36,16 +31,16 @@ jobs:
         with:
           python-version: "3.11"
 
-      # ---------------------------------
-      # VERIFY CORE IMPORTS
-      # ---------------------------------
+      # -----------------------------
+      # CORE VALIDATION
+      # -----------------------------
       - name: Validate core framework imports
         run: |
           python -c "print('🛰️ Core modules OK')"
 
-      # ---------------------------------
-      # EXECUTE ORBITAL SCENARIOS
-      # ---------------------------------
+      # -----------------------------
+      # ORBITAL SCENARIOS
+      # -----------------------------
       - name: Run Orbital Scenario Execution
         run: |
           python - << 'EOF'
@@ -60,15 +55,13 @@ jobs:
 
               print(f"✔ Loaded {scenario['scenario_id']}")
 
-              assert "domain" in scenario
               assert scenario["domain"] == "orbital"
-
               print("✔ Orbital scenario validated")
           EOF
 
-      # ---------------------------------
-      # EXECUTE TRANSPORT SCENARIOS
-      # ---------------------------------
+      # -----------------------------
+      # TRANSPORT SCENARIOS
+      # -----------------------------
       - name: Run Transport Scenario Execution
         run: |
           python - << 'EOF'
@@ -83,33 +76,92 @@ jobs:
 
               print(f"✔ Loaded {scenario['scenario_id']}")
 
-              assert "domain" in scenario
               assert scenario["domain"] == "transport"
-
               print("✔ Transport scenario validated")
           EOF
 
-      # ---------------------------------
-      # BUILD STATIC OUTPUT
-      # ---------------------------------
+      # -----------------------------
+      # CROSS-DOMAIN CASCADE ENGINE
+      # -----------------------------
+      - name: Run Cross-Domain Cascade Engine
+        run: |
+          python - << 'EOF'
+          import json
+          import os
+
+          print("🌐 Running Cross-Domain Cascade Engine")
+
+          # Simulated orbital failure event
+          orbital_failure = {
+              "domain": "orbital",
+              "failure_type": "SIGNAL_LOSS",
+              "failed_nodes": ["SATELLITE_ALPHA"]
+          }
+
+          # Translation mapping
+          mapping = {
+              "SIGNAL_LOSS": [
+                  "TRANSPORT_SIGNAL_FAILURE",
+                  "SCHEDULE_DESYNC"
+              ]
+          }
+
+          impacts = mapping.get(orbital_failure["failure_type"], [])
+
+          cascade_result = {
+              "source_domain": "orbital",
+              "target_domain": "transport",
+              "trigger": orbital_failure["failure_type"],
+              "failed_nodes": orbital_failure["failed_nodes"],
+              "impacts_on_transport": impacts,
+              "status": "PROCESSED"
+          }
+
+          os.makedirs("docs/runtime", exist_ok=True)
+
+          with open("docs/runtime/cascade_execution.json", "w") as f:
+              json.dump(cascade_result, f, indent=2)
+
+          print("✔ Cascade simulation completed")
+          EOF
+
+      # -----------------------------
+      # BUILD DASHBOARD
+      # -----------------------------
       - name: Build docs output
         run: |
-          mkdir -p docs
-          echo "<h1>Sextant Simulation Active</h1>" > docs/index.html
-          echo "<p>Scenarios executed successfully.</p>" >> docs/index.html
+          mkdir -p docs/runtime
 
-      # ---------------------------------
-      # UPLOAD ARTIFACT
-      # ---------------------------------
+          cat <<EOF > docs/index.html
+          <html>
+          <head>
+            <title>Sextant Simulation Dashboard</title>
+          </head>
+          <body>
+            <h1>🛰️ Sextant System Dashboard</h1>
+            <p>Live simulation + cascade engine active</p>
+
+            <h2>Cascade Output</h2>
+            <pre id="data"></pre>
+
+            <script>
+              fetch('./runtime/cascade_execution.json')
+                .then(r => r.json())
+                .then(d => document.getElementById('data').innerText = JSON.stringify(d, null, 2));
+            </script>
+          </body>
+          </html>
+          EOF
+
+      # -----------------------------
+      # DEPLOY TO GITHUB PAGES
+      # -----------------------------
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./docs
 
 
-  # ---------------------------------
-  # DEPLOY
-  # ---------------------------------
   deploy:
     needs: build
     runs-on: ubuntu-latest
