@@ -1,9 +1,8 @@
 """
 🛰️ Sextant Orbital Resilience Framework
-Scenario Runner v1
+Scenario Runner v1 (Loader Integrated)
 
-This module executes deterministic scenarios and passes them
-through the ScenarioEvaluatorV1 to produce resilience reports.
+Now supports loading scenarios via ScenarioLoaderV1.
 """
 
 from typing import Dict, Any
@@ -12,7 +11,7 @@ from core.evaluation.scenario_evaluator_v1 import ScenarioEvaluatorV1
 
 
 # ----------------------------
-# SCENARIO RUNNER
+# RUNNER
 # ----------------------------
 
 class ScenarioRunnerV1:
@@ -20,15 +19,7 @@ class ScenarioRunnerV1:
         self.scenario = scenario
         self.evaluator = ScenarioEvaluatorV1(scenario)
 
-    # ------------------------
-    # EXECUTE PIPELINE
-    # ------------------------
     def run(self) -> Dict[str, Any]:
-        """
-        Runs full evaluation pipeline:
-        Scenario → Evaluation → Metrics Output
-        """
-
         result = self.evaluator.evaluate()
 
         return {
@@ -37,23 +28,3 @@ class ScenarioRunnerV1:
             "results": result,
             "status": "completed_deterministic_run"
         }
-
-
-# ----------------------------
-# SIMPLE TEST ENTRY (OPTIONAL)
-# ----------------------------
-
-if __name__ == "__main__":
-    sample_scenario = {
-        "id": "test_scenario_001",
-        "nodes": ["satellite_A", "satellite_B"],
-        "expected_states": {
-            "satellite_A": "HEALTHY",
-            "satellite_B": "DEGRADED"
-        }
-    }
-
-    runner = ScenarioRunnerV1(sample_scenario)
-    output = runner.run()
-
-    print(output)
