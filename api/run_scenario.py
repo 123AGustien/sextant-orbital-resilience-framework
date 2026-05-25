@@ -9,7 +9,8 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from typing import Dict, Any
 
-from core.scenarios.scenario_loader_v1 import ScenarioLoaderV1
+from core.schema.schema_enforcer_v2 import SchemaEnforcerV2
+from core.governance.governance_audit_v1 import GovernanceAuditV1
 from core.evaluation.scenario_runner_v1 import ScenarioRunnerV1
 
 
@@ -33,14 +34,23 @@ def run_scenario(request: ScenarioRequest):
 
     scenario_data = request.scenario
 
-    # Inject directly (already structured JSON)
-    runner = ScenarioRunnerV1(scenario_data)
+    # 🧪 1. SCHEMA ENFORCEMENT (STRUCTURE LAYER)
+    schema = SchemaEnforcerV2()
+    validated_schema = schema.validate(scenario_data)
 
+    # 🧭 2. GOVERNANCE AUDIT (RULES + TRACE LAYER)
+    guard = GovernanceAuditV1()
+    validated_scenario = guard.validate(validated_schema)
+
+    # 🚀 3. SCENARIO EXECUTION
+    runner = ScenarioRunnerV1(validated_scenario)
     result = runner.run()
 
+    # 📤 RESPONSE
     return {
         "status": "success",
-        "output": result
+        "output": result,
+        "audit_log": guard.get_audit_log()
     }
 
 
