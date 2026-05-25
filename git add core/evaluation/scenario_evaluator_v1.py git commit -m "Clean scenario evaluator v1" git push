@@ -67,3 +67,10 @@ A scenario input is a deterministic state object:
   }
 }
 
+{
+  "SSI": 0.75,
+  "CDI": 1,
+  "FI": 0.5,
+  "DR": 0.3,
+  "CRS": 0.12
+}
