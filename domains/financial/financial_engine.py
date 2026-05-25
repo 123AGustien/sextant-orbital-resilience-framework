@@ -32,7 +32,7 @@ class FinancialEngine:
         self.edges.append((from_id, to_id, weight))
 
     # -----------------------------
-    # FAILURE (DEFAULT EVENT)
+    # FAILURE EVENT
     # -----------------------------
     def default_node(self, node_id):
         if node_id in self.nodes:
@@ -57,8 +57,8 @@ class FinancialEngine:
     # STRESS MODEL
     # -----------------------------
     def compute_stress(self, node):
-        liquidity_pressure = node.exposure * node.risk
-        return liquidity_pressure
+        node.liquidity_pressure = node.exposure * node.risk
+        return node.liquidity_pressure
 
     # -----------------------------
     # CASCADE PROPAGATION
@@ -73,7 +73,6 @@ class FinancialEngine:
             self.calculate_exposure(node)
             stress = self.compute_stress(node)
 
-            # probability of default
             probability = min(1.0, stress + (node.risk * 0.3))
 
             if random.random() < probability:
@@ -85,7 +84,7 @@ class FinancialEngine:
         return newly_defaulted
 
     # -----------------------------
-    # SYSTEM METRIC
+    # METRIC
     # -----------------------------
     def financial_stability_index(self):
         total = len(self.nodes)
@@ -96,13 +95,12 @@ class FinancialEngine:
         return healthy / total
 
     # -----------------------------
-    # MAIN STEP
+    # STEP EXECUTION
     # -----------------------------
     def step(self):
         self.time += 1
 
         newly_defaulted = self.propagate()
-
         fsi = self.financial_stability_index()
 
         snapshot = {
@@ -114,3 +112,15 @@ class FinancialEngine:
 
         self.history.append(snapshot)
         return snapshot
+
+    # -----------------------------
+    # RESET (IMPORTANT FOR REPRODUCIBILITY)
+    # -----------------------------
+    def reset(self):
+        self.time = 0
+        self.history = []
+
+        for node in self.nodes.values():
+            node.state = "HEALTHY"
+            node.exposure = 0.0
+            node.liquidity_pressure = 0.0
