@@ -1,0 +1,68 @@
+# 🛰️ Scenario Evaluator v1  
+## Sextant Orbital Resilience Framework
+
+---
+
+## 🧭 Overview
+
+The Scenario Evaluator is a core analytical module of the Sextant Orbital Resilience Framework.
+
+It converts deterministic simulation outputs into measurable resilience intelligence.
+
+It operates strictly as an evaluation layer and does not perform simulation or control logic.
+
+---
+
+## 📍 File Location
+
+core/evaluation/scenario_evaluator_v1.py
+
+---
+
+## 🧠 System Role
+
+The evaluator sits between simulation and metrics output.
+
+It is responsible for interpreting system states and producing structured resilience scores.
+
+### Responsibilities:
+- Interpret scenario outputs
+- Analyze node states
+- Compute resilience metrics
+- Produce standardized evaluation reports
+
+### Non-responsibilities:
+- No simulation execution
+- No control or actuation logic
+- No real-world system interaction
+- No scenario modification
+
+---
+
+## ⚙️ Core Function
+
+Transforms system state snapshots into resilience indicators:
+
+- System Stability Index (SSI)
+- Cumulative Failure Index (CDI)
+- Fragmentation Index (FI)
+- Degradation Rate (DR)
+- Composite Resilience Score (CRS)
+
+---
+
+## 📥 Input Structure
+
+A scenario input is a deterministic state object:
+
+```json
+{
+  "nodes": [
+    "satellite_A",
+    "satellite_B"
+  ],
+  "expected_states": {
+    "satellite_A": "HEALTHY",
+    "satellite_B": "DEGRADED"
+  }
+}
