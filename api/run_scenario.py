@@ -47,15 +47,18 @@ def run_scenario(request: ScenarioRequest):
     # 🧭 2. GOVERNANCE AUDIT
     guard = GovernanceAuditV1()
     validated_scenario = guard.validate(validated_schema)
-    tracer.log_event(trace_id, "GOVERNANCE_VALIDATED", guard.get_audit_log())
+    tracer.log_event(trace_id, "GOVERNANCE_VALIDATED", validated_scenario)
 
     # 🚀 3. EXECUTION
     runner = ScenarioRunnerV1(validated_scenario)
     result = runner.run()
     tracer.log_event(trace_id, "EXECUTION_COMPLETE", result)
 
-    # 🧾 TRACE END
+    # 🧾 END TRACE
     tracer.end_trace(trace_id, result)
+
+    # 📦 EXPORT TRACE
+    trace_output = tracer.export_trace()
 
     # 📤 RESPONSE
     return {
@@ -63,7 +66,7 @@ def run_scenario(request: ScenarioRequest):
         "trace_id": trace_id,
         "output": result,
         "audit_log": guard.get_audit_log(),
-        "trace": tracer.export_trace()
+        "trace": trace_output
     }
 
 
