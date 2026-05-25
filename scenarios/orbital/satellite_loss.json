@@ -1,0 +1,40 @@
+{
+  "scenario_id": "orbital_satellite_loss_v1",
+
+  "domain": "orbital",
+
+  "nodes": [
+    "SATELLITE_ALPHA",
+    "RELAY_SATELLITE_BETA",
+    "NAVIGATION_CORE",
+    "TELEMETRY_NODE"
+  ],
+
+  "dependencies": {
+    "SATELLITE_ALPHA": [
+      "NAVIGATION_CORE"
+    ],
+
+    "RELAY_SATELLITE_BETA": [
+      "SATELLITE_ALPHA"
+    ],
+
+    "TELEMETRY_NODE": [
+      "RELAY_SATELLITE_BETA"
+    ]
+  },
+
+  "initial_state": {
+    "SATELLITE_ALPHA": "FAILED",
+    "RELAY_SATELLITE_BETA": "HEALTHY",
+    "NAVIGATION_CORE": "HEALTHY",
+    "TELEMETRY_NODE": "HEALTHY"
+  },
+
+  "expected_states": {
+    "SATELLITE_ALPHA": "FAILED",
+    "RELAY_SATELLITE_BETA": "DEGRADED",
+    "NAVIGATION_CORE": "DEGRADED",
+    "TELEMETRY_NODE": "DEGRADED"
+  }
+}
