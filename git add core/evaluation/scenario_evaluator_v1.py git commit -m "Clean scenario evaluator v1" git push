@@ -66,3 +66,4 @@ A scenario input is a deterministic state object:
     "satellite_B": "DEGRADED"
   }
 }
+
