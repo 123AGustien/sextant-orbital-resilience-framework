@@ -1,0 +1,36 @@
+{
+  "scenario_id": "transport_throughput_collapse_v1",
+
+  "domain": "transport",
+
+  "nodes": [
+    "THROUGHPUT_MONITOR",
+    "LOGISTICS_ROUTE_NODE",
+    "SUPPLY_CHAIN_GATEWAY",
+    "DISPATCH_CONTROLLER"
+  ],
+
+  "dependencies": {
+    "SUPPLY_CHAIN_GATEWAY": [
+      "LOGISTICS_ROUTE_NODE"
+    ],
+
+    "DISPATCH_CONTROLLER": [
+      "SUPPLY_CHAIN_GATEWAY"
+    ]
+  },
+
+  "initial_state": {
+    "THROUGHPUT_MONITOR": "FAILED",
+    "LOGISTICS_ROUTE_NODE": "DEGRADED",
+    "SUPPLY_CHAIN_GATEWAY": "HEALTHY",
+    "DISPATCH_CONTROLLER": "HEALTHY"
+  },
+
+  "expected_states": {
+    "THROUGHPUT_MONITOR": "FAILED",
+    "LOGISTICS_ROUTE_NODE": "FAILED",
+    "SUPPLY_CHAIN_GATEWAY": "DEGRADED",
+    "DISPATCH_CONTROLLER": "DEGRADED"
+  }
+}
