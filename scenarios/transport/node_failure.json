@@ -1,0 +1,40 @@
+{
+  "scenario_id": "transport_node_failure_v1",
+
+  "domain": "transport",
+
+  "nodes": [
+    "RAIL_NETWORK_NODE",
+    "FREIGHT_COORDINATOR",
+    "CARGO_TRACKING_NODE",
+    "SCHEDULE_COORDINATOR"
+  ],
+
+  "dependencies": {
+    "FREIGHT_COORDINATOR": [
+      "RAIL_NETWORK_NODE"
+    ],
+
+    "CARGO_TRACKING_NODE": [
+      "FREIGHT_COORDINATOR"
+    ],
+
+    "SCHEDULE_COORDINATOR": [
+      "FREIGHT_COORDINATOR"
+    ]
+  },
+
+  "initial_state": {
+    "RAIL_NETWORK_NODE": "FAILED",
+    "FREIGHT_COORDINATOR": "HEALTHY",
+    "CARGO_TRACKING_NODE": "HEALTHY",
+    "SCHEDULE_COORDINATOR": "HEALTHY"
+  },
+
+  "expected_states": {
+    "RAIL_NETWORK_NODE": "FAILED",
+    "FREIGHT_COORDINATOR": "DEGRADED",
+    "CARGO_TRACKING_NODE": "DEGRADED",
+    "SCHEDULE_COORDINATOR": "DEGRADED"
+  }
+}
