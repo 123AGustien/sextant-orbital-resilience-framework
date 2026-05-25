@@ -10,13 +10,24 @@ DOMAIN_MAP = {
 }
 
 # -----------------------------------------
-# DOMAIN ROUTER (IMPORTANT)
+# DOMAIN ROUTER (CORE DISPATCHER)
 # -----------------------------------------
 def get_engine(domain: str):
     """
     Returns initialized engine for a given domain.
-    """
-    if domain not in DOMAIN_MAP:
-        raise ValueError(f"Unknown domain: {domain}")
 
-    return DOMAIN_MAP[domain]()
+    Used by:
+    - orchestration layer
+    - scenario runtime
+    - cascade simulation engine
+    """
+
+    engine_class = DOMAIN_MAP.get(domain)
+
+    if engine_class is None:
+        raise ValueError(
+            f"[DOMAIN_ROUTER] Unknown domain: {domain}. "
+            f"Supported domains: {', '.join(DOMAIN_MAP.keys())}"
+        )
+
+    return engine_class()
