@@ -1,0 +1,40 @@
+{
+  "scenario_id": "transport_route_congestion_v1",
+
+  "domain": "transport",
+
+  "nodes": [
+    "ROUTE_CONTROLLER",
+    "TRAFFIC_ROUTER",
+    "CONGESTION_MONITOR",
+    "DISPATCH_CONTROLLER"
+  ],
+
+  "dependencies": {
+    "TRAFFIC_ROUTER": [
+      "ROUTE_CONTROLLER"
+    ],
+
+    "DISPATCH_CONTROLLER": [
+      "TRAFFIC_ROUTER"
+    ],
+
+    "CONGESTION_MONITOR": [
+      "TRAFFIC_ROUTER"
+    ]
+  },
+
+  "initial_state": {
+    "ROUTE_CONTROLLER": "HEALTHY",
+    "TRAFFIC_ROUTER": "DEGRADED",
+    "CONGESTION_MONITOR": "HEALTHY",
+    "DISPATCH_CONTROLLER": "HEALTHY"
+  },
+
+  "expected_states": {
+    "ROUTE_CONTROLLER": "DEGRADED",
+    "TRAFFIC_ROUTER": "DEGRADED",
+    "CONGESTION_MONITOR": "DEGRADED",
+    "DISPATCH_CONTROLLER": "DEGRADED"
+  }
+}
