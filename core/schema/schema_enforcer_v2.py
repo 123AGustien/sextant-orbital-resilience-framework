@@ -1,122 +1,129 @@
-"""
-🛰️ Sextant Orbital Resilience Framework
-Schema Enforcement Engine v2 (Hardened)
+# 🛰️ Schema Enforcement Engine v2  
+## Sextant Orbital Resilience Framework
 
-Adds structural + referential + state integrity validation.
-"""
+---
 
-from typing import Dict, Any
+## 🧭 Overview
 
+The Schema Enforcement Engine v2 is a core validation layer of the Sextant Orbital Resilience Framework.
 
-class SchemaEnforcerV2:
-    """
-    Validates full scenario integrity across domains.
-    """
+It ensures that all scenario definitions are structurally valid, referentially consistent, and state-complete before execution.
 
-    ALLOWED_DOMAINS = {
-        "orbital",
-        "telecom",
-        "maritime",
-        "energy",
-        "cloud"
-    }
+This module acts as the **first gate in the deterministic execution pipeline**, preventing malformed or inconsistent scenarios from entering simulation or evaluation stages.
 
-    ALLOWED_STATES = {
-        "HEALTHY",
-        "DEGRADED",
-        "FAILED",
-        "RECOVERING"
-    }
+---
 
-    REQUIRED_FIELDS = {
-        "scenario_id",
-        "domain",
-        "nodes",
-        "dependencies",
-        "initial_state",
-        "expected_states"
-    }
+## 📍 File Location
 
-    # ----------------------------
-    # MAIN ENTRY
-    # ----------------------------
-    def validate(self, scenario: Dict[str, Any]) -> Dict[str, Any]:
+core/schema/schema_enforcer_v2.py
 
-        self._check_required_fields(scenario)
-        self._check_domain(scenario)
-        self._check_structure(scenario)
-        self._check_state_maps(scenario)
-        self._check_dependency_integrity(scenario)
+---
 
-        return scenario
+## 🧠 System Role
 
-    # ----------------------------
-    # FIELD CHECK
-    # ----------------------------
-    def _check_required_fields(self, scenario):
-        for field in self.REQUIRED_FIELDS:
-            if field not in scenario:
-                raise ValueError(f"Schema Error: Missing field '{field}'")
+The Schema Enforcer operates as a **pre-execution integrity gate**.
 
-    # ----------------------------
-    # DOMAIN CHECK
-    # ----------------------------
-    def _check_domain(self, scenario):
-        if scenario["domain"] not in self.ALLOWED_DOMAINS:
-            raise ValueError(f"Invalid domain: {scenario['domain']}")
+It is responsible for validating:
 
-    # ----------------------------
-    # STRUCTURE CHECK
-    # ----------------------------
-    def _check_structure(self, scenario):
-        if not isinstance(scenario["nodes"], list):
-            raise ValueError("nodes must be a list")
+- Structural correctness of scenario definitions
+- Domain legitimacy
+- Node consistency across all mappings
+- Dependency integrity
+- State validity
 
-        if not isinstance(scenario["dependencies"], dict):
-            raise ValueError("dependencies must be a dict")
+---
 
-        if not isinstance(scenario["initial_state"], dict):
-            raise ValueError("initial_state must be a dict")
+## 🚫 Non-Responsibilities
 
-        if not isinstance(scenario["expected_states"], dict):
-            raise ValueError("expected_states must be a dict")
+This module does NOT:
 
-    # ----------------------------
-    # STATE VALIDATION
-    # ----------------------------
-    def _check_state_maps(self, scenario):
+- Execute simulations
+- Modify scenario behavior
+- Perform evaluation or scoring
+- Generate traces or logs
+- Apply governance logic
 
-        nodes = set(scenario["nodes"])
+---
 
-        for node, state in scenario["initial_state"].items():
-            if node not in nodes:
-                raise ValueError(f"Unknown node in initial_state: {node}")
-            if state not in self.ALLOWED_STATES:
-                raise ValueError(f"Invalid state {state} for {node}")
+## ⚙️ Core Validation Functions
 
-        for node, state in scenario["expected_states"].items():
-            if node not in nodes:
-                raise ValueError(f"Unknown node in expected_states: {node}")
-            if state not in self.ALLOWED_STATES:
-                raise ValueError(f"Invalid state {state} for {node}")
+The engine enforces five major validation layers:
 
-    # ----------------------------
-    # DEPENDENCY INTEGRITY
-    # ----------------------------
-    def _check_dependency_integrity(self, scenario):
+### 1. Required Field Validation
+Ensures all mandatory fields exist:
+- scenario_id
+- domain
+- nodes
+- dependencies
+- initial_state
+- expected_states
 
-        nodes = set(scenario["nodes"])
+---
 
-        for node, deps in scenario["dependencies"].items():
+### 2. Domain Validation
+Ensures scenario belongs to a valid system category:
 
-            if node not in nodes:
-                raise ValueError(f"Dependency defined for unknown node: {node}")
+- orbital
+- telecom
+- maritime
+- energy
+- cloud
 
-            if not isinstance(deps, list):
-                raise ValueError(f"Dependencies for {node} must be a list")
+---
 
-            for dep in deps:
-                if dep not in nodes:
-                    raise ValueError(
-                        f"Invalid dependency: {node} depends on unknown node {dep}"
-                    )
+### 3. Structural Validation
+Ensures correct data types:
+- nodes → list
+- dependencies → dict
+- initial_state → dict
+- expected_states → dict
+
+---
+
+### 4. State Validation
+Ensures all node states are valid and consistent:
+
+Allowed states:
+- HEALTHY
+- DEGRADED
+- FAILED
+- RECOVERING
+
+Rules:
+- All nodes must exist in state mappings
+- No unknown nodes allowed in state definitions
+
+---
+
+### 5. Dependency Integrity Validation
+Ensures graph consistency:
+
+Rules:
+- All dependency nodes must exist in node list
+- Dependencies must be lists
+- No references to unknown nodes allowed
+
+---
+
+## 📥 Input Structure
+
+```json
+{
+  "scenario_id": "orbital_cascade_v1",
+  "domain": "orbital",
+  "nodes": [
+    "satellite_A",
+    "satellite_B"
+  ],
+  "dependencies": {
+    "satellite_B": ["satellite_A"]
+  },
+  "initial_state": {
+    "satellite_A": "HEALTHY",
+    "satellite_B": "DEGRADED"
+  },
+  "expected_states": {
+    "satellite_A": "HEALTHY",
+    "satellite_B": "DEGRADED"
+  }
+}
