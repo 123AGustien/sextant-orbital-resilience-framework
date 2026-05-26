@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 
 from api.v1.orbital_engine import OrbitalEngineV1
-
 from core.cascade.cross_domain_cascade_engine_v2 import CrossDomainCascadeEngineV2
 from core.cascade.cascade_severity_engine_v1 import CascadeSeverityEngineV1
 
@@ -11,79 +10,89 @@ from core.trace.cascade_trace_adapter_v1 import CascadeTraceAdapterV1
 from api.incident_loader import IncidentLoader
 from core.simulation_context import get_simulation_context
 
+from api.schemas.run_scenario_schema import ScenarioRequest
+
+# 🧭 DOMAIN ROUTER (NEW)
+from core.routing.domain_router import DomainRouter
+
 
 # ----------------------------
-# APP INITIALIZATION
+# APP INITIALISATION
 # ----------------------------
 
-simulation_app = FastAPI(title="Simulation Engine")
+simulation_app = FastAPI(title="Sextant Simulation Engine")
 
 engine = OrbitalEngineV1()
-
 cascade_engine = CrossDomainCascadeEngineV2()
 severity_engine = CascadeSeverityEngineV1()
 trace_adapter = CascadeTraceAdapterV1()
 
+# 🧭 Router init
+router = DomainRouter()
+
 
 # ----------------------------
-# MAIN ENDPOINT
+# MAIN SIMULATION ENDPOINT
 # ----------------------------
 
 @simulation_app.post("/run-scenario")
-def run_scenario(payload: dict):
+def run_scenario(request: ScenarioRequest):
 
-    # ----------------------------
-    # INCIDENT MODE CHECK
-    # ----------------------------
-    incident_id = payload.get("incident_id")
-
+    # 🧾 TRACE START
     tracer = ExecutionTraceV1()
-    trace_id = tracer.start_trace(payload)
+    trace_id = tracer.start_trace(request.payload)
+
+    # ----------------------------
+    # DOMAIN RESOLUTION (NEW STEP)
+    # ----------------------------
+    domain_path = router.resolve(request.payload)
+    tracer.log_event(trace_id, "DOMAIN_RESOLVED", domain_path)
+
+    incident_id = request.incident_id
 
     # ============================
-    # INCIDENT REPLAY MODE
+    # INCIDENT MODE (REPLAY)
     # ============================
     if incident_id:
+
         incident = IncidentLoader.load_incident(incident_id)
 
-        tracer.log_event(trace_id, "INCIDENT_REPLAY_MODE", incident_id)
+        tracer.log_event(trace_id, "INCIDENT_MODE", incident_id)
         tracer.log_event(trace_id, "INCIDENT_LOADED", incident)
 
-        tracer.end_trace(trace_id, incident)
-
-        return {
+        result = {
             "status": "success",
             "mode": "incident_simulation",
             "simulation_context": get_simulation_context(),
             "trace_id": trace_id,
             "incident_id": incident_id,
-            "incident": incident
+            "incident": incident,
+            "resolved_domain": domain_path
         }
 
+        tracer.end_trace(trace_id, result)
+        return result
+
     # ============================
-    # NORMAL SIMULATION FLOW
+    # STANDARD SIMULATION FLOW
     # ============================
 
-    # 🚀 BASE ORBITAL ENGINE
-    base_output = engine.run_scenario(payload)
-    tracer.log_event(trace_id, "BASE_EXECUTION_COMPLETE", base_output)
+    base_output = engine.run_scenario(request.payload)
+    tracer.log_event(trace_id, "BASE_MODEL_COMPLETE", base_output)
 
-    # 🛰️ CASCADE ENGINE
-    scenario = cascade_engine.propagate(payload)
-    tracer.log_event(trace_id, "CASCADE_COMPLETE", scenario["cascade_result"])
+    scenario = cascade_engine.propagate(request.payload)
+    tracer.log_event(trace_id, "CASCADE_MODEL_COMPLETE", scenario["cascade_result"])
 
-    # 📊 SEVERITY ENGINE
     scenario = severity_engine.evaluate(scenario)
-    tracer.log_event(trace_id, "SEVERITY_COMPLETE", scenario["cascade_severity"])
+    tracer.log_event(trace_id, "SEVERITY_ASSESSMENT_COMPLETE", scenario["cascade_severity"])
 
-    # 🧭 TRACE CASCADE LIFECYCLE
+    # 🧭 ATTACH DOMAIN CONTEXT (NEW)
+    scenario["resolved_domain"] = domain_path
+    tracer.log_event(trace_id, "DOMAIN_ATTACHED", domain_path)
+
     trace_adapter.log_cascade(tracer, trace_id, scenario)
 
-    # 🧾 END TRACE
-    tracer.end_trace(trace_id, scenario)
-
-    # 📤 RESPONSE
-    return {
+    result = {
         "status": "success",
         "mode": "scenario_simulation",
         "simulation_context": get_simulation_context(),
@@ -91,3 +100,6 @@ def run_scenario(payload: dict):
         "base_output": base_output,
         "output": scenario
     }
+
+    tracer.end_trace(trace_id, result)
+    return result
