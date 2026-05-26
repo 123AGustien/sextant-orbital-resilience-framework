@@ -1,81 +1,86 @@
 from fastapi import FastAPI
 
-from api.routes.auth import router as auth_router
-from api.routes.scenario import router as scenario_router
-from api.routes.admin import router as admin_router
+from api.v1.orbital_engine import OrbitalEngineV1
+from core.cascade.cross_domain_cascade_engine_v2 import CrossDomainCascadeEngineV2
+from core.cascade.cascade_severity_engine_v1 import CascadeSeverityEngineV1
 
-from core.billing_sqlite import (
-    init_db,
-    get_usage
-)
+from core.trace.execution_trace_v1 import ExecutionTraceV1
+from core.trace.cascade_trace_adapter_v1 import CascadeTraceAdapterV1
 
-# -------------------------
-# INITIALIZE SQLITE DATABASE
-# -------------------------
-init_db()
+from api.incident_loader import IncidentLoader
+from core.simulation_context import get_simulation_context
+
+from api.schemas.run_scenario_schema import ScenarioRequest
 
 
-# -------------------------
-# APP INITIALIZATION
-# -------------------------
-app = FastAPI(
-    title="Sextant Orbital Resilience Framework",
-    version="1.6.0",
-    description="Orbital dependency simulation + resilience intelligence + SaaS control layer"
-)
+# ----------------------------
+# APP INITIALISATION
+# ----------------------------
+
+simulation_app = FastAPI(title="Sextant Simulation Engine")
+
+engine = OrbitalEngineV1()
+cascade_engine = CrossDomainCascadeEngineV2()
+severity_engine = CascadeSeverityEngineV1()
+trace_adapter = CascadeTraceAdapterV1()
 
 
-# -------------------------
-# ROUTE REGISTRATION
-# -------------------------
-app.include_router(
-    auth_router,
-    prefix="/auth",
-    tags=["Authentication"]
-)
+# ----------------------------
+# MAIN SIMULATION ENDPOINT
+# ----------------------------
 
-app.include_router(
-    scenario_router,
-    prefix="/scenario",
-    tags=["Simulation"]
-)
+@simulation_app.post("/run-scenario")
+def run_scenario(request: ScenarioRequest):
 
-app.include_router(
-    admin_router,
-    prefix="/admin",
-    tags=["Admin"]
-)
+    # 🧾 Start trace for observability
+    tracer = ExecutionTraceV1()
+    trace_id = tracer.start_trace(request.payload)
 
+    incident_id = request.incident_id
 
-# -------------------------
-# HEALTH CHECK
-# -------------------------
-@app.get("/")
-def root():
-    return {
-        "status": "online",
-        "system": "Sextant Orbital Engine",
-        "version": "1.6.0"
-    }
+    # ============================
+    # INCIDENT MODE (REPLAY)
+    # ============================
+    if incident_id:
 
+        incident = IncidentLoader.load_incident(incident_id)
 
-# -------------------------
-# BILLING ENDPOINT
-# -------------------------
-@app.get("/billing")
-def billing(api_key: str):
+        tracer.log_event(trace_id, "INCIDENT_MODE", incident_id)
+        tracer.log_event(trace_id, "INCIDENT_LOADED", incident)
 
-    usage = get_usage(api_key)
+        tracer.end_trace(trace_id, incident)
 
-    if not usage:
         return {
-            "status": "error",
-            "message": "Invalid API key"
+            "status": "success",
+            "mode": "incident_simulation",
+            "simulation_context": get_simulation_context(),
+            "trace_id": trace_id,
+            "incident_id": incident_id,
+            "incident": incident
         }
 
+    # ============================
+    # STANDARD SIMULATION FLOW
+    # ============================
+
+    base_output = engine.run_scenario(request.payload)
+    tracer.log_event(trace_id, "BASE_MODEL_COMPLETE", base_output)
+
+    scenario = cascade_engine.propagate(request.payload)
+    tracer.log_event(trace_id, "CASCADE_MODEL_COMPLETE", scenario["cascade_result"])
+
+    scenario = severity_engine.evaluate(scenario)
+    tracer.log_event(trace_id, "SEVERITY_ASSESSMENT_COMPLETE", scenario["cascade_severity"])
+
+    trace_adapter.log_cascade(tracer, trace_id, scenario)
+
+    tracer.end_trace(trace_id, scenario)
+
     return {
-        "api_key": api_key,
-        "usage_count": usage["count"],
-        "tier": usage["tier"],
-        "status": "active"
+        "status": "success",
+        "mode": "scenario_simulation",
+        "simulation_context": get_simulation_context(),
+        "trace_id": trace_id,
+        "base_output": base_output,
+        "output": scenario
     }
