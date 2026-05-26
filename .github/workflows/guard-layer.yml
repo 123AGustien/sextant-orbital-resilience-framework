@@ -19,12 +19,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Scan repository for sensitive workflow changes
+      - name: Scan repository for sensitive changes
         id: scan
         run: |
           echo "🛡️ Guard Layer scanning changes..."
 
-          # Get changed files safely (push or PR compatible)
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             BASE="${{ github.event.pull_request.base.sha }}"
             HEAD="${{ github.event.pull_request.head.sha }}"
@@ -33,20 +32,23 @@ jobs:
             HEAD="${{ github.sha }}"
           fi
 
-          CHANGED_FILES=$(git diff --name-only $BASE $HEAD || true)
+          if [ -z "$BASE" ]; then
+            BASE=$(git rev-list --max-parents=0 HEAD)
+          fi
+
+          CHANGED_FILES=$(git diff --name-only "$BASE" "$HEAD" || true)
 
           echo "Changed files:"
           echo "$CHANGED_FILES"
 
           echo "$CHANGED_FILES" > changed_files.txt
 
-          # Detect workflow/YAML changes
-          if echo "$CHANGED_FILES" | grep -E "\.github/workflows/|\.ya?ml"; then
+          if echo "$CHANGED_FILES" | grep -E "^\.github/workflows/|\.ya?ml$"; then
             echo "tamper_detected=true" >> $GITHUB_OUTPUT
-            echo "⚠️ YAML or workflow modification detected"
+            echo "⚠️ Workflow or YAML change detected"
           else
             echo "tamper_detected=false" >> $GITHUB_OUTPUT
-            echo "✅ No sensitive workflow changes detected"
+            echo "✅ No sensitive changes detected"
           fi
 
       - name: Create protection log
@@ -70,11 +72,11 @@ jobs:
           name: guard-layer-log
           path: security_logs/
 
-      - name: Enforce rule
+      - name: Integrity Gate (Kill Switch)
         run: |
           if [ "${{ steps.scan.outputs.tamper_detected }}" = "true" ]; then
-            echo "🛑 Guard Layer triggered: YAML/workflow change detected"
+            echo "🛑 Guard Layer triggered - blocking execution"
             exit 1
           fi
 
-          echo "✅ Guard Layer passed"
+          echo "✅ Guard Layer passed - system stable"
