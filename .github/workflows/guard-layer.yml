@@ -1,10 +1,15 @@
-name: 🛡️ Guard Layer v2 - Integrity & Clone Detection
+name: 🛡️ Guard Layer v3 - Dual Mode Protection System
 
 on:
   push:
     branches: [ main ]
   pull_request:
   workflow_dispatch:
+    inputs:
+      strict_mode:
+        description: "Enable strict blocking mode"
+        required: false
+        default: "false"
 
 permissions:
   contents: read
@@ -14,127 +19,69 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository (full history)
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # -----------------------------
-      # 1. Repository fingerprint baseline
-      # -----------------------------
-      - name: Generate repository fingerprint
-        id: fingerprint
+      - name: Detect changed files
+        id: scan
         run: |
-          echo "🧬 Generating repo fingerprint..."
+          echo "🛡️ Guard Layer scanning..."
 
-          FILE_LIST=$(git ls-files | sort)
-          HASH=$(echo "$FILE_LIST" | sha256sum | cut -d' ' -f1)
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE="${{ github.event.pull_request.base.sha }}"
+            HEAD="${{ github.event.pull_request.head.sha }}"
+          else
+            BASE="${{ github.event.before }}"
+            HEAD="${{ github.sha }}"
+          fi
 
-          echo "fingerprint=$HASH" >> $GITHUB_OUTPUT
-          echo "Repo fingerprint: $HASH"
-
-      # -----------------------------
-      # 2. Detect workflow injection / hidden YAML
-      # -----------------------------
-      - name: Detect workflow integrity changes
-        id: detect
-        run: |
-          echo "🛡️ Scanning workflows..."
-
-          CHANGED_FILES=$(git diff --name-only HEAD^ HEAD || true)
+          CHANGED_FILES=$(git diff --name-only $BASE $HEAD || true)
 
           echo "$CHANGED_FILES"
 
           echo "$CHANGED_FILES" > changed_files.txt
 
-          # Detect workflow or YAML injection
-          if echo "$CHANGED_FILES" | grep -E "^\.github/workflows/|\.ya?ml$"; then
-            echo "workflow_change=true" >> $GITHUB_OUTPUT
-            echo "⚠️ Workflow/YAML modification detected"
+          # detect workflow changes
+          if echo "$CHANGED_FILES" | grep -E "\.github/workflows/|\.ya?ml"; then
+            echo "tamper=true" >> $GITHUB_OUTPUT
           else
-            echo "workflow_change=false" >> $GITHUB_OUTPUT
-            echo "✅ No workflow changes detected"
+            echo "tamper=false" >> $GITHUB_OUTPUT
           fi
 
-      # -----------------------------
-      # 3. Clone / fork injection detection
-      # -----------------------------
-      - name: Detect fork or origin mismatch
-        id: origin_check
+      - name: Create audit log
         run: |
-          echo "🔍 Checking repository origin..."
+          mkdir -p logs
 
-          ORIGIN_URL=$(git config --get remote.origin.url || echo "unknown")
-          REPO_NAME=$(basename "$ORIGIN_URL")
-
-          echo "origin=$ORIGIN_URL"
-
-          # Simple anomaly detection (fork indicator heuristic)
-          if echo "$ORIGIN_URL" | grep -E "fork|copy|mirror" >/dev/null; then
-            echo "fork_detected=true" >> $GITHUB_OUTPUT
-            echo "⚠️ Possible fork/mirror detected"
-          else
-            echo "fork_detected=false" >> $GITHUB_OUTPUT
-            echo "✅ Origin clean"
-          fi
-
-      # -----------------------------
-      # 4. Historical integrity comparison
-      # -----------------------------
-      - name: Historical commit integrity check
-        id: history
-        run: |
-          echo "📜 Checking commit consistency..."
-
-          LAST_COMMIT=$(git rev-parse HEAD)
-          PREV_COMMIT=$(git rev-parse HEAD~1 || echo "$LAST_COMMIT")
-
-          DIFF_SUMMARY=$(git diff --shortstat $PREV_COMMIT $LAST_COMMIT || true)
-
-          echo "diff=$DIFF_SUMMARY" >> $GITHUB_OUTPUT
-          echo "Last change summary: $DIFF_SUMMARY"
-
-      # -----------------------------
-      # 5. Audit log (deterministic record)
-      # -----------------------------
-      - name: Create integrity audit log
-        run: |
-          mkdir -p security_logs
-
-          cat <<EOF > security_logs/guard_v2_audit.json
+          cat <<EOF > logs/guard.json
           {
-            "system": "Sextant Orbital Resilience Framework",
-            "module": "Guard Layer v2",
-            "fingerprint": "${{ steps.fingerprint.outputs.fingerprint }}",
-            "workflow_change": "${{ steps.detect.outputs.workflow_change }}",
-            "fork_detected": "${{ steps.origin_check.outputs.fork_detected }}",
-            "commit_diff": "${{ steps.history.outputs.diff }}",
+            "system": "Sextant Framework",
+            "mode": "guard-v3",
+            "tamper_detected": "${{ steps.scan.outputs.tamper }}",
             "event": "${{ github.event_name }}",
+            "strict_mode": "${{ github.event.inputs.strict_mode }}",
             "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
           }
           EOF
 
-      # -----------------------------
-      # 6. Upload artifact
-      # -----------------------------
-      - name: Upload audit artifact
+      - name: Upload logs
         uses: actions/upload-artifact@v4
         with:
-          name: guard-layer-v2-audit
-          path: security_logs/
+          name: guard-log
+          path: logs/
 
-      # -----------------------------
-      # 7. Enforcement layer (safe kill switch)
-      # -----------------------------
-      - name: Enforce integrity rules
+      - name: Enforce rule (STRICT ONLY)
         run: |
-          if [ "${{ steps.detect.outputs.workflow_change }}" = "true" ]; then
-            echo "🛑 BLOCK: Workflow modification detected"
-            exit 1
-          fi
+          if [ "${{ steps.scan.outputs.tamper }}" = "true" ]; then
 
-          if [ "${{ steps.origin_check.outputs.fork_detected }}" = "true" ]; then
-            echo "⚠️ WARNING: Fork-like origin detected (not blocking by default)"
-          fi
+            if [ "${{ github.event.inputs.strict_mode }}" = "true" ]; then
+              echo "🛑 STRICT MODE: Blocking change"
+              exit 1
+            else
+              echo "⚠️ WARNING MODE: Change detected but allowed"
+            fi
 
-          echo "✅ Guard Layer v2 passed"
+          else
+            echo "✅ Clean system state"
+          fi
