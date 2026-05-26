@@ -1,0 +1,72 @@
+name: 🛡️ Guard Layer v1 - Data Protection & Workflow Integrity
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Detect workflow or YAML tampering
+        id: detect
+        run: |
+          echo "🛡️ Guard Layer scanning repository changes..."
+
+          git fetch origin main
+
+          CHANGED_FILES=$(git diff --name-only origin/main...HEAD)
+
+          echo "Changed files:"
+          echo "$CHANGED_FILES"
+
+          echo "$CHANGED_FILES" > changed_files.txt
+
+          # Detect sensitive areas
+          if echo "$CHANGED_FILES" | grep -E "\.github/workflows/|\.yml|\.yaml"; then
+            echo "⚠️ SECURITY ALERT: Workflow or YAML modification detected"
+            echo "tamper_detected=true" >> $GITHUB_OUTPUT
+          else
+            echo "tamper_detected=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Data Protection Log
+        run: |
+          mkdir -p security_logs
+
+          cat <<EOF > security_logs/guard_layer_log.json
+          {
+            "system": "Sextant Orbital Resilience Framework",
+            "module": "Guard Layer v1",
+            "status": "RUN_COMPLETE",
+            "tamper_detected": "${{ steps.detect.outputs.tamper_detected }}",
+            "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          }
+          EOF
+
+      - name: Upload Security Log Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: guard-layer-log
+          path: security_logs/
+
+      - name: Enforce Protection Rule (optional halt)
+        run: |
+          if [ "${{ steps.detect.outputs.tamper_detected }}" = "true" ]; then
+            echo "🛑 Guard Layer triggered: stopping pipeline due to workflow/YAML changes"
+            exit 1
+          fi
+
+      - name: System OK
+        run: |
+          echo "✅ Guard Layer passed - system stable"
