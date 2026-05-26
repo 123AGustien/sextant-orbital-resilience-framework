@@ -1,6 +1,0 @@
-{
-  "scenario": "energy_grid_cascade",
-  "nodes": 5,
-  "initial_failure": "node_1",
-  "fault_intensity": 0.6
-}
