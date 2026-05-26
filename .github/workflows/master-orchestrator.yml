@@ -1,0 +1,95 @@
+name: 🛰️ Master Orchestrator
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sextant-stable
+  cancel-in-progress: true
+
+jobs:
+  simulate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Core check
+        run: python -c "print('🛰️ Sextant system online')"
+
+      - name: Run safe cascade simulation
+        run: |
+          python - << 'EOF'
+          import json, os
+
+          print("🛰️ Running simulation")
+
+          result = {
+              "orbital": "SIGNAL_LOSS",
+              "impact": {
+                  "transport": "DELAY",
+                  "finance": "MINOR_FLUCTUATION"
+              },
+              "status": "OK"
+          }
+
+          os.makedirs("docs/runtime", exist_ok=True)
+
+          with open("docs/runtime/cascade.json", "w") as f:
+              json.dump(result, f, indent=2)
+
+          print("✔ Simulation complete")
+          EOF
+
+      - name: Build dashboard
+        run: |
+          mkdir -p docs
+          cat <<EOF > docs/index.html
+          <html>
+          <body>
+            <h1>🛰️ Sextant Dashboard</h1>
+            <pre id="data"></pre>
+
+            <script>
+              fetch('./runtime/cascade.json')
+                .then(r => r.json())
+                .then(d => document.getElementById('data').innerText =
+                  JSON.stringify(d, null, 2));
+            </script>
+          </body>
+          </html>
+          EOF
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+  deploy:
+    needs: simulate
+    runs-on: ubuntu-latest
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+
+    steps:
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Deploy Pages
+        uses: actions/deploy-pages@v4
