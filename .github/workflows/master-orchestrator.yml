@@ -36,9 +36,6 @@ jobs:
         with:
           python-version: "3.11"
 
-      # -----------------------------
-      # CORE VALIDATION
-      # -----------------------------
       - name: Validate core framework imports
         run: |
           python -c "print('🛰️ Core modules OK')"
@@ -49,19 +46,21 @@ jobs:
       - name: Run Orbital Scenario Execution
         run: |
           python - << 'EOF'
-          import json
-          import glob
+          import json, glob
 
           print("🛰️ Running Orbital Scenarios")
 
-          for file in glob.glob("scenarios/orbital/*.json"):
+          files = glob.glob("scenarios/orbital/*.json")
+
+          if not files:
+              print("⚠️ No orbital scenarios found")
+
+          for file in files:
               with open(file) as f:
                   scenario = json.load(f)
 
               print(f"✔ Loaded {scenario['scenario_id']}")
-
               assert scenario["domain"] == "orbital"
-              print("✔ Orbital scenario validated")
           EOF
 
       # -----------------------------
@@ -70,19 +69,21 @@ jobs:
       - name: Run Transport Scenario Execution
         run: |
           python - << 'EOF'
-          import json
-          import glob
+          import json, glob
 
           print("🚆 Running Transport Scenarios")
 
-          for file in glob.glob("scenarios/transport/*.json"):
+          files = glob.glob("scenarios/transport/*.json")
+
+          if not files:
+              print("⚠️ No transport scenarios found")
+
+          for file in files:
               with open(file) as f:
                   scenario = json.load(f)
 
               print(f"✔ Loaded {scenario['scenario_id']}")
-
               assert scenario["domain"] == "transport"
-              print("✔ Transport scenario validated")
           EOF
 
       # -----------------------------
@@ -91,19 +92,16 @@ jobs:
       - name: Run Cross-Domain Cascade Engine
         run: |
           python - << 'EOF'
-          import json
-          import os
+          import json, os
 
           print("🌐 Running Cross-Domain Cascade Engine")
 
-          # Simulated orbital failure event
           orbital_failure = {
               "domain": "orbital",
               "failure_type": "SIGNAL_LOSS",
               "failed_nodes": ["SATELLITE_ALPHA"]
           }
 
-          # Translation mapping
           mapping = {
               "SIGNAL_LOSS": [
                   "TRANSPORT_SIGNAL_FAILURE",
@@ -111,14 +109,12 @@ jobs:
               ]
           }
 
-          impacts = mapping.get(orbital_failure["failure_type"], [])
-
           cascade_result = {
               "source_domain": "orbital",
               "target_domain": "transport",
               "trigger": orbital_failure["failure_type"],
               "failed_nodes": orbital_failure["failed_nodes"],
-              "impacts_on_transport": impacts,
+              "impacts_on_transport": mapping.get(orbital_failure["failure_type"], []),
               "status": "PROCESSED"
           }
 
@@ -157,6 +153,13 @@ jobs:
           </body>
           </html>
           EOF
+
+      # -----------------------------
+      # FINAL CHECK (IMPORTANT FIX)
+      # -----------------------------
+      - name: Ensure docs directory exists
+        run: |
+          ls -R docs
 
       # -----------------------------
       # DEPLOY TO GITHUB PAGES
