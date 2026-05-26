@@ -1,0 +1,27 @@
+{
+  "incident_id": "BREACH_2026",
+  "domain": "data_security",
+  "type": "DATA_BREACH_SIMULATION",
+  "severity": "HIGH",
+  "trigger_event": "UNAUTHORIZED_ACCESS_ATTEMPT",
+  "affected_systems": [
+    "user_database",
+    "api_gateway",
+    "logging_pipeline"
+  ],
+  "exposure_model": {
+    "vector": "credential_compromise",
+    "scope": "limited"
+  },
+  "timeline": [
+    "T0: anomaly_detected",
+    "T+2m: access_escalation",
+    "T+5m: containment_triggered"
+  ],
+  "recovery_actions": [
+    "isolate_api_gateway",
+    "rotate_credentials",
+    "invalidate_sessions"
+  ],
+  "simulation_only": true
+}
