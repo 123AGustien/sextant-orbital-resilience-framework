@@ -1,0 +1,7 @@
+{
+  "incident_id": "SIM-BREACH-2026-001",
+  "type": "synthetic_breach_simulation",
+  "severity": "high",
+  "system_context": "sandbox_simulation_only",
+  "objective": "cascade_failure_and_response_modeling"
+}
