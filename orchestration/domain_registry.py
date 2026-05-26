@@ -3,6 +3,7 @@ from domains.financial.financial_engine import FinancialEngine
 from domains.telecom.telecom_engine import TelecomEngine
 from domains.energy.energy_engine import EnergyEngine
 from domains.maritime.maritime_engine import MaritimeEngine
+from domains.satellite.satellite_engine import SatelliteEngine
 
 # -----------------------------------------
 # DOMAIN EXECUTION MAP
@@ -12,7 +13,8 @@ DOMAIN_MAP = {
     "financial": FinancialEngine,
     "telecom": TelecomEngine,
     "energy": EnergyEngine,
-    "maritime": MaritimeEngine
+    "maritime": MaritimeEngine,
+    "satellite": SatelliteEngine
 }
 
 # -----------------------------------------
