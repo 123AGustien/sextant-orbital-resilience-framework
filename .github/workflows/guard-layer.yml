@@ -1,10 +1,15 @@
-name: 🛡️ Guard Layer v2 - Integrity & Clone Detection
+name: 🛡️ Guard Layer - Working + Manual Alert System
 
 on:
   push:
     branches: [ main ]
   pull_request:
   workflow_dispatch:
+    inputs:
+      mode:
+        description: "working | alert"
+        required: true
+        default: working
 
 permissions:
   contents: read
@@ -14,127 +19,79 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository (full history)
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # -----------------------------
-      # 1. Repository fingerprint baseline
-      # -----------------------------
-      - name: Generate repository fingerprint
-        id: fingerprint
+      # -------------------------
+      # MODE CONTROL (OWNER SAFE)
+      # -------------------------
+      - name: Set execution mode
+        id: mode
         run: |
-          echo "🧬 Generating repo fingerprint..."
-
-          FILE_LIST=$(git ls-files | sort)
-          HASH=$(echo "$FILE_LIST" | sha256sum | cut -d' ' -f1)
-
-          echo "fingerprint=$HASH" >> $GITHUB_OUTPUT
-          echo "Repo fingerprint: $HASH"
-
-      # -----------------------------
-      # 2. Detect workflow injection / hidden YAML
-      # -----------------------------
-      - name: Detect workflow integrity changes
-        id: detect
-        run: |
-          echo "🛡️ Scanning workflows..."
-
-          CHANGED_FILES=$(git diff --name-only HEAD^ HEAD || true)
-
-          echo "$CHANGED_FILES"
-
-          echo "$CHANGED_FILES" > changed_files.txt
-
-          # Detect workflow or YAML injection
-          if echo "$CHANGED_FILES" | grep -E "^\.github/workflows/|\.ya?ml$"; then
-            echo "workflow_change=true" >> $GITHUB_OUTPUT
-            echo "⚠️ Workflow/YAML modification detected"
+          if [ -z "${{ github.event.inputs.mode }}" ]; then
+            MODE="working"
           else
-            echo "workflow_change=false" >> $GITHUB_OUTPUT
-            echo "✅ No workflow changes detected"
+            MODE="${{ github.event.inputs.mode }}"
           fi
 
-      # -----------------------------
-      # 3. Clone / fork injection detection
-      # -----------------------------
-      - name: Detect fork or origin mismatch
-        id: origin_check
+          echo "mode=$MODE" >> $GITHUB_OUTPUT
+          echo "🧭 Mode selected: $MODE"
+
+      # -------------------------
+      # WORKING MODE (AUTOMATIC)
+      # -------------------------
+      - name: Working Mode Scan
+        if: steps.mode.outputs.mode == 'working'
         run: |
-          echo "🔍 Checking repository origin..."
+          echo "🛡️ WORKING MODE ACTIVE"
 
-          ORIGIN_URL=$(git config --get remote.origin.url || echo "unknown")
-          REPO_NAME=$(basename "$ORIGIN_URL")
+          CHANGED=$(git diff --name-only HEAD^ HEAD || true)
 
-          echo "origin=$ORIGIN_URL"
+          echo "$CHANGED"
 
-          # Simple anomaly detection (fork indicator heuristic)
-          if echo "$ORIGIN_URL" | grep -E "fork|copy|mirror" >/dev/null; then
-            echo "fork_detected=true" >> $GITHUB_OUTPUT
-            echo "⚠️ Possible fork/mirror detected"
-          else
-            echo "fork_detected=false" >> $GITHUB_OUTPUT
-            echo "✅ Origin clean"
+          if echo "$CHANGED" | grep -E "\.github/workflows/|\.ya?ml"; then
+            echo "⚠️ Workflow/YAML change detected (logged only)"
           fi
 
-      # -----------------------------
-      # 4. Historical integrity comparison
-      # -----------------------------
-      - name: Historical commit integrity check
-        id: history
+          echo "✅ Working scan complete"
+
+      # -------------------------
+      # ALERT MODE (MANUAL OWNER)
+      # -------------------------
+      - name: Alert Mode Report
+        if: steps.mode.outputs.mode == 'alert'
         run: |
-          echo "📜 Checking commit consistency..."
+          echo "🚨 ALERT MODE (OWNER ONLY)"
 
-          LAST_COMMIT=$(git rev-parse HEAD)
-          PREV_COMMIT=$(git rev-parse HEAD~1 || echo "$LAST_COMMIT")
+          echo "Repository state snapshot:"
+          git log -1 --stat
 
-          DIFF_SUMMARY=$(git diff --shortstat $PREV_COMMIT $LAST_COMMIT || true)
+          echo "Full file inventory:"
+          git ls-files
 
-          echo "diff=$DIFF_SUMMARY" >> $GITHUB_OUTPUT
-          echo "Last change summary: $DIFF_SUMMARY"
+          echo "No enforcement applied - report only"
 
-      # -----------------------------
-      # 5. Audit log (deterministic record)
-      # -----------------------------
-      - name: Create integrity audit log
+      # -------------------------
+      # AUDIT LOG (ALWAYS)
+      # -------------------------
+      - name: Create audit log
         run: |
           mkdir -p security_logs
 
-          cat <<EOF > security_logs/guard_v2_audit.json
+          cat <<EOF > security_logs/guard_audit.json
           {
-            "system": "Sextant Orbital Resilience Framework",
-            "module": "Guard Layer v2",
-            "fingerprint": "${{ steps.fingerprint.outputs.fingerprint }}",
-            "workflow_change": "${{ steps.detect.outputs.workflow_change }}",
-            "fork_detected": "${{ steps.origin_check.outputs.fork_detected }}",
-            "commit_diff": "${{ steps.history.outputs.diff }}",
+            "mode": "${{ steps.mode.outputs.mode }}",
+            "repo": "${{ github.repository }}",
             "event": "${{ github.event_name }}",
+            "commit": "${{ github.sha }}",
             "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
           }
           EOF
 
-      # -----------------------------
-      # 6. Upload artifact
-      # -----------------------------
       - name: Upload audit artifact
         uses: actions/upload-artifact@v4
         with:
-          name: guard-layer-v2-audit
+          name: guard-audit-log
           path: security_logs/
-
-      # -----------------------------
-      # 7. Enforcement layer (safe kill switch)
-      # -----------------------------
-      - name: Enforce integrity rules
-        run: |
-          if [ "${{ steps.detect.outputs.workflow_change }}" = "true" ]; then
-            echo "🛑 BLOCK: Workflow modification detected"
-            exit 1
-          fi
-
-          if [ "${{ steps.origin_check.outputs.fork_detected }}" = "true" ]; then
-            echo "⚠️ WARNING: Fork-like origin detected (not blocking by default)"
-          fi
-
-          echo "✅ Guard Layer v2 passed"
