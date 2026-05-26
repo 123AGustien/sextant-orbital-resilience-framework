@@ -5,20 +5,13 @@ on:
   push:
     branches: [ "main" ]
 
-concurrency:
-  group: sextant-orchestrator
-  cancel-in-progress: true
-        description: "Number of simulation steps"
-        required: false
-        default: "10"
-
 permissions:
   contents: read
   pages: write
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: sextant-orchestrator
   cancel-in-progress: true
 
 
@@ -154,9 +147,6 @@ jobs:
           </html>
           EOF
 
-      # -----------------------------
-      # FINAL CHECK (IMPORTANT FIX)
-      # -----------------------------
       - name: Ensure docs directory exists
         run: |
           ls -R docs
