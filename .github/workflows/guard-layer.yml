@@ -8,7 +8,6 @@ on:
 
 permissions:
   contents: read
-  actions: read
 
 jobs:
   guard:
@@ -17,56 +16,65 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Detect workflow or YAML tampering
-        id: detect
+      - name: Scan repository for sensitive workflow changes
+        id: scan
         run: |
-          echo "🛡️ Guard Layer scanning repository changes..."
+          echo "🛡️ Guard Layer scanning changes..."
 
-          git fetch origin main
+          # Get changed files safely (push or PR compatible)
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE="${{ github.event.pull_request.base.sha }}"
+            HEAD="${{ github.event.pull_request.head.sha }}"
+          else
+            BASE="${{ github.event.before }}"
+            HEAD="${{ github.sha }}"
+          fi
 
-          CHANGED_FILES=$(git diff --name-only origin/main...HEAD)
+          CHANGED_FILES=$(git diff --name-only $BASE $HEAD || true)
 
           echo "Changed files:"
           echo "$CHANGED_FILES"
 
           echo "$CHANGED_FILES" > changed_files.txt
 
-          # Detect sensitive areas
-          if echo "$CHANGED_FILES" | grep -E "\.github/workflows/|\.yml|\.yaml"; then
-            echo "⚠️ SECURITY ALERT: Workflow or YAML modification detected"
+          # Detect workflow/YAML changes
+          if echo "$CHANGED_FILES" | grep -E "\.github/workflows/|\.ya?ml"; then
             echo "tamper_detected=true" >> $GITHUB_OUTPUT
+            echo "⚠️ YAML or workflow modification detected"
           else
             echo "tamper_detected=false" >> $GITHUB_OUTPUT
+            echo "✅ No sensitive workflow changes detected"
           fi
 
-      - name: Create Data Protection Log
+      - name: Create protection log
         run: |
           mkdir -p security_logs
 
-          cat <<EOF > security_logs/guard_layer_log.json
+          cat <<EOF > security_logs/guard_log.json
           {
             "system": "Sextant Orbital Resilience Framework",
             "module": "Guard Layer v1",
-            "status": "RUN_COMPLETE",
-            "tamper_detected": "${{ steps.detect.outputs.tamper_detected }}",
+            "status": "completed",
+            "tamper_detected": "${{ steps.scan.outputs.tamper_detected }}",
+            "event": "${{ github.event_name }}",
             "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
           }
           EOF
 
-      - name: Upload Security Log Artifact
+      - name: Upload log artifact
         uses: actions/upload-artifact@v4
         with:
           name: guard-layer-log
           path: security_logs/
 
-      - name: Enforce Protection Rule (optional halt)
+      - name: Enforce rule
         run: |
-          if [ "${{ steps.detect.outputs.tamper_detected }}" = "true" ]; then
-            echo "🛑 Guard Layer triggered: stopping pipeline due to workflow/YAML changes"
+          if [ "${{ steps.scan.outputs.tamper_detected }}" = "true" ]; then
+            echo "🛑 Guard Layer triggered: YAML/workflow change detected"
             exit 1
           fi
 
-      - name: System OK
-        run: |
-          echo "✅ Guard Layer passed - system stable"
+          echo "✅ Guard Layer passed"
