@@ -1,0 +1,13 @@
+{
+  "data_categories": [
+    "identity_attributes",
+    "contact_information",
+    "demographic_attributes",
+    "educational_background"
+  ],
+  "exposure_model_type": "synthetic_label_based_model",
+  "data_scope": "simulation_only",
+  "constraint": "no_real_personal_data_used",
+  "purpose": "simulate_data_exposure_impact_in_resilience_testing",
+  "notes": "All fields represent abstract simulation categories, not real individuals or datasets"
+}
