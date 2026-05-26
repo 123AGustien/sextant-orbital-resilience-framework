@@ -3,6 +3,7 @@ name: Sextant Simulation API CI
 on:
   push:
     branches: [ "main" ]
+
   pull_request:
 
 jobs:
@@ -10,23 +11,56 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+      # -----------------------------
+      # CHECKOUT REPOSITORY
+      # -----------------------------
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      # -----------------------------
+      # SETUP PYTHON
+      # -----------------------------
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
+      # -----------------------------
+      # INSTALL DEPENDENCIES
+      # -----------------------------
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      # -----------------------------
+      # VALIDATE API IMPORT
+      # -----------------------------
       - name: Validate FastAPI import
         run: |
           python -c "import api.main"
 
+      # -----------------------------
+      # VALIDATE APP STARTUP
+      # -----------------------------
       - name: Run startup check
         run: |
           python -c "from api.main import simulation_app; print('API Loaded Successfully')"
+
+      # -----------------------------
+      # START INTERNAL API SERVER
+      # -----------------------------
+      - name: Start internal API server
+        run: |
+          uvicorn api.main:simulation_app --host 127.0.0.1 --port 8000 &
+          sleep 5
+
+      # -----------------------------
+      # RUN INCIDENT SIMULATION TEST
+      # -----------------------------
+      - name: Run incident simulation test
+        run: |
+          curl -X POST http://127.0.0.1:8000/run-scenario \
+          -H "Content-Type: application/json" \
+          -d '{"incident_id":"BREACH_2026","payload":{}}'
