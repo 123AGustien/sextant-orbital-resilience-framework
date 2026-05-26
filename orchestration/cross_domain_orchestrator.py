@@ -28,38 +28,79 @@ class CrossDomainOrchestrator:
             engine.default_node(node_id)
 
     # -----------------------------
-    # CROSS-DOMAIN COUPLING (STABLE v1)
+    # CROSS-DOMAIN COUPLING (LEVEL 5 STABLE)
     # -----------------------------
     def propagate_cross_domain_effects(self):
         orbital = self.engines.get("orbital")
         financial = self.engines.get("financial")
+        telecom = self.engines.get("telecom")
+        satellite = self.engines.get("satellite")
 
-        if not orbital or not financial:
-            return
+        # -----------------------------
+        # ORBITAL ↔ FINANCIAL COUPLING
+        # -----------------------------
+        if orbital and financial:
 
-        orbital_failed = [
-            n for n in orbital.nodes.values()
-            if getattr(n, "state", None) in ["FAILED", "DEFAULTED", "failed", "defaulted"]
-        ]
+            orbital_failed = [
+                n for n in orbital.nodes.values()
+                if getattr(n, "state", None) in ["FAILED", "DEFAULTED", "failed", "defaulted"]
+            ]
 
-        financial_defaulted = [
-            n for n in financial.nodes.values()
-            if getattr(n, "state", None) in ["DEFAULTED", "defaulted"]
-        ]
+            financial_defaulted = [
+                n for n in financial.nodes.values()
+                if getattr(n, "state", None) in ["DEFAULTED", "defaulted"]
+            ]
 
-        # Orbital → Financial impact
-        if orbital_failed:
-            shock = 0.05 * len(orbital_failed)
-            for node in financial.nodes.values():
-                if hasattr(node, "risk"):
-                    node.risk = min(1.0, node.risk + shock)
+            # Orbital → Financial
+            if orbital_failed:
+                shock = 0.05 * len(orbital_failed)
+                for node in financial.nodes.values():
+                    if hasattr(node, "risk"):
+                        node.risk = min(1.0, node.risk + shock)
 
-        # Financial → Orbital impact
-        if financial_defaulted:
-            stress = 0.05 * len(financial_defaulted)
-            for node in orbital.nodes.values():
-                if hasattr(node, "risk"):
-                    node.risk = min(1.0, getattr(node, "risk", 0.2) + stress)
+            # Financial → Orbital
+            if financial_defaulted:
+                stress = 0.05 * len(financial_defaulted)
+                for node in orbital.nodes.values():
+                    if hasattr(node, "risk"):
+                        node.risk = min(
+                            1.0,
+                            getattr(node, "risk", 0.2) + stress
+                        )
+
+        # -----------------------------
+        # SATELLITE ↔ TELECOM COUPLING
+        # -----------------------------
+        if satellite and telecom:
+
+            satellite_down = [
+                n for n in satellite.nodes.values()
+                if getattr(n, "state", None) in ["DOWN", "FAILED", "failed"]
+            ]
+
+            telecom_down = [
+                n for n in telecom.nodes.values()
+                if getattr(n, "state", None) in ["DOWN", "FAILED", "failed"]
+            ]
+
+            # Satellite → Telecom impact
+            if satellite_down:
+                congestion = 0.05 * len(satellite_down)
+
+                for node in telecom.nodes.values():
+                    if hasattr(node, "latency_risk"):
+                        node.latency_risk = min(1.0, node.latency_risk + congestion)
+
+            # Telecom → Satellite feedback
+            if telecom_down:
+                stress = 0.05 * len(telecom_down)
+
+                for node in satellite.nodes.values():
+                    if hasattr(node, "failure_risk"):
+                        node.failure_risk = min(
+                            1.0,
+                            getattr(node, "failure_risk", 0.2) + stress
+                        )
 
     # -----------------------------
     # GLOBAL STEP
