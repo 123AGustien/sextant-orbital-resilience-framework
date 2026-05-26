@@ -1,11 +1,16 @@
 name: 🛰️ Master Orchestrator
 
 on:
-  push:
-    branches:
-      - main
-
   workflow_dispatch:
+    inputs:
+      stress_test:
+        description: "Run stress simulation"
+        required: false
+        default: "false"
+      steps:
+        description: "Number of simulation steps"
+        required: false
+        default: "10"
 
 permissions:
   contents: read
