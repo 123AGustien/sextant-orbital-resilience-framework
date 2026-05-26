@@ -2,12 +2,12 @@ name: 🛰️ Master Orchestrator
 
 on:
   workflow_dispatch:
-    inputs:
-      stress_test:
-        description: "Run stress simulation"
-        required: false
-        default: "false"
-      steps:
+  push:
+    branches: [ "main" ]
+
+concurrency:
+  group: sextant-orchestrator
+  cancel-in-progress: true
         description: "Number of simulation steps"
         required: false
         default: "10"
