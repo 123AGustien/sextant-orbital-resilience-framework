@@ -1,24 +1,29 @@
 /*
-🛰️ Sextant Cockpit Controller v1
-Orbital Resilience Simulator
+🛰️ Sextant Orbital Resilience Cockpit Controller v2
 
 Purpose:
-Connect user interface controls
-to Orbital Engine and Rule Profiles.
+Connect cockpit interface with:
+
+- OrbitalEngineV1
+- ValidationCoreV1
+- MemoryCoreV1
+- AuditCoreV1
 
 Flow:
 
-User Scenario Selection
-        ↓
-Cockpit Controller
+Scenario Selection
         ↓
 OrbitalEngineV1
         ↓
-Orbital Failure Profiles
+Validation Core
         ↓
-Golden Rule Pipeline
+Memory Core
         ↓
-Audit Trace
+Audit Core
+        ↓
+Cockpit Display
+
+Simulation-only controller.
 */
 
 
@@ -26,126 +31,194 @@ Audit Trace
 // RUN ORBITAL SCENARIO
 // =================================
 
-function runScenario(scenario) {
+function runScenario(type) {
 
+
+    // -----------------------------
+    // Execute Orbital Engine
+    // -----------------------------
 
     const result =
         orbitalEngine.runScenario(
-            scenario
+            type
         );
 
 
 
-    displayAssessment(result);
+    // -----------------------------
+    // Validation Core
+    // -----------------------------
+
+    let validation = {
+
+        status:
+            "NOT_CONNECTED"
+
+    };
 
 
+    if (
+        typeof validationCore !== "undefined"
+    ) {
 
-    generateAuditTrace(result);
-
-
-}
-
-
-
-// =================================
-// DISPLAY RESULT
-// =================================
-
-function displayAssessment(result) {
-
-
-    const output =
-        document.getElementById(
-            "output"
-        );
-
-
-
-    if (result.error) {
-
-
-        output.innerText =
-            JSON.stringify(
-                result,
-                null,
-                2
+        validation =
+            validationCore.validate(
+                result
             );
-
-
-        return;
 
     }
 
 
 
-    output.innerText =
+    // -----------------------------
+    // Memory Core Update
+    // -----------------------------
+
+    let memory = null;
+
+
+    if (
+        typeof memoryCore !== "undefined"
+    ) {
+
+        memory =
+            memoryCore.update(
+                result
+            );
+
+    }
+
+
+
+    // -----------------------------
+    // Audit Core
+    // -----------------------------
+
+    let audit = null;
+
+
+    if (
+        typeof auditCore !== "undefined"
+    ) {
+
+        audit =
+            auditCore.generate(
+                result,
+                validation
+            );
+
+    }
+
+
+
+    // -----------------------------
+    // Assessment Display
+    // -----------------------------
+
+    const displayResult = {
+
+
+        ...result,
+
+
+        validation:
+
+
+            validation,
+
+
+        memory:
+
+
+            memory
+
+    };
+
+
+
+    document.getElementById(
+        "output"
+    ).innerText =
+
+    JSON.stringify(
+        displayResult,
+        null,
+        2
+    );
+
+
+
+    // -----------------------------
+    // Memory Display
+    // -----------------------------
+
+    const memoryDisplay =
+        document.getElementById(
+            "memory"
+        );
+
+
+    if (
+        memoryDisplay &&
+        memory
+    ) {
+
+        memoryDisplay.innerText =
+
         JSON.stringify(
-            result,
+            memory,
             null,
             2
         );
 
-
-}
-
+    }
 
 
-// =================================
-// AUDIT TRACE
-// =================================
 
-function generateAuditTrace(result) {
+    // -----------------------------
+    // Audit Display
+    // -----------------------------
 
-
-    const audit =
+    const auditDisplay =
         document.getElementById(
             "audit"
         );
 
 
+    if (
+        auditDisplay
+    ) {
 
-    audit.innerText =
+        auditDisplay.innerText =
 
-        "EVENT: "
-        + result.scenario
+        JSON.stringify(
+            audit,
+            null,
+            2
+        );
 
-        + "\n\nENGINE: "
-        + result.engine
+    }
 
-        + "\n\nSEVERITY: "
-        + result.assessment.severity
-
-        + "\n\nDECISION: "
-        + result.decision.decision
-
-        + "\n\nRECOVERY: "
-        + result.recovery.action
-
-        + "\n\nAUTHORITY: "
-        + result.decision.authority
-
-        + "\n\nTRACE: GENERATED";
 
 }
 
 
 
 // =================================
-// INITIAL LOAD TEST
+// SYSTEM START
 // =================================
 
 window.addEventListener(
     "load",
-    function() {
-
+    function(){
 
         console.log(
-            "🛰️ Sextant Cockpit Controller Online"
+            "🛰️ Sextant Orbital Cockpit v2 ONLINE"
         );
 
 
-        console.log(
-            "Orbital Rule Engine Connected"
+        runScenario(
+            "SIGNAL_LOSS"
         );
 
 
