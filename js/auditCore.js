@@ -1,17 +1,18 @@
 /*
-🛰️ Audit Core v1.1
+🛰️ Audit Core v1.2
 Sextant Orbital Resilience Framework
 
 Purpose:
 Deterministic audit record generator.
 
-Now records:
+Records:
 
 - Orbital event
 - Decision
 - Recovery
 - Failsafe transition
 - Validation authority
+- Audit history
 
 Simulation-only audit module.
 */
@@ -26,13 +27,21 @@ class AuditCoreV1 {
 
     constructor() {
 
+
         this.name =
             "AuditCoreV1";
 
 
         this.records = [];
 
+
+        this.status =
+            "READY";
+
+
     }
+
+
 
 
 
@@ -47,17 +56,21 @@ class AuditCoreV1 {
     ) {
 
 
+
         if (!result) {
 
 
             return {
 
                 error:
-                "NO_RESULT_AVAILABLE"
+                    "NO_RESULT_AVAILABLE"
 
             };
 
+
         }
+
+
 
 
 
@@ -73,11 +86,13 @@ class AuditCoreV1 {
 
 
 
+
             domain:
 
                 result.domain
                 ||
                 "ORBITAL",
+
 
 
 
@@ -91,11 +106,13 @@ class AuditCoreV1 {
 
 
 
+
             engine:
 
                 result.engine
                 ||
                 "UNKNOWN",
+
 
 
 
@@ -115,6 +132,7 @@ class AuditCoreV1 {
 
 
 
+
             decision:
 
                 result.decision
@@ -122,6 +140,8 @@ class AuditCoreV1 {
                 ?
 
                 (
+                    result.decision.decision
+                    ||
                     result.decision.action
                     ||
                     result.decision.mode
@@ -132,6 +152,7 @@ class AuditCoreV1 {
                 :
 
                 "NONE",
+
 
 
 
@@ -157,13 +178,14 @@ class AuditCoreV1 {
 
 
 
+
             failsafe:
 
 
-                {
+            {
 
 
-                    state:
+                state:
 
                     failsafe
 
@@ -178,7 +200,7 @@ class AuditCoreV1 {
 
 
 
-                    transition:
+                transition:
 
                     failsafe
 
@@ -191,7 +213,9 @@ class AuditCoreV1 {
                     "NONE"
 
 
-                },
+
+            },
+
 
 
 
@@ -199,7 +223,8 @@ class AuditCoreV1 {
             validation:
 
 
-                validation
+                validation &&
+                validation.re_test_validation
 
                 ?
 
@@ -212,7 +237,9 @@ class AuditCoreV1 {
 
 
 
+
             authority:
+
 
                 failsafe
 
@@ -227,12 +254,37 @@ class AuditCoreV1 {
 
 
 
+
+            pipeline:
+
+
+            [
+
+                "OBSERVE",
+
+                "VERIFY",
+
+                "ASSESS",
+
+                "DECIDE",
+
+                "ACT",
+
+                "UPDATE"
+
+            ],
+
+
+
+
+
             trace:
 
                 "GENERATED"
 
-
         };
+
+
 
 
 
@@ -242,7 +294,17 @@ class AuditCoreV1 {
 
 
 
+
+
+        this.status =
+            "OPERATIONAL";
+
+
+
+
+
         return record;
+
 
     }
 
@@ -264,8 +326,11 @@ class AuditCoreV1 {
 
             return {
 
+
                 status:
-                "NO_AUDIT_RECORD"
+
+                    "NO_AUDIT_RECORD"
+
 
             };
 
@@ -274,9 +339,12 @@ class AuditCoreV1 {
 
 
 
+
+
         return this.records[
             this.records.length - 1
         ];
+
 
     }
 
@@ -297,7 +365,52 @@ class AuditCoreV1 {
     }
 
 
+
 }
+
+
+
+
+
+// =================================
+// VALIDATION
+// =================================
+
+function validateAuditCore(){
+
+
+    return {
+
+
+        engine:
+
+            "AuditCoreV1",
+
+
+
+        records:
+
+            auditCore.records.length,
+
+
+
+        status:
+
+            auditCore.status,
+
+
+
+        mode:
+
+            "AUDIT_SIMULATION_MODE"
+
+
+    };
+
+
+}
+
+
 
 
 
