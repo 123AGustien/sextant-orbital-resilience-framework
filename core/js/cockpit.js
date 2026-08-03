@@ -1,57 +1,160 @@
 /*
-🛰️ Sextant Orbital Resilience Cockpit Controller v1
+🛰️ Sextant Orbital Resilience Cockpit Controller v2
 
 Purpose:
-Connects cockpit buttons to the
-Orbital Rule Engine.
+Connect cockpit interface with:
+
+OrbitalEngineV1
+ValidationCore
+MemoryCore
+AuditCore
 
 Flow:
 
-User Scenario Selection
-        ↓
-Cockpit Controller
+Scenario Selection
         ↓
 OrbitalEngineV1
         ↓
-Scenario Rules
+Validation Core
         ↓
-Display Assessment
+Captain AI Lena Decision Pipeline
         ↓
-Audit Trace
+Memory Core Update
+        ↓
+Audit Record Generation
+        ↓
+Cockpit Display
 */
 
 
 
-// ---------------------------------
+// =================================
 // RUN ORBITAL SCENARIO
-// ---------------------------------
+// =================================
 
 function runScenario(type) {
 
 
     const result =
-        orbitalEngine.evaluate(type);
+        orbitalEngine.runScenario(
+            type
+        );
 
 
 
     // -----------------------------
-    // Assessment Output
+    // Validation Core
+    // -----------------------------
+
+    let validation = {
+
+        status:
+        "VALIDATION_NOT_CONNECTED"
+
+    };
+
+
+    if (
+        typeof validationCore !== "undefined"
+    ) {
+
+        validation =
+            validationCore.validate(
+                result
+            );
+
+    }
+
+
+
+    // -----------------------------
+    // Memory Core
+    // -----------------------------
+
+    if (
+        typeof memoryCore !== "undefined"
+    ) {
+
+        memoryCore.update(
+            result
+        );
+
+    }
+
+
+
+    // -----------------------------
+    // Audit Core
+    // -----------------------------
+
+    let auditRecord = null;
+
+
+    if (
+        typeof auditCore !== "undefined"
+    ) {
+
+        auditRecord =
+            auditCore.generate(
+                result
+            );
+
+    }
+
+
+
+    // -----------------------------
+    // Assessment Display
     // -----------------------------
 
     document.getElementById(
         "output"
     ).innerText =
 
-        JSON.stringify(
-            result,
-            null,
-            2
-        );
+    JSON.stringify(
+        {
+            ...result,
+
+            validation:
+                validation
+
+        },
+
+        null,
+        2
+    );
 
 
 
     // -----------------------------
-    // Audit Trace
+    // Memory Display
+    // -----------------------------
+
+    const memory =
+        document.getElementById(
+            "memory"
+        );
+
+
+    if (
+        memory &&
+        typeof memoryCore !== "undefined"
+    ) {
+
+        memory.innerText =
+
+        JSON.stringify(
+            memoryCore.getState(),
+            null,
+            2
+        );
+
+    }
+
+
+
+    // -----------------------------
+    // Audit Display
     // -----------------------------
 
     document.getElementById(
@@ -59,44 +162,31 @@ function runScenario(type) {
     ).innerText =
 
 
-        "EVENT: "
-        + type
+    JSON.stringify(
 
-        + "\n"
+        auditRecord,
 
-        + "SCENARIO ID: "
-        + result.scenario_id
+        null,
 
-        + "\n"
+        2
 
-        + "SEVERITY: "
-        + result.assessment.severity
-
-        + "\n"
-
-        + "DECISION: "
-        + result.decision.mode
-
-        + "\n"
-
-        + "ACTION: "
-        + result.recovery.action
-
-        + "\n"
-
-        + "TRACE: GENERATED";
+    );
 
 
 }
 
 
 
-
-// ---------------------------------
-// INITIAL LOAD TEST
-// ---------------------------------
+// =================================
+// INITIAL SYSTEM START
+// =================================
 
 window.onload = function(){
+
+
+    console.log(
+        "🛰️ Sextant Cockpit v2 ONLINE"
+    );
 
 
     runScenario(
