@@ -1,5 +1,5 @@
 /*
-🛰️ Orbital Failure Profiles v1
+🛰️ Orbital Failure Profiles v1.1
 Sextant Orbital Resilience Framework
 
 Purpose:
@@ -15,9 +15,11 @@ Orbital Rule Engine
         ↓
 Severity Assessment
         ↓
-Recovery Recommendation
-        ↓
 Golden Rule Engine Interface
+        ↓
+Failsafe Transition Architecture
+        ↓
+Recovery Recommendation
 
 Simulation-only module.
 */
@@ -40,9 +42,14 @@ const ORBITAL_FAILURE_PROFILES = {
 
     SIGNAL_LOSS: {
 
-        scenario_id: "ORBITAL_SIGNAL_001",
+        scenario_id:
+            "ORBITAL_SIGNAL_001",
 
-        severity: "HIGH",
+        category:
+            "COMMUNICATION_FAILURE",
+
+        severity:
+            "HIGH",
 
         effects: [
 
@@ -54,8 +61,25 @@ const ORBITAL_FAILURE_PROFILES = {
 
         ],
 
-        recommended_action:
+        risk_factors: [
 
+            "loss_of_ground_contact",
+
+            "delayed_command_execution",
+
+            "reduced_operational_visibility"
+
+        ],
+
+        requires_recovery:
+            true,
+
+
+        failsafe_trigger:
+            "ISOLATE_COMMUNICATION_FAILURE",
+
+
+        recommended_action:
             "SWITCH_TO_BACKUP_SATELLITE"
 
     },
@@ -64,9 +88,14 @@ const ORBITAL_FAILURE_PROFILES = {
 
     ORBITAL_DRIFT: {
 
-        scenario_id: "ORBITAL_DRIFT_001",
+        scenario_id:
+            "ORBITAL_DRIFT_001",
 
-        severity: "MEDIUM",
+        category:
+            "TRAJECTORY_DEVIATION",
+
+        severity:
+            "MEDIUM",
 
         effects: [
 
@@ -76,8 +105,23 @@ const ORBITAL_FAILURE_PROFILES = {
 
         ],
 
-        recommended_action:
+        risk_factors: [
 
+            "orbit_accuracy_loss",
+
+            "position_uncertainty"
+
+        ],
+
+        requires_recovery:
+            true,
+
+
+        failsafe_trigger:
+            "STABILIZE_TRAJECTORY",
+
+
+        recommended_action:
             "INITIATE_TRAJECTORY_CORRECTION"
 
     },
@@ -86,9 +130,14 @@ const ORBITAL_FAILURE_PROFILES = {
 
     TELEMETRY_CORRUPTION: {
 
-        scenario_id: "ORBITAL_DATA_001",
+        scenario_id:
+            "ORBITAL_DATA_001",
 
-        severity: "MEDIUM",
+        category:
+            "DATA_INTEGRITY_FAILURE",
+
+        severity:
+            "MEDIUM",
 
         effects: [
 
@@ -100,8 +149,23 @@ const ORBITAL_FAILURE_PROFILES = {
 
         ],
 
-        recommended_action:
+        risk_factors: [
 
+            "incorrect_sensor_data",
+
+            "reduced_system_visibility"
+
+        ],
+
+        requires_recovery:
+            true,
+
+
+        failsafe_trigger:
+            "ENABLE_DATA_VALIDATION_MODE",
+
+
+        recommended_action:
             "ENABLE_LOW_BAND_TELEMETRY"
 
     },
@@ -110,9 +174,14 @@ const ORBITAL_FAILURE_PROFILES = {
 
     POWER_FAILURE: {
 
-        scenario_id: "ORBITAL_POWER_001",
+        scenario_id:
+            "ORBITAL_POWER_001",
 
-        severity: "CRITICAL",
+        category:
+            "POWER_SYSTEM_FAILURE",
+
+        severity:
+            "CRITICAL",
 
         effects: [
 
@@ -124,8 +193,25 @@ const ORBITAL_FAILURE_PROFILES = {
 
         ],
 
-        recommended_action:
+        risk_factors: [
 
+            "loss_of_primary_power",
+
+            "system_degradation",
+
+            "cascade_risk"
+
+        ],
+
+        requires_recovery:
+            true,
+
+
+        failsafe_trigger:
+            "ENTER_POWER_RECOVERY_STATE",
+
+
+        recommended_action:
             "ACTIVATE_POWER_RECOVERY_MODE"
 
     },
@@ -134,9 +220,14 @@ const ORBITAL_FAILURE_PROFILES = {
 
     INERTIAL_DESYNCHRONIZATION: {
 
-        scenario_id: "ORBITAL_GUIDANCE_001",
+        scenario_id:
+            "ORBITAL_GUIDANCE_001",
 
-        severity: "HIGH",
+        category:
+            "GUIDANCE_FAILURE",
+
+        severity:
+            "HIGH",
 
         effects: [
 
@@ -148,11 +239,27 @@ const ORBITAL_FAILURE_PROFILES = {
 
         ],
 
-        recommended_action:
+        risk_factors: [
 
+            "attitude_uncertainty",
+
+            "navigation_reference_loss"
+
+        ],
+
+        requires_recovery:
+            true,
+
+
+        failsafe_trigger:
+            "RECOVER_GUIDANCE_REFERENCE",
+
+
+        recommended_action:
             "RECALIBRATE_INERTIAL_GUIDANCE"
 
     }
+
 
 };
 
@@ -164,9 +271,15 @@ const ORBITAL_FAILURE_PROFILES = {
 
 function validateOrbitalProfile(scenario) {
 
-    return scenario in ORBITAL_FAILURE_PROFILES;
+
+    return (
+
+        scenario in ORBITAL_FAILURE_PROFILES
+
+    );
 
 }
+
 
 
 
@@ -175,9 +288,13 @@ function getOrbitalProfile(scenario) {
 
     if (!validateOrbitalProfile(scenario)) {
 
+
         throw new Error(
+
             "Unknown orbital scenario: " + scenario
+
         );
+
 
     }
 
@@ -197,21 +314,36 @@ function getOrbitalRegistryStatus() {
 
     return {
 
-        domain: ORBITAL_DOMAIN_ID,
 
-        engine_ready: true,
+        domain:
+
+            ORBITAL_DOMAIN_ID,
+
+
+        engine_ready:
+
+            true,
+
 
         scenario_count:
+
             Object.keys(
+
                 ORBITAL_FAILURE_PROFILES
+
             ).length,
 
 
         scenarios:
+
             Object.keys(
+
                 ORBITAL_FAILURE_PROFILES
+
             )
 
+
     };
+
 
 }
