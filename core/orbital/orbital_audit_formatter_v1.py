@@ -1,9 +1,18 @@
 """
-🛰️ Orbital Audit Formatter v1
+🛰️ Orbital Audit Formatter v1.1
 Sextant Orbital Resilience Framework
 
 Purpose:
 Creates deterministic orbital audit trace records.
+
+Includes:
+
+- Scenario event
+- Decision trace
+- Failsafe transition
+- Validation status
+- Recovery trace
+- Golden Rule authority
 
 Simulation-only module.
 """
@@ -19,15 +28,48 @@ class OrbitalAuditFormatterV1:
     """
 
 
+
     def format(
         self,
         result: Dict[str, Any]
     ) -> Dict[str, Any]:
 
+        
         scenario = result.get(
             "scenario",
             "UNKNOWN"
         )
+
+
+        assessment = result.get(
+            "assessment",
+            {}
+        )
+
+
+        decision = result.get(
+            "decision",
+            {}
+        )
+
+
+        recovery = result.get(
+            "recovery",
+            {}
+        )
+
+
+        failsafe = result.get(
+            "failsafe",
+            {}
+        )
+
+
+        validation = result.get(
+            "validation",
+            {}
+        )
+
 
 
         return {
@@ -36,63 +78,164 @@ class OrbitalAuditFormatterV1:
             "audit": {
 
 
+                "timestamp":
+
+                    result.get(
+                        "timestamp",
+                        "GENERATED"
+                    ),
+
+
+
                 "domain":
+
                     "ORBITAL",
 
 
+
                 "event":
+
                     scenario,
 
 
-                "trace":
-                    "GENERATED",
-
 
                 "engine":
+
                     result.get(
-                        "engine"
+                        "engine",
+                        "UNKNOWN"
                     ),
+
 
 
                 "severity":
-                    result.get(
-                        "assessment",
-                        {}
-                    ).get(
-                        "severity"
+
+                    assessment.get(
+                        "severity",
+                        "UNKNOWN"
                     ),
+
 
 
                 "decision":
-                    result.get(
-                        "decision",
-                        {}
-                    ).get(
-                        "action"
+
+                    (
+                        decision.get(
+                            "decision"
+                        )
+                        or
+                        decision.get(
+                            "action"
+                        )
+                        or
+                        decision.get(
+                            "mode"
+                        )
+                        or
+                        "NONE"
                     ),
+
+
+
+                "recovery":
+
+                    (
+                        recovery.get(
+                            "action"
+                        )
+                        or
+                        recovery.get(
+                            "recommended_action"
+                        )
+                        or
+                        "NONE"
+                    ),
+
+
+
+                "failsafe":
+
+                    {
+
+
+                        "state":
+
+                            failsafe.get(
+                                "currentState",
+                                "UNKNOWN"
+                            ),
+
+
+
+                        "transition":
+
+                            failsafe.get(
+                                "transition",
+                                "NONE"
+                            ),
+
+
+
+                        "cascade":
+
+                            failsafe.get(
+                                "cascadeControl",
+                                {}
+                            ).get(
+                                "propagation",
+                                "UNKNOWN"
+                            )
+
+                    },
+
+
+
+                "validation":
+
+                    validation.get(
+                        "final_status",
+                        "UNKNOWN"
+                    ),
+
+
+
+                "authority":
+
+                    decision.get(
+                        "authority",
+                        "GOLDEN_RULE_ENGINE"
+                    ),
+
 
 
                 "pipeline":
 
                     [
 
-                    "OBSERVE",
+                        "OBSERVE",
 
-                    "VERIFY",
+                        "VERIFY",
 
-                    "ASSESS",
+                        "ASSESS",
 
-                    "DECIDE",
+                        "DECIDE",
 
-                    "ACT",
+                        "ACT",
 
-                    "UPDATE"
+                        "UPDATE"
 
-                    ]
+                    ],
+
+
+
+                "trace":
+
+                    "GENERATED"
 
             }
 
         }
+
 
 
 
