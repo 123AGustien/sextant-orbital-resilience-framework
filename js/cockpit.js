@@ -1,5 +1,5 @@
 /*
-🛰️ Sextant Orbital Resilience Cockpit Controller v2.1
+🛰️ Sextant Orbital Resilience Cockpit Controller v2.2
 
 Purpose:
 Connect cockpit interface with:
@@ -37,6 +37,26 @@ Simulation-only controller.
 function runScenario(type) {
 
 
+
+    // -----------------------------
+    // Orbital Engine Connection Check
+    // -----------------------------
+
+    if (
+        typeof orbitalEngine === "undefined"
+    ) {
+
+        console.error(
+            "OrbitalEngineV1 not connected"
+        );
+
+        return;
+
+    }
+
+
+
+
     // -----------------------------
     // Execute Orbital Engine
     // -----------------------------
@@ -48,28 +68,37 @@ function runScenario(type) {
 
 
 
+
+
     // -----------------------------
     // Failsafe Transition Engine
     // -----------------------------
 
     let failsafe = {
 
+
         status:
             "NOT_CONNECTED"
 
+
     };
+
 
 
     if (
         typeof failsafeEngine !== "undefined"
     ) {
 
+
         failsafe =
             failsafeEngine.evaluate(
                 result
             );
 
+
     }
+
+
 
 
 
@@ -79,15 +108,19 @@ function runScenario(type) {
 
     let validation = {
 
+
         status:
             "NOT_CONNECTED"
 
+
     };
+
 
 
     if (
         typeof validationCore !== "undefined"
     ) {
+
 
         validation =
             validationCore.validate(
@@ -95,7 +128,10 @@ function runScenario(type) {
                 failsafe
             );
 
+
     }
+
+
 
 
 
@@ -106,9 +142,11 @@ function runScenario(type) {
     let memory = null;
 
 
+
     if (
         typeof memoryCore !== "undefined"
     ) {
+
 
         memory =
             memoryCore.update(
@@ -116,7 +154,10 @@ function runScenario(type) {
                 failsafe
             );
 
+
     }
+
+
 
 
 
@@ -127,9 +168,11 @@ function runScenario(type) {
     let audit = null;
 
 
+
     if (
         typeof auditCore !== "undefined"
     ) {
+
 
         audit =
             auditCore.generate(
@@ -138,7 +181,10 @@ function runScenario(type) {
                 failsafe
             );
 
+
     }
+
+
 
 
 
@@ -158,23 +204,35 @@ function runScenario(type) {
             failsafe,
 
 
+
         validation:
 
 
             validation,
 
 
+
         memory:
 
 
-            memory
+            memory,
+
+
+
+        audit:
+
+
+            audit
+
 
     };
 
 
 
+
+
     // -----------------------------
-    // Assessment Display
+    // Orbital Assessment Display
     // -----------------------------
 
     const outputDisplay =
@@ -183,9 +241,11 @@ function runScenario(type) {
         );
 
 
+
     if (
         outputDisplay
     ) {
+
 
         outputDisplay.innerText =
 
@@ -195,7 +255,10 @@ function runScenario(type) {
             2
         );
 
+
     }
+
+
 
 
 
@@ -209,9 +272,11 @@ function runScenario(type) {
         );
 
 
+
     if (
         failsafeDisplay
     ) {
+
 
         failsafeDisplay.innerText =
 
@@ -221,7 +286,41 @@ function runScenario(type) {
             2
         );
 
+
     }
+
+
+
+
+
+    // -----------------------------
+    // Validation Display
+    // -----------------------------
+
+    const validationDisplay =
+        document.getElementById(
+            "validation"
+        );
+
+
+
+    if (
+        validationDisplay
+    ) {
+
+
+        validationDisplay.innerText =
+
+        JSON.stringify(
+            validation,
+            null,
+            2
+        );
+
+
+    }
+
+
 
 
 
@@ -235,10 +334,12 @@ function runScenario(type) {
         );
 
 
+
     if (
         memoryDisplay &&
         memory
     ) {
+
 
         memoryDisplay.innerText =
 
@@ -248,7 +349,10 @@ function runScenario(type) {
             2
         );
 
+
     }
+
+
 
 
 
@@ -262,10 +366,12 @@ function runScenario(type) {
         );
 
 
+
     if (
         auditDisplay &&
         audit
     ) {
+
 
         auditDisplay.innerText =
 
@@ -275,10 +381,19 @@ function runScenario(type) {
             2
         );
 
+
     }
 
 
+
+    console.log(
+        "🛰️ Orbital Scenario Complete",
+        displayResult
+    );
+
 }
+
+
 
 
 
@@ -292,8 +407,9 @@ window.addEventListener(
 
 
         console.log(
-            "🛰️ Sextant Orbital Resilience Cockpit v2.1 ONLINE"
+            "🛰️ Sextant Orbital Resilience Cockpit v2.2 ONLINE"
         );
+
 
 
         runScenario(
