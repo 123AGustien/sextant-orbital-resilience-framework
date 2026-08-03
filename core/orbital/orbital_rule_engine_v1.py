@@ -11,20 +11,28 @@ Orbital Scenario Input
         ↓
 Failure Profile Evaluation
         ↓
+Scenario Rule Evaluation
+        ↓
 Severity Assessment
         ↓
 Recovery Recommendation
         ↓
 Golden Rule Engine Interface
 
-This module is simulation-only.
+Simulation-only module.
 """
 
 
 from typing import Dict, Any
 
+
 from core.orbital.orbital_failure_profiles_v1 import (
     ORBITAL_FAILURE_PROFILES
+)
+
+
+from core.orbital.orbital_scenario_rules_v1 import (
+    ORBITAL_SCENARIO_RULES
 )
 
 
@@ -35,17 +43,13 @@ class OrbitalRuleEngineV1:
     """
 
 
-    # ---------------------------------
-    # MAIN EVALUATION ENTRY
-    # ---------------------------------
-
     def evaluate(
         self,
         scenario: str
     ) -> Dict[str, Any]:
 
         """
-        Evaluate orbital failure scenario.
+        Evaluate orbital scenario.
         """
 
 
@@ -56,62 +60,95 @@ class OrbitalRuleEngineV1:
             )
 
 
-        profile = ORBITAL_FAILURE_PROFILES[
-            scenario
-        ]
+        if scenario not in ORBITAL_SCENARIO_RULES:
+
+            raise ValueError(
+                f"Missing orbital rule: {scenario}"
+            )
 
 
-        severity = profile[
-            "severity"
-        ]
+
+        profile = (
+            ORBITAL_FAILURE_PROFILES[
+                scenario
+            ]
+        )
 
 
-        effects = profile[
-            "effects"
-        ]
+        rules = (
+            ORBITAL_SCENARIO_RULES[
+                scenario
+            ]
+        )
 
-
-        recovery_action = profile[
-            "recommended_action"
-        ]
 
 
         return {
 
-            "domain": "ORBITAL",
 
-            "engine": "OrbitalRuleEngineV1",
+            "domain":
+                "ORBITAL",
 
-            "scenario": scenario,
+
+            "engine":
+                "OrbitalRuleEngineV1",
+
+
+            "scenario":
+                scenario,
+
 
 
             "assessment": {
 
-                "severity": severity,
 
-                "effects": effects,
+                "severity":
+                    profile["severity"],
 
-                "status": "SIMULATION_COMPLETE"
+
+                "effects":
+                    profile["effects"],
+
+
+                "trigger":
+                    rules["trigger"],
+
+
+                "checks":
+                    rules["checks"],
+
+
+                "status":
+                    "SIMULATION_COMPLETE"
 
             },
+
+
+
+            "decision": {
+
+
+                "action":
+                    rules["decision"],
+
+
+                "risk_level":
+                    rules["risk_level"]
+
+            },
+
 
 
             "recovery": {
 
-                "action": recovery_action
 
-            },
-
-
-            "decision_input": {
-
-                "requires_recovery":
-                    severity in [
-                        "HIGH",
-                        "CRITICAL"
+                "recommended_action":
+                    profile[
+                        "recommended_action"
                     ]
 
             },
+
 
 
             "pipeline": [
@@ -134,24 +171,32 @@ class OrbitalRuleEngineV1:
 
 
 
+
 # ---------------------------------
 # ENGINE INSTANCE
 # ---------------------------------
 
-orbital_rule_engine = OrbitalRuleEngineV1()
+orbital_rule_engine = (
+    OrbitalRuleEngineV1()
+)
+
 
 
 
 # ---------------------------------
-# VALIDATION FUNCTION
+# VALIDATION
 # ---------------------------------
 
 def validate_orbital_scenario(
     scenario: str
 ) -> bool:
 
-    """
-    Verify scenario exists in registry.
-    """
+    return (
 
-    return scenario in ORBITAL_FAILURE_PROFILES
+        scenario in ORBITAL_FAILURE_PROFILES
+
+        and
+
+        scenario in ORBITAL_SCENARIO_RULES
+
+    )
