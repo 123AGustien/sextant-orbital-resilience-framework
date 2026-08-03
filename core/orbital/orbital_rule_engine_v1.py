@@ -1,5 +1,5 @@
 """
-🛰️ Orbital Rule Engine v1
+🛰️ Orbital Rule Engine v1.1
 Sextant Orbital Resilience Framework
 
 Purpose:
@@ -15,9 +15,11 @@ Scenario Rule Evaluation
         ↓
 Severity Assessment
         ↓
-Recovery Recommendation
-        ↓
 Golden Rule Engine Interface
+        ↓
+Failsafe Transition Interface
+        ↓
+Recovery Recommendation
 
 Simulation-only module.
 """
@@ -87,14 +89,19 @@ class OrbitalRuleEngineV1:
 
 
             "domain":
+
                 "ORBITAL",
 
 
+
             "engine":
+
                 "OrbitalRuleEngineV1",
 
 
+
             "scenario":
+
                 scenario,
 
 
@@ -103,23 +110,59 @@ class OrbitalRuleEngineV1:
 
 
                 "severity":
+
                     profile["severity"],
 
 
+
+                "category":
+
+                    profile.get(
+                        "category",
+                        "ORBITAL_EVENT"
+                    ),
+
+
+
                 "effects":
+
                     profile["effects"],
 
 
+
+                "risk_factors":
+
+                    profile.get(
+                        "risk_factors",
+                        []
+                    ),
+
+
+
                 "trigger":
+
                     rules["trigger"],
 
 
+
                 "checks":
+
                     rules["checks"],
 
 
+
+                "requires_recovery":
+
+                    profile.get(
+                        "requires_recovery",
+                        False
+                    ),
+
+
+
                 "status":
-                    "SIMULATION_COMPLETE"
+
+                    "ASSESSED"
 
             },
 
@@ -128,12 +171,21 @@ class OrbitalRuleEngineV1:
             "decision": {
 
 
-                "action":
+                "decision":
+
                     rules["decision"],
 
 
+
                 "risk_level":
-                    rules["risk_level"]
+
+                    rules["risk_level"],
+
+
+
+                "authority":
+
+                    "GOLDEN_RULE_ENGINE"
 
             },
 
@@ -142,10 +194,33 @@ class OrbitalRuleEngineV1:
             "recovery": {
 
 
-                "recommended_action":
+                "action":
+
                     profile[
                         "recommended_action"
-                    ]
+                    ],
+
+
+
+                "mode":
+
+                    "RECOVERY_SEQUENCE"
+
+            },
+
+
+
+            "failsafe_interface": {
+
+
+                "enabled":
+
+                    True,
+
+
+                "target":
+
+                    "FAILSAFE_TRANSITION_ENGINE"
 
             },
 
@@ -153,19 +228,32 @@ class OrbitalRuleEngineV1:
 
             "pipeline": [
 
+
                 "OBSERVE",
+
 
                 "VERIFY",
 
+
                 "ASSESS",
+
 
                 "DECIDE",
 
+
                 "ACT",
+
 
                 "UPDATE"
 
-            ]
+
+            ],
+
+
+
+            "status":
+
+                "SIMULATION_COMPLETE"
 
         }
 
@@ -190,6 +278,7 @@ orbital_rule_engine = (
 def validate_orbital_scenario(
     scenario: str
 ) -> bool:
+
 
     return (
 
