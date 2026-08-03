@@ -1,1 +1,230 @@
-g
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sextant Orbital Resilience Cockpit v1</title>
+
+<style>
+
+body {
+    background:#0b0f19;
+    color:white;
+    font-family:Arial,sans-serif;
+    padding:30px;
+}
+
+.container {
+    max-width:1000px;
+    margin:auto;
+}
+
+.card {
+    background:#121826;
+    border:1px solid #26334f;
+    border-radius:16px;
+    padding:25px;
+    margin-top:20px;
+}
+
+h1 {
+    color:#8db3ff;
+}
+
+button {
+
+    background:#4f7cff;
+    color:white;
+    border:none;
+    padding:14px;
+    margin:6px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+
+}
+
+button:hover {
+    opacity:0.8;
+}
+
+pre {
+
+    background:#0f1523;
+    padding:20px;
+    border-radius:10px;
+    color:#d6e0f2;
+
+}
+
+.status {
+
+    color:#7fffb2;
+    font-weight:bold;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<h1>
+🛰️ SEXTANT ORBITAL RESILIENCE COCKPIT v1
+</h1>
+
+<p>
+Deterministic Orbital Failure Simulation Interface
+</p>
+
+
+<div class="card">
+
+<h2>
+Orbital Scenario Control
+</h2>
+
+
+<button onclick="runScenario('SIGNAL_LOSS')">
+SIGNAL LOSS
+</button>
+
+
+<button onclick="runScenario('ORBITAL_DRIFT')">
+ORBITAL DRIFT
+</button>
+
+
+<button onclick="runScenario('TELEMETRY_CORRUPTION')">
+TELEMETRY CORRUPTION
+</button>
+
+
+<button onclick="runScenario('POWER_FAILURE')">
+POWER FAILURE
+</button>
+
+
+<button onclick="runScenario('INERTIAL_DESYNCHRONIZATION')">
+INERTIAL DESYNC
+</button>
+
+
+</div>
+
+
+
+<div class="card">
+
+
+<h2>
+Orbital Engine Assessment
+</h2>
+
+
+<pre id="output">
+Awaiting scenario input...
+</pre>
+
+
+</div>
+
+
+
+<div class="card">
+
+
+<h2>
+Golden Rule Pipeline
+</h2>
+
+
+<p class="status">
+
+OBSERVE →
+VERIFY →
+ASSESS →
+DECIDE →
+ACT →
+UPDATE
+
+</p>
+
+
+</div>
+
+
+
+</div>
+
+
+
+<script>
+
+
+function runScenario(type){
+
+
+let severity="MEDIUM";
+
+
+if(type==="POWER_FAILURE"){
+    severity="CRITICAL";
+}
+
+if(type==="SIGNAL_LOSS" ||
+   type==="INERTIAL_DESYNCHRONIZATION"){
+    severity="HIGH";
+}
+
+
+let result={
+
+domain:"ORBITAL",
+
+scenario:type,
+
+severity:severity,
+
+engine:"OrbitalDomainEngineV1",
+
+status:
+"SIMULATION_COMPLETE",
+
+trace_event:
+type+"_DETECTED",
+
+pipeline:[
+"OBSERVE",
+"VERIFY",
+"ASSESS",
+"DECIDE",
+"ACT",
+"UPDATE"
+]
+
+};
+
+
+document.getElementById("output")
+.textContent =
+JSON.stringify(result,null,2);
+
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
