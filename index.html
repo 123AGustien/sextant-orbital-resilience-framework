@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>
-Sextant Orbital Resilience Cockpit v1
+Sextant Orbital Resilience Cockpit v2
 </title>
 
 <style>
@@ -72,6 +72,13 @@ pre {
 
 }
 
+.pass {
+
+    color:#4cff88;
+    font-weight:bold;
+
+}
+
 </style>
 
 </head>
@@ -84,7 +91,7 @@ pre {
 
 
 <h1>
-🛰️ Sextant Orbital Resilience Cockpit v1
+🛰️ Sextant Orbital Resilience Cockpit v2
 </h1>
 
 
@@ -107,6 +114,11 @@ System Status
 <p>
 Engine:
 <b>OrbitalEngineV1</b>
+</p>
+
+<p>
+Validation:
+<b class="pass">READY</b>
 </p>
 
 </div>
@@ -195,16 +207,79 @@ UPDATE
 
 
 
+<div class="card">
+
+<h2>
+Captain AI Lena Validation Core
+</h2>
+
+
+<pre id="validation">
+
+SELF-TEST:
+🟢 READY
+
+FAULT IDENTIFICATION:
+🟢 READY
+
+DECISION CORE:
+🟢 OPERATIONAL
+
+CORRECTIVE ACTION LOOP:
+🟢 READY
+
+RE-TEST VALIDATION:
+🟢 READY
+
+</pre>
+
+
+</div>
+
+
+
+
 
 <div class="card">
 
 <h2>
-Audit Trace
+Memory Core
 </h2>
 
-<pre id="audit">
-Waiting for simulation...
+
+<pre id="memory">
+
+LAST SCENARIO:
+Waiting...
+
+LAST DECISION:
+Waiting...
+
+SYSTEM STATE:
+READY
+
 </pre>
+
+
+</div>
+
+
+
+
+
+<div class="card">
+
+<h2>
+Audit Record
+</h2>
+
+
+<pre id="audit">
+
+Waiting for simulation...
+
+</pre>
+
 
 </div>
 
