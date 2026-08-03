@@ -1,5 +1,5 @@
 /*
-🛰️ Orbital Engine v1
+🛰️ Orbital Engine v1.1
 Sextant Orbital Resilience Framework
 
 Purpose:
@@ -15,16 +15,18 @@ Rule Evaluation
         ↓
 Severity Assessment
         ↓
-Recovery Decision
-        ↓
 Golden Rule Engine Pipeline
+        ↓
+Failsafe Transition Architecture
+        ↓
+Recovery Decision
 
 Simulation-only module.
 */
 
 
 // ---------------------------------
-// ORBITAL RULE ENGINE
+// ORBITAL ENGINE
 // ---------------------------------
 
 class OrbitalEngineV1 {
@@ -122,8 +124,16 @@ class OrbitalEngineV1 {
                 profile.severity,
 
 
+                category:
+                profile.category,
+
+
                 effects:
                 profile.effects,
+
+
+                risk_factors:
+                profile.risk_factors,
 
 
                 status:
@@ -141,7 +151,42 @@ class OrbitalEngineV1 {
 
 
                 action:
-                profile.recommended_action
+                profile.recommended_action,
+
+
+                authority:
+                "GOLDEN_RULE_ENGINE"
+
+            },
+
+
+
+            failsafe: {
+
+
+                trigger:
+                profile.failsafe_trigger,
+
+
+                state_path: [
+
+                    "NORMAL",
+
+                    "DEGRADED",
+
+                    "ISOLATED",
+
+                    "STABILIZED",
+
+                    "RECOVERING",
+
+                    "CERTIFIED_STABLE"
+
+                ],
+
+
+                status:
+                "READY"
 
             },
 
@@ -158,7 +203,11 @@ class OrbitalEngineV1 {
 
 
             pipeline:
-            this.pipeline
+            this.pipeline,
+
+
+            status:
+            "SIMULATION_COMPLETE"
 
         };
 
