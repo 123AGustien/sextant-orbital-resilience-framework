@@ -1,5 +1,5 @@
 /*
-🛡️ Failsafe Transition Engine v1
+🛡️ Failsafe Transition Engine v1.1
 Sextant Orbital Resilience Framework
 
 Purpose:
@@ -18,11 +18,14 @@ Verification Gate
         ↓
 Isolation Transition
         ↓
-Stabilization State
+Secondary Stabilization
         ↓
 Recovery Management
         ↓
+Primary Restoration
+        ↓
 Certified Stable State
+
 
 Golden Rule Engine:
 
@@ -32,6 +35,7 @@ ASSESS
 DECIDE
 ACT
 UPDATE
+
 
 Simulation-only module.
 */
@@ -75,8 +79,7 @@ const FAILSAFE_STATES = [
 class FailsafeEngineV1 {
 
 
-    constructor() {
-
+    constructor(){
 
         this.engine =
             FAILSAFE_ENGINE_ID;
@@ -103,45 +106,45 @@ class FailsafeEngineV1 {
         ];
 
 
-        // Current operational state
-
         this.currentState =
             "NORMAL";
 
 
-        // Transition memory
-
         this.transitionHistory = [];
-
 
     }
 
 
 
-    // ---------------------------------
-    // FAILSAFE EVALUATION
-    // ---------------------------------
 
-    evaluate(systemResult) {
+
+    // =================================
+    // MAIN FAILSAFE EVALUATION
+    // =================================
+
+    evaluate(systemResult){
 
 
         let severity =
             "LOW";
 
 
-
-        if (
+        if(
 
             systemResult &&
-
             systemResult.assessment
 
-        ) {
+        ){
 
             severity =
                 systemResult.assessment.severity;
 
         }
+
+
+
+        const previousState =
+            this.currentState;
 
 
 
@@ -152,14 +155,10 @@ class FailsafeEngineV1 {
 
 
 
-        // -----------------------------
-        // RECORD STATE TRANSITION
-        // -----------------------------
-
         this.transitionHistory.push({
 
             from:
-                this.currentState,
+                previousState,
 
 
             to:
@@ -171,11 +170,15 @@ class FailsafeEngineV1 {
 
 
             scenario:
-                systemResult.scenario || "UNKNOWN",
+
+                systemResult.scenario
+                ||
+                "UNKNOWN",
 
 
             timestamp:
-                new Date().toISOString()
+                new Date()
+                .toISOString()
 
         });
 
@@ -204,18 +207,7 @@ class FailsafeEngineV1 {
 
 
             previousState:
-
-                this.transitionHistory.length > 0
-
-                ?
-
-                this.transitionHistory[
-                    this.transitionHistory.length - 1
-                ].from
-
-                :
-
-                "NORMAL",
+                previousState,
 
 
 
@@ -234,19 +226,14 @@ class FailsafeEngineV1 {
 
 
                 parameters:
-
                     "MONITORING_ACTIVE",
 
 
-
                 dependencies:
-
                     "CHECKED",
 
 
-
                 stability:
-
                     "ASSESSED"
 
             },
@@ -257,13 +244,10 @@ class FailsafeEngineV1 {
 
 
                 detected:
-
                     severity !== "LOW",
 
 
-
                 severity:
-
                     severity
 
             },
@@ -274,21 +258,17 @@ class FailsafeEngineV1 {
 
 
                 eventValidated:
-
                     true,
-
 
 
                 classification:
 
-                    systemResult.scenario ||
-
+                    systemResult.scenario
+                    ||
                     "UNKNOWN",
 
 
-
                 confidence:
-
                     "HIGH"
 
             },
@@ -300,8 +280,9 @@ class FailsafeEngineV1 {
 
                 activated:
 
-                    this.currentState === "ISOLATED",
-
+                    this.currentState
+                    ===
+                    "ISOLATED",
 
 
                 purpose:
@@ -312,7 +293,28 @@ class FailsafeEngineV1 {
 
 
 
-            stabilization: {
+            secondarySystem: {
+
+
+                status:
+                    "STANDBY",
+
+
+                role:[
+
+                    "STABILIZED_OPERATION",
+
+                    "RECOVERY_SUPPORT",
+
+                    "SAFE_STATE_MAINTENANCE"
+
+                ]
+
+            },
+
+
+
+            stabilization:{
 
 
                 mode:
@@ -323,7 +325,23 @@ class FailsafeEngineV1 {
 
 
 
-            recovery: {
+            cascadeControl:{
+
+
+                propagation:
+
+                    "BLOCKED",
+
+
+                containment:
+
+                    "ACTIVE"
+
+            },
+
+
+
+            recovery:{
 
 
                 status:
@@ -331,25 +349,43 @@ class FailsafeEngineV1 {
                     transition.recovery,
 
 
-
                 preparation:
 
                     "RECOVERY_MANAGEMENT_READY"
 
+
             },
+
+
+
+            recoveryPathway:[
+
+
+                "DIAGNOSTIC_ASSESSMENT",
+
+                "CORRECTIVE_PLANNING",
+
+                "STATE_VERIFICATION",
+
+                "PRIMARY_RESTORATION",
+
+                "CERTIFIED_STABLE"
+
+
+            ],
 
 
 
             certifiedState:
 
 
-                this.currentState ===
+                this.currentState
+                ===
                 "CERTIFIED_STABLE",
 
 
 
             goldenRuleAuthority:
-
 
                 "GOLDEN_RULE_ENGINE",
 
@@ -375,14 +411,14 @@ class FailsafeEngineV1 {
 
 
 
-    // ---------------------------------
-    // TRANSITION DECISION LOGIC
-    // ---------------------------------
+    // =================================
+    // TRANSITION LOGIC
+    // =================================
 
-    determineTransition(severity) {
+    determineTransition(severity){
 
 
-        switch(severity) {
+        switch(severity){
 
 
             case "CRITICAL":
@@ -396,11 +432,9 @@ class FailsafeEngineV1 {
                         "ISOLATED",
 
 
-
                     action:
 
                         "ACTIVATE_CONTAINMENT",
-
 
 
                     recovery:
@@ -424,11 +458,9 @@ class FailsafeEngineV1 {
                         "STABILIZED",
 
 
-
                     action:
 
                         "STABILIZATION_TRANSITION",
-
 
 
                     recovery:
@@ -452,11 +484,9 @@ class FailsafeEngineV1 {
                         "DEGRADED",
 
 
-
                     action:
 
                         "CONTROLLED_DEGRADATION",
-
 
 
                     recovery:
@@ -480,11 +510,9 @@ class FailsafeEngineV1 {
                         "CERTIFIED_STABLE",
 
 
-
                     action:
 
                         "NORMAL_OPERATION",
-
 
 
                     recovery:
@@ -496,11 +524,14 @@ class FailsafeEngineV1 {
 
         }
 
+
     }
 
 
 
 }
+
+
 
 
 
@@ -519,7 +550,7 @@ const failsafeEngine =
 // VALIDATION
 // ---------------------------------
 
-function validateFailsafeEngine() {
+function validateFailsafeEngine(){
 
 
     return {
@@ -530,11 +561,9 @@ function validateFailsafeEngine() {
             FAILSAFE_ENGINE_ID,
 
 
-
         states:
 
             FAILSAFE_STATES,
-
 
 
         currentState:
@@ -542,11 +571,11 @@ function validateFailsafeEngine() {
             failsafeEngine.currentState,
 
 
-
         transitionCount:
 
-            failsafeEngine.transitionHistory.length,
-
+            failsafeEngine
+            .transitionHistory
+            .length,
 
 
         status:
@@ -554,11 +583,62 @@ function validateFailsafeEngine() {
             "OPERATIONAL",
 
 
-
         mode:
 
             "FAILSAFE_SIMULATION_MODE"
 
+
     };
 
+
 }
+
+
+
+
+
+// ---------------------------------
+// SELF TEST
+// ---------------------------------
+
+function runFailsafeSelfTest(){
+
+
+    return {
+
+
+        engine:
+
+            FAILSAFE_ENGINE_ID,
+
+
+        states:
+
+            FAILSAFE_STATES.length,
+
+
+        current:
+
+            failsafeEngine.currentState,
+
+
+        status:
+
+            "PASS"
+
+
+    };
+
+
+}
+
+
+
+
+
+// ---------------------------------
+// GLOBAL COCKPIT CONNECTION
+// ---------------------------------
+
+window.failsafeEngine =
+    failsafeEngine;
