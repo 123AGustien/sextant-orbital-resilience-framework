@@ -1,23 +1,17 @@
 /*
-🛰️ Audit Core v1
+🛰️ Audit Core v1.1
 Sextant Orbital Resilience Framework
 
 Purpose:
 Deterministic audit record generator.
 
-Architecture:
+Now records:
 
-Scenario Result
-        ↓
-Audit Core
-        ↓
-Event Record
-        ↓
-Decision Trace
-        ↓
-Recovery Trace
-        ↓
-Cockpit Audit Display
+- Orbital event
+- Decision
+- Recovery
+- Failsafe transition
+- Validation authority
 
 Simulation-only audit module.
 */
@@ -46,7 +40,11 @@ class AuditCoreV1 {
     // GENERATE AUDIT RECORD
     // =============================
 
-    generate(result) {
+    generate(
+        result,
+        validation,
+        failsafe
+    ) {
 
 
         if (!result) {
@@ -66,68 +64,173 @@ class AuditCoreV1 {
         const record = {
 
 
+
             timestamp:
+
                 new Date()
                 .toISOString(),
 
 
 
+
             domain:
+
                 result.domain
-                || "ORBITAL",
+                ||
+                "ORBITAL",
+
 
 
 
             event:
+
                 result.scenario
-                || "UNKNOWN",
-
-
-
-            engine:
-                result.engine
-                || "UNKNOWN",
-
-
-
-            severity:
-                result.assessment
-                ?
-                result.assessment.severity
-                :
+                ||
                 "UNKNOWN",
 
 
 
-            decision:
-                result.decision
+
+            engine:
+
+                result.engine
+                ||
+                "UNKNOWN",
+
+
+
+
+            severity:
+
+                result.assessment
+
                 ?
-                result.decision.decision
+
+                result.assessment.severity
+
                 :
+
+                "UNKNOWN",
+
+
+
+
+            decision:
+
+                result.decision
+
+                ?
+
+                (
+                    result.decision.action
+                    ||
+                    result.decision.mode
+                    ||
+                    "NONE"
+                )
+
+                :
+
                 "NONE",
+
 
 
 
             recovery:
+
                 result.recovery
+
                 ?
-                result.recovery.action
+
+                (
+                    result.recovery.action
+                    ||
+                    result.recovery.recommended_action
+                    ||
+                    "NONE"
+                )
+
                 :
+
                 "NONE",
+
+
+
+
+            failsafe:
+
+
+                {
+
+
+                    state:
+
+                    failsafe
+
+                    ?
+
+                    failsafe.currentState
+
+                    :
+
+                    "NONE",
+
+
+
+
+                    transition:
+
+                    failsafe
+
+                    ?
+
+                    failsafe.transition
+
+                    :
+
+                    "NONE"
+
+
+                },
+
+
+
+
+            validation:
+
+
+                validation
+
+                ?
+
+                validation.re_test_validation.status
+
+                :
+
+                "NOT_AVAILABLE",
+
 
 
 
             authority:
-                result.decision
+
+                failsafe
+
                 ?
-                result.decision.authority
+
+                failsafe.goldenRuleAuthority
+
                 :
-                "NONE",
+
+                "GOLDEN_RULE_ENGINE",
+
 
 
 
             trace:
+
                 "GENERATED"
+
 
         };
 
@@ -142,6 +245,7 @@ class AuditCoreV1 {
         return record;
 
     }
+
 
 
 
@@ -175,6 +279,7 @@ class AuditCoreV1 {
         ];
 
     }
+
 
 
 
