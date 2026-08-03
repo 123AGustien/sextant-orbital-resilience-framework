@@ -1,10 +1,11 @@
 /*
-🛰️ Sextant Orbital Resilience Cockpit Controller v2
+🛰️ Sextant Orbital Resilience Cockpit Controller v2.1
 
 Purpose:
 Connect cockpit interface with:
 
 - OrbitalEngineV1
+- FailsafeEngineV1
 - ValidationCoreV1
 - MemoryCoreV1
 - AuditCoreV1
@@ -14,6 +15,8 @@ Flow:
 Scenario Selection
         ↓
 OrbitalEngineV1
+        ↓
+Failsafe Transition Architecture
         ↓
 Validation Core
         ↓
@@ -39,9 +42,34 @@ function runScenario(type) {
     // -----------------------------
 
     const result =
-        orbitalEngine.runScenario(
+        orbitalEngine.evaluate(
             type
         );
+
+
+
+    // -----------------------------
+    // Failsafe Transition Engine
+    // -----------------------------
+
+    let failsafe = {
+
+        status:
+            "NOT_CONNECTED"
+
+    };
+
+
+    if (
+        typeof failsafeEngine !== "undefined"
+    ) {
+
+        failsafe =
+            failsafeEngine.evaluate(
+                result
+            );
+
+    }
 
 
 
@@ -63,7 +91,8 @@ function runScenario(type) {
 
         validation =
             validationCore.validate(
-                result
+                result,
+                failsafe
             );
 
     }
@@ -83,7 +112,8 @@ function runScenario(type) {
 
         memory =
             memoryCore.update(
-                result
+                result,
+                failsafe
             );
 
     }
@@ -104,7 +134,8 @@ function runScenario(type) {
         audit =
             auditCore.generate(
                 result,
-                validation
+                validation,
+                failsafe
             );
 
     }
@@ -112,13 +143,19 @@ function runScenario(type) {
 
 
     // -----------------------------
-    // Assessment Display
+    // Complete System Output
     // -----------------------------
 
     const displayResult = {
 
 
         ...result,
+
+
+        failsafe:
+
+
+            failsafe,
 
 
         validation:
@@ -136,15 +173,55 @@ function runScenario(type) {
 
 
 
-    document.getElementById(
-        "output"
-    ).innerText =
+    // -----------------------------
+    // Assessment Display
+    // -----------------------------
 
-    JSON.stringify(
-        displayResult,
-        null,
-        2
-    );
+    const outputDisplay =
+        document.getElementById(
+            "output"
+        );
+
+
+    if (
+        outputDisplay
+    ) {
+
+        outputDisplay.innerText =
+
+        JSON.stringify(
+            displayResult,
+            null,
+            2
+        );
+
+    }
+
+
+
+    // -----------------------------
+    // Failsafe Display
+    // -----------------------------
+
+    const failsafeDisplay =
+        document.getElementById(
+            "failsafe"
+        );
+
+
+    if (
+        failsafeDisplay
+    ) {
+
+        failsafeDisplay.innerText =
+
+        JSON.stringify(
+            failsafe,
+            null,
+            2
+        );
+
+    }
 
 
 
@@ -186,7 +263,8 @@ function runScenario(type) {
 
 
     if (
-        auditDisplay
+        auditDisplay &&
+        audit
     ) {
 
         auditDisplay.innerText =
@@ -212,8 +290,9 @@ window.addEventListener(
     "load",
     function(){
 
+
         console.log(
-            "🛰️ Sextant Orbital Cockpit v2 ONLINE"
+            "🛰️ Sextant Orbital Resilience Cockpit v2.1 ONLINE"
         );
 
 
