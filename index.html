@@ -106,7 +106,7 @@ System Status
 
 <p>
 Engine:
-<b>OrbitalDomainEngineV1</b>
+<b>OrbitalEngineV1</b>
 </p>
 
 </div>
@@ -154,16 +154,13 @@ INERTIAL DESYNCHRONIZATION
 
 <div class="card">
 
-
 <h2>
 Orbital Assessment
 </h2>
 
-
 <pre id="output">
-Loading orbital simulation...
+Select orbital scenario...
 </pre>
-
 
 </div>
 
@@ -173,11 +170,9 @@ Loading orbital simulation...
 
 <div class="card">
 
-
 <h2>
 Golden Rule Engine Pipeline
 </h2>
-
 
 <p>
 
@@ -195,7 +190,6 @@ UPDATE
 
 </p>
 
-
 </div>
 
 
@@ -204,17 +198,14 @@ UPDATE
 
 <div class="card">
 
-
 <h2>
 Audit Trace
 </h2>
-
 
 <pre id="audit">
 Waiting for simulation...
 </pre>
 
-
 </div>
 
 
@@ -223,98 +214,14 @@ Waiting for simulation...
 
 
 
+<!-- AUTHENTIC SIMULATOR MODULES -->
 
+<script src="js/orbitalProfiles.js"></script>
 
-<script>
+<script src="js/orbitalEngine.js"></script>
 
+<script src="js/cockpit.js"></script>
 
-function runScenario(type){
-
-
-let result = {
-
-
-domain:"ORBITAL",
-
-engine:"OrbitalDomainEngineV1",
-
-scenario:type,
-
-
-assessment:{
-
-severity:"HIGH",
-
-status:"SIMULATION_COMPLETE"
-
-},
-
-
-recovery:{
-
-action:"RECOVERY_SEQUENCE_INITIALIZED"
-
-},
-
-
-pipeline:[
-
-"OBSERVE",
-
-"VERIFY",
-
-"ASSESS",
-
-"DECIDE",
-
-"ACT",
-
-"UPDATE"
-
-]
-
-
-};
-
-
-
-document.getElementById("output").innerText =
-JSON.stringify(result,null,2);
-
-
-document.getElementById("audit").innerText =
-"EVENT: " + type +
-"\nTRACE: GENERATED";
-
-
-}
-
-
-
-
-
-fetch("./runtime/orbital.json")
-
-.then(response=>response.json())
-
-.then(data=>{
-
-
-document.getElementById("output").innerText =
-JSON.stringify(data,null,2);
-
-
-})
-
-.catch(()=>{
-
-document.getElementById("output").innerText =
-"No runtime data available. Manual simulation ready.";
-
-});
-
-
-</script>
 
 
 </body>
