@@ -1,16 +1,20 @@
 /*
-🛰️ Memory Core v1.1
+🛰️ Memory Core v1.2
 Sextant Orbital Resilience Framework
 
 Purpose:
 Deterministic simulator memory layer.
 
-Now stores:
+Stores:
 
 - Scenario state
 - Decision state
 - Recovery state
+- Severity state
 - Failsafe transition state
+- Cascade protection state
+- Recovery pathway
+- Operational history
 
 Simulation-only memory module.
 */
@@ -23,7 +27,7 @@ Simulation-only memory module.
 class MemoryCoreV1 {
 
 
-    constructor() {
+    constructor(){
 
 
         this.name =
@@ -50,12 +54,40 @@ class MemoryCoreV1 {
                 "NONE",
 
 
+
+            previousFailsafeState:
+                "NONE",
+
+
+
             lastFailsafeState:
                 "NONE",
 
 
+
             lastTransition:
                 "NONE",
+
+
+
+            cascadeStatus:
+                "NONE",
+
+
+
+            recoveryPathway:
+                [],
+
+
+
+            transitionCount:
+                0,
+
+
+
+            timestamp:
+                null,
+
 
 
             systemStatus:
@@ -69,17 +101,19 @@ class MemoryCoreV1 {
 
 
 
-    // =============================
+
+
+    // =================================
     // UPDATE MEMORY STATE
-    // =============================
+    // =================================
 
     update(
         result,
         failsafe
-    ) {
+    ){
 
 
-        if (!result) {
+        if(!result){
 
             return this.state;
 
@@ -94,10 +128,9 @@ class MemoryCoreV1 {
             lastScenario:
 
                 result.scenario
-
                 ||
-
                 "UNKNOWN",
+
 
 
 
@@ -109,6 +142,8 @@ class MemoryCoreV1 {
                 ?
 
                 (
+                    result.decision.decision
+                    ||
                     result.decision.action
                     ||
                     result.decision.mode
@@ -119,6 +154,7 @@ class MemoryCoreV1 {
                 :
 
                 "NONE",
+
 
 
 
@@ -144,6 +180,7 @@ class MemoryCoreV1 {
 
 
 
+
             lastSeverity:
 
                 result.assessment
@@ -155,6 +192,23 @@ class MemoryCoreV1 {
                 :
 
                 "NONE",
+
+
+
+
+
+            previousFailsafeState:
+
+                failsafe
+
+                ?
+
+                failsafe.previousState
+
+                :
+
+                "NONE",
+
 
 
 
@@ -174,6 +228,7 @@ class MemoryCoreV1 {
 
 
 
+
             lastTransition:
 
                 failsafe
@@ -189,12 +244,71 @@ class MemoryCoreV1 {
 
 
 
+
+            cascadeStatus:
+
+                failsafe &&
+                failsafe.cascadeControl
+
+                ?
+
+                failsafe.cascadeControl.propagation
+
+                :
+
+                "NONE",
+
+
+
+
+
+            recoveryPathway:
+
+                failsafe &&
+                failsafe.recoveryPathway
+
+                ?
+
+                failsafe.recoveryPathway
+
+                :
+
+                [],
+
+
+
+
+
+            transitionCount:
+
+                failsafe &&
+                failsafe.stateHistory
+
+                ?
+
+                failsafe.stateHistory.length
+
+                :
+
+                0,
+
+
+
+
+
+            timestamp:
+
+                new Date()
+                .toISOString(),
+
+
+
+
+
             systemStatus:
 
                 result.status
-
                 ||
-
                 "SIMULATION_COMPLETE"
 
 
@@ -211,11 +325,81 @@ class MemoryCoreV1 {
 
 
 
-    // =============================
+    // =================================
     // READ MEMORY
-    // =============================
+    // =================================
 
-    getState() {
+    getState(){
+
+
+        return this.state;
+
+
+    }
+
+
+
+
+
+    // =================================
+    // RESET MEMORY
+    // =================================
+
+    reset(){
+
+
+        this.state = {
+
+
+            lastScenario:
+                "NONE",
+
+
+            lastDecision:
+                "NONE",
+
+
+            lastRecovery:
+                "NONE",
+
+
+            lastSeverity:
+                "NONE",
+
+
+            previousFailsafeState:
+                "NONE",
+
+
+            lastFailsafeState:
+                "NONE",
+
+
+            lastTransition:
+                "NONE",
+
+
+            cascadeStatus:
+                "NONE",
+
+
+            recoveryPathway:
+                [],
+
+
+            transitionCount:
+                0,
+
+
+            timestamp:
+                null,
+
+
+            systemStatus:
+                "READY"
+
+
+        };
 
 
         return this.state;
@@ -225,6 +409,8 @@ class MemoryCoreV1 {
 
 
 }
+
+
 
 
 
