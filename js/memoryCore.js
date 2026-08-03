@@ -1,21 +1,16 @@
 /*
-🛰️ Memory Core v1
+🛰️ Memory Core v1.1
 Sextant Orbital Resilience Framework
 
 Purpose:
 Deterministic simulator memory layer.
 
-Architecture:
+Now stores:
 
-Scenario Result
-        ↓
-Memory Core
-        ↓
-Store Operational State
-        ↓
-Display Last Event
-        ↓
-Cockpit Update
+- Scenario state
+- Decision state
+- Recovery state
+- Failsafe transition state
 
 Simulation-only memory module.
 */
@@ -30,28 +25,45 @@ class MemoryCoreV1 {
 
     constructor() {
 
+
         this.name =
             "MemoryCoreV1";
 
 
+
         this.state = {
+
 
             lastScenario:
                 "NONE",
 
+
             lastDecision:
                 "NONE",
+
 
             lastRecovery:
                 "NONE",
 
+
             lastSeverity:
                 "NONE",
+
+
+            lastFailsafeState:
+                "NONE",
+
+
+            lastTransition:
+                "NONE",
+
 
             systemStatus:
                 "READY"
 
+
         };
+
 
     }
 
@@ -61,7 +73,10 @@ class MemoryCoreV1 {
     // UPDATE MEMORY STATE
     // =============================
 
-    update(result) {
+    update(
+        result,
+        failsafe
+    ) {
 
 
         if (!result) {
@@ -75,42 +90,113 @@ class MemoryCoreV1 {
         this.state = {
 
 
+
             lastScenario:
+
                 result.scenario
-                || "UNKNOWN",
+
+                ||
+
+                "UNKNOWN",
+
 
 
 
             lastDecision:
+
                 result.decision
+
                 ?
-                result.decision.decision
+
+                (
+                    result.decision.action
+                    ||
+                    result.decision.mode
+                    ||
+                    "NONE"
+                )
+
                 :
+
                 "NONE",
+
 
 
 
             lastRecovery:
+
                 result.recovery
+
                 ?
-                result.recovery.action
+
+                (
+                    result.recovery.action
+                    ||
+                    result.recovery.recommended_action
+                    ||
+                    "NONE"
+                )
+
                 :
+
                 "NONE",
+
 
 
 
             lastSeverity:
+
                 result.assessment
+
                 ?
+
                 result.assessment.severity
+
                 :
+
                 "NONE",
 
 
 
+
+            lastFailsafeState:
+
+                failsafe
+
+                ?
+
+                failsafe.currentState
+
+                :
+
+                "NONE",
+
+
+
+
+            lastTransition:
+
+                failsafe
+
+                ?
+
+                failsafe.transition
+
+                :
+
+                "NONE",
+
+
+
+
             systemStatus:
+
                 result.status
-                || "UNKNOWN"
+
+                ||
+
+                "SIMULATION_COMPLETE"
+
 
         };
 
@@ -118,7 +204,9 @@ class MemoryCoreV1 {
 
         return this.state;
 
+
     }
+
 
 
 
