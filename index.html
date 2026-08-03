@@ -10,35 +10,51 @@
 Sextant Orbital Resilience Cockpit v2
 </title>
 
+
 <style>
 
 body {
+
     background:#0b0f19;
     color:white;
     font-family:Arial,sans-serif;
     padding:30px;
+
 }
+
 
 .container {
+
     max-width:1000px;
     margin:auto;
+
 }
 
+
 .card {
+
     background:#121826;
     border:1px solid #26334f;
     border-radius:16px;
     padding:25px;
     margin-top:20px;
+
 }
+
 
 h1 {
+
     color:#8db3ff;
+
 }
 
+
 h2 {
+
     color:#9fb3d1;
+
 }
+
 
 button {
 
@@ -52,9 +68,13 @@ button {
 
 }
 
+
 button:hover {
+
     opacity:0.8;
+
 }
+
 
 pre {
 
@@ -62,8 +82,10 @@ pre {
     padding:20px;
     border-radius:12px;
     color:#d6e0f2;
+    white-space:pre-wrap;
 
 }
+
 
 .status {
 
@@ -72,6 +94,7 @@ pre {
 
 }
 
+
 .pass {
 
     color:#4cff88;
@@ -79,15 +102,18 @@ pre {
 
 }
 
+
 </style>
 
 </head>
+
 
 
 <body>
 
 
 <div class="container">
+
 
 
 <h1>
@@ -101,36 +127,50 @@ Deterministic Orbital Domain Simulation Framework
 
 
 
+
+
 <div class="card">
+
 
 <h2>
 System Status
 </h2>
 
+
 <p class="status">
 🟢 ORBITAL SYSTEM ONLINE
 </p>
+
 
 <p>
 Engine:
 <b>OrbitalEngineV1</b>
 </p>
 
+
 <p>
 Validation:
-<b class="pass">READY</b>
+<b class="pass">
+READY
+</b>
 </p>
+
 
 </div>
 
 
 
 
+
+
+
 <div class="card">
+
 
 <h2>
 Scenario Control
 </h2>
+
 
 
 <button onclick="runScenario('SIGNAL_LOSS')">
@@ -138,9 +178,11 @@ SIGNAL LOSS
 </button>
 
 
+
 <button onclick="runScenario('ORBITAL_DRIFT')">
 ORBITAL DRIFT
 </button>
+
 
 
 <button onclick="runScenario('TELEMETRY_CORRUPTION')">
@@ -148,9 +190,11 @@ TELEMETRY CORRUPTION
 </button>
 
 
+
 <button onclick="runScenario('POWER_FAILURE')">
 POWER FAILURE
 </button>
+
 
 
 <button onclick="runScenario('INERTIAL_DESYNCHRONIZATION')">
@@ -158,21 +202,29 @@ INERTIAL DESYNCHRONIZATION
 </button>
 
 
+
 </div>
 
 
 
 
 
+
+
 <div class="card">
+
 
 <h2>
 Orbital Assessment
 </h2>
 
+
 <pre id="output">
+
 Select orbital scenario...
+
 </pre>
+
 
 </div>
 
@@ -180,34 +232,53 @@ Select orbital scenario...
 
 
 
+
+
 <div class="card">
+
 
 <h2>
 Golden Rule Engine Pipeline
 </h2>
 
+
 <p>
 
 OBSERVE
+<br>
 ↓
+<br>
 VERIFY
+<br>
 ↓
+<br>
 ASSESS
+<br>
 ↓
+<br>
 DECIDE
+<br>
 ↓
+<br>
 ACT
+<br>
 ↓
+<br>
 UPDATE
 
 </p>
+
 
 </div>
 
 
 
 
+
+
+
 <div class="card">
+
 
 <h2>
 Captain AI Lena Validation Core
@@ -216,20 +287,7 @@ Captain AI Lena Validation Core
 
 <pre id="validation">
 
-SELF-TEST:
-🟢 READY
-
-FAULT IDENTIFICATION:
-🟢 READY
-
-DECISION CORE:
-🟢 OPERATIONAL
-
-CORRECTIVE ACTION LOOP:
-🟢 READY
-
-RE-TEST VALIDATION:
-🟢 READY
+Waiting for validation...
 
 </pre>
 
@@ -240,7 +298,10 @@ RE-TEST VALIDATION:
 
 
 
+
+
 <div class="card">
+
 
 <h2>
 Memory Core
@@ -255,6 +316,9 @@ Waiting...
 LAST DECISION:
 Waiting...
 
+LAST RECOVERY:
+Waiting...
+
 SYSTEM STATE:
 READY
 
@@ -267,7 +331,10 @@ READY
 
 
 
+
+
 <div class="card">
+
 
 <h2>
 Audit Record
@@ -285,20 +352,33 @@ Waiting for simulation...
 
 
 
+
+
 </div>
+
+
+
 
 
 
 <!-- AUTHENTIC SIMULATOR MODULES -->
 
+
 <script src="js/orbitalProfiles.js"></script>
 
 <script src="js/orbitalEngine.js"></script>
+
+<script src="js/validationCore.js"></script>
+
+<script src="js/memoryCore.js"></script>
+
+<script src="js/auditCore.js"></script>
 
 <script src="js/cockpit.js"></script>
 
 
 
 </body>
+
 
 </html>
