@@ -1,4 +1,4 @@
-"""
+/*
 🛰️ Orbital Failure Profiles v1
 Sextant Orbital Resilience Framework
 
@@ -19,37 +19,32 @@ Recovery Recommendation
         ↓
 Golden Rule Engine Interface
 
-
-This module is simulation-only.
-"""
-
-
-# ---------------------------------
-# DOMAIN IDENTIFIER
-# ---------------------------------
-
-ORBITAL_DOMAIN_ID = "ORBITAL"
+Simulation-only module.
+*/
 
 
+// ---------------------------------
+// DOMAIN IDENTIFIER
+// ---------------------------------
 
-# ---------------------------------
-# ORBITAL FAILURE PROFILE REGISTRY
-# ---------------------------------
-
-ORBITAL_FAILURE_PROFILES = {
+const ORBITAL_DOMAIN_ID = "ORBITAL";
 
 
-    # ---------------------------------
-    # SIGNAL LOSS
-    # ---------------------------------
 
-    "SIGNAL_LOSS": {
+// ---------------------------------
+// ORBITAL FAILURE PROFILE REGISTRY
+// ---------------------------------
 
-        "scenario_id": "ORBITAL_SIGNAL_001",
+const ORBITAL_FAILURE_PROFILES = {
 
-        "severity": "HIGH",
 
-        "effects": [
+    SIGNAL_LOSS: {
+
+        scenario_id: "ORBITAL_SIGNAL_001",
+
+        severity: "HIGH",
+
+        effects: [
 
             "telemetry_disruption",
 
@@ -59,24 +54,21 @@ ORBITAL_FAILURE_PROFILES = {
 
         ],
 
-        "recommended_action":
+        recommended_action:
+
             "SWITCH_TO_BACKUP_SATELLITE"
 
     },
 
 
 
-    # ---------------------------------
-    # ORBITAL DRIFT
-    # ---------------------------------
+    ORBITAL_DRIFT: {
 
-    "ORBITAL_DRIFT": {
+        scenario_id: "ORBITAL_DRIFT_001",
 
-        "scenario_id": "ORBITAL_DRIFT_001",
+        severity: "MEDIUM",
 
-        "severity": "MEDIUM",
-
-        "effects": [
+        effects: [
 
             "trajectory_deviation",
 
@@ -84,24 +76,21 @@ ORBITAL_FAILURE_PROFILES = {
 
         ],
 
-        "recommended_action":
+        recommended_action:
+
             "INITIATE_TRAJECTORY_CORRECTION"
 
     },
 
 
 
-    # ---------------------------------
-    # TELEMETRY CORRUPTION
-    # ---------------------------------
+    TELEMETRY_CORRUPTION: {
 
-    "TELEMETRY_CORRUPTION": {
+        scenario_id: "ORBITAL_DATA_001",
 
-        "scenario_id": "ORBITAL_DATA_001",
+        severity: "MEDIUM",
 
-        "severity": "MEDIUM",
-
-        "effects": [
+        effects: [
 
             "data_integrity_loss",
 
@@ -111,24 +100,21 @@ ORBITAL_FAILURE_PROFILES = {
 
         ],
 
-        "recommended_action":
+        recommended_action:
+
             "ENABLE_LOW_BAND_TELEMETRY"
 
     },
 
 
 
-    # ---------------------------------
-    # POWER FAILURE
-    # ---------------------------------
+    POWER_FAILURE: {
 
-    "POWER_FAILURE": {
+        scenario_id: "ORBITAL_POWER_001",
 
-        "scenario_id": "ORBITAL_POWER_001",
+        severity: "CRITICAL",
 
-        "severity": "CRITICAL",
-
-        "effects": [
+        effects: [
 
             "system_shutdown",
 
@@ -138,24 +124,21 @@ ORBITAL_FAILURE_PROFILES = {
 
         ],
 
-        "recommended_action":
+        recommended_action:
+
             "ACTIVATE_POWER_RECOVERY_MODE"
 
     },
 
 
 
-    # ---------------------------------
-    # INERTIAL DESYNCHRONIZATION
-    # ---------------------------------
+    INERTIAL_DESYNCHRONIZATION: {
 
-    "INERTIAL_DESYNCHRONIZATION": {
+        scenario_id: "ORBITAL_GUIDANCE_001",
 
-        "scenario_id": "ORBITAL_GUIDANCE_001",
+        severity: "HIGH",
 
-        "severity": "HIGH",
-
-        "effects": [
+        effects: [
 
             "guidance_instability",
 
@@ -165,72 +148,70 @@ ORBITAL_FAILURE_PROFILES = {
 
         ],
 
-        "recommended_action":
+        recommended_action:
+
             "RECALIBRATE_INERTIAL_GUIDANCE"
 
     }
+
+};
+
+
+
+// ---------------------------------
+// VALIDATION FUNCTIONS
+// ---------------------------------
+
+function validateOrbitalProfile(scenario) {
+
+    return scenario in ORBITAL_FAILURE_PROFILES;
 
 }
 
 
 
-# ---------------------------------
-# VALIDATION FUNCTIONS
-# ---------------------------------
-
-def validate_orbital_profile(
-    scenario: str
-) -> bool:
-
-    """
-    Validate that orbital scenario exists.
-    """
-
-    return scenario in ORBITAL_FAILURE_PROFILES
+function getOrbitalProfile(scenario) {
 
 
+    if (!validateOrbitalProfile(scenario)) {
 
-def get_orbital_profile(
-    scenario: str
-):
+        throw new Error(
+            "Unknown orbital scenario: " + scenario
+        );
 
-    """
-    Retrieve orbital failure profile.
-    """
-
-    if not validate_orbital_profile(scenario):
-
-        raise ValueError(
-            f"Unknown orbital scenario: {scenario}"
-        )
+    }
 
 
-    return ORBITAL_FAILURE_PROFILES[scenario]
+    return ORBITAL_FAILURE_PROFILES[scenario];
+
+}
 
 
 
-# ---------------------------------
-# EXPORT REGISTRY STATUS
-# ---------------------------------
+// ---------------------------------
+// REGISTRY STATUS
+// ---------------------------------
 
-def get_orbital_registry_status():
+function getOrbitalRegistryStatus() {
 
-    """
-    Return registry information.
-    """
 
     return {
 
-        "domain": ORBITAL_DOMAIN_ID,
+        domain: ORBITAL_DOMAIN_ID,
 
-        "engine_ready": True,
+        engine_ready: true,
 
-        "scenario_count":
-            len(ORBITAL_FAILURE_PROFILES),
+        scenario_count:
+            Object.keys(
+                ORBITAL_FAILURE_PROFILES
+            ).length,
 
-        "scenarios":
-            list(
-                ORBITAL_FAILURE_PROFILES.keys()
+
+        scenarios:
+            Object.keys(
+                ORBITAL_FAILURE_PROFILES
             )
 
-    }
+    };
+
+}
