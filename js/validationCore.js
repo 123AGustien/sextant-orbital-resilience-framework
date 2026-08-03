@@ -1,25 +1,16 @@
 /*
-🛰️ Validation Core v1
+🛰️ Validation Core v1.1
 Sextant Orbital Resilience Framework
 
 Purpose:
 Deterministic validation layer for orbital simulator.
 
-Architecture:
+Now validates:
 
-Simulation Result
-        ↓
-SELF-TEST
-        ↓
-FAULT IDENTIFICATION
-        ↓
-CAPTAIN AI LENA DECISION CHECK
-        ↓
-CORRECTIVE ACTION LOOP
-        ↓
-RE-TEST VALIDATION
-        ↓
-VALIDATION STATUS
+- Orbital Engine Result
+- Failsafe Transition State
+- Golden Rule Authority
+- Decision Integrity
 
 Simulation-only validation module.
 */
@@ -48,7 +39,10 @@ class ValidationCoreV1 {
     // RUN VALIDATION CYCLE
     // =============================
 
-    validate(result) {
+    validate(
+        result,
+        failsafe
+    ) {
 
 
         const selfTest =
@@ -63,6 +57,13 @@ class ValidationCoreV1 {
 
 
 
+        const failsafeCheck =
+            this.failsafeValidation(
+                failsafe
+            );
+
+
+
         const decisionCheck =
             this.decisionValidation(
                 result
@@ -72,7 +73,8 @@ class ValidationCoreV1 {
 
         const correctiveAction =
             this.correctiveActionLoop(
-                result
+                result,
+                failsafe
             );
 
 
@@ -81,6 +83,7 @@ class ValidationCoreV1 {
             this.reTestValidation(
                 selfTest,
                 faultCheck,
+                failsafeCheck,
                 decisionCheck
             );
 
@@ -99,6 +102,10 @@ class ValidationCoreV1 {
 
             fault_identification:
                 faultCheck,
+
+
+            failsafe_validation:
+                failsafeCheck,
 
 
             decision_core:
@@ -123,7 +130,6 @@ class ValidationCoreV1 {
 
 
 
-
     // =============================
     // SELF TEST
     // =============================
@@ -145,7 +151,6 @@ class ValidationCoreV1 {
 
 
 
-
     // =============================
     // FAULT IDENTIFICATION
     // =============================
@@ -158,7 +163,6 @@ class ValidationCoreV1 {
             result.assessment
         ) {
 
-
             return {
 
                 status:
@@ -168,7 +172,6 @@ class ValidationCoreV1 {
                     false
 
             };
-
 
         }
 
@@ -188,6 +191,50 @@ class ValidationCoreV1 {
 
 
 
+    // =============================
+    // FAILSAFE VALIDATION
+    // =============================
+
+    failsafeValidation(
+        failsafe
+    ) {
+
+
+        if (
+            failsafe &&
+            failsafe.engine ===
+            "FailsafeTransitionEngineV1"
+        ) {
+
+
+            return {
+
+                status:
+                    "OPERATIONAL",
+
+                state:
+                    failsafe.currentState,
+
+                authority:
+                    failsafe.goldenRuleAuthority
+
+            };
+
+
+        }
+
+
+        return {
+
+            status:
+                "NOT_CONNECTED"
+
+        };
+
+
+    }
+
+
 
     // =============================
     // DECISION VALIDATION
@@ -198,10 +245,7 @@ class ValidationCoreV1 {
 
         if (
             result &&
-            result.decision &&
-            result.decision.authority
-            ===
-            "GOLDEN_RULE_ENGINE"
+            result.decision
         ) {
 
 
@@ -231,12 +275,14 @@ class ValidationCoreV1 {
 
 
 
-
     // =============================
     // CORRECTIVE ACTION LOOP
     // =============================
 
-    correctiveActionLoop(result) {
+    correctiveActionLoop(
+        result,
+        failsafe
+    ) {
 
 
         return {
@@ -254,7 +300,6 @@ class ValidationCoreV1 {
 
 
 
-
     // =============================
     // RE-TEST VALIDATION
     // =============================
@@ -262,6 +307,7 @@ class ValidationCoreV1 {
     reTestValidation(
         selfTest,
         faultCheck,
+        failsafeCheck,
         decisionCheck
     ) {
 
@@ -273,6 +319,10 @@ class ValidationCoreV1 {
             &&
 
             faultCheck.status === "NO_FAULTS"
+
+            &&
+
+            failsafeCheck.status === "OPERATIONAL"
 
             &&
 
