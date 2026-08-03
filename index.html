@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>
-Sextant Orbital Resilience Cockpit v2
+Sextant Orbital Resilience Cockpit v2.1
 </title>
 
 
@@ -102,7 +102,6 @@ pre {
 
 }
 
-
 </style>
 
 </head>
@@ -115,13 +114,14 @@ pre {
 
 
 <h1>
-🛰️ Sextant Orbital Resilience Cockpit v2
+🛰️ Sextant Orbital Resilience Cockpit v2.1
 </h1>
 
 
 <p>
 Deterministic Orbital Domain Simulation Framework
 </p>
+
 
 
 <div class="card">
@@ -149,6 +149,26 @@ Validation:
 READY
 </b>
 </p>
+
+
+</div>
+
+
+
+<div class="card">
+
+
+<h2>
+System Integration Status
+</h2>
+
+
+<pre id="integration">
+
+Waiting for system connection...
+
+
+</pre>
 
 
 </div>
@@ -189,9 +209,6 @@ INERTIAL DESYNCHRONIZATION
 
 
 </div>
-
-
-
 <div class="card">
 
 
@@ -208,6 +225,10 @@ Select orbital scenario...
 
 
 </div>
+
+
+
+
 <div class="card">
 
 
@@ -247,6 +268,8 @@ UPDATE
 
 
 
+
+
 <div class="card">
 
 
@@ -257,11 +280,9 @@ UPDATE
 
 <pre id="failsafe">
 
-
 FAILSAFE STATUS:
 
 READY
-
 
 
 PRIMARY SYSTEM:
@@ -343,7 +364,6 @@ STATUS:
 STANDBY
 
 
-
 ROLE:
 
 - Stabilized operation
@@ -395,6 +415,7 @@ SAFE TRANSITION READY
 
 
 </div>
+
 
 
 
@@ -613,6 +634,16 @@ LAST FAILSAFE STATE:
 Waiting...
 
 
+LAST TRANSITION:
+
+Waiting...
+
+
+CASCADE STATUS:
+
+Waiting...
+
+
 SYSTEM STATE:
 
 READY
@@ -630,68 +661,4 @@ READY
 <div class="card">
 
 
-<h2>
-Audit Record
-</h2>
-
-
-<pre id="audit">
-
-Waiting for simulation...
-
-</pre>
-
-
-</div>
-
-
-
-
-
-</div>
-
-
-
-
-
-<!-- AUTHENTIC SIMULATOR MODULES -->
-
-
-<script src="js/orbitalProfiles.js"></script>
-
-<script src="js/orbitalEngine.js"></script>
-
-
-<!-- FAILSAFE TRANSITION ARCHITECTURE -->
-
-<script src="js/failsafeProfiles.js"></script>
-
-<script src="js/failsafeEngine.js"></script>
-
-
-
-<!-- NAVIGATION ARCHITECTURE -->
-
-<script src="js/navigationCore.js"></script>
-
-
-
-<!-- VALIDATION AND GOVERNANCE CORE -->
-
-<script src="js/validationCore.js"></script>
-
-<script src="js/memoryCore.js"></script>
-
-<script src="js/auditCore.js"></script>
-
-
-
-<!-- COCKPIT CONTROLLER -->
-
-<script src="js/cockpit.js"></script>
-
-
-
-</body>
-
-</html>
+<h
