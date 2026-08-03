@@ -1,8 +1,10 @@
 /*
-🛰️ Sextant Orbital Resilience Cockpit Controller v2.2
+🛰️ Sextant Orbital Resilience Cockpit Controller v2.3
 
 Purpose:
-Connect cockpit interface with:
+Integrated deterministic cockpit controller.
+
+Connections:
 
 - OrbitalEngineV1
 - FailsafeEngineV1
@@ -16,7 +18,7 @@ Scenario Selection
         ↓
 OrbitalEngineV1
         ↓
-Failsafe Transition Architecture
+Failsafe Transition Engine
         ↓
 Validation Core
         ↓
@@ -24,30 +26,128 @@ Memory Core
         ↓
 Audit Core
         ↓
-Cockpit Display
+Captain AI Lena Display
 
 Simulation-only controller.
 */
 
 
 // =================================
+// SYSTEM INTEGRATION STATUS
+// =================================
+
+function updateIntegrationStatus(){
+
+
+    const statusDisplay =
+        document.getElementById(
+            "integration"
+        );
+
+
+    if(!statusDisplay){
+
+        return;
+
+    }
+
+
+
+    const status = {
+
+
+        OrbitalEngineV1:
+
+            typeof orbitalEngine !== "undefined"
+            ?
+            "CONNECTED"
+            :
+            "NOT_CONNECTED",
+
+
+
+        FailsafeEngineV1:
+
+            typeof failsafeEngine !== "undefined"
+            ?
+            "CONNECTED"
+            :
+            "NOT_CONNECTED",
+
+
+
+        ValidationCoreV1:
+
+            typeof validationCore !== "undefined"
+            ?
+            "CONNECTED"
+            :
+            "NOT_CONNECTED",
+
+
+
+        MemoryCoreV1:
+
+            typeof memoryCore !== "undefined"
+            ?
+            "CONNECTED"
+            :
+            "NOT_CONNECTED",
+
+
+
+        AuditCoreV1:
+
+            typeof auditCore !== "undefined"
+            ?
+            "CONNECTED"
+            :
+            "NOT_CONNECTED",
+
+
+
+        GoldenRuleEngine:
+
+            "ACTIVE"
+
+
+    };
+
+
+
+    statusDisplay.innerText =
+        JSON.stringify(
+            status,
+            null,
+            2
+        );
+
+
+}
+
+
+
+
+
+// =================================
 // RUN ORBITAL SCENARIO
 // =================================
 
-function runScenario(type) {
+function runScenario(type){
 
 
 
-    // -----------------------------
-    // Orbital Engine Connection Check
-    // -----------------------------
+    updateIntegrationStatus();
 
-    if (
+
+
+
+    if(
         typeof orbitalEngine === "undefined"
-    ) {
+    ){
 
         console.error(
-            "OrbitalEngineV1 not connected"
+            "OrbitalEngineV1 missing"
         );
 
         return;
@@ -57,12 +157,9 @@ function runScenario(type) {
 
 
 
-    // -----------------------------
-    // Execute Orbital Engine
-    // -----------------------------
-
     const result =
-        orbitalEngine.evaluate(
+
+        orbitalEngine.runScenario(
             type
         );
 
@@ -70,27 +167,25 @@ function runScenario(type) {
 
 
 
-    // -----------------------------
-    // Failsafe Transition Engine
-    // -----------------------------
 
     let failsafe = {
 
 
         status:
-            "NOT_CONNECTED"
+        "NOT_CONNECTED"
 
 
     };
 
 
 
-    if (
+    if(
         typeof failsafeEngine !== "undefined"
-    ) {
+    ){
 
 
         failsafe =
+
             failsafeEngine.evaluate(
                 result
             );
@@ -102,27 +197,26 @@ function runScenario(type) {
 
 
 
-    // -----------------------------
-    // Validation Core
-    // -----------------------------
+
 
     let validation = {
 
 
         status:
-            "NOT_CONNECTED"
+        "NOT_CONNECTED"
 
 
     };
 
 
 
-    if (
+    if(
         typeof validationCore !== "undefined"
-    ) {
+    ){
 
 
         validation =
+
             validationCore.validate(
                 result,
                 failsafe
@@ -135,20 +229,18 @@ function runScenario(type) {
 
 
 
-    // -----------------------------
-    // Memory Core Update
-    // -----------------------------
 
     let memory = null;
 
 
 
-    if (
+    if(
         typeof memoryCore !== "undefined"
-    ) {
+    ){
 
 
         memory =
+
             memoryCore.update(
                 result,
                 failsafe
@@ -161,20 +253,19 @@ function runScenario(type) {
 
 
 
-    // -----------------------------
-    // Audit Core
-    // -----------------------------
+
 
     let audit = null;
 
 
 
-    if (
+    if(
         typeof auditCore !== "undefined"
-    ) {
+    ){
 
 
         audit =
+
             auditCore.generate(
                 result,
                 validation,
@@ -188,9 +279,7 @@ function runScenario(type) {
 
 
 
-    // -----------------------------
-    // Complete System Output
-    // -----------------------------
+
 
     const displayResult = {
 
@@ -198,31 +287,16 @@ function runScenario(type) {
         ...result,
 
 
-        failsafe:
+        failsafe,
 
 
-            failsafe,
+        validation,
 
 
-
-        validation:
-
-
-            validation,
+        memory,
 
 
-
-        memory:
-
-
-            memory,
-
-
-
-        audit:
-
-
-            audit
+        audit
 
 
     };
@@ -231,30 +305,24 @@ function runScenario(type) {
 
 
 
-    // -----------------------------
-    // Orbital Assessment Display
-    // -----------------------------
 
-    const outputDisplay =
+
+    const output =
         document.getElementById(
             "output"
         );
 
 
-
-    if (
-        outputDisplay
-    ) {
+    if(output){
 
 
-        outputDisplay.innerText =
+        output.innerText =
 
-        JSON.stringify(
-            displayResult,
-            null,
-            2
-        );
-
+            JSON.stringify(
+                displayResult,
+                null,
+                2
+            );
 
     }
 
@@ -262,9 +330,7 @@ function runScenario(type) {
 
 
 
-    // -----------------------------
-    // Failsafe Display
-    // -----------------------------
+
 
     const failsafeDisplay =
         document.getElementById(
@@ -272,20 +338,16 @@ function runScenario(type) {
         );
 
 
-
-    if (
-        failsafeDisplay
-    ) {
+    if(failsafeDisplay){
 
 
         failsafeDisplay.innerText =
 
-        JSON.stringify(
-            failsafe,
-            null,
-            2
-        );
-
+            JSON.stringify(
+                failsafe,
+                null,
+                2
+            );
 
     }
 
@@ -293,9 +355,7 @@ function runScenario(type) {
 
 
 
-    // -----------------------------
-    // Validation Display
-    // -----------------------------
+
 
     const validationDisplay =
         document.getElementById(
@@ -303,20 +363,16 @@ function runScenario(type) {
         );
 
 
-
-    if (
-        validationDisplay
-    ) {
+    if(validationDisplay){
 
 
         validationDisplay.innerText =
 
-        JSON.stringify(
-            validation,
-            null,
-            2
-        );
-
+            JSON.stringify(
+                validation,
+                null,
+                2
+            );
 
     }
 
@@ -324,9 +380,7 @@ function runScenario(type) {
 
 
 
-    // -----------------------------
-    // Memory Display
-    // -----------------------------
+
 
     const memoryDisplay =
         document.getElementById(
@@ -334,21 +388,16 @@ function runScenario(type) {
         );
 
 
-
-    if (
-        memoryDisplay &&
-        memory
-    ) {
+    if(memoryDisplay){
 
 
         memoryDisplay.innerText =
 
-        JSON.stringify(
-            memory,
-            null,
-            2
-        );
-
+            JSON.stringify(
+                memory,
+                null,
+                2
+            );
 
     }
 
@@ -356,9 +405,7 @@ function runScenario(type) {
 
 
 
-    // -----------------------------
-    // Audit Display
-    // -----------------------------
+
 
     const auditDisplay =
         document.getElementById(
@@ -366,28 +413,26 @@ function runScenario(type) {
         );
 
 
-
-    if (
-        auditDisplay &&
-        audit
-    ) {
+    if(auditDisplay){
 
 
         auditDisplay.innerText =
 
-        JSON.stringify(
-            audit,
-            null,
-            2
-        );
-
+            JSON.stringify(
+                audit,
+                null,
+                2
+            );
 
     }
 
 
 
+
+
+
     console.log(
-        "🛰️ Orbital Scenario Complete",
+        "🛰️ Scenario Completed",
         displayResult
     );
 
@@ -407,9 +452,11 @@ window.addEventListener(
 
 
         console.log(
-            "🛰️ Sextant Orbital Resilience Cockpit v2.2 ONLINE"
+            "🛰️ Sextant Orbital Resilience Cockpit v2.3 ONLINE"
         );
 
+
+        updateIntegrationStatus();
 
 
         runScenario(
