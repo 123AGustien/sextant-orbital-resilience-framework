@@ -32,23 +32,56 @@ class OrbitalEngineV1 {
         this.domain =
             "ORBITAL";
 
+
+        this.pipeline = [
+
+            "OBSERVE",
+
+            "VERIFY",
+
+            "ASSESS",
+
+            "DECIDE",
+
+            "ACT",
+
+            "UPDATE"
+
+        ];
+
     }
 
 
 
-    // ==============================
+    // =================================
     // MAIN SCENARIO EXECUTION
-    // ==============================
+    // =================================
 
     runScenario(scenario) {
 
 
-        if (!validateOrbitalScenario(scenario)) {
+        if (
+            !validateOrbitalScenario(scenario)
+        ) {
+
 
             return {
 
-                error:
-                "UNKNOWN_ORBITAL_SCENARIO"
+                domain:
+                    this.domain,
+
+
+                engine:
+                    this.engine,
+
+
+                scenario:
+                    scenario,
+
+
+                status:
+                    "INVALID_SCENARIO"
+
 
             };
 
@@ -86,10 +119,8 @@ class OrbitalEngineV1 {
                 scenario,
 
 
-
             assessment:
                 assessment,
-
 
 
             decision:
@@ -99,8 +130,10 @@ class OrbitalEngineV1 {
 
             recovery: {
 
+
                 action:
                     profile.recommended_action,
+
 
                 mode:
                     profile.recovery_mode
@@ -109,21 +142,8 @@ class OrbitalEngineV1 {
 
 
 
-            pipeline: [
-
-                "OBSERVE",
-
-                "VERIFY",
-
-                "ASSESS",
-
-                "DECIDE",
-
-                "ACT",
-
-                "UPDATE"
-
-            ],
+            pipeline:
+                this.pipeline,
 
 
 
@@ -138,9 +158,10 @@ class OrbitalEngineV1 {
 
 
 
-    // ==============================
+
+    // =================================
     // ASSESSMENT LOGIC
-    // ==============================
+    // =================================
 
     assess(profile) {
 
@@ -180,50 +201,60 @@ class OrbitalEngineV1 {
 
 
 
-    // ==============================
-    // GOLDEN RULE DECISION
-    // ==============================
+    // =================================
+    // GOLDEN RULE DECISION ENGINE
+    // =================================
 
     decide(profile) {
 
 
-        let action =
+        let decision =
             "NORMAL_OPERATION";
 
 
 
-        if (
-            profile.severity === "CRITICAL"
-        ) {
+        switch(profile.severity) {
 
 
-            action =
-            "ACTIVATE_EMERGENCY_STABILIZATION";
+
+            case "CRITICAL":
 
 
-        }
+                decision =
+                "ACTIVATE_EMERGENCY_STABILIZATION";
 
 
-        else if (
-            profile.severity === "HIGH"
-        ) {
+                break;
 
 
-            action =
-            "INITIATE_RECOVERY_SEQUENCE";
+
+            case "HIGH":
 
 
-        }
+                decision =
+                "INITIATE_RECOVERY_SEQUENCE";
 
 
-        else if (
-            profile.severity === "MEDIUM"
-        ) {
+                break;
 
 
-            action =
-            "PREVENTIVE_CORRECTION";
 
+            case "MEDIUM":
+
+
+                decision =
+                "PREVENTIVE_CORRECTION";
+
+
+                break;
+
+
+
+            default:
+
+
+                decision =
+                "CONTINUE_NORMAL_OPERATION";
 
         }
 
@@ -233,7 +264,7 @@ class OrbitalEngineV1 {
 
 
             decision:
-                action,
+                decision,
 
 
             authority:
@@ -245,6 +276,40 @@ class OrbitalEngineV1 {
 
     }
 
+
+
+
+
+    // =================================
+    // ENGINE STATUS
+    // =================================
+
+    getStatus() {
+
+
+        return {
+
+
+            domain:
+                this.domain,
+
+
+            engine:
+                this.engine,
+
+
+            pipeline:
+                this.pipeline,
+
+
+            status:
+                "ONLINE"
+
+
+        };
+
+
+    }
 
 
 }
