@@ -1,4 +1,55 @@
+# 🛰️ Sextant Orbital Resilience Framework v2.4
 
+## Deterministic Orbital Resilience Simulation Architecture
+
+The Sextant Orbital Resilience Framework is a supervisory AI, governance, and simulation architecture designed to evaluate orbital-to-ground system resilience through controlled scenario analysis.
+
+The framework evaluates:
+
+- recovery pathways
+- failsafe transitions
+- dependency resilience
+- validation integrity
+- memory continuity
+- audit traceability
+- simulated manoeuvre assessment
+
+The system operates in simulation mode only and does not provide autonomous control, navigation commands, collision avoidance actions, or operational recommendations.
+
+---
+
+## Integrated Architecture
+
+The framework integrates:
+
+- OrbitalEngineV1
+- ManoeuvreEngineV1
+- FailsafeTransitionEngineV1
+- Navigation Architecture Layer
+- ValidationCoreV1
+- MemoryCoreV1
+- AuditCoreV1
+- Golden Rule Engine Decision Authority
+
+System Flow:
+
+Scenario Selection  
+↓  
+OrbitalEngineV1  
+↓  
+Trial Manoeuvre Simulation Engine  
+↓  
+Failsafe Transition Architecture  
+↓  
+Validation Core  
+↓  
+Memory Core  
+↓  
+Audit Core  
+↓  
+Captain AI Lena Display
+
+---
 🛰️ Sextant Orbital Resilience Framework v2.4
 
 Deterministic Orbital Domain Simulation Framework
