@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>
-Sextant Orbital Resilience Cockpit v2.3
+Sextant Orbital Resilience Cockpit v2.4
 </title>
 
 
@@ -115,7 +115,7 @@ pre {
 
 
 <h1>
-🛰️ Sextant Orbital Resilience Cockpit v2.3
+🛰️ Sextant Orbital Resilience Cockpit v2.4
 </h1>
 
 
@@ -211,6 +211,10 @@ INERTIAL DESYNCHRONIZATION
 
 
 </div>
+
+
+
+
 <div class="card">
 
 
@@ -227,6 +231,7 @@ Select orbital scenario...
 
 
 </div>
+
 
 
 
@@ -267,7 +272,6 @@ UPDATE
 
 
 </div>
-
 
 
 
@@ -403,25 +407,10 @@ ACT
 UPDATE
 
 
-
-SYSTEM RESULT:
-
-
-NO CASCADE PROPAGATION
-
-
-SAFE TRANSITION READY
-
-
 </pre>
 
 
 </div>
-
-
-
-
-
 <div class="card">
 
 
@@ -585,6 +574,91 @@ ARCHITECTURAL NAVIGATION DISPLAY ONLY
 
 
 </div>
+
+
+
+
+
+<div class="card">
+
+
+<h2>
+🛰️ Trial Manoeuvre Simulation Engine
+</h2>
+
+
+<pre id="manoeuvre">
+
+
+TRIAL MANOEUVRE STATUS:
+
+
+READY
+
+
+
+MANOEUVRE CONTROL:
+
+
+WAITING FOR SCENARIO
+
+
+
+
+SIMULATION OUTPUT:
+
+
+
+- Manoeuvre Planning
+
+
+- Correction Path Calculation
+
+
+- Stability Verification
+
+
+- Recovery Assessment
+
+
+- Audit Trace Generation
+
+
+
+
+Golden Rule Authority:
+
+
+ACTIVE
+
+
+
+Decision Pipeline:
+
+
+OBSERVE
+
+VERIFY
+
+ASSESS
+
+DECIDE
+
+ACT
+
+UPDATE
+
+
+
+</pre>
+
+
+</div>
+
+
+
+
+
 <div class="card">
 
 
@@ -616,9 +690,11 @@ Memory Core
 
 <pre id="memory">
 
+
 LAST SCENARIO:
 
 Waiting...
+
 
 
 LAST DECISION:
@@ -626,9 +702,11 @@ LAST DECISION:
 Waiting...
 
 
+
 LAST RECOVERY:
 
 Waiting...
+
 
 
 LAST FAILSAFE STATE:
@@ -636,14 +714,23 @@ LAST FAILSAFE STATE:
 Waiting...
 
 
+
 LAST TRANSITION:
 
 Waiting...
 
 
+
 CASCADE STATUS:
 
 Waiting...
+
+
+
+LAST MANOEUVRE:
+
+Waiting...
+
 
 
 SYSTEM STATE:
@@ -702,6 +789,15 @@ Waiting for simulation...
 
 
 
+<!-- TRIAL MANOEUVRE ENGINE -->
+
+<script src="js/manoeuvreProfiles.js"></script>
+
+<script src="js/manoeuvreEngine.js"></script>
+
+
+
+
 <!-- FAILSAFE TRANSITION ARCHITECTURE -->
 
 <script src="js/failsafeProfiles.js"></script>
@@ -739,7 +835,7 @@ Waiting for simulation...
 
 
 
-<!-- COCKPIT CONTROLLER v2.3 -->
+<!-- COCKPIT CONTROLLER v2.4 -->
 
 <script src="js/cockpit.js"></script>
 
