@@ -102,7 +102,6 @@ pre {
 
 }
 
-
 </style>
 
 </head>
@@ -124,6 +123,37 @@ Deterministic Orbital Domain Simulation Framework
 </p>
 
 
+<div class="card">
+
+<h2>
+Operational Capability Notice
+</h2>
+
+
+<p>
+
+The Trial Manoeuvre Simulation Engine provides
+deterministic scenario-based manoeuvre assessment,
+recovery pathway simulation, stability verification,
+and audit trace generation.
+
+</p>
+
+
+<p>
+
+Simulation only.
+
+This module does not issue spacecraft commands,
+execute real orbital manoeuvres,
+or replace certified mission control authority.
+
+</p>
+
+
+</div>
+
+
 
 <div class="card">
 
@@ -140,20 +170,23 @@ System Status
 
 <p>
 Engine:
-<b>OrbitalEngineV1</b>
+<b>
+OrbitalEngineV1
+</b>
 </p>
 
 
 <p>
 Validation:
+
 <b class="pass">
 READY
 </b>
+
 </p>
 
 
 </div>
-
 
 
 
@@ -173,7 +206,6 @@ Waiting for system connection...
 
 
 </div>
-
 
 
 
@@ -211,624 +243,3 @@ INERTIAL DESYNCHRONIZATION
 
 
 </div>
-
-
-
-
-<div class="card">
-
-
-<h2>
-Orbital Assessment
-</h2>
-
-
-<pre id="output">
-
-Select orbital scenario...
-
-</pre>
-
-
-</div>
-
-
-
-
-
-<div class="card">
-
-
-<h2>
-Golden Rule Engine Pipeline
-</h2>
-
-
-<p>
-
-OBSERVE
-<br>
-↓
-<br>
-VERIFY
-<br>
-↓
-<br>
-ASSESS
-<br>
-↓
-<br>
-DECIDE
-<br>
-↓
-<br>
-ACT
-<br>
-↓
-<br>
-UPDATE
-
-</p>
-
-
-</div>
-
-
-
-
-<div class="card">
-
-
-<h2>
-🛡️ Failsafe Transition Architecture Module
-</h2>
-
-
-<pre id="failsafe">
-
-FAILSAFE STATUS:
-
-READY
-
-
-PRIMARY SYSTEM:
-
-STATE:
-
-NORMAL
-
-
-CONTROL:
-
-PRIMARY AI / ORBITAL SYSTEM
-
-
-
-↓
-
-ANOMALY DETECTION:
-
-MONITORING:
-
-- Parameter deviation
-
-- Communication loss
-
-- Power instability
-
-- Navigation uncertainty
-
-
-
-↓
-
-TRANSITION CONTROL:
-
-
-STATE PATHWAY:
-
-
-NORMAL
-
-↓
-
-DEGRADED
-
-↓
-
-ISOLATED
-
-↓
-
-STABILIZED
-
-↓
-
-RECOVERING
-
-↓
-
-CERTIFIED_STABLE
-
-
-
-↓
-
-FAILSAFE ACTION:
-
-
-PRIMARY SYSTEM:
-
-ISOLATED IF UNSTABLE
-
-
-
-SECONDARY SYSTEM:
-
-STATUS:
-
-STANDBY
-
-
-ROLE:
-
-- Stabilized operation
-
-- Recovery support
-
-- Safe state maintenance
-
-
-
-↓
-
-VALIDATION:
-
-
-Golden Rule Engine Authority:
-
-ACTIVE
-
-
-
-Decision Pipeline:
-
-
-OBSERVE
-
-VERIFY
-
-ASSESS
-
-DECIDE
-
-ACT
-
-UPDATE
-
-
-</pre>
-
-
-</div>
-<div class="card">
-
-
-<h2>
-🧭 Navigation Architecture Layer
-</h2>
-
-
-<pre id="navigation">
-
-
-Nine-Layer Operational Abstraction Stack
-
-
-STATUS:
-
-READY
-
-
-
-1. SENSOR LAYER
-
-
-Raw system observation
-
-- Node state detection
-
-- Environmental input capture
-
-- Telemetry ingestion
-
-
-
-↓
-
-2. RELAY LAYER
-
-
-Data propagation
-
-- Signal forwarding
-
-- Communication paths
-
-- Data normalization
-
-
-
-↓
-
-3. DEPENDENCY LAYER
-
-
-System relationship mapping
-
-- Node dependencies
-
-- Influence chains
-
-- System graph structure
-
-
-
-↓
-
-4. CASCADE LAYER
-
-
-Failure propagation modelling
-
-- Failure spread
-
-- Degradation tracking
-
-- Cascade behaviour
-
-
-
-↓
-
-5. TRANSITION LAYER
-
-
-State evolution
-
-- Scenario progression
-
-- System state changes
-
-- Temporal evolution
-
-
-
-↓
-
-6. ISOLATION LAYER
-
-
-Containment control
-
-- Failure zones
-
-- Node isolation
-
-- Boundary enforcement
-
-
-
-↓
-
-7. RECOVERY LAYER
-
-
-Restoration simulation
-
-- Recovery pathways
-
-- Stability restoration
-
-- Rebalancing
-
-
-
-↓
-
-8. GOVERNANCE LAYER
-
-
-Decision oversight
-
-- Evaluation rules
-
-- Audit logic
-
-- Compliance structure
-
-
-
-↓
-
-9. SUPERVISORY LAYER
-
-
-Global interpretation
-
-- Multi-scenario comparison
-
-- Strategic resilience assessment
-
-- Final state arbitration
-
-
-
-MODE:
-
-
-ARCHITECTURAL NAVIGATION DISPLAY ONLY
-
-
-</pre>
-
-
-</div>
-
-
-
-
-
-<div class="card">
-
-
-<h2>
-🛰️ Trial Manoeuvre Simulation Engine
-</h2>
-
-
-<pre id="manoeuvre">
-
-
-TRIAL MANOEUVRE STATUS:
-
-
-READY
-
-
-
-MANOEUVRE CONTROL:
-
-
-WAITING FOR SCENARIO
-
-
-
-
-SIMULATION OUTPUT:
-
-
-
-- Manoeuvre Planning
-
-
-- Correction Path Calculation
-
-
-- Stability Verification
-
-
-- Recovery Assessment
-
-
-- Audit Trace Generation
-
-
-
-
-Golden Rule Authority:
-
-
-ACTIVE
-
-
-
-Decision Pipeline:
-
-
-OBSERVE
-
-VERIFY
-
-ASSESS
-
-DECIDE
-
-ACT
-
-UPDATE
-
-
-
-</pre>
-
-
-</div>
-
-
-
-
-
-<div class="card">
-
-
-<h2>
-Captain AI Lena Validation Core
-</h2>
-
-
-<pre id="validation">
-
-Waiting for validation...
-
-</pre>
-
-
-</div>
-
-
-
-
-
-<div class="card">
-
-
-<h2>
-Memory Core
-</h2>
-
-
-<pre id="memory">
-
-
-LAST SCENARIO:
-
-Waiting...
-
-
-
-LAST DECISION:
-
-Waiting...
-
-
-
-LAST RECOVERY:
-
-Waiting...
-
-
-
-LAST FAILSAFE STATE:
-
-Waiting...
-
-
-
-LAST TRANSITION:
-
-Waiting...
-
-
-
-CASCADE STATUS:
-
-Waiting...
-
-
-
-LAST MANOEUVRE:
-
-Waiting...
-
-
-
-SYSTEM STATE:
-
-READY
-
-
-</pre>
-
-
-</div>
-
-
-
-
-
-<div class="card">
-
-
-<h2>
-Audit Record
-</h2>
-
-
-<pre id="audit">
-
-Waiting for simulation...
-
-</pre>
-
-
-</div>
-
-
-
-
-
-</div>
-
-
-
-
-<!-- ================================= -->
-<!-- SEXTANT ORBITAL SIMULATION MODULES -->
-<!-- v2.4 INTEGRATED ARCHITECTURE -->
-<!-- ================================= -->
-
-
-<!-- ORBITAL DOMAIN ENGINE -->
-
-<script src="js/orbitalProfiles.js"></script>
-<script src="js/orbitalEngine.js"></script>
-
-
-
-<!-- TRIAL MANOEUVRE SIMULATION ENGINE -->
-
-<script src="js/manoeuvreProfiles.js"></script>
-<script src="js/manoeuvreEngine.js"></script>
-
-
-
-<!-- FAILSAFE TRANSITION ARCHITECTURE -->
-
-<script src="js/failsafeProfiles.js"></script>
-<script src="js/failsafeEngine.js"></script>
-
-
-
-<!-- NAVIGATION ARCHITECTURE -->
-
-<script src="js/navigationCore.js"></script>
-
-
-
-<!-- VALIDATION GOVERNANCE CORE -->
-
-<script src="js/validationCore.js"></script>
-
-
-
-<!-- MEMORY CORE -->
-
-<script src="js/memoryCore.js"></script>
-
-
-
-<!-- AUDIT CORE v1.2 -->
-
-<script src="js/auditCore.js"></script>
-
-
-
-<!-- COCKPIT CONTROLLER v2.4 -->
-
-<script src="js/cockpit.js"></script>
-
-
-</body>
-
-</html>
