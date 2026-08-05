@@ -1,3 +1,143 @@
+📂 Project File Structure
+
+Sextant Orbital Resilience Cockpit v2.4
+
+The framework is organised into independent deterministic modules connected through the cockpit controller.
+
+---
+
+Module Directory
+
+js/
+│
+├── orbitalProfiles.js
+│       Scenario definition library
+│       - Orbital event profiles
+│       - Severity classification
+│       - Recovery objectives
+│
+├── orbitalEngine.js
+│       Orbital domain processing engine
+│       - Scenario execution
+│       - Assessment generation
+│       - Decision pathway creation
+│
+│
+├── manoeuvreProfiles.js
+│       Trial manoeuvre profile library
+│       - Scenario-to-manoeuvre mapping
+│       - Recovery simulation definitions
+│
+├── manoeuvreEngine.js
+│       Trial Manoeuvre Simulation Engine
+│       - Profile selection
+│       - Manoeuvre simulation
+│       - Stability verification
+│
+│
+├── failsafeProfiles.js
+│       Failsafe response definitions
+│       - Transition rules
+│       - Recovery states
+│
+├── failsafeEngine.js
+│       Failsafe Transition Architecture
+│       - State monitoring
+│       - Cascade prevention
+│       - Stabilization assessment
+│
+│
+├── navigationCore.js
+│       Navigation Architecture Layer
+│       - Dependency modelling
+│       - Resilience structure
+│       - System relationship mapping
+│
+│
+├── validationCore.js
+│       Validation Governance Engine
+│       - Self-test
+│       - Fault identification
+│       - Re-test validation
+│
+│
+├── memoryCore.js
+│       Memory Continuity Engine
+│       - Scenario history
+│       - State tracking
+│       - Transition records
+│
+│
+├── auditCore.js
+│       Audit Trace Engine
+│       - Event logging
+│       - Decision trace
+│       - Validation records
+│
+│
+└── cockpit.js
+        Main integration controller
+        - Module connection
+        - Scenario execution
+        - Captain AI Lena display
+
+---
+
+🔗 Integration Sequence
+
+User Scenario Selection
+          ↓
+cockpit.js
+          ↓
+orbitalEngine.js
+          ↓
+manoeuvreEngine.js
+          ↓
+failsafeEngine.js
+          ↓
+validationCore.js
+          ↓
+memoryCore.js
+          ↓
+auditCore.js
+          ↓
+System Display
+
+---
+
+🔒 Integration Principle
+
+Each module operates independently but communicates through defined interfaces.
+
+Benefits:
+
+- Modular expansion
+- Easier validation
+- Fault isolation
+- Transparent auditing
+- Future domain integration
+
+---
+
+Current Integration Status
+
+🟢 Orbital Domain Engine
+🟢 Trial Manoeuvre Engine
+🟢 Failsafe Transition Engine
+🟢 Navigation Architecture
+🟢 Validation Core
+🟢 Memory Core
+🟢 Audit Core
+🟢 Golden Rule Engine Authority
+
+---
+
+Framework Status
+
+VERSION: v2.4
+MODE: Deterministic Simulation
+VALIDATION: Operational
+CONTROL AUTHORITY: Human-supervised decision framework
 🛰️ Scenario Processing Model
 
 Deterministic Event Processing Flow
