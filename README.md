@@ -1,3 +1,167 @@
+🏗️ System Architecture Overview
+
+Multi-Layer Resilience Architecture
+
+The Sextant Orbital Resilience Framework is structured as a layered deterministic architecture.
+
+Each layer performs a defined function while maintaining traceability through validation, memory continuity, and audit generation.
+
+---
+
+Core Architecture Layers
+
+1. Domain Simulation Layer
+
+OrbitalEngineV1
+
+Responsible for:
+
+- Scenario ingestion
+- Event classification
+- Severity assessment
+- Recovery requirement identification
+- Domain-specific simulation output
+
+Example scenarios:
+
+- SIGNAL_LOSS
+- ORBITAL_DRIFT
+- TELEMETRY_CORRUPTION
+- POWER_FAILURE
+- INERTIAL_DESYNCHRONIZATION
+
+---
+
+2. Manoeuvre Simulation Layer
+
+ManoeuvreEngineV1
+
+Responsible for:
+
+- Scenario profile selection
+- Recovery pathway simulation
+- Corrective planning simulation
+- Stability verification
+
+Current mode:
+
+🛰️ Simulation Only
+
+The engine evaluates possible system responses without issuing physical control commands.
+
+---
+
+3. Failsafe Transition Layer
+
+FailsafeTransitionEngineV1
+
+Responsible for:
+
+- State transition monitoring
+- Anomaly detection
+- Cascade prevention
+- Stabilization pathway management
+
+Example transition:
+
+NORMAL
+↓
+STABILIZED
+↓
+RECOVERY READY
+
+---
+
+4. Navigation Architecture Layer
+
+The Navigation Architecture Layer provides structural modelling of:
+
+1. Sensor Layer
+2. Relay Layer
+3. Dependency Layer
+4. Cascade Layer
+5. Transition Layer
+6. Isolation Layer
+7. Recovery Layer
+8. Governance Layer
+9. Supervisory Layer
+
+Purpose:
+
+To provide a structured view of system relationships, dependencies, and resilience behaviour.
+
+---
+
+5. Validation Governance Layer
+
+ValidationCoreV1
+
+Responsible for:
+
+- Engine verification
+- Fault identification
+- Decision pathway validation
+- Failsafe validation
+- Re-test confirmation
+
+Validation principle:
+
+No decision pathway is accepted without verification.
+
+---
+
+6. Memory and Audit Layer
+
+MemoryCoreV1
+
+Maintains:
+
+- Scenario history
+- State transitions
+- Recovery pathways
+- System continuity records
+
+AuditCoreV1
+
+Generates:
+
+- Event trace
+- Decision record
+- Validation status
+- Authority confirmation
+
+---
+
+Golden Rule Decision Pipeline
+
+All simulation pathways follow:
+
+OBSERVE
+↓
+VERIFY
+↓
+ASSESS
+↓
+DECIDE
+↓
+ACT
+↓
+UPDATE
+
+The Golden Rule Engine provides decision governance and maintains transparent operational traceability.
+
+---
+
+Architecture Status
+
+🟢 Orbital Engine Connected
+🟢 Manoeuvre Engine Connected
+🟢 Failsafe Engine Connected
+🟢 Validation Core Connected
+🟢 Memory Core Connected
+🟢 Audit Core Connected
+🟢 Golden Rule Engine Active
+
 --build
 extant Orbital Resilience Framework v2.4
 
