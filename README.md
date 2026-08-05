@@ -1,6 +1,41 @@
 Trial Manoeuvre Simulation Engine Notice
 The Trial Manoeuvre Engine is a deterministic simulation and resilience assessment module. It evaluates scenario-based recovery manoeuvre logic and verification pathways. It does not generate live spacecraft guidance commands, autonomous collision avoidance actions, or certified CPA-based course changes. Future integration may incorporate validated navigation, orbital mechanics, and mission-approved guidance models.
 
+# 🚀 Future Expansion
+
+The Sextant architecture allows future integration with dedicated navigation and guidance simulation modules, including:
+
+- Trajectory adjustment studies
+- Manoeuvre optimisation
+- Navigation safety assessment
+- Collision avoidance simulation
+- Human-in-the-loop decision support
+
+Any future operational integration remains subject to:
+
+- Validated procedures
+- Regulatory requirements
+- Independent verification
+- Human operational authority
+
+## Architectural Separation
+
+The framework maintains a clear separation of responsibilities:
+
+OrbitalEngineV1  
+↓  
+Detects and assesses the system scenario
+
+ManoeuvreEngineV1  
+↓  
+Simulates possible response pathways and evaluates manoeuvre profiles
+
+FailsafeTransitionEngineV1 + ValidationCoreV1  
+↓  
+Verifies safety conditions, system integrity, and decision traceability
+
+This separation ensures that simulation, validation, and operational authority remain clearly defined.
+
 🛰️ Sextant Orbital Resilience Framework v2.4
 
 Deterministic Orbital Domain Simulation Framework
