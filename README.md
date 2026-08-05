@@ -1,3 +1,76 @@
+
+# 🛰️ Sextant Orbital Resilience Cockpit v2.4
+
+## Deterministic Orbital Domain Simulation Framework
+
+---
+
+## ⚠️ Trial Manoeuvre Engine Notice
+
+The Sextant Orbital Resilience Cockpit includes a **Trial Manoeuvre Simulation Engine (ManoeuvreEngineV1)**.
+
+The purpose of this module is to simulate and validate operational response pathways after an orbital scenario event has been detected.
+
+Current capability:
+
+Scenario Detection
+↓
+OrbitalEngineV1
+↓
+ManoeuvreEngineV1
+↓
+Failsafe Transition Engine
+↓
+Validation Core
+↓
+Memory Core
+↓
+Audit Core
+↓
+Captain AI Lena Decision Display
+
+
+The Trial Manoeuvre Engine currently provides:
+
+- Simulated manoeuvre profiles
+- Recovery pathway assessment
+- Stability verification
+- Operational planning simulation
+- Golden Rule Engine controlled decision authority
+- Audit trace generation
+
+
+## Important Limitation
+
+The Trial Manoeuvre Engine **does not provide real spacecraft course-change commands**.
+
+It is not a collision avoidance system and does not recommend manoeuvres based on:
+
+- Certified orbital mechanics calculations
+- Closest Point of Approach (CPA) avoidance
+- Real-time spacecraft navigation data
+- Mission flight control requirements
+
+
+The current module is designed as a **deterministic resilience simulation framework**.
+
+Future development may incorporate:
+
+- Validated orbital trajectory modelling
+- Course-change optimisation
+- Collision avoidance assessment
+- CPA risk analysis
+- Autonomous navigation support
+- Certified flight dynamics integration
+
+
+All manoeuvre outputs remain simulation-only and require independent verification before any operational use.
+
+---
+
+## System Architecture
+
+...
 🏗️ System Architecture Overview
 
 Multi-Layer Resilience Architecture
