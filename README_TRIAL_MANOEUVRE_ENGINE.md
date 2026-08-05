@@ -1,59 +1,71 @@
-🛰️ Trial Manoeuvre Simulation Engine Notice
-The Trial Manoeuvre Engine is a deterministic simulation module designed to evaluate orbital resilience scenarios and recovery pathway logic.
-It generates simulated manoeuvre profiles based on detected system conditions and validates:
-scenario response logic
-recovery planning
-system stability
-failsafe transition behaviour
-Golden Rule Engine decision authority
-audit trace generation
-Important Safety Limitation
-The Trial Manoeuvre Engine does not currently provide real spacecraft navigation commands, autonomous collision avoidance, or recommended course changes for maintaining a specific Closest Point of Approach (CPA).
-
 # 🛰️ Trial Manoeuvre Simulation Engine
+
 ## Sextant Orbital Resilience Framework v2.4
 
-### Purpose
+## Purpose
 
 The Trial Manoeuvre Simulation Engine is a deterministic simulation component within the Sextant Orbital Resilience Framework.
 
-Its purpose is to evaluate and validate predefined orbital recovery manoeuvre profiles after the Orbital Domain Engine has assessed a scenario.
+Its purpose is to evaluate predefined orbital recovery manoeuvre profiles after the Orbital Domain Engine has assessed a system scenario.
 
-The engine supports resilience analysis, recovery planning, system validation and operator understanding.
+The engine supports:
 
----
+- Resilience analysis
+- Recovery pathway evaluation
+- System stability assessment
+- Failsafe transition validation
+- Operator understanding
+- Deterministic software testing
 
-## Important Notice
 
-The Trial Manoeuvre Simulation Engine **does not generate or recommend real spacecraft flight commands.**
+# 🛰️ System Function
 
-It is **not**:
+The Trial Manoeuvre Simulation Engine evaluates simulated manoeuvre pathways based on detected system conditions.
 
-- an autonomous guidance system
-- a real-time flight control system
-- an orbital navigation computer
-- an autonomous collision avoidance system
-- a CPA (Closest Point of Approach) collision-avoidance calculator
-- a command authority for spacecraft manoeuvres
+It validates:
+
+- Scenario response logic
+- Recovery planning logic
+- System stability behaviour
+- Failsafe transition behaviour
+- Golden Rule Engine decision authority
+- Audit trace generation
+
+
+# ⚠️ Important Safety Limitation
+
+The Trial Manoeuvre Simulation Engine does **not** currently provide:
+
+- Real spacecraft navigation commands
+- Autonomous flight control
+- Autonomous collision avoidance
+- Recommended operational course changes
+- CPA (Closest Point of Approach) avoidance calculations
+- Real-time spacecraft guidance decisions
+
 
 The engine performs **simulation only**.
 
----
+All outputs are simulation artefacts intended for architecture validation, research, education, and software testing.
 
-## Current Capability
+
+# Current Capability
 
 The engine currently:
 
-- receives the scenario assessment from OrbitalEngineV1
-- selects the corresponding manoeuvre profile
-- evaluates the predefined recovery strategy
-- validates deterministic recovery logic
-- passes results to the Failsafe Transition Engine
-- supports Validation Core
-- updates Memory Core
-- generates Audit records
+- Receives scenario assessments from OrbitalEngineV1
+- Selects the corresponding manoeuvre profile
+- Evaluates predefined recovery strategies
+- Performs deterministic recovery logic validation
+- Passes results to the Failsafe Transition Engine
+- Supports ValidationCoreV1
+- Updates MemoryCoreV1
+- Generates AuditCoreV1 records
 
-Typical scenarios include:
+
+## Supported Simulation Scenarios
+
+Current scenario profiles include:
 
 - SIGNAL_LOSS
 - ORBITAL_DRIFT
@@ -61,58 +73,47 @@ Typical scenarios include:
 - POWER_FAILURE
 - INERTIAL_DESYNCHRONIZATION
 
----
 
-## Future Capability
+# Future Capability
 
-The architecture has been designed so that future navigation capabilities may be incorporated without changing the overall framework.
+The architecture has been designed to allow future expansion through dedicated validated navigation modules.
 
-Possible future extensions include:
+Possible future extensions may include:
 
-- deterministic orbital correction planning
-- trajectory optimisation
-- orbital station-keeping
-- attitude control planning
-- propulsion optimisation
-- rendezvous support
-- autonomous recovery planning
-- collision-risk assessment
-- CPA-style closest-approach prediction for orbital operations
-- mission planning assistance
+- Deterministic orbital correction planning
+- Trajectory optimisation
+- Orbital station-keeping analysis
+- Attitude control planning
+- Propulsion optimisation
+- Rendezvous support
+- Autonomous recovery planning
+- Collision-risk assessment
+- Closest-approach prediction models
+- Mission planning assistance
 
-These capabilities are **not implemented in v2.4**.
 
----
+These capabilities are **not implemented in Sextant Orbital Resilience Framework v2.4**.
 
-## Safety Statement
 
-All manoeuvre outputs produced by this engine are simulation artefacts intended for architecture validation, software testing, education and research.
+# Safety Statement
 
-They shall **not** be interpreted as operational spacecraft commands.
+Any manoeuvre output generated by this engine shall be interpreted only as a simulation result.
 
-Any future operational navigation capability would require independent guidance, navigation and control (GNC) systems together with mission-specific validation and human authorisation.
+It shall not be interpreted as:
 
----
+- A spacecraft command
+- A flight instruction
+- A navigation order
+- A collision avoidance recommendation
 
-## Position within the Framework
 
-Scenario
-↓
-Orbital Engine
-↓
-Trial Manoeuvre Simulation Engine
-↓
-Failsafe Transition Engine
-↓
-Validation Core
-↓
-Memory Core
-↓
-Audit Core
-↓
-Captain AI Lena Decision Display
+Any future operational navigation capability would require:
 
----
+- Independent Guidance, Navigation and Control (GNC) systems
+- Mission-specific validation
+- Regulatory compliance
+- Human authorisation
+- Operational certification
 
-© Sextant Orbital Resilience Framework v2.4
-Deterministic Orbital Domain Simulation Framework
+
+# Position Within Framework
