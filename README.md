@@ -2,6 +2,79 @@
 
 Deterministic Orbital Domain Simulation Framework
 
+Trial Manoeuvre Engine Notice
+
+The Sextant Orbital Resilience Cockpit v2.4 includes the Trial Manoeuvre Simulation Engine (ManoeuvreEngineV1) as an integrated simulation module.
+
+The purpose of this engine is to:
+
+- simulate operational response pathways following orbital scenarios;
+- generate recovery manoeuvre profiles;
+- verify system stability after simulated events;
+- integrate with the Failsafe Transition Architecture;
+- pass simulated outcomes through Validation Core, Memory Core, Audit Core, and the Golden Rule Engine pipeline.
+
+Current operation:
+
+Scenario Input
+↓
+Orbital Assessment Engine
+↓
+Trial Manoeuvre Simulation Engine
+↓
+Failsafe Transition Architecture
+↓
+Validation Core
+↓
+Memory Core
+↓
+Audit Core
+
+The Trial Manoeuvre Engine currently performs:
+
+- profile selection based on detected scenario;
+- simulated planning pathway generation;
+- simulated correction pathway assessment;
+- stability verification;
+- recovery readiness assessment.
+
+Navigation and Course Change Disclaimer
+
+The Trial Manoeuvre Engine is not a certified autonomous navigation controller and does not currently issue real spacecraft commands, propulsion commands, attitude control commands, or collision avoidance manoeuvres.
+
+The generated manoeuvre profiles are for:
+
+- architecture validation;
+- resilience testing;
+- simulation analysis;
+- decision-support research.
+
+The system does not provide a recommended course change to avoid collision at a defined CPA (Closest Point of Approach).
+
+A future operational navigation module may incorporate:
+
+- orbital mechanics calculations;
+- trajectory propagation;
+- collision probability assessment;
+- CPA/TCA analysis;
+- certified guidance, navigation and control (GNC) logic;
+- human-authorised or mission-approved manoeuvre execution.
+
+The Trial Manoeuvre Engine provides the structural foundation for future integration with certified navigation and guidance systems while maintaining the Golden Rule Engine authority:
+
+OBSERVE → VERIFY → ASSESS → DECIDE → ACT → UPDATE
+
+Status:
+
+🟢 Simulation Integration: ACTIVE
+🟢 Manoeuvre Engine Wiring: COMPLETE
+🟢 Validation Pipeline: OPERATIONAL
+🟡 Operational Navigation Control: FUTURE DEVELOPMENT
+
+🛰️ Sextant Orbital Resilience Framework v2.4
+
+Deterministic Orbital Domain Simulation Framework
+
 The Sextant Orbital Resilience Framework is a deterministic simulation architecture designed to evaluate system resilience, recovery pathways, failsafe transitions, validation integrity, memory continuity, and audit traceability.
 
 The framework integrates:
