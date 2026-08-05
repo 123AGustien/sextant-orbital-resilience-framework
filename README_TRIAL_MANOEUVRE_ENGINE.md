@@ -1,119 +1,117 @@
-# 🛰️ Trial Manoeuvre Simulation Engine
+🛰️ Sextant Orbital Resilience Framework v2.4
 
-## Sextant Orbital Resilience Framework v2.4
+Deterministic Orbital Domain Simulation Framework
 
-## Purpose
+The Sextant Orbital Resilience Framework is a deterministic simulation architecture designed to evaluate system resilience, recovery pathways, failsafe transitions, validation integrity, memory continuity, and audit traceability.
 
-The Trial Manoeuvre Simulation Engine is a deterministic simulation component within the Sextant Orbital Resilience Framework.
+The framework integrates:
 
-Its purpose is to evaluate predefined orbital recovery manoeuvre profiles after the Orbital Domain Engine has assessed a system scenario.
+- OrbitalEngineV1
+- ManoeuvreEngineV1
+- FailsafeTransitionEngineV1
+- Navigation Architecture Layer
+- ValidationCoreV1
+- MemoryCoreV1
+- AuditCoreV1
+- Golden Rule Engine Decision Authority
 
-The engine supports:
+System Operational Flow
 
-- Resilience analysis
-- Recovery pathway evaluation
-- System stability assessment
-- Failsafe transition validation
-- Operator understanding
-- Deterministic software testing
+Scenario Selection
+↓
+OrbitalEngineV1
+↓
+Trial Manoeuvre Simulation Engine
+↓
+Failsafe Transition Architecture
+↓
+Validation Core
+↓
+Memory Core
+↓
+Audit Core
+↓
+Captain AI Lena Display
 
+---
 
-# 🛰️ System Function
+🛰️ Trial Manoeuvre Engine v1.0
 
-The Trial Manoeuvre Simulation Engine evaluates simulated manoeuvre pathways based on detected system conditions.
+Purpose
 
-It validates:
+The Trial Manoeuvre Engine is a deterministic simulation and assessment layer within the Sextant Orbital Resilience Framework.
 
-- Scenario response logic
-- Recovery planning logic
-- System stability behaviour
-- Failsafe transition behaviour
-- Golden Rule Engine decision authority
-- Audit trace generation
+Its purpose is to simulate possible recovery and stability pathways after an identified system event.
 
+The engine:
 
-# ⚠️ Important Safety Limitation
+- Receives scenario outputs from OrbitalEngineV1
+- Selects an appropriate manoeuvre profile
+- Simulates a corrective pathway
+- Performs stability verification
+- Provides validated assessment data to the decision pipeline
 
-The Trial Manoeuvre Simulation Engine does **not** currently provide:
+Example:
 
-- Real spacecraft navigation commands
-- Autonomous flight control
-- Autonomous collision avoidance
-- Recommended operational course changes
-- CPA (Closest Point of Approach) avoidance calculations
-- Real-time spacecraft guidance decisions
+SIGNAL_LOSS
+→ COMMUNICATION_RECOVERY_MANOEUVRE
+→ BACKUP_COMMUNICATION_PATH
+→ STABILITY VERIFICATION
 
+---
 
-The engine performs **simulation only**.
+⚠️ Operational Boundary
 
-All outputs are simulation artefacts intended for architecture validation, research, education, and software testing.
+The Trial Manoeuvre Engine is a simulation component only.
 
+It is not:
 
-# Current Capability
+- A vessel autopilot system
+- An autonomous navigation controller
+- A collision avoidance system
+- A replacement for a qualified navigator or operator
 
-The engine currently:
+The current engine does not generate suggested course changes, collision avoidance manoeuvres, or CPA/TCPA alteration recommendations.
 
-- Receives scenario assessments from OrbitalEngineV1
-- Selects the corresponding manoeuvre profile
-- Evaluates predefined recovery strategies
-- Performs deterministic recovery logic validation
-- Passes results to the Failsafe Transition Engine
-- Supports ValidationCoreV1
-- Updates MemoryCoreV1
-- Generates AuditCoreV1 records
+Navigation decisions, including collision avoidance actions, remain under the authority of the responsible operator and applicable regulations.
 
+---
 
-## Supported Simulation Scenarios
+🚀 Future Navigation Integration Capability
 
-Current scenario profiles include:
+The Sextant architecture is designed for future expansion through dedicated navigation safety modules.
 
-- SIGNAL_LOSS
-- ORBITAL_DRIFT
-- TELEMETRY_CORRUPTION
-- POWER_FAILURE
-- INERTIAL_DESYNCHRONIZATION
+Future validated modules may incorporate:
 
+- CPA/TCPA assessment
+- Collision avoidance simulation
+- Manoeuvre option comparison
+- Course alteration analysis
+- Safety margin verification
+- Human-in-the-loop navigation support
 
-# Future Capability
+Any future navigation integration must remain subject to:
 
-The architecture has been designed to allow future expansion through dedicated validated navigation modules.
+- COLREGS compliance
+- Approved operational procedures
+- Independent sensor validation
+- Human operator authority
 
-Possible future extensions may include:
+The current Trial Manoeuvre Engine establishes the simulation foundation required for future validated navigation decision-support capabilities.
 
-- Deterministic orbital correction planning
-- Trajectory optimisation
-- Orbital station-keeping analysis
-- Attitude control planning
-- Propulsion optimisation
-- Rendezvous support
-- Autonomous recovery planning
-- Collision-risk assessment
-- Closest-approach prediction models
-- Mission planning assistance
+---
 
+Design Philosophy
 
-These capabilities are **not implemented in Sextant Orbital Resilience Framework v2.4**.
+Sextant follows the principle:
 
+OBSERVE → VERIFY → ASSESS → DECIDE → ACT → UPDATE
 
-# Safety Statement
+The Golden Rule Engine remains the final decision authority within the simulation framework, ensuring traceability, validation, resilience assessment, and controlled system evolution.
 
-Any manoeuvre output generated by this engine shall be interpreted only as a simulation result.
+Current Status
 
-It shall not be interpreted as:
-
-- A spacecraft command
-- A flight instruction
-- A navigation order
-- A collision avoidance recommendation
-
-
-Any future operational navigation capability would require:
-
-- Independent Guidance, Navigation and Control (GNC) systems
-- Mission-specific validation
-- Regulatory compliance
-- Human authorisation
-- Operational certification
-
-
-# Position Within Framework
+🟢 SYSTEM OPERATIONAL
+🛰️ SIMULATION MODE
+✅ INTEGRATION VALIDATED
+🔒 HUMAN OPERATIONAL AUTHORITY MAINTAINED
