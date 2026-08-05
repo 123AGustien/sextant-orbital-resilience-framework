@@ -22,19 +22,21 @@
 #        ↓
 # Captain AI Lena Display
 #
-# Simulation-only framework
+# Simulation-only resilience validation framework
+#
+# Safety Boundary:
+# No autonomous spacecraft navigation control
+# No autonomous collision avoidance execution
+# Trial Manoeuvre Engine provides simulation assessment only
 # ============================================================
 
 
 name: 🛰️ Sextant Master Orchestrator
 
 
-
 on:
 
-
   workflow_dispatch:
-
 
   push:
 
@@ -43,13 +45,11 @@ on:
       - main
 
       - feature/orbital-domain-engine-v1
-
-
+      - feature/trial-manoeuvre-engine
 
 
 
 permissions:
-
 
   contents:
 
@@ -57,15 +57,11 @@ permissions:
 
 
 
-
-
 concurrency:
-
 
   group:
 
     sextant-stable-run
-
 
   cancel-in-progress:
 
@@ -73,17 +69,11 @@ concurrency:
 
 
 
-
-
 jobs:
 
 
 
-
-
   simulate:
-
-
 
 
 
@@ -93,19 +83,13 @@ jobs:
 
 
 
-
-
     runs-on:
 
       ubuntu-latest
 
 
 
-
-
     steps:
-
-
 
 
 
@@ -116,8 +100,6 @@ jobs:
         uses:
 
           actions/checkout@v4
-
-
 
 
 
@@ -137,8 +119,6 @@ jobs:
 
 
 
-
-
       - name:
 
           Setup Python
@@ -155,8 +135,6 @@ jobs:
 
 
 
-
-
       - name:
 
           System health check
@@ -164,8 +142,6 @@ jobs:
         run:
 
           echo "🛰️ Sextant Framework Online"
-
-
 
 
 
@@ -215,8 +191,6 @@ jobs:
 
 
           echo "✔ All Sextant modules verified"
-
-
 
 
 
@@ -275,8 +249,12 @@ jobs:
           );
 
 
-          NODE
+          console.log(
+            "✔ Manoeuvre Engine Simulation Boundary ACTIVE"
+          );
 
+
+          NODE
 
 
 
@@ -349,7 +327,27 @@ jobs:
 
                   "collisionAvoidance":
 
-                  "NOT_IMPLEMENTED"
+                  "NOT_IMPLEMENTED",
+
+
+
+                  "futureNavigationIntegration":
+
+                  [
+
+                      "CPA_TCPA_ASSESSMENT",
+
+                      "MANOEUVRE_OPTION_SIMULATION",
+
+                      "COURSE_ALTERATION_ANALYSIS"
+
+                  ],
+
+
+
+                  "humanOperationalAuthority":
+
+                  "REQUIRED"
 
               },
 
@@ -474,7 +472,6 @@ jobs:
 
 
 
-
       # ============================================
       # GITHUB PAGES PACKAGE
       # ============================================
@@ -491,7 +488,6 @@ jobs:
 
 
           cp index.html docs/index.html
-
 
 
 
@@ -525,13 +521,9 @@ jobs:
 
 
 
-
-
     name:
 
       Deploy Sextant Cockpit
-
-
 
 
 
@@ -541,13 +533,9 @@ jobs:
 
 
 
-
-
     runs-on:
 
       ubuntu-latest
-
-
 
 
 
@@ -565,8 +553,6 @@ jobs:
 
 
 
-
-
     environment:
 
 
@@ -576,11 +562,7 @@ jobs:
 
 
 
-
-
     steps:
-
-
 
 
 
@@ -591,8 +573,6 @@ jobs:
         uses:
 
           actions/configure-pages@v5
-
-
 
 
 
