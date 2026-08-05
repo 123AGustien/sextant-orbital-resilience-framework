@@ -475,3 +475,128 @@ Architecture Status
 🟢 Scenario Driven
 🟢 Validation Controlled
 🟢 Audit Trace Enabled
+🛰️ Sextant Orbital Resilience Framework v2.4
+
+Trial Manoeuvre Simulation Engine — Operational Note
+
+Purpose
+
+The Trial Manoeuvre Simulation Engine (ManoeuvreEngineV1) is a deterministic simulation module within the Sextant Orbital Resilience Framework.
+
+Its purpose is to evaluate and simulate possible operational recovery manoeuvre pathways after an identified orbital system event or scenario.
+
+The engine operates through the following sequence:
+
+Scenario Detection
+        ↓
+Orbital Domain Assessment
+        ↓
+Trial Manoeuvre Simulation
+        ↓
+Failsafe Transition Evaluation
+        ↓
+Validation Core Verification
+        ↓
+Memory & Audit Recording
+        ↓
+Captain AI Lena Display
+
+---
+
+Current Capability
+
+At the present development stage, the Trial Manoeuvre Engine:
+
+- Receives scenario outputs from OrbitalEngineV1
+- Selects an appropriate manoeuvre profile
+- Generates a simulated recovery manoeuvre pathway
+- Evaluates stability verification status
+- Confirms recovery readiness
+- Maintains Golden Rule Engine authority
+- Records simulation history for validation and audit purposes
+
+Example:
+
+SIGNAL_LOSS
+
+↓
+
+COMMUNICATION_RECOVERY_MANOEUVRE
+
+↓
+
+BACKUP_COMMUNICATION_PATH
+
+↓
+
+STABILITY_VERIFICATION: PASSED
+
+---
+
+Important Operational Limitation
+
+The Trial Manoeuvre Simulation Engine is not currently an autonomous collision avoidance or real-time spacecraft navigation system.
+
+It does not:
+
+- Recommend an actual spacecraft course alteration
+- Issue live propulsion commands
+- Replace certified flight dynamics operations
+- Determine collision avoidance manoeuvres at a defined Closest Point of Approach (CPA)
+
+The system is designed as a simulation, resilience assessment, validation, and decision-support architecture.
+
+---
+
+Future Integration Capability
+
+The Trial Manoeuvre Engine architecture can be incorporated with future certified navigation and flight dynamics systems.
+
+Potential future integration areas include:
+
+- Verified orbital trajectory correction modules
+- Certified collision avoidance algorithms
+- Flight dynamics calculations
+- Propulsion and attitude control interfaces
+- Human-in-the-loop mission approval systems
+
+Any operational course change or collision avoidance action would require:
+
+Sensor Verification
+        ↓
+Trajectory Calculation
+        ↓
+Risk Assessment
+        ↓
+Mission Authority Approval
+        ↓
+Certified Manoeuvre Execution
+
+---
+
+Design Philosophy
+
+The Sextant Orbital Resilience Framework separates:
+
+Simulation and resilience intelligence
+
+from
+
+Certified spacecraft control execution
+
+This ensures that assessment, validation, governance, and operational authority remain clearly separated.
+
+The Golden Rule Engine remains the supervisory decision framework:
+
+OBSERVE
+VERIFY
+ASSESS
+DECIDE
+ACT
+UPDATE
+
+Status:
+
+🟢 Trial Manoeuvre Simulation Engine — OPERATIONAL
+🟢 Simulation Validation — COMPLETE
+🟢 Real-world spacecraft control — NOT IMPLEMENTED
