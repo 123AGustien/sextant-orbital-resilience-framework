@@ -600,3 +600,170 @@ Status:
 🟢 Trial Manoeuvre Simulation Engine — OPERATIONAL
 🟢 Simulation Validation — COMPLETE
 🟢 Real-world spacecraft control — NOT IMPLEMENTED
+🛰️ Integrated Architecture Modules
+
+1. Orbital Domain Engine — OrbitalEngineV1
+
+Purpose
+
+OrbitalEngineV1 provides the primary scenario assessment layer for orbital system events.
+
+It receives scenario inputs and generates deterministic assessment outputs.
+
+Current Scenario Framework
+
+Supported simulation scenarios:
+
+- SIGNAL_LOSS
+- ORBITAL_DRIFT
+- TELEMETRY_CORRUPTION
+- POWER_FAILURE
+- INERTIAL_DESYNCHRONIZATION
+
+Output Functions
+
+OrbitalEngineV1 provides:
+
+- Scenario identification
+- Severity classification
+- Risk factor assessment
+- Recovery requirement evaluation
+- Decision pipeline initiation
+
+---
+
+2. Trial Manoeuvre Simulation Engine — ManoeuvreEngineV1
+
+Purpose
+
+ManoeuvreEngineV1 provides simulated manoeuvre pathway evaluation following Orbital scenario assessment.
+
+The engine does not execute physical manoeuvres.
+
+It evaluates:
+
+- Recovery planning
+- Stability pathway
+- Correction simulation
+- Recovery readiness
+
+Current Architecture
+
+Scenario Input
+↓
+Manoeuvre Profile Selection
+↓
+Simulation Planning
+↓
+Stability Verification
+↓
+Validated Output
+
+Current Status
+
+🟢 CONNECTED
+🛰️ SIMULATION READY
+✅ INTEGRATED WITH ORBITAL ENGINE
+
+---
+
+3. Failsafe Transition Architecture — FailsafeEngineV1
+
+Purpose
+
+The Failsafe Transition Engine manages controlled state transitions following detected anomalies.
+
+It provides:
+
+- Anomaly classification
+- State transition management
+- Cascade prevention
+- Stabilisation pathway assessment
+- Recovery preparation
+
+State Example
+
+NORMAL
+
+↓
+
+STABILIZED
+
+↓
+
+RECOVERY READY
+
+↓
+
+CERTIFIED STABLE
+
+---
+
+4. Validation Governance Core — ValidationCoreV1
+
+Purpose
+
+ValidationCoreV1 verifies system behaviour and maintains deterministic integrity.
+
+Validation includes:
+
+- Engine availability
+- Fault identification
+- Decision verification
+- Failsafe validation
+- Corrective action assessment
+- Re-test confirmation
+
+Validation Authority:
+
+GOLDEN RULE ENGINE
+
+---
+
+5. Memory Core — MemoryCoreV1
+
+Purpose
+
+MemoryCoreV1 maintains simulation continuity.
+
+Recorded information includes:
+
+- Last scenario
+- Decision history
+- Recovery pathway
+- Failsafe state transition
+- System status
+- Timestamp trace
+
+---
+
+6. Audit Core — AuditCoreV1
+
+Purpose
+
+AuditCoreV1 generates traceable records for every simulation event.
+
+Audit records include:
+
+- Scenario
+- Engine execution
+- Severity
+- Decision
+- Recovery pathway
+- Validation result
+- Authority chain
+- Processing pipeline
+
+---
+
+Integrated Status
+
+Current Architecture:
+
+🟢 OrbitalEngineV1 — CONNECTED
+🟢 ManoeuvreEngineV1 — CONNECTED
+🟢 FailsafeEngineV1 — CONNECTED
+🟢 ValidationCoreV1 — CONNECTED
+🟢 MemoryCoreV1 — CONNECTED
+🟢 AuditCoreV1 — CONNECTED
+🟢 Golden Rule Engine — ACTIVE
