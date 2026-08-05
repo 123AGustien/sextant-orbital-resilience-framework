@@ -1,4 +1,5 @@
-# 🛰️ Sextant Orbital Resilience Framework v2.4
+--build
+extant Orbital Resilience Framework v2.4
 
 ## Deterministic Orbital Resilience Simulation Architecture
 
@@ -266,3 +267,25 @@ Run the simulation using Docker:
 
 ```bash
 docker compose up --build
+
+Trial Manoeuvre Simulation Engine
+
+The Trial Manoeuvre Simulation Engine is a deterministic simulation module within the Sextant Orbital Resilience Framework.
+
+Its purpose is to evaluate predefined recovery manoeuvre profiles associated with each orbital resilience scenario after the Orbital Domain Engine has completed its assessment.
+
+The engine currently performs:
+
+- Selection of the appropriate manoeuvre profile for the detected scenario.
+- Deterministic recovery planning.
+- Recovery pathway evaluation.
+- Stability verification.
+- Integration with the Golden Rule Engine pipeline.
+- Recording of results in the Memory Core and Audit Core.
+
+The Trial Manoeuvre Simulation Engine does not currently generate real-time orbital trajectories, spacecraft guidance commands, collision-avoidance manoeuvres, CPA (Closest Point of Approach) calculations, thrust optimisation, or autonomous flight control.
+
+Any manoeuvre profile produced by this engine is a simulation outcome intended solely to demonstrate resilience logic and recovery workflow within the Sextant Protocol architecture.
+
+The architecture has been intentionally designed so that future deterministic orbital guidance, autonomous navigation, CPA analysis, collision avoidance, fuel optimisation, and certified flight-control capabilities may be incorporated as additional modules without changing the existing system architecture.
+
