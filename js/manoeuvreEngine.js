@@ -1,18 +1,34 @@
 /*
-🛰️ Manoeuvre Engine v1.0
+🛰️ Manoeuvre Engine v1.1
 
 Sextant Orbital Resilience Framework
 
 Purpose:
 
-Trial manoeuvre simulation engine.
+Deterministic Trial Manoeuvre Simulation Engine.
 
 Simulation-only module.
+
+Safety Boundary:
+
+This engine:
+- evaluates predefined manoeuvre profiles
+- generates simulation outputs
+- records trial manoeuvre history
+
+This engine does NOT:
+- issue spacecraft commands
+- control spacecraft systems
+- perform autonomous navigation
+- provide collision avoidance recommendations
+- calculate CPA/TCPA alterations
+
+Future navigation integrations require
+separate validated operational modules.
 */
 
 
 class ManoeuvreEngineV1 {
-
 
 
 constructor(){
@@ -82,7 +98,6 @@ scenario:
 scenario,
 
 
-
 profile:
 profile.type
 ||
@@ -101,6 +116,13 @@ planning:
 profile.planning
 ||
 "CALCULATED",
+
+
+
+verification:
+profile.verification
+||
+"NOT_DEFINED",
 
 
 
