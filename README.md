@@ -311,3 +311,167 @@ Consistent resilience assessment
 Human-authority preservation
 across the entire Sextant Orbital Resilience Framework.
 This version also protects the IP positioning: it shows the future pathway without accidentally claiming autonomous collision avoidance capability. It aligns well with your SPD v13.1 philosophy and Golden Rule authority model.
+🛰️ Sextant Orbital Resilience Framework v2.4
+
+Integrated Module Architecture
+
+The Sextant Orbital Resilience Framework uses a modular deterministic architecture.
+
+Each engine performs a defined responsibility while maintaining controlled information flow through the Golden Rule Engine validation pathway.
+
+---
+
+System Module Structure
+
+Sextant Orbital Resilience Framework
+
+│
+├── Orbital Domain Engine
+│
+│   ├── orbitalProfiles.js
+│   └── orbitalEngine.js
+│
+│
+├── Trial Manoeuvre Simulation Engine
+│
+│   ├── manoeuvreProfiles.js
+│   └── manoeuvreEngine.js
+│
+│
+├── Failsafe Transition Architecture
+│
+│   ├── failsafeProfiles.js
+│   └── failsafeEngine.js
+│
+│
+├── Navigation Architecture Layer
+│
+│   └── navigationCore.js
+│
+│
+├── Validation Governance Core
+│
+│   └── validationCore.js
+│
+│
+├── Memory Core
+│
+│   └── memoryCore.js
+│
+│
+├── Audit Core
+│
+│   └── auditCore.js
+│
+│
+└── Cockpit Controller
+    │
+    └── cockpit.js
+
+---
+
+Module Responsibilities
+
+OrbitalEngineV1
+
+Primary scenario assessment engine.
+
+Responsibilities:
+
+- Receive orbital scenarios
+- Classify event conditions
+- Assess severity
+- Determine recovery requirements
+- Generate initial system state
+
+---
+
+ManoeuvreEngineV1
+
+Trial manoeuvre simulation layer.
+
+Responsibilities:
+
+- Receive validated orbital scenario output
+- Select scenario-specific manoeuvre profile
+- Simulate recovery pathway
+- Verify simulated stability
+- Return manoeuvre assessment
+
+---
+
+FailsafeTransitionEngineV1
+
+System protection and transition layer.
+
+Responsibilities:
+
+- Detect abnormal conditions
+- Control state transitions
+- Prevent cascade propagation
+- Maintain safe operating states
+- Prepare recovery pathways
+
+---
+
+ValidationCoreV1
+
+Independent verification layer.
+
+Responsibilities:
+
+- Validate engine operation
+- Verify decision integrity
+- Confirm failsafe status
+- Perform re-test validation
+- Produce final validation status
+
+---
+
+MemoryCoreV1
+
+Operational continuity layer.
+
+Responsibilities:
+
+- Store previous scenarios
+- Record system transitions
+- Maintain recovery history
+- Preserve simulation traceability
+
+---
+
+AuditCoreV1
+
+Traceability and governance layer.
+
+Responsibilities:
+
+- Generate audit records
+- Record decisions
+- Record validation outcomes
+- Maintain operational history
+
+---
+
+Cockpit Controller v2.4
+
+Integration and display controller.
+
+Responsibilities:
+
+- Connect all modules
+- Execute simulation workflow
+- Display system status
+- Present assessment results
+- Provide operator visibility
+
+---
+
+Architecture Status
+
+🟢 Modular Design
+🟢 Deterministic Processing
+🟢 Scenario Driven
+🟢 Validation Controlled
+🟢 Audit Trace Enabled
