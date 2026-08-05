@@ -1,4 +1,28 @@
+Future Development Roadmap
 
+The current Trial Manoeuvre Simulation Engine is a deterministic simulation module
+used for resilience assessment and recovery planning. It does not issue live
+spacecraft navigation commands or collision-avoidance manoeuvres.
+
+Future enhancements may include:
+
+• Additional deterministic manoeuvre profiles.
+• Deterministic orbital correction algorithms.
+• Orbital mechanics calculations.
+• Attitude determination and thruster simulation.
+• Delta-V estimation.
+• Orbital transfer simulation.
+• Fuel consumption modelling.
+• Multi-orbit recovery planning.
+• Formation flying support.
+• Autonomous recovery optimisation.
+• Future CPA-style avoidance logic for orbital conjunction assessment,
+  if incorporated into the Sextant Orbital Resilience Framework.
+
+These capabilities are intended for simulation, resilience assessment,
+verification, and operator decision support. They are not designed to replace
+approved mission planning, certified flight dynamics software, or operational
+spacecraft command systems.
 Here is the polished README version:
 🛰️ Sextant Orbital Resilience Framework v2.4
 Deterministic Orbital Domain Simulation Framework
