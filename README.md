@@ -767,3 +767,164 @@ Current Architecture:
 🟢 MemoryCoreV1 — CONNECTED
 🟢 AuditCoreV1 — CONNECTED
 🟢 Golden Rule Engine — ACTIVE
+🛰️ Integrated Architecture
+
+Sextant Orbital Resilience Cockpit v2.4
+
+The Sextant Orbital Resilience Cockpit provides a unified simulation environment for deterministic scenario evaluation.
+
+The cockpit integrates multiple independent modules through a controlled execution pipeline.
+
+Module Architecture
+
+SEXTANT ORBITAL RESILIENCE COCKPIT v2.4
+
+                USER SCENARIO INPUT
+                       |
+                       ↓
+              OrbitalEngineV1
+                       |
+                       ↓
+          Trial Manoeuvre Engine v1.0
+                       |
+                       ↓
+       Failsafe Transition Engine v1.0
+                       |
+                       ↓
+          ValidationCoreV1
+                       |
+                       ↓
+            MemoryCoreV1
+                       |
+                       ↓
+             AuditCoreV1
+                       |
+                       ↓
+          Captain AI Lena Display
+
+---
+
+Core System Modules
+
+1. OrbitalEngineV1
+
+Primary orbital scenario assessment engine.
+
+Responsibilities:
+
+- Scenario identification
+- Severity assessment
+- Risk factor evaluation
+- Recovery requirement determination
+- Initial decision pathway generation
+
+Supported simulation scenarios include:
+
+- SIGNAL_LOSS
+- ORBITAL_DRIFT
+- TELEMETRY_CORRUPTION
+- POWER_FAILURE
+- INERTIAL_DESYNCHRONIZATION
+
+---
+
+2. ManoeuvreEngineV1
+
+Trial manoeuvre simulation layer.
+
+Responsibilities:
+
+- Select scenario-specific manoeuvre profile
+- Generate recovery simulation pathway
+- Evaluate stability verification
+- Provide manoeuvre assessment output
+
+Current mode:
+
+SIMULATION ONLY
+
+---
+
+3. FailsafeTransitionEngineV1
+
+System state protection layer.
+
+Responsibilities:
+
+- Detect abnormal conditions
+- Manage state transitions
+- Prevent cascade propagation
+- Maintain safe operational state
+- Prepare recovery pathway
+
+Example:
+
+NORMAL
+↓
+STABILIZATION TRANSITION
+↓
+RECOVERY READY
+
+---
+
+4. ValidationCoreV1
+
+Independent validation layer.
+
+Responsibilities:
+
+- Self-test execution
+- Fault identification
+- Decision pathway validation
+- Failsafe verification
+- Re-test confirmation
+
+Validation authority:
+
+GOLDEN RULE ENGINE
+
+---
+
+5. MemoryCoreV1
+
+Operational continuity layer.
+
+Responsibilities:
+
+- Store latest scenario state
+- Record decisions
+- Track recovery pathways
+- Maintain transition history
+
+---
+
+6. AuditCoreV1
+
+Traceability and accountability layer.
+
+Responsibilities:
+
+- Generate event records
+- Record decisions
+- Capture validation status
+- Maintain system trace
+
+---
+
+System Integrity Principle
+
+Each module operates independently while contributing to the complete resilience assessment chain.
+
+The framework is designed for:
+
+- Transparency
+- Validation
+- Traceability
+- Controlled recovery simulation
+- Human oversight
+
+Current Architecture Status:
+
+🟢 ALL CORE MODULES INTEGRATED
+🟢 VALIDATION READY
+🟢 AUDIT TRACE ENABLED
