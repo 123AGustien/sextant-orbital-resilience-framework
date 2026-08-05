@@ -4,6 +4,7 @@
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>
@@ -15,102 +16,69 @@ Sextant Orbital Resilience Cockpit v2.4
 
 body {
 
-    background:#0b0f19;
-    color:white;
-    font-family:Arial,sans-serif;
-    padding:30px;
+font-family: Arial, sans-serif;
+background:#050b18;
+color:white;
+padding:20px;
 
 }
 
 
-.container {
+h1,h2,h3 {
 
-    max-width:1000px;
-    margin:auto;
-
-}
-
-
-.card {
-
-    background:#121826;
-    border:1px solid #26334f;
-    border-radius:16px;
-    padding:25px;
-    margin-top:20px;
+color:#00d9ff;
 
 }
 
 
-h1 {
+.panel {
 
-    color:#8db3ff;
-
-}
-
-
-h2 {
-
-    color:#9fb3d1;
+background:#101c33;
+border:1px solid #29405f;
+padding:15px;
+margin:15px 0;
+border-radius:8px;
 
 }
 
 
 button {
 
-    background:#4f7cff;
-    color:white;
-    border:none;
-    padding:12px 18px;
-    margin:6px;
-    border-radius:10px;
-    cursor:pointer;
-
-}
-
-
-button:hover {
-
-    opacity:0.8;
+padding:10px;
+margin:5px;
+cursor:pointer;
 
 }
 
 
 pre {
 
-    background:#0f1523;
-    padding:20px;
-    border-radius:12px;
-    color:#d6e0f2;
-    white-space:pre-wrap;
+background:#000;
+padding:15px;
+overflow:auto;
+white-space:pre-wrap;
 
 }
 
 
-.status {
+.system-note {
 
-    color:#4cff88;
-    font-weight:bold;
-
-}
-
-
-.pass {
-
-    color:#4cff88;
-    font-weight:bold;
+background:#13243d;
+border-left:4px solid #00d9ff;
+padding:15px;
+margin:15px 0;
 
 }
+
 
 </style>
+
 
 </head>
 
 
+
 <body>
-
-
-<div class="container">
 
 
 <h1>
@@ -118,71 +86,42 @@ pre {
 </h1>
 
 
-<p>
+<h2>
 Deterministic Orbital Domain Simulation Framework
-</p>
-
-
-<div class="card">
-
-<h2>
-Operational Capability Notice
 </h2>
 
 
-<p>
 
-The Trial Manoeuvre Simulation Engine provides
-deterministic scenario-based manoeuvre assessment,
-recovery pathway simulation, stability verification,
-and audit trace generation.
-
-</p>
+<!-- ================================= -->
+<!-- SYSTEM STATUS -->
+<!-- ================================= -->
 
 
-<p>
+<div class="panel">
 
-Simulation only.
-
-This module does not issue spacecraft commands,
-execute real orbital manoeuvres,
-or replace certified mission control authority.
-
-</p>
-
-
-</div>
-
-
-
-<div class="card">
-
-
-<h2>
+<h3>
 System Status
-</h2>
+</h3>
 
 
-<p class="status">
+<p>
 🟢 ORBITAL SYSTEM ONLINE
 </p>
 
 
 <p>
 Engine:
-<b>
+<strong>
 OrbitalEngineV1
-</b>
+</strong>
 </p>
 
 
 <p>
 Validation:
-
-<b class="pass">
+<strong>
 READY
-</b>
-
+</strong>
 </p>
 
 
@@ -190,18 +129,79 @@ READY
 
 
 
-<div class="card">
 
 
-<h2>
+<!-- ================================= -->
+<!-- TRIAL MANOEUVRE OPERATIONAL NOTE -->
+<!-- ================================= -->
+
+
+<div class="system-note">
+
+
+<h3>
+🛰️ Trial Manoeuvre Simulation Engine
+</h3>
+
+
+<p>
+The Trial Manoeuvre Engine is a deterministic simulation and assessment module within the Sextant Orbital Resilience Framework.
+</p>
+
+
+<p>
+It receives scenario results from OrbitalEngineV1, selects the appropriate manoeuvre profile, simulates a recovery or stability pathway, and provides validated assessment data to the decision pipeline.
+</p>
+
+
+<ul>
+
+<li>Scenario-based manoeuvre profile selection</li>
+
+<li>Recovery pathway simulation</li>
+
+<li>Stability verification</li>
+
+<li>Golden Rule Engine authority integration</li>
+
+<li>Audit trace generation</li>
+
+</ul>
+
+
+
+<p>
+<strong>
+Operational Boundary:
+</strong>
+</p>
+
+
+<p>
+The Trial Manoeuvre Engine is simulation-only. It does not generate real spacecraft control commands, autonomous navigation commands, collision avoidance actions, or CPA/TCPA alteration recommendations.
+</p>
+
+
+<p>
+Future versions may incorporate validated navigation and trajectory simulation modules subject to mission rules, independent validation, and human operational authority.
+</p>
+
+
+</div>
+<!-- ================================= -->
+<!-- SYSTEM INTEGRATION STATUS -->
+<!-- ================================= -->
+
+
+<div class="panel">
+
+<h3>
 System Integration Status
-</h2>
+</h3>
 
 
 <pre id="integration">
-
-Waiting for system connection...
-
+INITIALIZING...
 </pre>
 
 
@@ -209,12 +209,20 @@ Waiting for system connection...
 
 
 
-<div class="card">
 
 
-<h2>
+<!-- ================================= -->
+<!-- SCENARIO CONTROL -->
+<!-- ================================= -->
+
+
+<div class="panel">
+
+
+<h3>
 Scenario Control
-</h2>
+</h3>
+
 
 
 <button onclick="runScenario('SIGNAL_LOSS')">
@@ -242,62 +250,325 @@ INERTIAL DESYNCHRONIZATION
 </button>
 
 
+
 </div>
 
-<body>
-
-<div class="container">
 
 
-<h1>
-🛰️ Sextant Orbital Resilience Cockpit v2.4
-</h1>
 
 
-<p>
-Deterministic Orbital Domain Simulation Framework
-</p>
+<!-- ================================= -->
+<!-- ORBITAL ASSESSMENT OUTPUT -->
+<!-- ================================= -->
 
 
-<!-- PLACE OPERATIONAL CAPABILITY NOTICE HERE -->
-
-<div class="card">
-
-<h2>
-Operational Capability Notice
-</h2>
+<div class="panel">
 
 
-<p>
-
-The Trial Manoeuvre Simulation Engine provides
-deterministic scenario-based manoeuvre assessment,
-recovery pathway simulation,
-stability verification,
-and audit trace generation.
-
-</p>
+<h3>
+🛰️ Orbital Assessment
+</h3>
 
 
-<p>
-
-Simulation only.
-
-This module does not issue spacecraft commands,
-execute real orbital manoeuvres,
-or replace certified mission control authority.
-
-</p>
+<pre id="output">
+Waiting for simulation...
+</pre>
 
 
 </div>
 
 
-<!-- THEN CONTINUE WITH SYSTEM STATUS -->
-
-<div class="card">
 
 
-<h2>
-System Status
-</h2>
+
+<!-- ================================= -->
+<!-- GOLDEN RULE ENGINE -->
+<!-- ================================= -->
+
+
+<div class="panel">
+
+
+<h3>
+Golden Rule Engine Pipeline
+</h3>
+
+
+<p>
+
+OBSERVE
+↓
+VERIFY
+↓
+ASSESS
+↓
+DECIDE
+↓
+ACT
+↓
+UPDATE
+
+</p>
+
+
+</div>
+
+
+
+
+
+<!-- ================================= -->
+<!-- FAILSAFE TRANSITION ARCHITECTURE -->
+<!-- ================================= -->
+
+
+<div class="panel">
+
+
+<h3>
+🛡️ Failsafe Transition Architecture Module
+</h3>
+
+
+<pre id="failsafe">
+Waiting...
+</pre>
+
+
+</div>
+
+
+
+
+
+<!-- ================================= -->
+<!-- NAVIGATION ARCHITECTURE LAYER -->
+<!-- ================================= -->
+
+
+<div class="panel">
+
+
+<h3>
+🧭 Navigation Architecture Layer
+</h3>
+
+
+<pre>
+
+Nine-Layer Operational Abstraction Stack
+
+
+1. SENSOR LAYER
+Raw system observation
+
+
+↓
+
+2. RELAY LAYER
+Data propagation
+
+
+↓
+
+3. DEPENDENCY LAYER
+System relationship mapping
+
+
+↓
+
+4. CASCADE LAYER
+Failure propagation modelling
+
+
+↓
+
+5. TRANSITION LAYER
+State evolution
+
+
+↓
+
+6. ISOLATION LAYER
+Containment control
+
+
+↓
+
+7. RECOVERY LAYER
+Restoration simulation
+
+
+↓
+
+8. GOVERNANCE LAYER
+Decision oversight
+
+
+↓
+
+9. SUPERVISORY LAYER
+Global interpretation
+
+
+MODE:
+ARCHITECTURAL NAVIGATION DISPLAY ONLY
+
+</pre>
+
+
+</div>
+
+
+
+
+
+<!-- ================================= -->
+<!-- TRIAL MANOEUVRE DISPLAY -->
+<!-- ================================= -->
+
+
+<div class="panel">
+
+
+<h3>
+🛰️ Trial Manoeuvre Simulation Engine
+</h3>
+
+
+<pre id="manoeuvre">
+Waiting...
+</pre>
+
+
+</div>
+<!-- ================================= -->
+<!-- VALIDATION CORE -->
+<!-- ================================= -->
+
+
+<div class="panel">
+
+
+<h3>
+🧠 Captain AI Lena Validation Core
+</h3>
+
+
+<pre id="validation">
+Waiting...
+</pre>
+
+
+</div>
+
+
+
+
+
+<!-- ================================= -->
+<!-- MEMORY CORE -->
+<!-- ================================= -->
+
+
+<div class="panel">
+
+
+<h3>
+💾 Memory Core
+</h3>
+
+
+<pre id="memory">
+Waiting...
+</pre>
+
+
+</div>
+
+
+
+
+
+<!-- ================================= -->
+<!-- AUDIT CORE -->
+<!-- ================================= -->
+
+
+<div class="panel">
+
+
+<h3>
+📋 Audit Record
+</h3>
+
+
+<pre id="audit">
+Waiting...
+</pre>
+
+
+</div>
+
+
+
+
+
+<!-- ================================= -->
+<!-- SYSTEM MODULE LOADING -->
+<!-- ================================= -->
+
+
+<!-- ORBITAL DOMAIN ENGINE -->
+
+<script src="js/orbitalProfiles.js"></script>
+<script src="js/orbitalEngine.js"></script>
+
+
+
+<!-- TRIAL MANOEUVRE SIMULATION ENGINE -->
+
+<script src="js/manoeuvreProfiles.js"></script>
+<script src="js/manoeuvreEngine.js"></script>
+
+
+
+<!-- FAILSAFE TRANSITION ARCHITECTURE -->
+
+<script src="js/failsafeProfiles.js"></script>
+<script src="js/failsafeEngine.js"></script>
+
+
+
+<!-- NAVIGATION ARCHITECTURE -->
+
+<script src="js/navigationCore.js"></script>
+
+
+
+<!-- VALIDATION GOVERNANCE CORE -->
+
+<script src="js/validationCore.js"></script>
+
+
+
+<!-- MEMORY CORE -->
+
+<script src="js/memoryCore.js"></script>
+
+
+
+<!-- AUDIT CORE -->
+
+<script src="js/auditCore.js"></script>
+
+
+
+<!-- COCKPIT CONTROLLER -->
+
+<script src="js/cockpit.js"></script>
+
+
+</body>
+
+</html>
