@@ -309,3 +309,107 @@ result.recovery || "NO_ACTION_REQUIRED"
 });
 
 }
+// =================================
+// MEMORY CORE
+// =================================
+
+let memory = null;
+
+
+if(
+typeof memoryCore !== "undefined"
+){
+
+memory =
+
+memoryCore.update(
+result,
+failsafe
+);
+
+}
+
+
+
+
+// =================================
+// AUDIT CORE
+// =================================
+
+let audit = null;
+
+
+if(
+typeof auditCore !== "undefined"
+){
+
+audit =
+
+auditCore.generate(
+result,
+validation,
+failsafe
+);
+
+}
+
+
+
+
+// =================================
+// SAVE VALIDATION EVIDENCE
+// =================================
+
+window.lastOrbitalResult = result;
+
+window.lastFailsafeResult = failsafe;
+
+
+
+
+// =================================
+// COMPLETE DISPLAY RESULT
+// =================================
+
+const displayResult = {
+
+...result,
+
+manoeuvre,
+
+failsafe,
+
+validation,
+
+operatorGuidance,
+
+memory,
+
+audit
+
+};
+
+
+
+
+// =================================
+// OUTPUT DISPLAY
+// =================================
+
+const output =
+document.getElementById(
+"output"
+);
+
+
+if(output){
+
+output.innerText =
+
+JSON.stringify(
+displayResult,
+null,
+2
+);
+
+}
