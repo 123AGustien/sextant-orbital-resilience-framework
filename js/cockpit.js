@@ -585,3 +585,63 @@ item
 }
 
 }
+// =================================
+// MEMORY DISPLAY
+// =================================
+
+const memoryDisplay =
+document.getElementById(
+"memory"
+);
+
+
+if(memoryDisplay){
+
+memoryDisplay.innerText =
+
+JSON.stringify(
+memory,
+null,
+2
+);
+
+}
+
+
+
+
+// =================================
+// AUDIT DISPLAY
+// =================================
+
+const auditDisplay =
+document.getElementById(
+"audit"
+);
+
+
+if(auditDisplay){
+
+auditDisplay.innerText =
+
+JSON.stringify(
+audit,
+null,
+2
+);
+
+}
+
+
+
+
+console.log(
+
+"🛰️ Orbital Scenario Completed",
+
+displayResult
+
+);
+
+
+}
