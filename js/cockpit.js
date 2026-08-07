@@ -1,4 +1,5 @@
 /*
+============================================================
 🛰️ Sextant Orbital Resilience Cockpit Controller v2.4
 
 Purpose:
@@ -10,6 +11,7 @@ Connections:
 - ManoeuvreEngineV1
 - FailsafeEngineV1
 - ValidationCoreV1
+- OperatorGuidanceEngineV1
 - MemoryCoreV1
 - AuditCoreV1
 
@@ -26,6 +28,8 @@ Failsafe Transition Engine
         ↓
 Validation Core
         ↓
+Operator Guidance Engine
+        ↓
 Memory Core
         ↓
 Audit Core
@@ -34,6 +38,7 @@ Captain AI Lena Display
 
 
 Simulation-only controller.
+============================================================
 */
 
 
@@ -74,7 +79,6 @@ typeof orbitalEngine !== "undefined"
 
 
 
-
 ManoeuvreEngineV1:
 
 typeof manoeuvreEngine !== "undefined"
@@ -82,7 +86,6 @@ typeof manoeuvreEngine !== "undefined"
 "CONNECTED"
 :
 "NOT_CONNECTED",
-
 
 
 
@@ -96,7 +99,6 @@ typeof failsafeEngine !== "undefined"
 
 
 
-
 ValidationCoreV1:
 
 typeof validationCore !== "undefined"
@@ -105,6 +107,15 @@ typeof validationCore !== "undefined"
 :
 "NOT_CONNECTED",
 
+
+
+OperatorGuidanceEngineV1:
+
+typeof OperatorGuidanceEngineV1 !== "undefined"
+?
+"CONNECTED"
+:
+"NOT_CONNECTED",
 
 
 
@@ -118,7 +129,6 @@ typeof memoryCore !== "undefined"
 
 
 
-
 AuditCoreV1:
 
 typeof auditCore !== "undefined"
@@ -129,7 +139,6 @@ typeof auditCore !== "undefined"
 
 
 
-
 GoldenRuleEngine:
 
 "ACTIVE"
@@ -137,7 +146,6 @@ GoldenRuleEngine:
 
 
 };
-
 
 
 
@@ -195,13 +203,7 @@ const result =
 orbitalEngine.runScenario(
 type
 );
-
-
-
-
-
-
-// =================================
+        // =================================
 // TRIAL MANOEUVRE ENGINE
 // =================================
 
@@ -213,7 +215,6 @@ status:
 
 
 };
-
 
 
 
@@ -247,7 +248,6 @@ status:
 
 
 };
-
 
 
 
@@ -285,7 +285,6 @@ status:
 
 
 
-
 if(
 typeof validationCore !== "undefined"
 ){
@@ -297,6 +296,58 @@ validationCore.validate(
 result,
 failsafe
 );
+
+
+}
+
+
+
+
+
+
+// =================================
+// OPERATOR GUIDANCE ENGINE
+// =================================
+
+let operatorGuidance = {
+
+
+status:
+"NOT_CONNECTED"
+
+
+};
+
+
+
+if(
+typeof OperatorGuidanceEngineV1 !== "undefined"
+){
+
+
+operatorGuidance =
+
+OperatorGuidanceEngineV1.generateGuidance({
+
+scenario:
+result.scenario,
+
+
+severity:
+result.severity,
+
+
+currentState:
+failsafe.state ||
+"STABILIZED",
+
+
+recoveryAction:
+result.recovery ||
+"NO_ACTION_REQUIRED"
+
+
+});
 
 
 }
@@ -334,7 +385,6 @@ failsafe
 
 
 
-
 // =================================
 // AUDIT CORE
 // =================================
@@ -357,7 +407,13 @@ failsafe
 );
 
 
-}
+      // =================================
+// VALIDATION CHECKLIST EVIDENCE LINK
+// =================================
+
+window.lastOrbitalResult = result;
+
+window.lastFailsafeResult = failsafe;
 
 
 
@@ -383,6 +439,9 @@ failsafe,
 validation,
 
 
+operatorGuidance,
+
+
 memory,
 
 
@@ -397,7 +456,9 @@ audit
 
 
 
+// =================================
 // OUTPUT DISPLAY
+// =================================
 
 const output =
 document.getElementById(
@@ -425,7 +486,9 @@ null,
 
 
 
+// =================================
 // MANOEUVRE DISPLAY
+// =================================
 
 const manoeuvreDisplay =
 document.getElementById(
@@ -434,9 +497,7 @@ document.getElementById(
 
 
 
-if(
-manoeuvreDisplay
-){
+if(manoeuvreDisplay){
 
 
 manoeuvreDisplay.innerText =
@@ -455,7 +516,9 @@ null,
 
 
 
+// =================================
 // FAILSAFE DISPLAY
+// =================================
 
 const failsafeDisplay =
 document.getElementById(
@@ -483,7 +546,9 @@ null,
 
 
 
+// =================================
 // VALIDATION DISPLAY
+// =================================
 
 const validationDisplay =
 document.getElementById(
@@ -511,7 +576,124 @@ null,
 
 
 
+// =================================
+// OPERATOR GUIDANCE DISPLAY
+// =================================
+
+if(operatorGuidance){
+
+
+const guidanceEvent =
+document.getElementById(
+"guidanceEvent"
+);
+
+
+const guidanceSeverity =
+document.getElementById(
+"guidanceSeverity"
+);
+
+
+const guidanceState =
+document.getElementById(
+"guidanceState"
+);
+
+
+const guidanceRecovery =
+document.getElementById(
+"guidanceRecovery"
+);
+
+
+
+if(guidanceEvent){
+
+guidanceEvent.innerText =
+operatorGuidance.scenario || "-";
+
+}
+
+
+
+if(guidanceSeverity){
+
+guidanceSeverity.innerText =
+operatorGuidance.severity || "-";
+
+}
+
+
+
+if(guidanceState){
+
+guidanceState.innerText =
+operatorGuidance.systemState || "-";
+
+}
+
+
+
+if(guidanceRecovery){
+
+guidanceRecovery.innerText =
+
+operatorGuidance.operatorGuidance.recoveryAction || "-";
+
+}
+
+
+
+const actionList =
+document.getElementById(
+"guidanceActions"
+);
+
+
+
+if(actionList){
+
+actionList.innerHTML = "";
+
+
+operatorGuidance.operatorGuidance.instructions.forEach(
+
+(action)=>{
+
+
+const item =
+document.createElement(
+"li"
+);
+
+
+item.innerText = action;
+
+
+actionList.appendChild(
+item
+);
+
+
+}
+
+);
+
+
+}
+
+
+}
+
+
+
+
+
+
+// =================================
 // MEMORY DISPLAY
+// =================================
 
 const memoryDisplay =
 document.getElementById(
@@ -539,7 +721,9 @@ null,
 
 
 
+// =================================
 // AUDIT DISPLAY
+// =================================
 
 const auditDisplay =
 document.getElementById(
@@ -548,63 +732,5 @@ document.getElementById(
 
 
 
-if(auditDisplay){
-
-
-auditDisplay.innerText =
-
-JSON.stringify(
-audit,
-null,
-2
-);
-
-
+if(auditDisplay){  
 }
-
-
-
-
-
-
-console.log(
-"🛰️ Orbital Scenario Completed",
-displayResult
-);
-
-
-
-}
-
-
-
-
-
-
-// =================================
-// SYSTEM START
-// =================================
-
-window.addEventListener(
-"load",
-function(){
-
-
-
-console.log(
-"🛰️ Sextant Orbital Resilience Cockpit v2.4 ONLINE"
-);
-
-
-
-updateIntegrationStatus();
-
-
-
-runScenario(
-"SIGNAL_LOSS"
-);
-
-
-
-});
