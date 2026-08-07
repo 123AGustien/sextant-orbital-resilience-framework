@@ -132,7 +132,9 @@ VALIDATION LOADING...
 
 </p>
 
+
 </div>
+
 
 
 
@@ -152,7 +154,9 @@ INITIALIZING...
 
 </pre>
 
+
 </div>
+
 
 
 
@@ -167,27 +171,37 @@ INITIALIZING...
 
 
 <button onclick="runScenario('SIGNAL_LOSS')">
+
 SIGNAL LOSS
+
 </button>
 
 
 <button onclick="runScenario('ORBITAL_DRIFT')">
+
 ORBITAL DRIFT
+
 </button>
 
 
 <button onclick="runScenario('TELEMETRY_CORRUPTION')">
+
 TELEMETRY CORRUPTION
+
 </button>
 
 
 <button onclick="runScenario('POWER_FAILURE')">
+
 POWER FAILURE
+
 </button>
 
 
 <button onclick="runScenario('INERTIAL_DESYNCHRONIZATION')">
+
 INERTIAL DESYNCHRONIZATION
+
 </button>
 
 
@@ -215,13 +229,15 @@ Waiting...
 
 
 </div>
-<!-- NAVIGATION ARCHITECTURE LAYER -->
+  <!-- NAVIGATION ARCHITECTURE LAYER -->
+
 
 <div class="panel">
 
 <h3>
 🧭 Navigation Architecture Layer
 </h3>
+
 
 <pre>
 
@@ -232,11 +248,13 @@ Nine-Layer Operational Abstraction Stack
 
 Raw system observation
 
+
 ↓
 
 2. RELAY LAYER
 
 Data propagation
+
 
 ↓
 
@@ -244,11 +262,13 @@ Data propagation
 
 System relationship mapping
 
+
 ↓
 
 4. CASCADE LAYER
 
 Failure propagation modelling
+
 
 ↓
 
@@ -256,11 +276,13 @@ Failure propagation modelling
 
 State evolution
 
+
 ↓
 
 6. ISOLATION LAYER
 
 Containment control
+
 
 ↓
 
@@ -268,11 +290,13 @@ Containment control
 
 Restoration simulation
 
+
 ↓
 
 8. GOVERNANCE LAYER
 
 Decision oversight
+
 
 ↓
 
@@ -287,17 +311,23 @@ ARCHITECTURAL NAVIGATION DISPLAY ONLY
 
 </pre>
 
+
 </div>
+
+
 
 
 
 <!-- TRIAL MANOEUVRE SIMULATION ENGINE -->
 
+
 <div class="panel">
+
 
 <h3>
 🛰️ Trial Manoeuvre Simulation Engine
 </h3>
+
 
 <pre id="manoeuvre">
 
@@ -305,17 +335,23 @@ Waiting for manoeuvre simulation...
 
 </pre>
 
+
 </div>
+
+
 
 
 
 <!-- VALIDATION CORE -->
 
+
 <div class="panel">
+
 
 <h3>
 🧠 Captain AI Lena Validation Core
 </h3>
+
 
 <pre id="validation">
 
@@ -323,11 +359,10 @@ Waiting for validation...
 
 </pre>
 
+
 </div>
-
-
-
 <!-- MEMORY CORE -->
+
 
 <div class="panel">
 
@@ -335,17 +370,22 @@ Waiting for validation...
 💾 Memory Core
 </h3>
 
+
 <pre id="memory">
 
 Waiting for memory...
 
 </pre>
 
+
 </div>
 
 
 
+
+
 <!-- AUDIT CORE -->
+
 
 <div class="panel">
 
@@ -353,39 +393,105 @@ Waiting for memory...
 📋 Audit Record
 </h3>
 
+
 <pre id="audit">
 
 Waiting for audit...
 
 </pre>
 
+
 </div>
 
 
 
-<!-- MODULE LOADING -->
+
+
+<!-- VALIDATION CHECKLIST ACCESS -->
+
+
+<div class="panel">
+
+
+<h3>
+🧾 Validation Evidence
+</h3>
+
+
+<p>
+Open the ValidationCore verification record.
+</p>
+
+
+<button onclick="openValidationChecklist()">
+
+OPEN VALIDATION CHECKLIST
+
+</button>
+
+
+</div>
+
+
+
+
+
+<!-- SYSTEM MODULE LOADING -->
+
+
+<!-- ORBITAL DOMAIN ENGINE -->
 
 <script src="js/orbitalProfiles.js"></script>
 
 <script src="js/orbitalEngine.js"></script>
 
+
+
+<!-- TRIAL MANOEUVRE SIMULATION ENGINE -->
+
 <script src="js/manoeuvreProfiles.js"></script>
 
 <script src="js/manoeuvreEngine.js"></script>
+
+
+
+<!-- FAILSAFE TRANSITION ARCHITECTURE -->
 
 <script src="js/failsafeProfiles.js"></script>
 
 <script src="js/failsafeEngine.js"></script>
 
+
+
+<!-- NAVIGATION ARCHITECTURE -->
+
 <script src="js/navigationCore.js"></script>
+
+
+
+<!-- VALIDATION GOVERNANCE CORE -->
 
 <script src="js/validationCore.js"></script>
 
+
+
+<!-- MEMORY CORE -->
+
 <script src="js/memoryCore.js"></script>
+
+
+
+<!-- AUDIT CORE -->
 
 <script src="js/auditCore.js"></script>
 
+
+
+<!-- COCKPIT CONTROLLER -->
+
 <script src="js/cockpit.js"></script>
+
+
 
 
 <script>
@@ -400,6 +506,8 @@ window.location.href =
 </script>
 
 
+
 </body>
 
 </html>
+  
