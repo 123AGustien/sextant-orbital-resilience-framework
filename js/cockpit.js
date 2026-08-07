@@ -288,47 +288,7 @@ failsafe
 
 
 
-// =================================
-// OPERATOR GUIDANCE ENGINE
-// =================================
 
-let operatorGuidance = {
-    status: "NOT_CONNECTED"
-};
-
-const guidanceEngine =
-    window.OperatorGuidanceEngineV1 ||
-    (typeof OperatorGuidanceEngineV1 !== "undefined"
-        ? OperatorGuidanceEngineV1
-        : null);
-
-if (
-    guidanceEngine &&
-    typeof guidanceEngine.generateGuidance === "function"
-) {
-
-    operatorGuidance = guidanceEngine.generateGuidance({
-
-        scenario:
-            result.scenario || "UNKNOWN",
-
-        severity:
-            result.assessment?.severity || "UNKNOWN",
-
-        currentState:
-            failsafe.currentState ||
-            failsafe.state ||
-            "STABILIZED",
-
-        recoveryAction:
-            result.recovery?.action ||
-            "NO_ACTION_REQUIRED"
-
-    });
-
-
-
-}
 // =================================
 // MEMORY CORE
 // =================================
@@ -349,7 +309,7 @@ failsafe
 
 }
 
-
+g
 
 
 
