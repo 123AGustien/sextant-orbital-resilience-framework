@@ -1,6 +1,6 @@
 /**
  * ============================================================
- * Sextant Orbital Resilience Cockpit v2.4
+ * 🛰️ Sextant Orbital Resilience Cockpit v2.4
  *
  * OperatorGuidanceEngineV1
  *
@@ -14,95 +14,185 @@
  * Design Principle:
  * AI advises.
  * Human operator remains final authority.
+ *
+ * Integration:
+ * Browser global architecture
+ * Compatible with cockpit.js
  * ============================================================
  */
 
+
 const OperatorGuidanceEngineV1 = {
 
-    engine: "OperatorGuidanceEngineV1",
-    domain: "ORBITAL",
+
+    engine:
+        "OperatorGuidanceEngineV1",
+
+
+    domain:
+        "ORBITAL",
+
+
 
     generateGuidance(systemAssessment) {
 
+
         const {
+
             scenario,
+
             severity,
+
             currentState,
+
             recoveryAction
+
+
         } = systemAssessment;
+
+
 
 
         return {
 
-            engine: this.engine,
 
-            scenario: scenario,
+            engine:
+                this.engine,
 
-            severity: severity,
 
-            systemState: currentState,
+
+            scenario:
+                scenario || "UNKNOWN",
+
+
+
+            severity:
+                severity || "UNKNOWN",
+
+
+
+            systemState:
+                currentState || "STABILIZED",
+
+
 
 
             operatorGuidance: {
 
+
+
                 priority:
+
                     "MAINTAIN_SYSTEM_STABILITY",
+
+
+
 
 
                 instructions: [
 
+
                     "VERIFY anomaly classification",
+
 
                     "CONFIRM sensor and telemetry integrity",
 
+
                     "MAINTAIN stabilized operational state",
+
 
                     "REVIEW simulated recovery pathway",
 
+
                     "AUTHORIZE corrective sequence when verified"
+
 
                 ],
 
 
+
+
+
                 recoveryAction:
-                    recoveryAction || "NO_ACTION_REQUIRED",
+
+                    recoveryAction ||
+
+                    "NO_ACTION_REQUIRED",
+
+
+
+
 
 
                 verificationRequired: [
 
+
                     "SYSTEM_STATE_CONFIRMATION",
+
 
                     "RECOVERY_PATH_VERIFICATION",
 
+
                     "STABILITY_CONFIRMATION",
 
+
                     "CASCADE_STATUS_CONFIRMATION"
+
 
                 ],
 
 
+
+
+
                 operatorAuthority:
+
                     "FINAL_HUMAN_DECISION_REQUIRED"
+
+
 
             },
 
 
+
+
+
             goldenRuleAuthority:
+
                 "GOLDEN_RULE_ENGINE",
 
 
+
+
+
             status:
+
                 "GUIDANCE_READY",
 
 
+
+
+
             timestamp:
+
                 new Date().toISOString()
+
+
 
         };
 
     }
 
+
 };
 
 
-export default OperatorGuidanceEngineV1;
+
+
+// ============================================================
+// GLOBAL CONNECTION
+// Allows cockpit.js to access the engine
+// ============================================================
+
+window.OperatorGuidanceEngineV1 =
+    OperatorGuidanceEngineV1;
