@@ -94,7 +94,6 @@ Deterministic Orbital Domain Simulation Framework
 </h2>
 
 
-
 <!-- SYSTEM STATUS -->
 
 <div class="panel">
@@ -137,7 +136,6 @@ VALIDATION LOADING...
 
 
 
-
 <!-- SYSTEM INTEGRATION STATUS -->
 
 
@@ -153,7 +151,6 @@ System Integration Status
 INITIALIZING...
 
 </pre>
-
 
 </div>
 
@@ -171,43 +168,31 @@ INITIALIZING...
 
 
 <button onclick="runScenario('SIGNAL_LOSS')">
-
 SIGNAL LOSS
-
 </button>
 
 
 <button onclick="runScenario('ORBITAL_DRIFT')">
-
 ORBITAL DRIFT
-
 </button>
 
 
 <button onclick="runScenario('TELEMETRY_CORRUPTION')">
-
 TELEMETRY CORRUPTION
-
 </button>
 
 
 <button onclick="runScenario('POWER_FAILURE')">
-
 POWER FAILURE
-
 </button>
 
 
 <button onclick="runScenario('INERTIAL_DESYNCHRONIZATION')">
-
 INERTIAL DESYNCHRONIZATION
-
 </button>
 
 
 </div>
-
-
 
 
 
@@ -229,7 +214,7 @@ Waiting...
 
 
 </div>
-  <!-- NAVIGATION ARCHITECTURE LAYER -->
+<!-- NAVIGATION ARCHITECTURE LAYER -->
 
 
 <div class="panel">
@@ -317,7 +302,6 @@ ARCHITECTURAL NAVIGATION DISPLAY ONLY
 
 
 
-
 <!-- TRIAL MANOEUVRE SIMULATION ENGINE -->
 
 
@@ -341,7 +325,151 @@ Waiting for manoeuvre simulation...
 
 
 
+<!-- ============================================================
+     CAPTAIN AI LENA OPERATOR GUIDANCE PANEL
+     ============================================================ -->
 
+
+<div class="panel">
+
+
+<h3>
+👨‍🚀 Captain AI Lena Operator Guidance
+</h3>
+
+
+<div id="operatorGuidance">
+
+
+<p>
+<b>EVENT:</b>
+
+<span id="guidanceEvent">
+
+WAITING FOR VALIDATED EVENT
+
+</span>
+
+</p>
+
+
+
+<p>
+<b>SEVERITY:</b>
+
+<span id="guidanceSeverity">
+
+-
+
+</span>
+
+</p>
+
+
+
+<p>
+<b>SYSTEM STATE:</b>
+
+<span id="guidanceState">
+
+-
+
+</span>
+
+</p>
+
+
+
+<hr>
+
+
+
+<h3>
+RECOMMENDED OPERATOR ACTION
+</h3>
+
+
+<ol id="guidanceActions">
+
+
+<li>
+
+Awaiting system assessment
+
+</li>
+
+
+</ol>
+
+
+
+<hr>
+
+
+
+<p>
+
+<b>RECOVERY PATH:</b>
+
+<span id="guidanceRecovery">
+
+-
+
+</span>
+
+</p>
+
+
+
+<h3>
+
+VERIFICATION REQUIRED
+
+</h3>
+
+
+
+<ul id="guidanceVerification">
+
+
+<li>
+
+System verification pending
+
+</li>
+
+
+</ul>
+
+
+
+<hr>
+
+
+
+<p>
+
+<b>AUTHORITY:</b>
+
+FINAL HUMAN DECISION REQUIRED
+
+</p>
+
+
+
+<p>
+
+<b>STATUS:</b>
+
+🟢 GUIDANCE READY
+
+</p>
+
+
+</div>
+
+
+</div>
 <!-- VALIDATION CORE -->
 
 
@@ -361,10 +489,15 @@ Waiting for validation...
 
 
 </div>
+
+
+
+
 <!-- MEMORY CORE -->
 
 
 <div class="panel">
+
 
 <h3>
 💾 Memory Core
@@ -383,11 +516,11 @@ Waiting for memory...
 
 
 
-
 <!-- AUDIT CORE -->
 
 
 <div class="panel">
+
 
 <h3>
 📋 Audit Record
@@ -406,7 +539,6 @@ Waiting for audit...
 
 
 
-
 <!-- VALIDATION CHECKLIST ACCESS -->
 
 
@@ -419,7 +551,9 @@ Waiting for audit...
 
 
 <p>
+
 Open the ValidationCore verification record.
+
 </p>
 
 
@@ -435,7 +569,6 @@ OPEN VALIDATION CHECKLIST
 
 
 
-
 <!-- SYSTEM MODULE LOADING -->
 
 
@@ -447,11 +580,13 @@ OPEN VALIDATION CHECKLIST
 
 
 
+
 <!-- TRIAL MANOEUVRE SIMULATION ENGINE -->
 
 <script src="js/manoeuvreProfiles.js"></script>
 
 <script src="js/manoeuvreEngine.js"></script>
+
 
 
 
@@ -463,97 +598,25 @@ OPEN VALIDATION CHECKLIST
 
 
 
+
 <!-- NAVIGATION ARCHITECTURE -->
 
 <script src="js/navigationCore.js"></script>
 
-<!-- ============================================================
-     Captain AI Lena Operator Guidance Panel
-     ============================================================ -->
 
-<section class="panel">
 
-<h2>
-👨‍🚀 Captain AI Lena Operator Guidance
-</h2>
 
-<div id="operatorGuidance">
+<!-- OPERATOR GUIDANCE ENGINE -->
 
-<p>
-<b>EVENT:</b>
-<span id="guidanceEvent">
-WAITING FOR VALIDATED EVENT
-</span>
-</p>
+<script src="js/operatorGuidanceEngineV1.js"></script>
 
-<p>
-<b>SEVERITY:</b>
-<span id="guidanceSeverity">
--
-</span>
-</p>
 
-<p>
-<b>SYSTEM STATE:</b>
-<span id="guidanceState">
--
-</span>
-</p>
 
-<hr>
-
-<h3>
-RECOMMENDED OPERATOR ACTION
-</h3>
-
-<ol id="guidanceActions">
-
-<li>
-Awaiting system assessment
-</li>
-
-</ol>
-
-<hr>
-
-<p>
-<b>RECOVERY PATH:</b>
-<span id="guidanceRecovery">
--
-</span>
-</p>
-
-<h3>
-VERIFICATION REQUIRED
-</h3>
-
-<ul id="guidanceVerification">
-
-<li>
-System verification pending
-</li>
-
-</ul>
-
-<hr>
-
-<p>
-<b>AUTHORITY:</b>
-FINAL HUMAN DECISION REQUIRED
-</p>
-
-<p>
-<b>STATUS:</b>
-🟢 GUIDANCE READY
-</p>
-
-</div>
-
-</section>
 
 <!-- VALIDATION GOVERNANCE CORE -->
 
 <script src="js/validationCore.js"></script>
+
 
 
 
@@ -563,9 +626,11 @@ FINAL HUMAN DECISION REQUIRED
 
 
 
+
 <!-- AUDIT CORE -->
 
 <script src="js/auditCore.js"></script>
+
 
 
 
@@ -592,4 +657,3 @@ window.location.href =
 </body>
 
 </html>
-  
