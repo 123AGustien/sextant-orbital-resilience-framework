@@ -287,61 +287,8 @@ failsafe
 
 
 
-// =================================
-// OPERATOR GUIDANCE ENGINE
-// FIXED VERSION
-// =================================
 
-
-let operatorGuidance = {
-
-status:
-"NOT_CONNECTED"
-
-};
-
-
-
-if(
-window.OperatorGuidanceEngineV1
-){
-
-
-operatorGuidance =
-
-
-window.OperatorGuidanceEngineV1.generateGuidance({
-
-scenario:
-
-result.scenario ||
-"UNKNOWN",
-
-
-
-severity:
-
-result.assessment?.severity ||
-"UNKNOWN",
-
-
-
-currentState:
-
-failsafe.currentState ||
-failsafe.state ||
-"STABILIZED",
-
-
-
-recoveryAction:
-
-result.recovery?.action ||
-"NO_ACTION_REQUIRED"
-
-
-});
-
+g
 
 }
 // =================================
