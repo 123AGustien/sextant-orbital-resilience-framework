@@ -413,3 +413,175 @@ null,
 );
 
 }
+// =================================
+// MANOEUVRE DISPLAY
+// =================================
+
+const manoeuvreDisplay =
+document.getElementById(
+"manoeuvre"
+);
+
+
+if(manoeuvreDisplay){
+
+manoeuvreDisplay.innerText =
+
+JSON.stringify(
+manoeuvre,
+null,
+2
+);
+
+}
+
+
+
+
+// =================================
+// FAILSAFE DISPLAY
+// =================================
+
+const failsafeDisplay =
+document.getElementById(
+"failsafe"
+);
+
+
+if(failsafeDisplay){
+
+failsafeDisplay.innerText =
+
+JSON.stringify(
+failsafe,
+null,
+2
+);
+
+}
+
+
+
+
+// =================================
+// VALIDATION DISPLAY
+// =================================
+
+const validationDisplay =
+document.getElementById(
+"validation"
+);
+
+
+if(validationDisplay){
+
+validationDisplay.innerText =
+
+JSON.stringify(
+validation,
+null,
+2
+);
+
+}
+
+
+
+
+// =================================
+// OPERATOR GUIDANCE DISPLAY
+// =================================
+
+if(operatorGuidance){
+
+const guidanceEvent =
+document.getElementById(
+"guidanceEvent"
+);
+
+
+const guidanceSeverity =
+document.getElementById(
+"guidanceSeverity"
+);
+
+
+const guidanceState =
+document.getElementById(
+"guidanceState"
+);
+
+
+const guidanceRecovery =
+document.getElementById(
+"guidanceRecovery"
+);
+
+
+
+if(guidanceEvent){
+
+guidanceEvent.innerText =
+operatorGuidance.scenario || "-";
+
+}
+
+
+if(guidanceSeverity){
+
+guidanceSeverity.innerText =
+operatorGuidance.severity || "-";
+
+}
+
+
+if(guidanceState){
+
+guidanceState.innerText =
+operatorGuidance.systemState || "-";
+
+}
+
+
+if(guidanceRecovery){
+
+guidanceRecovery.innerText =
+
+operatorGuidance.operatorGuidance.recoveryAction || "-";
+
+}
+
+
+const actionList =
+document.getElementById(
+"guidanceActions"
+);
+
+
+if(actionList){
+
+actionList.innerHTML = "";
+
+
+operatorGuidance.operatorGuidance.instructions.forEach(
+
+(action)=>{
+
+const item =
+document.createElement(
+"li"
+);
+
+item.innerText = action;
+
+actionList.appendChild(
+item
+);
+
+}
+
+);
+
+}
+
+}
