@@ -759,3 +759,168 @@ li
 
 
 }
+// =================================
+// MEMORY DISPLAY
+// =================================
+
+const memoryDisplay =
+
+document.getElementById(
+"memory"
+);
+
+
+
+if(memoryDisplay){
+
+memoryDisplay.innerText =
+
+JSON.stringify(
+memory,
+null,
+2
+);
+
+}
+
+
+
+
+
+// =================================
+// AUDIT DISPLAY
+// =================================
+
+const auditDisplay =
+
+document.getElementById(
+"audit"
+);
+
+
+
+if(auditDisplay){
+
+auditDisplay.innerText =
+
+JSON.stringify(
+audit,
+null,
+2
+);
+
+}
+
+
+
+
+
+// =================================
+// VALIDATION STATUS DISPLAY
+// =================================
+
+const validationStatus =
+
+document.getElementById(
+"validationStatus"
+);
+
+
+
+if(validationStatus && validation){
+
+
+
+
+if(
+validation.final_status ===
+"VALIDATION_COMPLETE"
+){
+
+validationStatus.innerText =
+
+"🟢 VALIDATION COMPLETE";
+
+
+validationStatus.className =
+
+"status-pass";
+
+
+}
+
+else{
+
+
+validationStatus.innerText =
+
+"⚠️ VALIDATION REVIEW REQUIRED";
+
+
+validationStatus.className =
+
+"status-warning";
+
+
+}
+
+
+
+}
+
+
+
+
+
+console.log(
+
+"🛰️ Orbital Scenario Completed",
+
+displayResult
+
+);
+
+
+
+}
+
+
+
+
+// =================================
+// SYSTEM START
+// =================================
+
+window.addEventListener(
+
+"load",
+
+function(){
+
+
+
+console.log(
+
+"🛰️ Sextant Orbital Resilience Cockpit v2.4 ONLINE"
+
+);
+
+
+
+updateIntegrationStatus();
+
+
+
+
+
+runScenario(
+
+"SIGNAL_LOSS"
+
+);
+
+
+
+}
+
+);
