@@ -645,3 +645,31 @@ displayResult
 
 
 }
+// =================================
+// SYSTEM START
+// =================================
+
+window.addEventListener(
+
+"load",
+
+function(){
+
+console.log(
+
+"🛰️ Sextant Orbital Resilience Cockpit v2.4 ONLINE"
+
+);
+
+
+updateIntegrationStatus();
+
+
+runScenario(
+
+"SIGNAL_LOSS"
+
+);
+
+
+});
