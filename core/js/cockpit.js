@@ -141,7 +141,43 @@ GoldenRuleEngine:
 };
 
 
+// =================================
+// OPERATOR GUIDANCE ENGINE
+// =================================
 
+let operatorGuidance = {
+
+status:
+"NOT_CONNECTED"
+
+};
+
+
+if(
+typeof OperatorGuidanceEngineV1 !== "undefined"
+){
+
+operatorGuidance =
+
+OperatorGuidanceEngineV1.generateGuidance({
+
+scenario:
+result.scenario,
+
+severity:
+result.severity,
+
+currentState:
+failsafe.state ||
+"STABILIZED",
+
+recoveryAction:
+result.recovery ||
+"NO_ACTION_REQUIRED"
+
+});
+
+}
 
 statusDisplay.innerText =
 
