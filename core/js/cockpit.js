@@ -79,7 +79,6 @@ typeof orbitalEngine !== "undefined"
 
 
 
-
 ManoeuvreEngineV1:
 
 typeof manoeuvreEngine !== "undefined"
@@ -87,7 +86,6 @@ typeof manoeuvreEngine !== "undefined"
 "CONNECTED"
 :
 "NOT_CONNECTED",
-
 
 
 
@@ -101,7 +99,6 @@ typeof failsafeEngine !== "undefined"
 
 
 
-
 ValidationCoreV1:
 
 typeof validationCore !== "undefined"
@@ -109,7 +106,6 @@ typeof validationCore !== "undefined"
 "CONNECTED"
 :
 "NOT_CONNECTED",
-
 
 
 
@@ -123,7 +119,6 @@ typeof OperatorGuidanceEngineV1 !== "undefined"
 
 
 
-
 MemoryCoreV1:
 
 typeof memoryCore !== "undefined"
@@ -134,7 +129,6 @@ typeof memoryCore !== "undefined"
 
 
 
-
 AuditCoreV1:
 
 typeof auditCore !== "undefined"
@@ -142,7 +136,6 @@ typeof auditCore !== "undefined"
 "CONNECTED"
 :
 "NOT_CONNECTED",
-
 
 
 
@@ -185,7 +178,6 @@ updateIntegrationStatus();
 
 
 
-
 if(
 typeof orbitalEngine === "undefined"
 ){
@@ -200,7 +192,6 @@ return;
 
 
 }
-
 
 
 
@@ -225,7 +216,6 @@ status:
 
 
 
-
 if(
 typeof manoeuvreEngine !== "undefined"
 ){
@@ -244,6 +234,7 @@ result
 
 
 
+
 // =================================
 // FAILSAFE ENGINE
 // =================================
@@ -256,7 +247,6 @@ status:
 
 
 };
-
 
 
 
@@ -291,7 +281,6 @@ status:
 
 
 };
-
 
 
 
@@ -330,14 +319,12 @@ status:
 
 
 
-
 if(
 typeof OperatorGuidanceEngineV1 !== "undefined"
 ){
 
 
 operatorGuidance =
-
 
 OperatorGuidanceEngineV1.generateGuidance({
 
@@ -367,6 +354,7 @@ result.recovery ||
 
 
 }
+
 
 
 
@@ -419,16 +407,11 @@ auditCore.generate(
 result,
 validation,
 failsafe
-);
-
-
-}
         // =================================
 // VALIDATION CHECKLIST EVIDENCE LINK
 // =================================
 
 window.lastOrbitalResult = result;
-
 
 window.lastFailsafeResult = failsafe;
 
@@ -465,38 +448,7 @@ memory,
 audit
 
 
-
 };
-
-
-
-
-
-
-// =================================
-// OUTPUT DISPLAY
-// =================================
-
-const output =
-document.getElementById(
-"output"
-);
-
-
-
-if(output){
-
-
-output.innerText =
-
-JSON.stringify(
-displayResult,
-null,
-2
-);
-
-
-}
 
 
 
@@ -514,9 +466,7 @@ document.getElementById(
 
 
 
-if(
-manoeuvreDisplay
-){
+if(manoeuvreDisplay){
 
 
 manoeuvreDisplay.innerText =
@@ -635,12 +585,14 @@ operatorGuidance.scenario || "-";
 }
 
 
+
 if(severityDisplay){
 
 severityDisplay.innerText =
 operatorGuidance.severity || "-";
 
 }
+
 
 
 if(stateDisplay){
@@ -651,7 +603,173 @@ operatorGuidance.systemState || "-";
 }
 
 
+
 if(recoveryDisplay){
 
 recoveryDisplay.innerText =
-operatorGuidance.operatorGuidance.recoveryAction
+operatorGuidance.recoveryAction || "-";
+
+}
+
+
+
+const actionList =
+document.getElementById(
+"guidanceActions"
+);
+
+
+
+if(actionList){
+
+actionList.innerHTML = "";
+
+
+if(operatorGuidance.instructions){
+
+
+operatorGuidance.instructions.forEach(
+
+(action)=>{
+
+
+const item =
+document.createElement(
+"li"
+);
+
+
+item.innerText = action;
+
+
+actionList.appendChild(
+item
+);
+
+
+}
+
+);
+
+
+}
+
+
+}
+
+
+}
+
+
+
+
+
+
+// =================================
+// MEMORY DISPLAY
+// =================================
+
+const memoryDisplay =
+document.getElementById(
+"memory"
+);
+
+
+
+if(memoryDisplay){
+
+
+memoryDisplay.innerText =
+
+JSON.stringify(
+memory,
+null,
+2
+);
+
+
+}
+
+
+
+
+
+
+// =================================
+// AUDIT DISPLAY
+// =================================
+
+const auditDisplay =
+document.getElementById(
+"audit"
+);
+
+
+
+if(auditDisplay){
+
+
+auditDisplay.innerText =
+
+JSON.stringify(
+audit,
+null,
+2
+);
+
+
+}
+
+
+
+
+
+console.log(
+
+"🛰️ Orbital Scenario Completed",
+
+displayResult
+
+);
+
+
+
+}
+
+
+
+
+
+
+// =================================
+// SYSTEM START
+// =================================
+
+window.addEventListener(
+
+"load",
+
+function(){
+
+
+console.log(
+
+"🛰️ Sextant Orbital Resilience Cockpit v2.4 ONLINE"
+
+);
+
+
+
+updateIntegrationStatus();
+
+
+
+runScenario(
+
+"SIGNAL_LOSS"
+
+);
+
+
+
+});
