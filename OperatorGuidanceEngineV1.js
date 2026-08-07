@@ -205,3 +205,4 @@ window.OperatorGuidanceEngineV1
 
 
 })();
+window.OperatorGuidanceEngineV1 = OperatorGuidanceEngineV1;
