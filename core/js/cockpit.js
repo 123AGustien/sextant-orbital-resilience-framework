@@ -11,6 +11,7 @@ Connections:
 - ManoeuvreEngineV1
 - FailsafeEngineV1
 - ValidationCoreV1
+- OperatorGuidanceEngineV1
 - MemoryCoreV1
 - AuditCoreV1
 
@@ -26,6 +27,8 @@ Trial Manoeuvre Engine
 Failsafe Transition Engine
         ↓
 Validation Core
+        ↓
+Operator Guidance Engine
         ↓
 Memory Core
         ↓
@@ -110,6 +113,17 @@ typeof validationCore !== "undefined"
 
 
 
+OperatorGuidanceEngineV1:
+
+typeof OperatorGuidanceEngineV1 !== "undefined"
+?
+"CONNECTED"
+:
+"NOT_CONNECTED",
+
+
+
+
 MemoryCoreV1:
 
 typeof memoryCore !== "undefined"
@@ -141,43 +155,6 @@ GoldenRuleEngine:
 };
 
 
-// =================================
-// OPERATOR GUIDANCE ENGINE
-// =================================
-
-let operatorGuidance = {
-
-status:
-"NOT_CONNECTED"
-
-};
-
-
-if(
-typeof OperatorGuidanceEngineV1 !== "undefined"
-){
-
-operatorGuidance =
-
-OperatorGuidanceEngineV1.generateGuidance({
-
-scenario:
-result.scenario,
-
-severity:
-result.severity,
-
-currentState:
-failsafe.state ||
-"STABILIZED",
-
-recoveryAction:
-result.recovery ||
-"NO_ACTION_REQUIRED"
-
-});
-
-}
 
 statusDisplay.innerText =
 
@@ -233,13 +210,7 @@ const result =
 orbitalEngine.runScenario(
 type
 );
-
-
-
-
-
-
-// =================================
+        // =================================
 // TRIAL MANOEUVRE ENGINE
 // =================================
 
@@ -345,6 +316,63 @@ failsafe
 
 
 // =================================
+// OPERATOR GUIDANCE ENGINE
+// =================================
+
+let operatorGuidance = {
+
+
+status:
+"NOT_CONNECTED"
+
+
+};
+
+
+
+
+if(
+typeof OperatorGuidanceEngineV1 !== "undefined"
+){
+
+
+operatorGuidance =
+
+
+OperatorGuidanceEngineV1.generateGuidance({
+
+scenario:
+
+result.scenario,
+
+
+severity:
+
+result.severity,
+
+
+currentState:
+
+failsafe.state ||
+"STABILIZED",
+
+
+recoveryAction:
+
+result.recovery ||
+"NO_ACTION_REQUIRED"
+
+
+});
+
+
+}
+
+
+
+
+
+// =================================
 // MEMORY CORE
 // =================================
 
@@ -366,7 +394,6 @@ failsafe
 
 
 }
-
 
 
 
@@ -396,13 +423,7 @@ failsafe
 
 
 }
-
-
-
-
-
-
-// =================================
+        // =================================
 // VALIDATION CHECKLIST EVIDENCE LINK
 // =================================
 
@@ -433,6 +454,9 @@ failsafe,
 
 
 validation,
+
+
+operatorGuidance,
 
 
 memory,
@@ -572,112 +596,62 @@ null,
 
 
 // =================================
-// MEMORY DISPLAY
+// OPERATOR GUIDANCE DISPLAY
 // =================================
 
-const memoryDisplay =
+if(operatorGuidance){
+
+
+const eventDisplay =
 document.getElementById(
-"memory"
+"guidanceEvent"
 );
 
 
-
-if(memoryDisplay){
-
-
-memoryDisplay.innerText =
-
-JSON.stringify(
-memory,
-null,
-2
-);
-
-
-}
-
-
-
-
-
-
-// =================================
-// AUDIT DISPLAY
-// =================================
-
-const auditDisplay =
+const severityDisplay =
 document.getElementById(
-"audit"
+"guidanceSeverity"
+);
+
+
+const stateDisplay =
+document.getElementById(
+"guidanceState"
+);
+
+
+const recoveryDisplay =
+document.getElementById(
+"guidanceRecovery"
 );
 
 
 
-if(auditDisplay){
+if(eventDisplay){
 
-
-auditDisplay.innerText =
-
-JSON.stringify(
-audit,
-null,
-2
-);
-
+eventDisplay.innerText =
+operatorGuidance.scenario || "-";
 
 }
 
 
+if(severityDisplay){
 
-
-
-
-console.log(
-
-"🛰️ Orbital Scenario Completed",
-
-displayResult
-
-);
-
-
+severityDisplay.innerText =
+operatorGuidance.severity || "-";
 
 }
 
 
+if(stateDisplay){
+
+stateDisplay.innerText =
+operatorGuidance.systemState || "-";
+
+}
 
 
+if(recoveryDisplay){
 
-
-// =================================
-// SYSTEM START
-// =================================
-
-window.addEventListener(
-
-"load",
-
-function(){
-
-
-
-console.log(
-
-"🛰️ Sextant Orbital Resilience Cockpit v2.4 ONLINE"
-
-);
-
-
-
-updateIntegrationStatus();
-
-
-
-runScenario(
-
-"SIGNAL_LOSS"
-
-);
-
-
-
-});
+recoveryDisplay.innerText =
+operatorGuidance.operatorGuidance.recoveryAction
