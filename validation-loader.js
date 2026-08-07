@@ -1,266 +1,269 @@
 /*
-================================================
-Sextant Orbital Validation Loader v1.1
-================================================
+============================================================
+🛰️ Sextant Orbital Resilience Framework
+Validation Loader v1.1
 
 Purpose:
-Loads orbital-validation-checklist.json
-and displays ValidationCore status.
+Connect ValidationCoreV1 output
+to Validation Checklist Display
 
-Architecture:
+Flow:
 
-ValidationCoreV1
+Orbital Scenario
         ↓
-Checklist JSON
+OrbitalEngineV1
+        ↓
+FailsafeTransitionEngineV1
+        ↓
+ValidationCoreV1
         ↓
 Validation Loader
         ↓
-Cockpit Validation Display
-        ↓
-AuditCoreV1 Preparation
+Checklist Evidence Display
 
-
-Simulation Validation Only
-
-================================================
+Simulation Only
+============================================================
 */
 
 
-/*
-================================================
-LOAD VALIDATION CHECKLIST
-================================================
-*/
+// =================================
+// VALIDATION CHECKLIST LOADER
+// =================================
 
 
-async function loadValidationChecklist(){
+function loadValidationChecklist(){
 
 
-    try{
-
-
-        const response =
-        await fetch(
-            "orbital-validation-checklist.json"
-        );
+    let validationResult = null;
 
 
 
-        if(!response.ok){
+    // --------------------------------
+    // CHECK VALIDATION CORE CONNECTION
+    // --------------------------------
 
 
-            throw new Error(
-                "Validation checklist unavailable"
+    if(
+        typeof validationCore !== "undefined"
+    ){
+
+
+
+        // ----------------------------
+        // WAIT FOR REAL SIMULATION DATA
+        // ----------------------------
+
+
+        if(
+
+            window.lastOrbitalResult &&
+
+            window.lastFailsafeResult
+
+        ){
+
+
+            validationResult =
+
+            validationCore.validate(
+
+                window.lastOrbitalResult,
+
+                window.lastFailsafeResult
+
             );
 
 
         }
+        else{
+
+
+            validationResult = {
+
+
+                validator:
+                "ValidationCoreV1",
+
+
+                self_test:{
+
+                    status:
+                    "READY"
+
+                },
+
+
+                fault_identification:{
+
+                    status:
+                    "WAITING",
+
+                    detected:
+                    false
+
+                },
+
+
+                failsafe_validation:{
+
+                    status:
+                    "WAITING"
+
+                },
+
+
+                decision_core:{
+
+                    status:
+                    "WAITING"
+
+                },
+
+
+                corrective_action:{
+
+                    status:
+                    "WAITING"
+
+                },
+
+
+                re_test_validation:{
+
+                    status:
+                    "WAITING"
+
+                },
+
+
+                final_status:
+
+                "WAITING_FOR_SCENARIO"
 
 
 
-        const validation =
-        await response.json();
+            };
 
 
+        }
 
-        console.log(
-            "Validation Loaded:",
-            validation
-        );
-
-
-
-        displayValidationStatus(
-            validation
-        );
-
-
-        displayValidationSummary(
-            validation
-        );
 
 
     }
 
-
-    catch(error){
-
-
-        console.error(
-            "Validation Load Error:",
-            error
-        );
-
-
-        displayValidationError();
-
-    }
-
-
-}
-
-
-
-/*
-================================================
-DISPLAY MAIN VALIDATION STATUS
-================================================
-*/
-
-
-function displayValidationStatus(validation){
-
-
-    const display =
-    document.getElementById(
-        "validationStatus"
-    );
-
-
-
-    if(!display){
-
-        return;
-
-    }
-
-
-
-    if(
-        validation.finalStatus ===
-        "VALIDATION_COMPLETE"
-    ){
-
-
-        display.innerText =
-        "🟢 VALIDATION COMPLETE";
-
-
-    }
 
     else{
 
 
-        display.innerText =
-        "🔴 VALIDATION REQUIRED";
+        validationResult = {
+
+
+            validator:
+
+            "ValidationCoreV1",
+
+
+            final_status:
+
+            "VALIDATION_CORE_NOT_CONNECTED"
+
+
+
+        };
 
 
     }
 
 
-}
 
 
 
-/*
-================================================
-DISPLAY VALIDATION SUMMARY
-================================================
-*/
+    // --------------------------------
+    // UPDATE STATUS DISPLAY
+    // --------------------------------
 
 
-function displayValidationSummary(validation){
+    const status =
 
-
-    const summary =
     document.getElementById(
-        "validationSummary"
+
+        "validationStatus"
+
     );
 
 
 
-    if(!summary){
+    if(status){
 
-        return;
-
-    }
-
-
-
-    let engine =
-    validation.checks.engineValidation;
-
-
-
-    let scenario =
-    validation.checks.scenarioValidation;
-
-
-
-    let pipeline =
-    validation.checks.goldenRulePipeline;
-
-
-
-    let failsafe =
-    validation.checks.failsafeValidation;
-
-
-
-    let boundary =
-    validation.checks.operationalBoundary;
-
-
-
-    summary.innerText =
-
-    "ENGINE VALIDATION: "
-    +
-    countChecks(engine)
-    +
-    "\n\nSCENARIO VALIDATION: "
-    +
-    countChecks(scenario)
-    +
-    "\n\nGOLDEN RULE PIPELINE: "
-    +
-    countChecks(pipeline)
-    +
-    "\n\nFAILSAFE VALIDATION: "
-    +
-    countChecks(failsafe)
-    +
-    "\n\nOPERATIONAL BOUNDARY: "
-    +
-    countChecks(boundary);
-
-
-
-}
-
-
-
-/*
-================================================
-CHECK COUNTER
-================================================
-*/
-
-
-function countChecks(section){
-
-
-    let total = 0;
-
-    let passed = 0;
-
-
-
-    for(
-        let item in section
-    ){
-
-
-        total++;
 
 
         if(
-            section[item] === true ||
-            section[item] === "PASS"
+
+            validationResult
+            .re_test_validation
+
+            &&
+
+            validationResult
+            .re_test_validation
+            .status === "PASS"
+
         ){
 
 
-            passed++;
+
+            status.innerHTML =
+
+            "🟢 VALIDATION COMPLETE";
+
+
+
+            status.className =
+
+            "status-pass";
+
+
+
+        }
+
+
+        else if(
+
+            validationResult
+            .final_status ===
+            "WAITING_FOR_SCENARIO"
+
+        ){
+
+
+
+            status.innerHTML =
+
+            "🟠 WAITING FOR SIMULATION";
+
+
+
+            status.className =
+
+            "status-warning";
+
+
+
+        }
+
+
+        else{
+
+
+            status.innerHTML =
+
+            "🟠 VALIDATION WARNING";
+
+
+
+            status.className =
+
+            "status-warning";
 
 
         }
@@ -270,64 +273,193 @@ function countChecks(section){
 
 
 
-    return (
-        passed
-        +
-        "/"
-        +
-        total
-        +
-        " PASS"
-    );
 
 
-}
+    // --------------------------------
+    // UPDATE SUMMARY DISPLAY
+    // --------------------------------
 
 
+    const summary =
 
-/*
-================================================
-DISPLAY ERROR
-================================================
-*/
-
-
-function displayValidationError(){
-
-
-    const display =
     document.getElementById(
-        "validationStatus"
+
+        "validationSummary"
+
     );
 
 
 
-    if(display){
+    if(summary){
 
 
-        display.innerText =
-        "⚠️ VALIDATION FILE NOT FOUND";
+
+        summary.innerHTML = `
+
+
+        <h3>
+
+        ValidationCoreV1 Report
+
+        </h3>
+
+
+
+        <p>
+
+        Self Test:
+
+        ${
+        validationResult
+        .self_test?.status
+
+        }
+
+        </p>
+
+
+
+        <p>
+
+        Fault Identification:
+
+        ${
+        validationResult
+        .fault_identification?.status
+
+        }
+
+        </p>
+
+
+
+
+        <p>
+
+        Failsafe Validation:
+
+        ${
+        validationResult
+        .failsafe_validation?.status
+
+        }
+
+        </p>
+
+
+
+
+        <p>
+
+        Decision Core:
+
+        ${
+        validationResult
+        .decision_core?.status
+
+        }
+
+        </p>
+
+
+
+
+        <p>
+
+        Corrective Action:
+
+        ${
+        validationResult
+        .corrective_action?.status
+
+        }
+
+        </p>
+
+
+
+
+        <p>
+
+        Re-Test:
+
+        ${
+        validationResult
+        .re_test_validation?.status
+
+        }
+
+        </p>
+
+
+
+
+        <br>
+
+
+
+        <strong>
+
+        ${
+        validationResult.final_status
+
+        }
+
+        </strong>
+
+
+
+        `;
+
 
 
     }
 
 
+
+
+
+    return validationResult;
+
+
+
 }
 
 
 
-/*
-================================================
-SYSTEM BOOT
-================================================
-*/
+
+
+
+
+// =================================
+// GLOBAL ACCESS
+// =================================
+
+
+window.loadValidationChecklist =
+
+loadValidationChecklist;
+
+
+
+
+
+
+// =================================
+// AUTO START
+// =================================
 
 
 window.addEventListener(
-    "load",
-    function(){
 
-        loadValidationChecklist();
+"load",
 
-    }
+function(){
+
+
+    loadValidationChecklist();
+
+
+}
+
 );
