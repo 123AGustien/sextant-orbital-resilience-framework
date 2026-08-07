@@ -88,9 +88,7 @@ font-weight:bold;
 
 </style>
 
-
 </head>
-
 
 
 <body>
@@ -107,13 +105,9 @@ Deterministic Orbital Domain Simulation Framework
 
 
 
-<!-- ================================= -->
 <!-- SYSTEM STATUS -->
-<!-- ================================= -->
-
 
 <div class="panel">
-
 
 <h3>
 System Status
@@ -150,13 +144,13 @@ VALIDATION LOADING...
 
 
 </div>
-<!-- ================================= -->
+
+
+
 <!-- SYSTEM INTEGRATION STATUS -->
-<!-- ================================= -->
 
 
 <div class="panel">
-
 
 <h3>
 System Integration Status
@@ -171,165 +165,9 @@ INITIALIZING...
 
 
 </div>
-
-
-
-
-<!-- ================================= -->
-<!-- VALIDATION CHECKLIST ACCESS -->
-<!-- ================================= -->
-
-
-<div class="panel">
-
-
-<h3>
-🧾 Validation Evidence
-</h3>
-
-
-<p>
-Open the ValidationCore verification record.
-</p>
-
-
-<button onclick="openValidationChecklist()">
-
-OPEN VALIDATION CHECKLIST
-
-</button>
-
-
-</div>
-<!-- ================================= -->
-<!-- SCENARIO CONTROL -->
-<!-- ================================= -->
-
-
-<div class="panel">
-
-
-<h3>
-Scenario Control
-</h3>
-
-
-
-<button onclick="runScenario('SIGNAL_LOSS')">
-
-SIGNAL LOSS
-
-</button>
-
-
-<button onclick="runScenario('ORBITAL_DRIFT')">
-
-ORBITAL DRIFT
-
-</button>
-
-
-<button onclick="runScenario('TELEMETRY_CORRUPTION')">
-
-TELEMETRY CORRUPTION
-
-</button>
-
-
-<button onclick="runScenario('POWER_FAILURE')">
-
-POWER FAILURE
-
-</button>
-
-
-<button onclick="runScenario('INERTIAL_DESYNCHRONIZATION')">
-
-INERTIAL DESYNCHRONIZATION
-
-</button>
-
-
-</div>
-
-
-
-
-
-<!-- ================================= -->
-<!-- ORBITAL ASSESSMENT OUTPUT -->
-<!-- ================================= -->
-
-
-<div class="panel">
-
-
-<h3>
-🛰️ Orbital Assessment
-</h3>
-
-
-<pre id="output">
-
-Waiting for simulation...
-
-</pre>
-
-
-</div>
-  <!-- ================================= -->
-<!-- GOLDEN RULE ENGINE -->
-<!-- ================================= -->
-
-
-<div class="panel">
-
-
-<h3>
-Golden Rule Engine Pipeline
-</h3>
-
-
-<pre>
-
-OBSERVE
-
-↓
-
-VERIFY
-
-↓
-
-ASSESS
-
-↓
-
-DECIDE
-
-↓
-
-ACT
-
-↓
-
-UPDATE
-
-</pre>
-
-
-</div>
-
-
-
-
-
-<!-- ================================= -->
 <!-- FAILSAFE TRANSITION ARCHITECTURE -->
-<!-- ================================= -->
-
 
 <div class="panel">
-
 
 <h3>
 🛡️ Failsafe Transition Architecture Module
@@ -344,17 +182,14 @@ Waiting...
 
 
 </div>
-  
 
 
-<h3>
-<!-- ================================= -->
+
+
 <!-- NAVIGATION ARCHITECTURE LAYER -->
-<!-- ================================= -->
 
 
 <div class="panel">
-
 
 <h3>
 🧭 Navigation Architecture Layer
@@ -439,16 +274,13 @@ ARCHITECTURAL NAVIGATION DISPLAY ONLY
 
 
 
-
-<!-- ================================= -->
 <!-- TRIAL MANOEUVRE SIMULATION ENGINE -->
-<!-- ================================= -->
 
 
 <div class="panel">
 
 
-
+<h3>
 🛰️ Trial Manoeuvre Simulation Engine
 </h3>
 
@@ -461,10 +293,12 @@ Waiting for manoeuvre simulation...
 
 
 </div>
-<!--
-<!-- ================================= -->
+
+
+
+
+
 <!-- VALIDATION CORE -->
-<!-- ================================= -->
 
 
 <div class="panel">
@@ -483,26 +317,18 @@ Waiting for validation...
 
 
 </div>
-<!-- ================================= -->
-<!-- VALIDATION CHECKLIST ACCESS -->
-<!-- ================================= -->
+
+
+
+
+
+<!-- MEMORY CORE -->
+
 
 <div class="panel">
 
+
 <h3>
-🧾 Validation Evidence
-</h3>
-
-<p>
-Open the ValidationCore verification record.
-</p>
-
-<button onclick="openValidationChecklist()">
-OPEN VALIDATION CHECKLIST
-</button>
-
-</div>
- 
 💾 Memory Core
 </h3>
 
@@ -516,9 +342,11 @@ Waiting for memory...
 
 </div>
 
- <!-- ================================= -->
+
+
+
+
 <!-- AUDIT CORE -->
-<!-- ================================= -->
 
 
 <div class="panel">
@@ -536,10 +364,12 @@ Waiting for audit...
 </pre>
 
 
-</div> 
-<!-- ================================= -->
+</div>
+
+
+
+
 <!-- SYSTEM MODULE LOADING -->
-<!-- ================================= -->
 
 
 <!-- ORBITAL DOMAIN ENGINE -->
@@ -563,9 +393,6 @@ Waiting for audit...
 <script src="js/failsafeProfiles.js"></script>
 
 <script src="js/failsafeEngine.js"></script>
-
-
-
 <!-- NAVIGATION ARCHITECTURE -->
 
 <script src="js/navigationCore.js"></script>
@@ -593,6 +420,24 @@ Waiting for audit...
 <!-- COCKPIT CONTROLLER -->
 
 <script src="js/cockpit.js"></script>
-  
 
 
+
+<script>
+
+
+function openValidationChecklist(){
+
+window.location.href =
+"validation-checklist.html";
+
+}
+
+
+</script>
+
+
+
+</body>
+
+</html>
