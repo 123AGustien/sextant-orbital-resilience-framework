@@ -1,12 +1,23 @@
 /*
-==========================================================
+============================================================
 🛰️ Sextant Orbital Resilience Cockpit Controller v2.4
-Captain AI Lena Autonomous Agent Core
-==========================================================
 
-FLOW
+Purpose:
+Integrated deterministic cockpit controller.
 
-Scenario Button
+Connections:
+
+- OrbitalEngineV1
+- ManoeuvreEngineV1
+- FailsafeEngineV1
+- ValidationCoreV1
+- MemoryCoreV1
+- AuditCoreV1
+
+
+Flow:
+
+Scenario Selection
         ↓
 OrbitalEngineV1
         ↓
@@ -20,219 +31,617 @@ Memory Core
         ↓
 Audit Core
         ↓
-Cockpit Display
+Captain AI Lena Display
 
-==========================================================
+
+Simulation-only controller.
+============================================================
 */
 
-// =====================================
-// RUN SCENARIO
-// =====================================
 
-function runScenario(type) {
 
-    console.log("Running Scenario:", type);
+// =================================
+// SYSTEM INTEGRATION STATUS
+// =================================
 
-    // ---------------------------------
-    // Orbital Engine
-    // ---------------------------------
+function updateIntegrationStatus(){
 
-    const result = OrbitalEngineV1.runScenario(type);
 
-    // ---------------------------------
-    // Validation Core
-    // ---------------------------------
+const statusDisplay =
+document.getElementById(
+"integration"
+);
 
-    let validation = result.validation || {
-        status: "VALIDATION_NOT_CONNECTED"
-    };
 
-    if (typeof validationCore !== "undefined") {
-        validation = validationCore.validate(result);
-    }
 
-    // ---------------------------------
-    // Memory Core
-    // ---------------------------------
+if(!statusDisplay){
 
-    if (typeof memoryCore !== "undefined") {
-        memoryCore.update(result);
-    }
-
-    // ---------------------------------
-    // Audit Core
-    // ---------------------------------
-
-    let auditRecord = result.audit || null;
-
-    if (typeof auditCore !== "undefined") {
-        auditRecord = auditCore.generate(result);
-    }
-
-    // =====================================
-    // UPDATE COCKPIT PANELS
-    // =====================================
-
-    // Orbital Assessment
-
-    const output = document.getElementById("output");
-
-    if (output) {
-        output.innerText =
-            JSON.stringify(result, null, 2);
-    }
-
-    // Trial Manoeuvre
-
-    const manoeuvre =
-        document.getElementById("manoeuvre");
-
-    if (manoeuvre && result.manoeuvre) {
-
-        manoeuvre.innerText =
-            JSON.stringify(
-                result.manoeuvre,
-                null,
-                2
-            );
-
-    }
-
-    // Failsafe
-
-    const failsafe =
-        document.getElementById("failsafe");
-
-    if (failsafe && result.failsafe) {
-
-        failsafe.innerText =
-            JSON.stringify(
-                result.failsafe,
-                null,
-                2
-            );
-
-    }
-
-    // Validation
-
-    const validationPanel =
-        document.getElementById("validation");
-
-    if (validationPanel) {
-
-        validationPanel.innerText =
-            JSON.stringify(
-                validation,
-                null,
-                2
-            );
-
-    }
-
-    // Memory
-
-    const memory =
-        document.getElementById("memory");
-
-    if (
-        memory &&
-        typeof memoryCore !== "undefined"
-    ) {
-
-        memory.innerText =
-            JSON.stringify(
-                memoryCore.getState(),
-                null,
-                2
-            );
-
-    } else if (
-        memory &&
-        result.memory
-    ) {
-
-        memory.innerText =
-            JSON.stringify(
-                result.memory,
-                null,
-                2
-            );
-
-    }
-
-    // Audit
-
-    const audit =
-        document.getElementById("audit");
-
-    if (audit) {
-
-        audit.innerText =
-            JSON.stringify(
-                auditRecord,
-                null,
-                2
-            );
-
-    }
-
-    // Integration Status
-
-    const integration =
-        document.getElementById("integration");
-
-    if (integration) {
-
-        integration.innerText =
-            JSON.stringify({
-
-                OrbitalEngineV1: "CONNECTED",
-
-                ManoeuvreEngineV1: "CONNECTED",
-
-                FailsafeEngineV1: "CONNECTED",
-
-                ValidationCoreV1: "CONNECTED",
-
-                MemoryCoreV1: "CONNECTED",
-
-                AuditCoreV1: "CONNECTED",
-
-                GoldenRuleEngine: "ACTIVE"
-
-            }, null, 2);
-
-    }
-
-    // Validation Status Banner
-
-    const status =
-        document.getElementById("validationStatus");
-
-    if (status) {
-
-        status.innerText =
-            "VALIDATION COMPLETE";
-
-        status.className =
-            "status-pass";
-
-    }
+return;
 
 }
 
 
-// =====================================
-// INITIAL SYSTEM START
-// =====================================
 
-window.onload = function () {
 
-    console.log(
-        "🛰️ Sextant Orbital Resilience Cockpit v2.4 ONLINE"
-    );
+const status = {
 
-    runScenario("SIGNAL_LOSS");
+
+OrbitalEngineV1:
+
+typeof orbitalEngine !== "undefined"
+?
+"CONNECTED"
+:
+"NOT_CONNECTED",
+
+
+
+
+ManoeuvreEngineV1:
+
+typeof manoeuvreEngine !== "undefined"
+?
+"CONNECTED"
+:
+"NOT_CONNECTED",
+
+
+
+
+FailsafeEngineV1:
+
+typeof failsafeEngine !== "undefined"
+?
+"CONNECTED"
+:
+"NOT_CONNECTED",
+
+
+
+
+ValidationCoreV1:
+
+typeof validationCore !== "undefined"
+?
+"CONNECTED"
+:
+"NOT_CONNECTED",
+
+
+
+
+MemoryCoreV1:
+
+typeof memoryCore !== "undefined"
+?
+"CONNECTED"
+:
+"NOT_CONNECTED",
+
+
+
+
+AuditCoreV1:
+
+typeof auditCore !== "undefined"
+?
+"CONNECTED"
+:
+"NOT_CONNECTED",
+
+
+
+
+GoldenRuleEngine:
+
+"ACTIVE"
+
+
 
 };
+
+
+
+
+statusDisplay.innerText =
+
+JSON.stringify(
+status,
+null,
+2
+);
+
+
+
+}
+
+
+
+
+
+// =================================
+// RUN ORBITAL SCENARIO
+// =================================
+
+function runScenario(type){
+
+
+
+updateIntegrationStatus();
+
+
+
+
+
+if(
+typeof orbitalEngine === "undefined"
+){
+
+
+console.error(
+"OrbitalEngineV1 missing"
+);
+
+
+return;
+
+
+}
+
+
+
+
+
+const result =
+
+orbitalEngine.runScenario(
+type
+);
+
+
+
+
+
+
+// =================================
+// TRIAL MANOEUVRE ENGINE
+// =================================
+
+let manoeuvre = {
+
+
+status:
+"NOT_CONNECTED"
+
+
+};
+
+
+
+
+if(
+typeof manoeuvreEngine !== "undefined"
+){
+
+
+manoeuvre =
+
+manoeuvreEngine.execute(
+result
+);
+
+
+}
+
+
+
+
+
+// =================================
+// FAILSAFE ENGINE
+// =================================
+
+let failsafe = {
+
+
+status:
+"NOT_CONNECTED"
+
+
+};
+
+
+
+
+if(
+typeof failsafeEngine !== "undefined"
+){
+
+
+failsafe =
+
+failsafeEngine.evaluate(
+result
+);
+
+
+}
+
+
+
+
+
+
+// =================================
+// VALIDATION CORE
+// =================================
+
+let validation = {
+
+
+status:
+"NOT_CONNECTED"
+
+
+};
+
+
+
+
+if(
+typeof validationCore !== "undefined"
+){
+
+
+validation =
+
+validationCore.validate(
+result,
+failsafe
+);
+
+
+}
+
+
+
+
+
+
+// =================================
+// MEMORY CORE
+// =================================
+
+let memory = null;
+
+
+
+if(
+typeof memoryCore !== "undefined"
+){
+
+
+memory =
+
+memoryCore.update(
+result,
+failsafe
+);
+
+
+}
+
+
+
+
+
+
+
+// =================================
+// AUDIT CORE
+// =================================
+
+let audit = null;
+
+
+
+if(
+typeof auditCore !== "undefined"
+){
+
+
+audit =
+
+auditCore.generate(
+result,
+validation,
+failsafe
+);
+
+
+}
+
+
+
+
+
+
+// =================================
+// VALIDATION CHECKLIST EVIDENCE LINK
+// =================================
+
+window.lastOrbitalResult = result;
+
+
+window.lastFailsafeResult = failsafe;
+
+
+
+
+
+
+// =================================
+// COMPLETE DISPLAY RESULT
+// =================================
+
+const displayResult = {
+
+
+...result,
+
+
+manoeuvre,
+
+
+failsafe,
+
+
+validation,
+
+
+memory,
+
+
+audit
+
+
+
+};
+
+
+
+
+
+
+// =================================
+// OUTPUT DISPLAY
+// =================================
+
+const output =
+document.getElementById(
+"output"
+);
+
+
+
+if(output){
+
+
+output.innerText =
+
+JSON.stringify(
+displayResult,
+null,
+2
+);
+
+
+}
+
+
+
+
+
+
+// =================================
+// MANOEUVRE DISPLAY
+// =================================
+
+const manoeuvreDisplay =
+document.getElementById(
+"manoeuvre"
+);
+
+
+
+if(
+manoeuvreDisplay
+){
+
+
+manoeuvreDisplay.innerText =
+
+JSON.stringify(
+manoeuvre,
+null,
+2
+);
+
+
+}
+
+
+
+
+
+
+// =================================
+// FAILSAFE DISPLAY
+// =================================
+
+const failsafeDisplay =
+document.getElementById(
+"failsafe"
+);
+
+
+
+if(failsafeDisplay){
+
+
+failsafeDisplay.innerText =
+
+JSON.stringify(
+failsafe,
+null,
+2
+);
+
+
+}
+
+
+
+
+
+
+// =================================
+// VALIDATION DISPLAY
+// =================================
+
+const validationDisplay =
+document.getElementById(
+"validation"
+);
+
+
+
+if(validationDisplay){
+
+
+validationDisplay.innerText =
+
+JSON.stringify(
+validation,
+null,
+2
+);
+
+
+}
+
+
+
+
+
+
+// =================================
+// MEMORY DISPLAY
+// =================================
+
+const memoryDisplay =
+document.getElementById(
+"memory"
+);
+
+
+
+if(memoryDisplay){
+
+
+memoryDisplay.innerText =
+
+JSON.stringify(
+memory,
+null,
+2
+);
+
+
+}
+
+
+
+
+
+
+// =================================
+// AUDIT DISPLAY
+// =================================
+
+const auditDisplay =
+document.getElementById(
+"audit"
+);
+
+
+
+if(auditDisplay){
+
+
+auditDisplay.innerText =
+
+JSON.stringify(
+audit,
+null,
+2
+);
+
+
+}
+
+
+
+
+
+
+console.log(
+
+"🛰️ Orbital Scenario Completed",
+
+displayResult
+
+);
+
+
+
+}
+
+
+
+
+
+
+// =================================
+// SYSTEM START
+// =================================
+
+window.addEventListener(
+
+"load",
+
+function(){
+
+
+
+console.log(
+
+"🛰️ Sextant Orbital Resilience Cockpit v2.4 ONLINE"
+
+);
+
+
+
+updateIntegrationStatus();
+
+
+
+runScenario(
+
+"SIGNAL_LOSS"
+
+);
+
+
+
+});
