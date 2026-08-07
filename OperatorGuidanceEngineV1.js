@@ -181,4 +181,15 @@ const OperatorGuidanceEngineV1 = {
 
 
 };
-g
+// =================================
+// GLOBAL EXPORT
+// =================================
+
+window.OperatorGuidanceEngineV1 =
+    OperatorGuidanceEngineV1;
+
+
+console.log(
+    "🛰️ OperatorGuidanceEngineV1 ONLINE",
+    window.OperatorGuidanceEngineV1
+);
