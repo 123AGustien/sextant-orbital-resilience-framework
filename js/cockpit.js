@@ -192,3 +192,120 @@ const result =
 orbitalEngine.runScenario(
 type
 );
+// =================================
+// TRIAL MANOEUVRE ENGINE
+// =================================
+
+let manoeuvre = {
+
+status:
+"NOT_CONNECTED"
+
+};
+
+
+if(
+typeof manoeuvreEngine !== "undefined"
+){
+
+manoeuvre =
+
+manoeuvreEngine.execute(
+result
+);
+
+}
+
+
+
+
+// =================================
+// FAILSAFE ENGINE
+// =================================
+
+let failsafe = {
+
+status:
+"NOT_CONNECTED"
+
+};
+
+
+if(
+typeof failsafeEngine !== "undefined"
+){
+
+failsafe =
+
+failsafeEngine.evaluate(
+result
+);
+
+}
+
+
+
+
+// =================================
+// VALIDATION CORE
+// =================================
+
+let validation = {
+
+status:
+"NOT_CONNECTED"
+
+};
+
+
+if(
+typeof validationCore !== "undefined"
+){
+
+validation =
+
+validationCore.validate(
+result,
+failsafe
+);
+
+}
+
+
+
+
+// =================================
+// OPERATOR GUIDANCE ENGINE
+// =================================
+
+let operatorGuidance = {
+
+status:
+"NOT_CONNECTED"
+
+};
+
+
+if(
+typeof OperatorGuidanceEngineV1 !== "undefined"
+){
+
+operatorGuidance =
+
+OperatorGuidanceEngineV1.generateGuidance({
+
+scenario:
+result.scenario,
+
+severity:
+result.severity,
+
+currentState:
+failsafe.state || "STABILIZED",
+
+recoveryAction:
+result.recovery || "NO_ACTION_REQUIRED"
+
+});
+
+}
