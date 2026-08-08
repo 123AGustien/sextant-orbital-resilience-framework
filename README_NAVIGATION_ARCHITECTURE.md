@@ -295,6 +295,107 @@ VALIDATION COMPLETE
 
 The objective is to ensure that the system's internal behaviour remains consistent with its defined rules.
 
+<!-- ============================================================
+     COMMAND-CENTRE CORE ARCHITECTURE MODULE v3
+     
+     Architectural display only.
+     Existing v2.4 operational simulation preserved.
+     No automatic execution.
+     ============================================================ --><div class="panel"><h3>
+🏛️ Command-Centre Core Architecture
+</h3><p>
+<strong>
+Sextant Command-Centre Resilience Core v3
+</strong>
+</p><p>
+Integrated operational decision-support architecture connecting
+system data, dependency analysis, cascade assessment, failsafe
+transitions, recovery simulation, human decision authority,
+memory continuity and audit traceability.
+</p><pre id="commandCentreCore">
+
+COMMAND-CENTRE OPERATIONAL FLOW
+
+DATA
+  ↓
+ALGORITHMS
+  ↓
+COMPUTE
+  ↓
+OBSERVE
+  ↓
+VERIFY
+  ↓
+ASSESS
+  ↓
+DECIDE
+  ↓
+FINAL HUMAN DECISION
+  ↓
+ACT
+  ↓
+UPDATE
+  ↓
+MEMORY + AUDIT
+
+============================================================
+
+CORE ARCHITECTURE
+
+SENSOR
+    ↓
+RELAY
+    ↓
+DEPENDENCY
+    ↓
+CASCADE
+    ↓
+TRANSITION
+    ↓
+ISOLATION
+    ↓
+RECOVERY
+    ↓
+GOVERNANCE
+    ↓
+SUPERVISORY
+
+============================================================
+
+DECISION AUTHORITY
+
+Captain AI Lena
+        ↓
+Decision Support
+        ↓
+Human Decision Authority
+        ↓
+Execution Gate
+        ↓
+Simulated Action / Safe State
+        ↓
+Verification
+
+============================================================
+
+CURRENT MODE
+
+ARCHITECTURAL DECISION-SUPPORT DISPLAY
+
+AUTOMATIC EXECUTION:
+DISABLED
+
+HUMAN AUTHORIZATION:
+REQUIRED
+
+SIMULATION MODE:
+ACTIVE
+
+LIVE SYSTEM CONTROL:
+NOT CONNECTED
+
+</pre></div>
+
 ---
 
 🛰️ Trial Manoeuvre Simulation
