@@ -574,3 +574,246 @@ function runScenario(type){
     DO NOT paste this part into the cockpit yet.
     */
 }
+// =================================
+// MEMORY CORE
+// =================================
+
+let memory = null;
+
+if(
+    typeof memoryCore !== "undefined"
+){
+
+    memory =
+        memoryCore.update(
+            result,
+            failsafe
+        );
+
+}
+
+
+// =================================
+// HUMAN DECISION → MEMORY INTEGRATION
+// =================================
+
+/*
+The Human Decision Authority is recorded
+alongside the current simulation state.
+
+No authorization is assumed.
+
+Initial state:
+PENDING
+*/
+
+if(memory){
+
+    memory.humanDecision = {
+
+        status:
+            humanDecision
+                .humanDecision
+                ?.status ||
+            "PENDING",
+
+        authority:
+            humanDecision.authority ||
+            "MISSION_CONTROLLER",
+
+        decision:
+            humanDecision
+                .humanDecision
+                ?.decision ||
+            null,
+
+        recommendedAction:
+            humanDecision
+                .recommendedAction ||
+            "NO_ACTION_REQUIRED",
+
+        reason:
+            humanDecision
+                .humanDecision
+                ?.reason ||
+            null,
+
+        timestamp:
+            humanDecision
+                .humanDecision
+                ?.timestamp ||
+            null
+
+    };
+
+}
+
+
+// =================================
+// AUDIT CORE
+// =================================
+
+let audit = null;
+
+if(
+    typeof auditCore !== "undefined"
+){
+
+    audit =
+        auditCore.generate(
+            result,
+            validation,
+            failsafe
+        );
+
+}
+
+
+// =================================
+// HUMAN DECISION → AUDIT INTEGRATION
+// =================================
+
+/*
+Audit record explicitly records that
+human authorization is required.
+
+The simulation does not manufacture
+a human authorization.
+*/
+
+if(audit){
+
+    audit.humanDecision = {
+
+        authority:
+
+            humanDecision.authority ||
+            "MISSION_CONTROLLER",
+
+        status:
+
+            humanDecision
+                .humanDecision
+                ?.status ||
+            "PENDING",
+
+        decision:
+
+            humanDecision
+                .humanDecision
+                ?.decision ||
+            null,
+
+        recommendedAction:
+
+            humanDecision
+                .recommendedAction ||
+            "NO_ACTION_REQUIRED",
+
+        reason:
+
+            humanDecision
+                .humanDecision
+                ?.reason ||
+            null,
+
+        timestamp:
+
+            humanDecision
+                .humanDecision
+                ?.timestamp ||
+            null,
+
+        executionPolicy:
+
+            humanDecision.executionPolicy,
+
+        authorizationRequired:
+
+            true
+
+    };
+
+}
+
+
+// =================================
+// COMPLETE SYSTEM OUTPUT
+// =================================
+
+const displayResult = {
+
+    ...result,
+
+    manoeuvre,
+
+    failsafe,
+
+    validation,
+
+    operatorGuidance,
+
+    humanDecision,
+
+    memory,
+
+    audit
+
+};
+
+
+// =================================
+// OUTPUT DISPLAY
+// =================================
+
+const output =
+
+    document.getElementById(
+        "output"
+    );
+
+
+if(output){
+
+    output.innerText =
+
+        JSON.stringify(
+            displayResult,
+            null,
+            2
+        );
+
+}
+
+
+// =================================
+// MANOEUVRE DISPLAY
+// =================================
+
+const manoeuvreDisplay =
+
+    document.getElementById(
+        "manoeuvre"
+    );
+
+
+if(manoeuvreDisplay){
+
+    manoeuvreDisplay.innerText =
+
+        JSON.stringify(
+            manoeuvre,
+            null,
+            2
+        );
+
+}
+
+
+// =================================
+// FAILSAFE DISPLAY
+// =================================
+
+const failsafeDisplay =
+
+    document.get
