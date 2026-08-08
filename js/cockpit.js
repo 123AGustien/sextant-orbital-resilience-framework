@@ -1,1 +1,576 @@
-g
+/*
+============================================================
+🛰️ Sextant Orbital Resilience Cockpit Controller v2.5
+
+Purpose:
+Integrated deterministic cockpit controller.
+
+Connections:
+
+- OrbitalEngineV1
+- ManoeuvreEngineV1
+- FailsafeEngineV1
+- ValidationCoreV1
+- OperatorGuidanceEngineV1
+- HumanDecisionAuthorityV1
+- MemoryCoreV1
+- AuditCoreV1
+- GoldenRuleEngine
+
+Flow:
+
+Scenario Selection
+        ↓
+OrbitalEngineV1
+        ↓
+Trial Manoeuvre Engine
+        ↓
+Failsafe Transition Engine
+        ↓
+Validation Core
+        ↓
+Operator Guidance Engine
+        ↓
+Human Decision Authority
+        ↓
+Memory Core
+        ↓
+Audit Core
+        ↓
+Captain AI Lena Display
+
+Golden Rule Pipeline:
+
+OBSERVE
+   ↓
+VERIFY
+   ↓
+ASSESS
+   ↓
+DECIDE
+   ↓
+FINAL HUMAN DECISION
+   ↓
+ACT
+   ↓
+UPDATE
+
+IMPORTANT:
+
+This controller is simulation-only.
+
+Captain AI Lena provides deterministic
+decision support and recommendations.
+
+Final human authorization is required before
+any simulated recovery action is considered
+authorized.
+
+NO RECOVERY ACTION IS EXECUTED AUTOMATICALLY.
+============================================================
+*/
+
+
+// =================================
+// SYSTEM INTEGRATION STATUS
+// =================================
+
+function updateIntegrationStatus(){
+
+    const statusDisplay =
+        document.getElementById("integration");
+
+    if(!statusDisplay){
+        return;
+    }
+
+    const status = {
+
+        OrbitalEngineV1:
+            typeof orbitalEngine !== "undefined"
+            ?
+            "CONNECTED"
+            :
+            "NOT_CONNECTED",
+
+        ManoeuvreEngineV1:
+            typeof manoeuvreEngine !== "undefined"
+            ?
+            "CONNECTED"
+            :
+            "NOT_CONNECTED",
+
+        FailsafeEngineV1:
+            typeof failsafeEngine !== "undefined"
+            ?
+            "CONNECTED"
+            :
+            "NOT_CONNECTED",
+
+        ValidationCoreV1:
+            typeof validationCore !== "undefined"
+            ?
+            "CONNECTED"
+            :
+            "NOT_CONNECTED",
+
+        OperatorGuidanceEngineV1:
+            window.OperatorGuidanceEngineV1
+            ?
+            "CONNECTED"
+            :
+            "NOT_CONNECTED",
+
+        HumanDecisionAuthorityV1:
+            window.HumanDecisionAuthorityV1
+            ?
+            "CONNECTED"
+            :
+            "INTERNAL_CONTROLLER",
+
+        MemoryCoreV1:
+            typeof memoryCore !== "undefined"
+            ?
+            "CONNECTED"
+            :
+            "NOT_CONNECTED",
+
+        AuditCoreV1:
+            typeof auditCore !== "undefined"
+            ?
+            "CONNECTED"
+            :
+            "NOT_CONNECTED",
+
+        GoldenRuleEngine:
+            "ACTIVE"
+
+    };
+
+    statusDisplay.innerText =
+        JSON.stringify(
+            status,
+            null,
+            2
+        );
+}
+
+
+// =================================
+// HUMAN DECISION AUTHORITY
+// =================================
+
+/*
+This module does not execute spacecraft commands.
+
+It creates an explicit governance gate between:
+
+Operator Guidance
+        ↓
+Human Authorization
+        ↓
+Simulated Action
+
+The existing cockpit screen is preserved.
+The decision object is stored internally and
+included in the complete system output.
+*/
+
+function createHumanDecisionAuthority(
+    result,
+    failsafe,
+    operatorGuidance,
+    manoeuvre
+){
+
+    const recommendedAction =
+
+        operatorGuidance
+            ?.operatorGuidance
+            ?.recommendedAction ||
+
+        result
+            ?.recovery
+            ?.action ||
+
+        "NO_ACTION_REQUIRED";
+
+
+    const currentState =
+
+        failsafe
+            ?.currentState ||
+
+        failsafe
+            ?.state ||
+
+        "UNKNOWN";
+
+
+    const severity =
+
+        result
+            ?.assessment
+            ?.severity ||
+
+        "UNKNOWN";
+
+
+    const humanDecision = {
+
+        module:
+            "HumanDecisionAuthorityV1",
+
+        status:
+            "AWAITING_AUTHORIZATION",
+
+        authority:
+            "MISSION_CONTROLLER",
+
+        decisionSupport:
+            "CAPTAIN_AI_LENA",
+
+        scenario:
+            result?.scenario ||
+            "UNKNOWN",
+
+        severity:
+
+            severity,
+
+        systemState:
+
+            currentState,
+
+        recommendedAction:
+
+            recommendedAction,
+
+        decisionOptions: [
+
+            "AUTHORIZE_RECOVERY",
+
+            "MAINTAIN_SAFE_STATE",
+
+            "REQUEST_ADDITIONAL_DIAGNOSTICS",
+
+            "ABORT_RECOVERY",
+
+            "ESCALATE_TO_MISSION_AUTHORITY"
+
+        ],
+
+        verificationChecklist: [
+
+            "SYSTEM_STATE_CONFIRMATION",
+
+            "SENSOR_VALIDATION",
+
+            "TELEMETRY_VERIFICATION",
+
+            "RECOVERY_PATH_VERIFICATION",
+
+            "STABILITY_CONFIRMATION",
+
+            "CASCADE_STATUS_CONFIRMATION"
+
+        ],
+
+        trialManoeuvre: {
+
+            engine:
+
+                manoeuvre?.engine ||
+                "ManoeuvreEngineV1",
+
+            status:
+
+                manoeuvre?.status ||
+                "NOT_AVAILABLE",
+
+            recoveryAssessment:
+
+                manoeuvre?.recoveryAssessment ||
+                "NOT_AVAILABLE",
+
+            stabilityVerification:
+
+                manoeuvre?.stabilityVerification ||
+                "NOT_AVAILABLE"
+
+        },
+
+        humanDecision: {
+
+            status:
+                "PENDING",
+
+            authorizedBy:
+                null,
+
+            decision:
+                null,
+
+            reason:
+                null,
+
+            timestamp:
+                null
+
+        },
+
+        executionPolicy:
+
+            "NO_RECOVERY_ACTION_EXECUTED_UNTIL_HUMAN_AUTHORIZATION",
+
+        goldenRuleAuthority:
+
+            "GOLDEN_RULE_ENGINE",
+
+        pipeline: [
+
+            "OBSERVE",
+
+            "VERIFY",
+
+            "ASSESS",
+
+            "DECIDE",
+
+            "FINAL_HUMAN_DECISION",
+
+            "ACT",
+
+            "UPDATE"
+
+        ]
+
+    };
+
+
+    return humanDecision;
+
+}
+
+
+// =================================
+// RUN ORBITAL SCENARIO
+// =================================
+
+function runScenario(type){
+
+    updateIntegrationStatus();
+
+
+    if(
+        typeof orbitalEngine === "undefined"
+    ){
+
+        console.error(
+            "OrbitalEngineV1 missing"
+        );
+
+        return;
+
+    }
+
+
+    const result =
+        orbitalEngine.runScenario(type);
+
+
+    // =================================
+    // TRIAL MANOEUVRE ENGINE
+    // =================================
+
+    let manoeuvre = {
+
+        status:
+            "NOT_CONNECTED"
+
+    };
+
+
+    if(
+        typeof manoeuvreEngine !== "undefined"
+    ){
+
+        manoeuvre =
+            manoeuvreEngine.execute(
+                result
+            );
+
+    }
+
+
+    // =================================
+    // FAILSAFE ENGINE
+    // =================================
+
+    let failsafe = {
+
+        status:
+            "NOT_CONNECTED"
+
+    };
+
+
+    if(
+        typeof failsafeEngine !== "undefined"
+    ){
+
+        failsafe =
+            failsafeEngine.evaluate(
+                result
+            );
+
+    }
+
+
+    // =================================
+    // VALIDATION CORE
+    // =================================
+
+    let validation = {
+
+        status:
+            "NOT_CONNECTED"
+
+    };
+
+
+    if(
+        typeof validationCore !== "undefined"
+    ){
+
+        validation =
+            validationCore.validate(
+                result,
+                failsafe
+            );
+
+    }
+
+
+    // =================================
+    // OPERATOR GUIDANCE ENGINE
+    // =================================
+
+    let operatorGuidance = {
+
+        status:
+            "NOT_CONNECTED"
+
+    };
+
+
+    const guidanceEngine =
+
+        window.OperatorGuidanceEngineV1 ||
+
+        (
+            typeof OperatorGuidanceEngineV1 !==
+            "undefined"
+
+            ?
+
+            OperatorGuidanceEngineV1
+
+            :
+
+            null
+        );
+
+
+    if(
+
+        guidanceEngine &&
+
+        typeof guidanceEngine.generateGuidance ===
+        "function"
+
+    ){
+
+        operatorGuidance =
+
+            guidanceEngine.generateGuidance({
+
+                scenario:
+
+                    result.scenario ||
+                    "UNKNOWN",
+
+                severity:
+
+                    result.assessment?.severity ||
+                    "UNKNOWN",
+
+                currentState:
+
+                    failsafe.currentState ||
+                    failsafe.state ||
+                    "STABILIZED",
+
+                recoveryAction:
+
+                    result.recovery?.action ||
+                    "NO_ACTION_REQUIRED",
+
+                decision:
+
+                    result.decision?.decision ||
+                    "NO_DECISION_AVAILABLE"
+
+            });
+
+    }
+
+
+    // =================================
+    // HUMAN DECISION AUTHORITY
+    // =================================
+
+    const humanDecision =
+
+        createHumanDecisionAuthority(
+
+            result,
+
+            failsafe,
+
+            operatorGuidance,
+
+            manoeuvre
+
+        );
+
+
+    // =================================
+    // SAVE CURRENT STATE
+    // =================================
+
+    window.lastOrbitalResult =
+        result;
+
+    window.lastManoeuvreResult =
+        manoeuvre;
+
+    window.lastFailsafeResult =
+        failsafe;
+
+    window.lastValidationResult =
+        validation;
+
+    window.lastOperatorGuidance =
+        operatorGuidance;
+
+    window.lastHumanDecision =
+        humanDecision;
+
+
+    /*
+    Part 2 continues from here.
+
+    DO NOT paste this part into the cockpit yet.
+    */
+}
