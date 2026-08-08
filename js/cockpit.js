@@ -817,3 +817,218 @@ if(manoeuvreDisplay){
 const failsafeDisplay =
 
     document.get
+/* 
+============================================================
+👤 HUMAN DECISION AUTHORITY CONTROLLER
+============================================================
+
+Purpose:
+
+Provide an explicit human authorization gate after:
+
+OBSERVE
+VERIFY
+ASSESS
+DECIDE
+
+and before:
+
+ACT
+UPDATE
+
+The controller NEVER assumes human authorization.
+
+Initial state:
+PENDING
+
+Supported decisions:
+
+- AUTHORIZE_RECOVERY
+- MAINTAIN_SAFE_STATE
+- REQUEST_ADDITIONAL_DIAGNOSTICS
+- ABORT_RECOVERY
+- ESCALATE_TO_MISSION_AUTHORITY
+
+Simulation-only.
+No real spacecraft command execution.
+============================================================
+*/
+
+
+// =================================
+// HUMAN DECISION STATE
+// =================================
+
+window.humanDecisionState = {
+
+    status:
+        "PENDING",
+
+    authority:
+        "MISSION_CONTROLLER",
+
+    decision:
+        null,
+
+    reason:
+        null,
+
+    timestamp:
+        null
+
+};
+
+
+// =================================
+// GET CURRENT HUMAN DECISION
+// =================================
+
+function getHumanDecision(){
+
+    if(
+        !window.lastHumanDecision
+    ){
+
+        return {
+
+            status:
+                "NO_SCENARIO",
+
+            authority:
+                "MISSION_CONTROLLER",
+
+            decision:
+                null,
+
+            reason:
+                null,
+
+            timestamp:
+                null
+
+        };
+
+    }
+
+
+    return {
+
+        ...window.lastHumanDecision,
+
+        humanDecision: {
+
+            ...(
+                window.lastHumanDecision
+                    .humanDecision ||
+                {}
+            ),
+
+            ...window.humanDecisionState
+
+        }
+
+    };
+
+}
+
+
+// =================================
+// VALIDATE HUMAN DECISION
+// =================================
+
+function validateHumanDecision(
+    decision
+){
+
+    const validDecisions = [
+
+        "AUTHORIZE_RECOVERY",
+
+        "MAINTAIN_SAFE_STATE",
+
+        "REQUEST_ADDITIONAL_DIAGNOSTICS",
+
+        "ABORT_RECOVERY",
+
+        "ESCALATE_TO_MISSION_AUTHORITY"
+
+    ];
+
+
+    if(
+        !validDecisions.includes(
+            decision
+        )
+    ){
+
+        return {
+
+            valid:
+                false,
+
+            reason:
+                "INVALID_HUMAN_DECISION"
+
+        };
+
+    }
+
+
+    return {
+
+        valid:
+            true,
+
+        reason:
+            "HUMAN_DECISION_ACCEPTED"
+
+    };
+
+}
+
+
+// =================================
+// RECORD HUMAN DECISION
+// =================================
+
+function recordHumanDecision(
+    decision,
+    reason
+){
+
+    const validation =
+
+        validateHumanDecision(
+            decision
+        );
+
+
+    if(
+        !validation.valid
+    ){
+
+        console.error(
+
+            "👤 Human Decision Rejected:",
+
+            validation.reason
+
+        );
+
+        return false;
+
+    }
+
+
+    const timestamp =
+
+        new Date().toISOString();
+
+
+    window.humanDecisionState = {
+
+        status:
+            "AUTHORIZED",
+
+        authority:
+
