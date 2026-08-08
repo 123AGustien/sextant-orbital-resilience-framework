@@ -1,1 +1,807 @@
-g
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>
+Sextant Cascade Resilience Index
+</title><style>
+
+body {
+    font-family: Arial, sans-serif;
+    background: #050b18;
+    color: white;
+    padding: 20px;
+    line-height: 1.5;
+}
+
+h1, h2, h3 {
+    color: #00d9ff;
+}
+
+.panel {
+    background: #101c33;
+    border: 1px solid #29405f;
+    padding: 18px;
+    margin: 15px 0;
+    border-radius: 8px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+}
+
+.metric {
+    background: #081225;
+    border: 1px solid #29405f;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.metric h3 {
+    margin-top: 0;
+}
+
+.value {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.status-pass {
+    color: #00ff88;
+    font-weight: bold;
+}
+
+.status-warning {
+    color: #ffaa00;
+    font-weight: bold;
+}
+
+.status-critical {
+    color: #ff5555;
+    font-weight: bold;
+}
+
+pre {
+    background: #000;
+    padding: 15px;
+    overflow: auto;
+    white-space: pre-wrap;
+}
+
+button {
+    padding: 10px 15px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+input[type="range"] {
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #29405f;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    color: #00d9ff;
+    background: #0b1528;
+}
+
+</style></head><body><h1>
+🛰️ Sextant Cascade Resilience Index
+</h1><h2>
+Command-Centre Core v3 — Cascade Resilience Assessment
+</h2><div class="panel"><h3>System Status</h3><p>
+🟢 CASCADE RESILIENCE MODULE ONLINE
+</p><p>
+Architecture:
+<strong>
+Command-Centre Core v3
+</strong>
+</p><p>
+Mode:
+<strong>
+Deterministic Simulation
+</strong>
+</p><p>
+Live System Control:
+<strong>
+NOT CONNECTED
+</strong>
+</p><p>
+Automatic Execution:
+<strong>
+DISABLED
+</strong>
+</p></div><!-- =========================================================
+     CRI CORE
+     ========================================================= --><div class="panel"><h3>
+🔗 Cascade Resilience Index
+</h3><div class="grid"><div class="metric"><h3>
+System Resilience
+</h3><div class="value" id="resilienceScore">
+100
+</div></div><div class="metric"><h3>
+Cascade Level
+</h3><div class="value" id="cascadeLevel">
+0
+</div></div><div class="metric"><h3>
+Affected Nodes
+</h3><div class="value" id="affectedNodes">
+0
+</div></div><div class="metric"><h3>
+Containment
+</h3><div class="value" id="containmentScore">
+100%
+</div></div></div></div><!-- =========================================================
+     INPUT CONTROL
+     ========================================================= --><div class="panel"><h3>
+🎛️ Cascade Scenario Control
+</h3><p>
+Scenario Intensity
+</p><input
+type="range"
+id="intensity"
+min="0"
+max="100"
+value="25"
+oninput="updateIntensity()"
+
+«»
+
+<p>
+Intensity:
+<strong>
+<span id="intensityValue">
+25
+</span>
+</strong>
+</p><button onclick="runCRI('LOCAL_DISTURBANCE')">
+LOCAL DISTURBANCE
+</button><button onclick="runCRI('DEPENDENCY_FAILURE')">
+DEPENDENCY FAILURE
+</button><button onclick="runCRI('CASCADE_EVENT')">
+CASCADE EVENT
+</button><button onclick="runCRI('MULTI_NODE_FAILURE')">
+MULTI-NODE FAILURE
+</button><button onclick="runCRI('SYSTEMIC_STRESS')">
+SYSTEMIC STRESS
+</button></div><!-- =========================================================
+     DEPENDENCY MAP
+     ========================================================= --><div class="panel"><h3>
+🧭 Dependency Propagation Model
+</h3><pre id="dependencyMap">
+
+SYSTEM
+  ↓
+PRIMARY NODE
+  ↓
+DEPENDENT NODE
+  ↓
+SECONDARY DEPENDENCY
+  ↓
+PROPAGATION
+  ↓
+CASCADE ASSESSMENT
+  ↓
+CONTAINMENT
+  ↓
+RECOVERY
+
+Waiting for scenario...
+
+</pre></div><!-- =========================================================
+     CASCADE LEVEL
+     ========================================================= --><div class="panel"><h3>
+🔗 Cascade Level Assessment
+</h3><table><tr>
+<th>Level</th>
+<th>Description</th>
+<th>Interpretation</th>
+</tr><tr>
+<td>0</td>
+<td>Contained / No Propagation</td>
+<td>Local condition remains isolated.</td>
+</tr><tr>
+<td>1</td>
+<td>Primary Dependency</td>
+<td>One dependent system affected.</td>
+</tr><tr>
+<td>2</td>
+<td>Secondary Propagation</td>
+<td>Propagation reaches secondary dependencies.</td>
+</tr><tr>
+<td>3</td>
+<td>Multi-System Cascade</td>
+<td>Multiple dependent systems affected.</td>
+</tr><tr>
+<td>4</td>
+<td>Systemic Cascade</td>
+<td>Broad system interaction detected.</td>
+</tr><tr>
+<td>5</td>
+<td>Critical Cascade</td>
+<td>Extensive propagation requiring escalation.</td>
+</tr></table></div><!-- =========================================================
+     CONTAINMENT
+     ========================================================= --><div class="panel"><h3>
+🛡️ Cascade Containment Assessment
+</h3><pre id="containment">
+
+Waiting for cascade assessment...
+
+</pre></div><!-- =========================================================
+     FAILSAFE STATE
+     ========================================================= --><div class="panel"><h3>
+🛡️ Failsafe State Transition
+</h3><pre id="failsafeState">
+
+NORMAL
+  ↓
+STABILIZED
+  ↓
+DEGRADED
+  ↓
+RECOVERY
+  ↓
+CERTIFIED STABLE
+
+Current State:
+NORMAL
+
+</pre></div><!-- =========================================================
+     RECOVERY PATH
+     ========================================================= --><div class="panel"><h3>
+🔄 Recovery Pathway
+</h3><pre id="recoveryPath">
+
+EVENT
+↓
+VERIFY
+↓
+ASSESS
+↓
+CONTAIN
+↓
+SELECT RECOVERY PATH
+↓
+HUMAN DECISION
+↓
+SIMULATED RECOVERY
+↓
+VERIFY RESTORATION
+
+Waiting for scenario...
+
+</pre></div><!-- =========================================================
+     GOLDEN RULE
+     ========================================================= --><div class="panel"><h3>
+🧭 Golden Rule Engine
+</h3><pre>
+
+OBSERVE
+   ↓
+VERIFY
+   ↓
+ASSESS
+   ↓
+DECIDE
+   ↓
+FINAL HUMAN DECISION
+   ↓
+ACT
+   ↓
+UPDATE
+
+</pre><p class="status-pass">
+DECISION PATHWAY: HUMAN AUTHORITY PRESERVED
+</p></div><!-- =========================================================
+     CAPTAIN AI LENA
+     ========================================================= --><div class="panel"><h3>
+👨‍🚀 Captain AI Lena — Cascade Decision Support
+</h3><pre id="lenaAssessment">
+
+EVENT:
+WAITING
+
+CASCADE ASSESSMENT:
+WAITING
+
+SYSTEM CONDITION:
+NORMAL
+
+RECOMMENDATION:
+WAITING FOR VALIDATED SCENARIO
+
+HUMAN AUTHORITY:
+REQUIRED
+
+</pre></div><!-- =========================================================
+     HUMAN DECISION
+     ========================================================= --><div class="panel"><h3>
+👤 Final Human Decision Authority
+</h3><p>
+The CRI provides decision support only.
+Final authority remains with the designated human operator.
+</p><button onclick="humanDecision('AUTHORIZE_RECOVERY')">
+AUTHORIZE RECOVERY
+</button><button onclick="humanDecision('MAINTAIN_SAFE_STATE')">
+MAINTAIN SAFE STATE
+</button><button onclick="humanDecision('REQUEST_DIAGNOSTICS')">
+REQUEST ADDITIONAL DIAGNOSTICS
+</button><button onclick="humanDecision('ABORT_RECOVERY')">
+ABORT RECOVERY
+</button><button onclick="humanDecision('ESCALATE')">
+ESCALATE TO MISSION AUTHORITY
+</button><pre id="humanDecision">
+
+DECISION STATUS:
+PENDING
+
+EXECUTION GATE:
+HUMAN AUTHORIZATION PENDING
+
+</pre></div><!-- =========================================================
+     SYSTEM OUTPUT
+     ========================================================= --><div class="panel"><h3>
+🛰️ Complete CRI System Output
+</h3><pre id="systemOutput">
+
+Waiting for cascade simulation...
+
+</pre></div><!-- =========================================================
+     MEMORY
+     ========================================================= --><div class="panel"><h3>
+💾 Memory Continuity
+</h3><pre id="memory">
+
+Waiting for simulation memory...
+
+</pre></div><!-- =========================================================
+     AUDIT
+     ========================================================= --><div class="panel"><h3>
+📋 Audit Trace
+</h3><pre id="audit">
+
+Waiting for audit record...
+
+</pre></div><!-- =========================================================
+     OPERATIONAL BOUNDARY
+     ========================================================= --><div class="panel"><h3>
+⚠️ Operational Boundary</h3><pre>
+
+AUTOMATIC EXECUTION = FALSE
+
+HUMAN AUTHORIZATION = REQUIRED
+
+SIMULATION ONLY = TRUE
+
+LIVE SYSTEM CONTROL = NOT CONNECTED
+
+</pre></div><!-- =========================================================
+     NAVIGATION
+     ========================================================= --><div class="panel"><button onclick="window.location.href='index.html'">
+⬅ RETURN TO ORBITAL COCKPIT
+</button><button onclick="window.location.href='validation-checklist.html'">
+🧾 OPEN VALIDATION CHECKLIST
+</button></div><script>
+
+/*
+============================================================
+SEXTANT CASCADE RESILIENCE INDEX
+============================================================
+
+Standalone architectural display.
+
+This screen does not modify the existing orbital cockpit.
+
+The module provides a deterministic-display framework for
+cascade assessment and can subsequently be connected to the
+authoritative cascade engine.
+
+============================================================
+*/
+
+
+let currentIntensity = 25;
+
+let currentScenario = null;
+
+let currentDecision = "PENDING";
+
+
+function updateIntensity() {
+
+    currentIntensity =
+        Number(
+            document.getElementById("intensity").value
+        );
+
+    document.getElementById(
+        "intensityValue"
+    ).innerText = currentIntensity;
+
+}
+
+
+function calculateCascadeLevel(intensity) {
+
+    if (intensity < 20) return 0;
+
+    if (intensity < 40) return 1;
+
+    if (intensity < 60) return 2;
+
+    if (intensity < 75) return 3;
+
+    if (intensity < 90) return 4;
+
+    return 5;
+
+}
+
+
+function runCRI(scenario) {
+
+    currentScenario = scenario;
+
+    currentDecision = "PENDING";
+
+    const level =
+        calculateCascadeLevel(
+            currentIntensity
+        );
+
+    const affected =
+        Math.min(
+            25,
+            level * 4
+        );
+
+    const resilience =
+        Math.max(
+            0,
+            100 -
+            (
+                currentIntensity *
+                0.65
+            )
+        );
+
+    const containment =
+        Math.max(
+            0,
+            100 -
+            (
+                level * 12
+            )
+        );
+
+    document.getElementById(
+        "cascadeLevel"
+    ).innerText = level;
+
+    document.getElementById(
+        "affectedNodes"
+    ).innerText = affected;
+
+    document.getElementById(
+        "resilienceScore"
+    ).innerText =
+        resilience.toFixed(1);
+
+    document.getElementById(
+        "containmentScore"
+    ).innerText =
+        containment.toFixed(1) + "%";
+
+
+    document.getElementById(
+        "dependencyMap"
+    ).innerText =
+
+`SCENARIO:
+${scenario}
+
+INTENSITY:
+${currentIntensity}
+
+EVENT
+  ↓
+PRIMARY NODE
+  ↓
+DEPENDENCY ANALYSIS
+  ↓
+PROPAGATION
+  ↓
+CASCADE LEVEL ${level}
+  ↓
+CONTAINMENT ASSESSMENT
+  ↓
+RECOVERY PATHWAY`;
+
+
+    document.getElementById(
+        "containment"
+    ).innerText =
+
+`CASCADE LEVEL:
+${level}
+
+AFFECTED NODES:
+${affected}
+
+CONTAINMENT INDEX:
+${containment.toFixed(1)}%
+
+STATUS:
+${containment >= 60
+    ? "CASCADE CONTAINMENT AVAILABLE"
+    : "ESCALATION / ADDITIONAL ASSESSMENT REQUIRED"}`;
+
+
+    document.getElementById(
+        "failsafeState"
+    ).innerText =
+
+`NORMAL
+  ↓
+STABILIZED
+  ↓
+DEGRADED
+  ↓
+RECOVERY
+  ↓
+CERTIFIED STABLE
+
+CURRENT SIMULATION STATE:
+${level >= 3 ? "DEGRADED" : "STABILIZED"}`;
+
+
+    document.getElementById(
+        "recoveryPath"
+    ).innerText =
+
+`EVENT
+↓
+VERIFY
+↓
+ASSESS
+↓
+CONTAIN
+↓
+SELECT RECOVERY PATH
+↓
+HUMAN DECISION
+↓
+SIMULATED RECOVERY
+↓
+VERIFY RESTORATION
+
+CURRENT SCENARIO:
+${scenario}
+
+RECOVERY:
+SIMULATION ONLY`;
+
+
+    document.getElementById(
+        "lenaAssessment"
+    ).innerText =
+
+`EVENT:
+${scenario}
+
+CASCADE LEVEL:
+${level}
+
+SYSTEM RESILIENCE:
+${resilience.toFixed(1)}
+
+CASCADE CONTAINMENT:
+${containment.toFixed(1)}%
+
+CAPTAIN AI LENA:
+DECISION SUPPORT AVAILABLE
+
+RECOMMENDATION:
+${level >= 4
+    ? "ESCALATE / MAINTAIN SAFE STATE"
+    : level >= 2
+        ? "PREVENTIVE CONTAINMENT"
+        : "MONITOR / NORMAL OPERATIONS"}
+
+HUMAN AUTHORITY:
+REQUIRED`;
+
+
+    document.getElementById(
+        "systemOutput"
+    ).innerText =
+
+`SEXTANT CASCADE RESILIENCE INDEX
+
+EVENT:
+${scenario}
+
+INTENSITY:
+${currentIntensity}
+
+CASCADE LEVEL:
+${level}
+
+AFFECTED NODES:
+${affected}
+
+RESILIENCE INDEX:
+${resilience.toFixed(1)}
+
+CONTAINMENT:
+${containment.toFixed(1)}%
+
+DECISION SUPPORT:
+AVAILABLE
+
+HUMAN DECISION:
+PENDING
+
+EXECUTION:
+DISABLED
+
+SIMULATION:
+ACTIVE
+
+LIVE CONTROL:
+NOT CONNECTED`;
+
+
+    updateMemory(
+        scenario,
+        level,
+        resilience
+    );
+
+    updateAudit(
+        scenario,
+        level,
+        resilience
+    );
+
+}
+
+
+function humanDecision(decision) {
+
+    currentDecision = decision;
+
+    document.getElementById(
+        "humanDecision"
+    ).innerText =
+
+`DECISION STATUS:
+${decision}
+
+EXECUTION GATE:
+${decision === "AUTHORIZE_RECOVERY"
+    ? "HUMAN AUTHORIZATION RECEIVED — SIMULATION ONLY"
+    : "NO AUTOMATIC RECOVERY EXECUTED"}
+
+LIVE SYSTEM CONTROL:
+NOT CONNECTED`;
+
+
+    updateAudit(
+        currentScenario ||
+        "NO ACTIVE SCENARIO",
+        calculateCascadeLevel(
+            currentIntensity
+        ),
+        Number(
+            document.getElementById(
+                "resilienceScore"
+            ).innerText
+        )
+    );
+
+}
+
+
+function updateMemory(
+    scenario,
+    level,
+    resilience
+) {
+
+    document.getElementById(
+        "memory"
+    ).innerText =
+
+`MEMORY CORE
+
+SCENARIO:
+${scenario}
+
+INTENSITY:
+${currentIntensity}
+
+CASCADE LEVEL:
+${level}
+
+RESILIENCE:
+${resilience.toFixed(1)}
+
+HUMAN DECISION:
+${currentDecision}
+
+EXECUTION:
+SIMULATION ONLY`;
+
+}
+
+
+function updateAudit(
+    scenario,
+    level,
+    resilience
+) {
+
+    document.getElementById(
+        "audit"
+    ).innerText =
+
+`AUDIT CORE
+
+EVENT:
+${scenario}
+
+ASSESSMENT:
+CASCADE LEVEL ${level}
+
+RESILIENCE:
+${resilience}
+
+HUMAN DECISION:
+${currentDecision}
+
+EXECUTION GATE:
+HUMAN AUTHORIZATION REQUIRED
+
+FINAL STATUS:
+SIMULATION TRACE RECORDED`;
+
+}
+
+
+window.addEventListener(
+    "load",
+    function() {
+
+        updateIntensity();
+
+        console.log(
+            "🛰️ Sextant Cascade Resilience Index loaded."
+        );
+
+        console.log(
+            "🔗 Cascade assessment module ready."
+        );
+
+        console.log(
+            "👤 Human authority preserved."
+        );
+
+        console.log(
+            "🛡️ Automatic execution disabled."
+        );
+
+    }
+);
+
+</script></body>
+</html>
