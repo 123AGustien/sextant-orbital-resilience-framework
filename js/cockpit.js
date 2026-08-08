@@ -1031,4 +1031,376 @@ function recordHumanDecision(
             "AUTHORIZED",
 
         authority:
+// ============================================================
+// FINAL HUMAN DECISION / EXECUTION-GATE DISPLAY STATE
+// ============================================================
+
+function resetHumanDecisionState(){
+
+    window.humanDecisionState = {
+
+        status:
+            "PENDING",
+
+        authority:
+            "MISSION_CONTROLLER",
+
+        decision:
+            null,
+
+        reason:
+            null,
+
+        timestamp:
+            null
+
+    };
+
+
+    window.lastExecutionGate = {
+
+        authorized:
+            false,
+
+        status:
+            "HUMAN_AUTHORIZATION_PENDING",
+
+        action:
+            "NO_ACTION_EXECUTED",
+
+        reason:
+            "Final human decision is required."
+
+    };
+
+}
+
+
+// ============================================================
+// RE-TEST HUMAN DECISION STATE
+// ============================================================
+
+function resetHumanDecisionForScenario(){
+
+    resetHumanDecisionState();
+
+
+    if(
+        window.lastHumanDecision
+    ){
+
+        window.lastHumanDecision
+            .humanDecision = {
+
+                status:
+                    "PENDING",
+
+                authorizedBy:
+                    null,
+
+                decision:
+                    null,
+
+                reason:
+                    null,
+
+                timestamp:
+                    null
+
+            };
+
+
+        window.lastHumanDecision
+            .executionGate = {
+
+                authorized:
+                    false,
+
+                status:
+                    "HUMAN_AUTHORIZATION_PENDING",
+
+                action:
+                    "NO_ACTION_EXECUTED",
+
+                reason:
+                    "Final human decision is required."
+
+            };
+
+    }
+
+}
+
+
+// ============================================================
+// UPDATE HUMAN DECISION AUDIT
+// ============================================================
+
+function updateHumanDecisionAudit(){
+
+    const decision =
+        window.humanDecisionState;
+
+
+    const executionGate =
+        evaluateExecutionGate();
+
+
+    window.lastHumanDecisionAudit = {
+
+        event:
+            "HUMAN_DECISION_GATE",
+
+        authority:
+            "MISSION_CONTROLLER",
+
+        status:
+            decision?.status ||
+            "PENDING",
+
+        decision:
+            decision?.decision ||
+            null,
+
+        reason:
+            decision?.reason ||
+            null,
+
+        timestamp:
+            decision?.timestamp ||
+            null,
+
+        executionGate:
+            executionGate,
+
+        authorizationRequired:
+            true,
+
+        automaticExecution:
+            false,
+
+        simulationOnly:
+            true,
+
+        trace:
+            "GENERATED"
+
+    };
+
+
+    return window.lastHumanDecisionAudit;
+
+}
+
+
+// ============================================================
+// UPDATE COMPLETE AUDIT TRACE
+// ============================================================
+
+function updateCompleteAuditTrace(){
+
+    const decisionAudit =
+        updateHumanDecisionAudit();
+
+
+    if(
+        window.lastHumanDecision
+    ){
+
+        window.lastHumanDecision
+            .audit = decisionAudit;
+
+    }
+
+
+    if(
+        window.lastOrbitalResult
+    ){
+
+        window.lastOrbitalResult
+            .humanDecisionAudit =
+            decisionAudit;
+
+    }
+
+
+    return decisionAudit;
+
+}
+
+
+// ============================================================
+// AUTHORIZE RECOVERY — COMPLETE UPDATE
+// ============================================================
+
+function confirmRecoveryAuthorization(
+    reason
+){
+
+    const accepted =
+        authorizeRecovery(
+            reason
+        );
+
+
+    if(!accepted){
+
+        return {
+
+            status:
+                "AUTHORIZATION_REJECTED",
+
+            authorized:
+                false
+
+        };
+
+    }
+
+
+    const gate =
+        updateHumanDecisionRecord();
+
+
+    updateCompleteAuditTrace();
+
+
+    console.log(
+
+        "👤 RECOVERY AUTHORIZATION RECORDED",
+
+        gate
+
+    );
+
+
+    return gate;
+
+}
+
+
+// ============================================================
+// MAINTAIN SAFE STATE — COMPLETE UPDATE
+// ============================================================
+
+function confirmMaintainSafeState(
+    reason
+){
+
+    const accepted =
+        maintainSafeState(
+            reason
+        );
+
+
+    if(!accepted){
+
+        return {
+
+            status:
+                "DECISION_REJECTED",
+
+            authorized:
+                false
+
+        };
+
+    }
+
+
+    const gate =
+        updateHumanDecisionRecord();
+
+
+    updateCompleteAuditTrace();
+
+
+    return gate;
+
+}
+
+
+// ============================================================
+// REQUEST DIAGNOSTICS — COMPLETE UPDATE
+// ============================================================
+
+function confirmAdditionalDiagnostics(
+    reason
+){
+
+    const accepted =
+        requestAdditionalDiagnostics(
+            reason
+        );
+
+
+    if(!accepted){
+
+        return {
+
+            status:
+                "DECISION_REJECTED",
+
+            authorized:
+                false
+
+        };
+
+    }
+
+
+    const gate =
+        updateHumanDecisionRecord();
+
+
+    updateCompleteAuditTrace();
+
+
+    return gate;
+
+}
+
+
+// ============================================================
+// ABORT RECOVERY — COMPLETE UPDATE
+// ============================================================
+
+function confirmRecoveryAbort(
+    reason
+){
+
+    const accepted =
+        abortRecovery(
+            reason
+        );
+
+
+    if(!accepted){
+
+        return {
+
+            status:
+                "DECISION_REJECTED",
+
+            authorized:
+                false
+
+        };
+
+    }
+
+
+    const gate =
+        updateHumanDecisionRecord();
+
+
+    updateCompleteAuditTrace();
+
+
+    return gate;
+
+}
+
+
+//
 
