@@ -200,3 +200,417 @@ Responsibilities include:
 ## 3. Dependency Layer
 
 Models relationships between components.
+3. Dependency Layer
+
+Models relationships between components.
+
+The Dependency Layer identifies how individual system components influence one another and establishes the structural relationships required for deterministic cascade analysis.
+
+The layer explicitly represents:
+
+- upstream dependencies
+- downstream dependencies
+- critical dependencies
+- shared dependencies
+- dependency chains
+- redundant pathways
+- dependency isolation points
+
+The objective is to make system relationships visible before assessing how a disturbance may propagate.
+
+Dependency Representation
+
+A simplified dependency relationship may be represented as:
+
+NODE A
+   ↓
+NODE B
+   ↓
+NODE C
+   ↓
+NODE D
+
+If Node A becomes degraded, the framework can examine the defined dependency pathway and determine which downstream nodes may be affected.
+
+The Dependency Layer does not assume that every dependency produces failure propagation. Propagation is determined by the defined scenario conditions and deterministic rules.
+
+Dependency Analysis
+
+The framework evaluates:
+
+1. Which component is affected?
+2. Which components depend upon it?
+3. What dependency pathways exist?
+4. Which dependencies are critical?
+5. Which pathways provide redundancy?
+6. Where can propagation be contained?
+7. What system states may result?
+
+This provides the structural foundation for the Cascade Layer.
+
+---
+
+4. Cascade Layer
+
+Models failure propagation and systemic influence across the dependency structure.
+
+The Cascade Layer examines how an initial disturbance may propagate through connected components.
+
+A representative cascade pathway is:
+
+LOCAL DISTURBANCE
+        ↓
+DEPENDENCY IMPACT
+        ↓
+PROPAGATION
+        ↓
+SECONDARY EFFECT
+        ↓
+CASCADE ASSESSMENT
+        ↓
+CONTAINMENT
+
+The framework distinguishes between:
+
+- local disturbance
+- dependency failure
+- cascade event
+- multi-node failure
+- systemic stress
+
+This distinction allows the simulation to determine whether an event remains isolated or develops into a broader system condition.
+
+Cascade Assessment
+
+The Cascade Layer evaluates:
+
+- affected nodes
+- dependency depth
+- propagation paths
+- secondary effects
+- containment opportunities
+- system-wide influence
+- potential recovery pathways
+
+The objective is not simply to identify failure.
+
+The objective is to determine:
+
+«How far can the disturbance propagate, which dependencies are affected, and where can the cascade be contained?»
+
+Cascade Resilience Index
+
+The Cascade Resilience Index provides a structured simulation view of dependency-driven system behaviour.
+
+Representative scenario categories include:
+
+LOCAL_DISTURBANCE
+
+DEPENDENCY_FAILURE
+
+CASCADE_EVENT
+
+MULTI_NODE_FAILURE
+
+SYSTEMIC_STRESS
+
+The resulting assessment remains deterministic and simulation-based.
+
+---
+
+5. Transition Layer
+
+Models system-state evolution following an observed or simulated condition.
+
+A representative state pathway is:
+
+NORMAL
+   ↓
+DEGRADED
+   ↓
+STABILIZED
+   ↓
+RECOVERING
+   ↓
+CERTIFIED STABLE
+
+Transitions are governed by defined deterministic rules.
+
+The framework does not assume that degradation must result in catastrophic failure.
+
+A system may instead:
+
+DETECT
+   ↓
+VERIFY
+   ↓
+CONTAIN
+   ↓
+STABILIZE
+   ↓
+RECOVER
+
+This supports controlled resilience modelling.
+
+Transition Assessment
+
+The Transition Layer evaluates:
+
+- current system state
+- triggering condition
+- severity
+- dependency condition
+- failsafe status
+- containment status
+- recovery status
+- verification requirements
+
+Each transition should remain observable and traceable within the simulation.
+
+---
+
+6. Isolation Layer
+
+Provides containment modelling intended to limit propagation through the dependency structure.
+
+The Isolation Layer examines where a disturbance can be contained before affecting additional components.
+
+Typical simulation objectives include:
+
+- isolate affected nodes
+- preserve unaffected nodes
+- block defined propagation pathways
+- reduce cascade expansion
+- maintain safe-state conditions
+- prepare controlled recovery
+
+A representative containment pathway is:
+
+DISTURBANCE
+     ↓
+IDENTIFY AFFECTED NODE
+     ↓
+IDENTIFY DEPENDENCIES
+     ↓
+ISOLATION OPTION
+     ↓
+CASCADE CONTAINMENT
+     ↓
+SAFE STATE
+
+Isolation remains a simulated response and does not constitute live operational control.
+
+---
+
+7. Recovery Layer
+
+Models potential pathways for restoration following stabilization or containment.
+
+The Recovery Layer examines available simulated recovery options and their expected consequences.
+
+Representative recovery pathways include:
+
+MAINTAIN SAFE STATE
+
+REQUEST ADDITIONAL DIAGNOSTICS
+
+AUTHORIZE RECOVERY
+
+ABORT RECOVERY
+
+ESCALATE TO MISSION AUTHORITY
+
+Where a recovery pathway is simulated, the architecture records:
+
+- recovery recommendation
+- recovery conditions
+- human decision
+- execution-gate status
+- simulated result
+- verification result
+- final state
+
+Recovery Principle
+
+The framework follows:
+
+STABILIZE
+   ↓
+ASSESS
+   ↓
+PREPARE RECOVERY
+   ↓
+HUMAN DECISION
+   ↓
+SIMULATED RECOVERY
+   ↓
+VERIFY
+   ↓
+CERTIFIED STATE
+
+A recovery recommendation does not automatically initiate recovery.
+
+---
+
+8. Governance Layer
+
+Provides decision oversight, authority boundaries, validation requirements, and traceability.
+
+The Governance Layer establishes the separation between:
+
+SYSTEM OBSERVATION
+        ↓
+DETERMINISTIC ASSESSMENT
+        ↓
+DECISION SUPPORT
+        ↓
+HUMAN AUTHORITY
+        ↓
+EXECUTION GATE
+        ↓
+SIMULATED OUTCOME
+
+The layer ensures that system recommendations remain distinguishable from human authorization.
+
+Governance Principles
+
+The Governance Layer maintains:
+
+- human decision authority
+- simulation-only boundaries
+- validation requirements
+- execution-gate controls
+- audit requirements
+- decision traceability
+- recovery verification
+- institutional reviewability
+
+The framework's current safety policy remains:
+
+AUTOMATIC EXECUTION = FALSE
+HUMAN AUTHORIZATION = REQUIRED
+SIMULATION ONLY = TRUE
+LIVE SYSTEM CONTROL = NOT CONNECTED
+
+---
+
+9. Supervisory Layer
+
+Provides the integrated interpretation of the simulated system condition.
+
+The Supervisory Layer combines information from the preceding layers into a structured operational picture.
+
+The resulting pathway is:
+
+RAW INPUT
+    ↓
+SYSTEM STATE
+    ↓
+DEPENDENCY UNDERSTANDING
+    ↓
+CASCADE ASSESSMENT
+    ↓
+STATE TRANSITION
+    ↓
+FAILSAFE CONDITION
+    ↓
+RECOVERY OPTIONS
+    ↓
+HUMAN DECISION
+    ↓
+SIMULATED OUTCOME
+    ↓
+MEMORY + AUDIT
+
+Captain AI Lena operates conceptually within this supervisory decision-support layer.
+
+The purpose is to assist the human operator in understanding:
+
+- what is happening
+- what is affected
+- how the condition may propagate
+- what has been verified
+- what recovery options exist
+- what the deterministic assessment recommends
+- what decision remains with the human authority
+- what simulated outcome resulted
+
+---
+
+🛡️ Nine-Layer Integration Principle
+
+The nine layers are not intended to function as isolated dashboards.
+
+They form a connected analytical pathway:
+
+SENSOR
+  ↓
+RELAY
+  ↓
+DEPENDENCY
+  ↓
+CASCADE
+  ↓
+TRANSITION
+  ↓
+ISOLATION
+  ↓
+RECOVERY
+  ↓
+GOVERNANCE
+  ↓
+SUPERVISORY
+
+The architecture therefore transforms:
+
+RAW INFORMATION
+       ↓
+STRUCTURED SYSTEM UNDERSTANDING
+       ↓
+RESILIENCE ASSESSMENT
+       ↓
+RECOVERY OPTIONS
+       ↓
+HUMAN DECISION
+       ↓
+SIMULATED OUTCOME
+       ↓
+VERIFICATION
+       ↓
+MEMORY + AUDIT
+
+This layered structure is intended to reduce the requirement for a human operator to mentally reconstruct complex system behaviour from disconnected alerts.
+
+---
+
+🔗 Dependency-to-Cascade Example
+
+A representative deterministic scenario may be modelled as:
+
+EVENT
+  ↓
+NODE A DISTURBANCE
+  ↓
+DEPENDENCY B AFFECTED
+  ↓
+DEPENDENCY C ASSESSED
+  ↓
+CASCADE RISK EVALUATED
+  ↓
+CONTAINMENT OPTION IDENTIFIED
+  ↓
+SYSTEM STATE STABILIZED
+  ↓
+RECOVERY PATHWAY PREPARED
+  ↓
+HUMAN DECISION
+  ↓
+SIMULATED ACTION OR SAFE STATE
+  ↓
+VERIFICATION
+  ↓
+AUDIT RECORD
+
+The example demonstrates the relationship between dependency analysis, cascade assessment, state transition, containment, recovery, governance, and supervisory decision support.
+
+The resulting simulation remains deterministic, traceable, and bounded by the framework's non-operational safety architecture.
