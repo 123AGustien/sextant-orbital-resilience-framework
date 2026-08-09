@@ -1331,3 +1331,245 @@ function createInitialState() {
         --------------------------------------------------------
         EXECUTION GATE
         ------------------------------------------------
+/*
+============================================================
+PART 3 / COMMAND CENTRE RESILIENCE CORE V3
+============================================================
+
+GOLDEN RULE ENGINE
+HUMAN DECISION AUTHORITY
+EXECUTION GATE
+MEMORY CORE
+AUDIT CORE
+VALIDATION CORE
+
+============================================================
+*/
+
+
+/*
+============================================================
+GOLDEN RULE ENGINE
+============================================================
+
+AUTHORITATIVE PIPELINE:
+
+OBSERVE
+VERIFY
+ASSESS
+DECIDE
+FINAL_HUMAN_DECISION
+ACT
+UPDATE
+
+No ACT stage can control a live system.
+
+============================================================
+*/
+
+function goldenRuleDecision(
+    scenario,
+    assessment
+) {
+
+    const pipeline = [
+
+        "OBSERVE",
+        "VERIFY",
+        "ASSESS",
+        "DECIDE",
+        "FINAL_HUMAN_DECISION",
+        "ACT",
+        "UPDATE"
+
+    ];
+
+    let decision =
+        assessment.recommendation ||
+        "NO_ACTION";
+
+    /*
+    --------------------------------------------------------
+    CRITICAL CONDITIONS
+    --------------------------------------------------------
+    */
+
+    if (
+        assessment.severity === "CRITICAL"
+    ) {
+
+        decision =
+            assessment.recommendation ||
+            "PROTECT_CRITICAL_SYSTEM_STATE";
+
+    }
+
+    /*
+    --------------------------------------------------------
+    HIGH CONDITIONS
+    --------------------------------------------------------
+    */
+
+    else if (
+        assessment.severity === "HIGH"
+    ) {
+
+        decision =
+            assessment.recommendation ||
+            "ACTIVATE_CONTAINMENT";
+
+    }
+
+    /*
+    --------------------------------------------------------
+    MEDIUM CONDITIONS
+    --------------------------------------------------------
+    */
+
+    else if (
+        assessment.severity === "MEDIUM"
+    ) {
+
+        decision =
+            assessment.recommendation ||
+            "VERIFY_AND_STABILIZE";
+
+    }
+
+    /*
+    --------------------------------------------------------
+    LOW CONDITIONS
+    --------------------------------------------------------
+    */
+
+    else if (
+        assessment.severity === "LOW"
+    ) {
+
+        decision =
+            assessment.recommendation ||
+            "MONITOR_AND_VERIFY";
+
+    }
+
+    return {
+
+        pipeline,
+
+        scenario,
+
+        decision,
+
+        authority:
+            GOLDEN_RULE_ENGINE,
+
+        automaticExecution:
+            false,
+
+        humanAuthorizationRequired:
+            true,
+
+        liveSystemControl:
+            false,
+
+        simulationOnly:
+            true
+
+    };
+
+}
+
+
+/*
+============================================================
+DECISION SUPPORT
+============================================================
+*/
+
+function buildDecisionSupport(
+    scenario,
+    assessment,
+    definition
+) {
+
+    const decision =
+        goldenRuleDecision(
+            scenario,
+            assessment
+        );
+
+    return {
+
+        decision:
+            decision.decision,
+
+        authority:
+            decision.authority,
+
+        automaticExecution:
+            false,
+
+        humanAuthorizationRequired:
+            true,
+
+        liveSystemControl:
+            false,
+
+        simulationOnly:
+            true,
+
+        severity:
+            definition.severity,
+
+        guidance:
+            "Human mission authority must review the simulated recommendation before any simulated action is recorded.",
+
+        pipeline:
+            decision.pipeline
+
+    };
+
+}
+
+
+/*
+============================================================
+HUMAN DECISION AUTHORITY
+============================================================
+*/
+
+const HUMAN_DECISIONS = Object.freeze([
+
+    "AUTHORIZE_RECOVERY",
+
+    "MAINTAIN_SAFE_STATE",
+
+    "REQUEST_DIAGNOSTICS",
+
+    "ABORT_RECOVERY",
+
+    "ESCALATE"
+
+]);
+
+
+/*
+============================================================
+VALIDATE HUMAN DECISION
+============================================================
+*/
+
+function validateHumanDecision(
+    decision
+) {
+
+    return HUMAN_DECISIONS.includes(
+        decision
+    );
+
+}
+
+
+/*
+============================================================
+EXEC
