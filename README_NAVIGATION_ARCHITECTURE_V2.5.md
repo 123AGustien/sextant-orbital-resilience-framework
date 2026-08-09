@@ -614,3 +614,449 @@ AUDIT RECORD
 The example demonstrates the relationship between dependency analysis, cascade assessment, state transition, containment, recovery, governance, and supervisory decision support.
 
 The resulting simulation remains deterministic, traceable, and bounded by the framework's non-operational safety architecture.
+---
+
+🛡️ Failsafe Transition Architecture
+
+The FailsafeTransitionEngineV1 models controlled changes in system condition following an observed or simulated disturbance.
+
+The objective is to prevent uncontrolled escalation by providing a structured pathway through detection, verification, stabilization, recovery assessment, and final verification.
+
+Failsafe State Model
+
+A representative state pathway is:
+
+NORMAL
+   ↓
+DETECTED
+   ↓
+VERIFIED
+   ↓
+DEGRADED
+   ↓
+STABILIZED
+   ↓
+RECOVERY
+   ↓
+CERTIFIED STABLE
+
+The framework does not assume that every degraded condition becomes a failure.
+
+Instead, the system evaluates whether the condition can be:
+
+- contained
+- stabilized
+- isolated
+- monitored
+- recovered
+- verified
+
+---
+
+Failsafe Transition Process
+
+The deterministic process is:
+
+1. DETECT
+      ↓
+2. CLASSIFY
+      ↓
+3. VERIFY
+      ↓
+4. ASSESS
+      ↓
+5. ANALYSE DEPENDENCIES
+      ↓
+6. ASSESS CASCADE
+      ↓
+7. CONTAIN
+      ↓
+8. STABILIZE
+      ↓
+9. PREPARE RECOVERY
+      ↓
+10. HUMAN DECISION
+      ↓
+11. SIMULATE RECOVERY
+      ↓
+12. VERIFY RESTORATION
+      ↓
+13. CERTIFIED STABLE
+
+Each stage remains observable and traceable.
+
+---
+
+🧭 Controlled Degradation Principle
+
+A central principle of the architecture is:
+
+DEGRADATION ≠ CATASTROPHIC FAILURE
+
+A degraded state provides an opportunity for:
+
+- verification
+- containment
+- stabilization
+- additional diagnostics
+- recovery planning
+- human review
+
+The framework therefore models resilience as a process of controlled state management rather than simple failure detection.
+
+---
+
+🛰️ OrbitalEngineV1
+
+OrbitalEngineV1 provides the orbital-domain simulation layer.
+
+Its purpose is to model defined orbital scenarios and generate deterministic assessment outputs within the simulation environment.
+
+Representative scenarios may include:
+
+ORBITAL DRIFT
+
+TRAJECTORY DEVIATION
+
+ORBITAL DISTURBANCE
+
+SYSTEM DEGRADATION
+
+DEPENDENCY FAILURE
+
+CASCADE CONDITION
+
+The engine provides scenario information to the wider resilience architecture.
+
+It does not provide live spacecraft control.
+
+---
+
+🛰️ ManoeuvreEngineV1
+
+ManoeuvreEngineV1 provides simulated recovery and manoeuvre assessment.
+
+A representative pathway is:
+
+SCENARIO
+   ↓
+ORBITAL ASSESSMENT
+   ↓
+TRAJECTORY CONDITION
+   ↓
+MANOEUVRE OPTION
+   ↓
+SIMULATED MANOEUVRE
+   ↓
+STABILITY ASSESSMENT
+
+The current architecture treats manoeuvre capability as:
+
+MODE = ASSESSMENT_ONLY
+
+COURSE CHANGE CAPABILITY = NOT ACTIVE
+
+COLLISION AVOIDANCE = NOT IMPLEMENTED
+
+HUMAN OPERATIONAL AUTHORITY = REQUIRED
+
+This maintains a clear boundary between simulated manoeuvre assessment and operational spacecraft control.
+
+---
+
+🧠 CommandCentreCoreV3 Integration
+
+CommandCentreCoreV3 provides the supervisory coordination layer between the domain engines and human decision authority.
+
+The integrated pathway is:
+
+OrbitalEngineV1
+       ↓
+ManoeuvreEngineV1
+       ↓
+FailsafeTransitionEngineV1
+       ↓
+CommandCentreCoreV3
+       ↓
+Cascade Resilience Index
+       ↓
+ValidationCoreV1
+       ↓
+HumanDecisionAuthorityV1
+       ↓
+MemoryCoreV1
+       ↓
+AuditCoreV1
+
+The Command-Centre Core provides structured interpretation of the combined system condition.
+
+---
+
+🧮 Deterministic Resilience Assessment
+
+The framework uses deterministic rules to support reproducible simulation outcomes.
+
+Under equivalent defined conditions, the following should produce equivalent results:
+
+- inputs
+- system states
+- scenario definitions
+- dependency structures
+- event sequences
+- rule definitions
+- simulation parameters
+
+The deterministic model supports:
+
+- repeatability
+- regression testing
+- scenario comparison
+- validation
+- auditability
+- institutional review
+
+A simplified principle is:
+
+SAME INPUTS
+    +
+SAME CONDITIONS
+    +
+SAME RULES
+    +
+SAME EVENT SEQUENCE
+    ↓
+REPRODUCIBLE SIMULATION OUTCOME
+
+---
+
+🔬 Validation Architecture
+
+ValidationCoreV1 provides the verification layer for the simulation architecture.
+
+The validation pathway is:
+
+SELF-TEST
+    ↓
+FAULT IDENTIFICATION
+    ↓
+DECISION SUPPORT
+    ↓
+CORRECTIVE ACTION SIMULATION
+    ↓
+RE-TEST
+    ↓
+RECOVERY VERIFICATION
+    ↓
+PARAMETER VERIFICATION
+    ↓
+VALIDATION COMPLETE
+
+The objective is to verify that the system continues to behave according to defined architectural rules.
+
+---
+
+🧪 Validation Categories
+
+The validation architecture may evaluate:
+
+Core Engine Validation
+
+Verifies that required engines and modules are present and structurally available.
+
+Scenario Validation
+
+Verifies that defined scenarios produce expected deterministic pathways.
+
+Intensity Validation
+
+Verifies that changes in scenario intensity produce appropriate changes in simulated system conditions.
+
+Domain Validation
+
+Verifies that scenario-specific rules remain within their defined domain.
+
+Cascade Validation
+
+Verifies dependency-driven propagation behaviour.
+
+Decision Validation
+
+Verifies that decision support corresponds to the assessed system condition.
+
+Safety Validation
+
+Verifies:
+
+AUTOMATIC EXECUTION = FALSE
+HUMAN AUTHORIZATION = TRUE
+LIVE SYSTEM CONTROL = FALSE
+
+Audit Validation
+
+Verifies that the simulation pathway remains traceable.
+
+---
+
+🧾 Validation Evidence
+
+The framework provides a structured validation evidence pathway.
+
+A representative evidence chain is:
+
+SYSTEM INTEGRATION
+       ↓
+SCENARIO VALIDATION
+       ↓
+FAULT IDENTIFICATION
+       ↓
+FAILSAFE VALIDATION
+       ↓
+DECISION-PATH VALIDATION
+       ↓
+HUMAN AUTHORITY VALIDATION
+       ↓
+EXECUTION-GATE VALIDATION
+       ↓
+RECOVERY VERIFICATION
+       ↓
+AUDIT CONSISTENCY
+       ↓
+FINAL VALIDATION STATUS
+
+Validation evidence is intended to support:
+
+- technical review
+- regression testing
+- institutional evaluation
+- controlled demonstrations
+- research documentation
+
+---
+
+🧠 OperatorGuidanceEngineV1
+
+OperatorGuidanceEngineV1 provides structured guidance derived from the simulation state.
+
+Its purpose is to reduce information overload by presenting relevant decision-support information in an organized sequence.
+
+Guidance may include:
+
+- current system condition
+- identified anomaly
+- severity
+- affected dependencies
+- cascade condition
+- available options
+- verification requirements
+- human decision requirement
+- simulated outcome
+
+Operator guidance remains advisory.
+
+It does not replace human operational judgment.
+
+---
+
+👤 Human Decision Gate Integration
+
+The complete decision-support pathway is:
+
+OBSERVE
+   ↓
+VERIFY
+   ↓
+ASSESS
+   ↓
+DECIDE
+   ↓
+FINAL HUMAN DECISION
+   ↓
+ACT
+   ↓
+UPDATE
+
+The explicit human gate prevents the architecture from treating a deterministic recommendation as automatic authority.
+
+The resulting distinction is:
+
+SYSTEM ASSESSMENT
+       ≠
+SYSTEM AUTHORIZATION
+
+and:
+
+AI RECOMMENDATION
+       ≠
+HUMAN DECISION
+
+---
+
+🛰️ Example Integrated Simulation
+
+A representative orbital scenario may produce:
+
+EVENT
+ORBITAL_DRIFT
+
+SEVERITY
+MEDIUM
+
+SYSTEM STATE
+DEGRADED
+
+DEPENDENCY STATUS
+ASSESSED
+
+CASCADE STATUS
+CONTAINED
+
+DECISION SUPPORT
+PREVENTIVE_CORRECTION
+
+SIMULATED RECOVERY
+INITIATE_TRAJECTORY_CORRECTION
+
+HUMAN DECISION
+MAINTAIN_SAFE_STATE
+
+EXECUTION GATE
+NO_RECOVERY_EXECUTED
+
+FINAL STATE
+SAFE_STATE_MAINTAINED
+
+VALIDATION
+PASS
+
+AUDIT
+GENERATED
+
+This example demonstrates that the architecture can recommend a simulated recovery while the human authority chooses to maintain the safe state.
+
+The resulting simulated outcome reflects the human decision rather than automatically following the recommendation.
+
+---
+
+⚖️ Human Authority Principle
+
+The framework follows a deliberate hierarchy:
+
+DATA
+ ↓
+DETERMINISTIC COMPUTATION
+ ↓
+SYSTEM ASSESSMENT
+ ↓
+AI DECISION SUPPORT
+ ↓
+HUMAN AUTHORITY
+ ↓
+EXECUTION GATE
+ ↓
+SIMULATED ACTION / SAFE STATE
+ ↓
+VERIFICATION
+
+This is a core architectural safeguard.
+
+The framework is designed to support human understanding and accountability rather than remove human responsibility.
