@@ -137,3 +137,66 @@ The framework operates under the following constraints:
 - Audit Traceability = ENABLED
 
 The framework is intended solely for controlled simulation and research environments.
+---
+
+# 🧭 Nine-Layer Operational Abstraction Stack
+
+The Sextant Command-Centre Core transforms distributed system information into structured operational understanding through a deterministic nine-layer architecture.
+
+```
+SENSOR LAYER
+        ↓
+RELAY LAYER
+        ↓
+DEPENDENCY LAYER
+        ↓
+CASCADE LAYER
+        ↓
+TRANSITION LAYER
+        ↓
+ISOLATION LAYER
+        ↓
+RECOVERY LAYER
+        ↓
+GOVERNANCE LAYER
+        ↓
+SUPERVISORY LAYER
+```
+
+Each layer has a distinct responsibility while maintaining deterministic traceability across the entire decision pathway.
+
+---
+
+## 1. Sensor Layer
+
+Collects raw observations from simulated systems.
+
+Examples include:
+
+- Orbital state
+- Infrastructure status
+- Navigation information
+- Network events
+- Environmental conditions
+- System health indicators
+
+This layer records observations without interpretation.
+
+---
+
+## 2. Relay Layer
+
+Transfers validated information between system components.
+
+Responsibilities include:
+
+- Data routing
+- Event synchronization
+- Communication integrity
+- Input normalization
+
+---
+
+## 3. Dependency Layer
+
+Models relationships between components.
