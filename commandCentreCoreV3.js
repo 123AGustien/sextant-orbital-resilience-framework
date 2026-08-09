@@ -1062,3 +1062,272 @@ function buildFailsafeState(
     };
 
 }
+/*
+============================================================
+COMMAND CENTRE RESILIENCE CORE V3
+PART 2 — STATE / VERIFICATION / ASSESSMENT
+============================================================
+
+SEXTANT CTI COMMAND-CENTRE V3
+
+This module remains:
+
+    SIMULATION_ONLY
+    automaticExecution = false
+    humanAuthorizationRequired = true
+    liveSystemControl = false
+
+============================================================
+*/
+
+
+/*
+============================================================
+AUTHORITATIVE STATE
+============================================================
+*/
+
+let commandCentreState = createInitialState();
+
+
+/*
+============================================================
+INITIAL STATE
+============================================================
+*/
+
+function createInitialState() {
+
+    return {
+
+        core: {
+
+            name:
+                "CommandCentreCoreV3",
+
+            version:
+                COMMAND_CENTRE_CORE_VERSION,
+
+            marker:
+                COMMAND_CENTRE_RESILIENCE_CORE_V3,
+
+            status:
+                "READY"
+
+        },
+
+
+        /*
+        --------------------------------------------------------
+        SCENARIO
+        --------------------------------------------------------
+        */
+
+        scenario:
+            "NO SCENARIO SELECTED",
+
+        severity:
+            "UNASSESSED",
+
+        systemState:
+            "STABLE",
+
+        cascadeStatus:
+            "NOT ASSESSED",
+
+        transition:
+            "NONE",
+
+        recoveryStatus:
+            "NOT ASSESSED",
+
+        recommendation:
+            "AWAITING ASSESSMENT",
+
+
+        /*
+        --------------------------------------------------------
+        ASSESSMENT
+        --------------------------------------------------------
+        */
+
+        assessment: {
+
+            status:
+                "PENDING",
+
+            summary:
+                "Awaiting simulated system condition."
+
+        },
+
+
+        /*
+        --------------------------------------------------------
+        VERIFICATION
+        --------------------------------------------------------
+        */
+
+        verification: {
+
+            eventValidated:
+                "PENDING",
+
+            classification:
+                "NONE",
+
+            confidence:
+                "NONE",
+
+            sensorValidation:
+                "PENDING",
+
+            telemetryVerification:
+                "PENDING"
+
+        },
+
+
+        /*
+        --------------------------------------------------------
+        FAILSAFE
+        --------------------------------------------------------
+        */
+
+        failsafe: {
+
+            status:
+                "READY",
+
+            previousState:
+                "NONE",
+
+            currentState:
+                "STABILIZED",
+
+            transition:
+                "NONE",
+
+            isolation: {
+
+                activated:
+                    false
+
+            },
+
+            cascadeControl: {
+
+                propagation:
+                    "NOT ASSESSED",
+
+                containment:
+                    "NOT ASSESSED"
+
+            },
+
+            secondarySystem: {
+
+                status:
+                    "STANDBY"
+
+            },
+
+            recovery: {
+
+                status:
+                    "NOT ASSESSED"
+
+            },
+
+            verificationGate: {
+
+                eventValidated:
+                    "PENDING",
+
+                classification:
+                    "NONE",
+
+                confidence:
+                    "NONE"
+
+            }
+
+        },
+
+
+        /*
+        --------------------------------------------------------
+        MANOEUVRE
+        --------------------------------------------------------
+        */
+
+        manoeuvre: {
+
+            engine:
+                "ManoeuvreEngineV1",
+
+            profile:
+                "NONE",
+
+            objective:
+                "NONE",
+
+            verification:
+                "PENDING",
+
+            stabilityVerification:
+                "PENDING",
+
+            recoveryAssessment:
+                "NOT ASSESSED"
+
+        },
+
+
+        /*
+        --------------------------------------------------------
+        DECISION
+        --------------------------------------------------------
+        */
+
+        decision: {
+
+            decision:
+                "AWAITING ASSESSMENT",
+
+            authority:
+                GOLDEN_RULE_ENGINE,
+
+            automaticExecution:
+                false
+
+        },
+
+
+        /*
+        --------------------------------------------------------
+        HUMAN DECISION
+        --------------------------------------------------------
+        */
+
+        humanDecision: {
+
+            status:
+                "AWAITING AUTHORIZATION",
+
+            authority:
+                "MISSION_CONTROLLER",
+
+            decision:
+                null,
+
+            timestamp:
+                null
+
+        },
+
+
+        /*
+        --------------------------------------------------------
+        EXECUTION GATE
+        ------------------------------------------------
