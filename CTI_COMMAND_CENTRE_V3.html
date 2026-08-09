@@ -1027,3 +1027,410 @@ updateScreen();
 
 </body>
 </html>
+    <!-- =========================================================
+         CTI COMMAND CENTRE V3
+         DECISION SUPPORT PANEL
+         ========================================================= -->
+
+    <section class="panel decision-support">
+
+        <h2>🧠 Captain AI Lena — Decision Support</h2>
+
+        <div class="status-row">
+            <span>Decision Support Engine</span>
+            <strong id="decisionSupportStatus">READY</strong>
+        </div>
+
+        <div class="status-row">
+            <span>Authority</span>
+            <strong>HUMAN DECISION AUTHORITY</strong>
+        </div>
+
+        <div class="status-row">
+            <span>Automatic Execution</span>
+            <strong>FALSE</strong>
+        </div>
+
+        <div class="status-row">
+            <span>Live System Control</span>
+            <strong>NOT CONNECTED</strong>
+        </div>
+
+        <div class="decision-box">
+
+            <h3>Current Assessment</h3>
+
+            <p id="currentAssessment">
+                Awaiting simulated system condition.
+            </p>
+
+            <h3>Decision Support Recommendation</h3>
+
+            <p id="decisionRecommendation">
+                No recommendation generated.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         HUMAN DECISION AUTHORITY
+         ========================================================= -->
+
+    <section class="panel human-authority">
+
+        <h2>👤 Final Human Decision</h2>
+
+        <p>
+            Captain AI Lena provides decision support only.
+            Final authority remains with the designated human
+            operator or mission authority.
+        </p>
+
+        <div class="decision-buttons">
+
+            <button
+                onclick="humanDecision('AUTHORIZE_RECOVERY')">
+                AUTHORIZE RECOVERY
+            </button>
+
+            <button
+                onclick="humanDecision('MAINTAIN_SAFE_STATE')">
+                MAINTAIN SAFE STATE
+            </button>
+
+            <button
+                onclick="humanDecision('REQUEST_DIAGNOSTICS')">
+                REQUEST DIAGNOSTICS
+            </button>
+
+            <button
+                onclick="humanDecision('ABORT_RECOVERY')">
+                ABORT RECOVERY
+            </button>
+
+            <button
+                onclick="humanDecision('ESCALATE')">
+                ESCALATE TO MISSION AUTHORITY
+            </button>
+
+        </div>
+
+        <div class="human-decision-output">
+
+            <h3>Human Decision</h3>
+
+            <p id="humanDecisionOutput">
+                WAITING FOR HUMAN DECISION
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         EXECUTION GATE
+         ========================================================= -->
+
+    <section class="panel execution-gate">
+
+        <h2>🛡️ Execution Gate</h2>
+
+        <div class="gate-status">
+
+            <p>
+                <strong>Automatic Execution:</strong>
+                <span id="automaticExecution">
+                    FALSE
+                </span>
+            </p>
+
+            <p>
+                <strong>Human Authorization:</strong>
+                <span id="humanAuthorization">
+                    REQUIRED
+                </span>
+            </p>
+
+            <p>
+                <strong>Live System Control:</strong>
+                <span id="liveSystemControl">
+                    FALSE
+                </span>
+            </p>
+
+            <p>
+                <strong>Simulation Only:</strong>
+                <span id="simulationOnly">
+                    TRUE
+                </span>
+            </p>
+
+        </div>
+
+        <div class="execution-result">
+
+            <h3>Execution Status</h3>
+
+            <p id="executionStatus">
+                NO ACTION AUTHORIZED
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         SIMULATION OUTCOME
+         ========================================================= -->
+
+    <section class="panel simulation-outcome">
+
+        <h2>🛰️ Simulated Outcome</h2>
+
+        <div class="outcome-grid">
+
+            <div>
+                <span>Scenario</span>
+                <strong id="outcomeScenario">
+                    NONE
+                </strong>
+            </div>
+
+            <div>
+                <span>System State</span>
+                <strong id="outcomeState">
+                    STANDBY
+                </strong>
+            </div>
+
+            <div>
+                <span>Cascade Status</span>
+                <strong id="outcomeCascade">
+                    NOT ASSESSED
+                </strong>
+            </div>
+
+            <div>
+                <span>Failsafe State</span>
+                <strong id="outcomeFailsafe">
+                    STABILIZED
+                </strong>
+            </div>
+
+            <div>
+                <span>Recovery Status</span>
+                <strong id="outcomeRecovery">
+                    NOT EXECUTED
+                </strong>
+            </div>
+
+            <div>
+                <span>Final Status</span>
+                <strong id="finalStatus">
+                    SAFE STATE
+                </strong>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         MEMORY CORE
+         ========================================================= -->
+
+    <section class="panel memory-core">
+
+        <h2>🧠 MemoryCoreV1</h2>
+
+        <div class="status-row">
+            <span>Memory Status</span>
+            <strong id="memoryStatus">
+                READY
+            </strong>
+        </div>
+
+        <div class="memory-record">
+
+            <p>
+                Previous Scenario:
+                <strong id="memoryScenario">NONE</strong>
+            </p>
+
+            <p>
+                Previous Decision:
+                <strong id="memoryDecision">NONE</strong>
+            </p>
+
+            <p>
+                Previous State:
+                <strong id="memoryState">NONE</strong>
+            </p>
+
+            <p>
+                Execution Status:
+                <strong id="memoryExecution">NONE</strong>
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         AUDIT CORE
+         ========================================================= -->
+
+    <section class="panel audit-core">
+
+        <h2>🧾 AuditCoreV1</h2>
+
+        <div class="audit-chain">
+
+            <span>EVENT</span>
+            →
+            <span>ASSESSMENT</span>
+            →
+            <span>DECISION</span>
+            →
+            <span>HUMAN DECISION</span>
+            →
+            <span>EXECUTION GATE</span>
+            →
+            <span>FINAL STATUS</span>
+
+        </div>
+
+        <div class="audit-output">
+
+            <pre id="auditRecord">
+Awaiting simulation event...
+            </pre>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         VALIDATION
+         ========================================================= -->
+
+    <section class="panel validation">
+
+        <h2>🧪 ValidationCoreV1</h2>
+
+        <div class="validation-status">
+
+            <p>
+                Architecture Validation:
+                <strong id="architectureValidation">
+                    READY
+                </strong>
+            </p>
+
+            <p>
+                Safety Boundary:
+                <strong id="safetyValidation">
+                    PASS
+                </strong>
+            </p>
+
+            <p>
+                Human Decision Gate:
+                <strong id="humanGateValidation">
+                    ACTIVE
+                </strong>
+            </p>
+
+            <p>
+                Simulation Boundary:
+                <strong id="simulationValidation">
+                    ACTIVE
+                </strong>
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         GOLDEN RULE ENGINE
+         ========================================================= -->
+
+    <section class="panel golden-rule">
+
+        <h2>⚖️ Golden Rule Engine</h2>
+
+        <div class="pipeline">
+
+            <span>OBSERVE</span>
+            →
+            <span>VERIFY</span>
+            →
+            <span>ASSESS</span>
+            →
+            <span>DECIDE</span>
+            →
+            <strong>FINAL HUMAN DECISION</strong>
+            →
+            <span>ACT</span>
+            →
+            <span>UPDATE</span>
+
+        </div>
+
+        <p class="golden-rule-note">
+            No simulated recommendation becomes an operational
+            action without the required human decision gate.
+        </p>
+
+    </section>
+
+
+    <!-- =========================================================
+         SAFETY BOUNDARY
+         ========================================================= -->
+
+    <section class="panel safety-boundary">
+
+        <h2>🔒 Safety Boundary</h2>
+
+        <div class="safety-grid">
+
+            <div>
+                <strong>AUTOMATIC EXECUTION</strong>
+                <span>FALSE</span>
+            </div>
+
+            <div>
+                <strong>HUMAN AUTHORIZATION</strong>
+                <span>REQUIRED</span>
+            </div>
+
+            <div>
+                <strong>SIMULATION ONLY</strong>
+                <span>TRUE</span>
+            </div>
+
+            <div>
+                <strong>LIVE SYSTEM CONTROL</strong>
+                <span>NOT CONNECTED</span>
+            </div>
+
+        </div>
+
+        <p>
+            This cockpit is a deterministic simulation and
+            decision-support interface. It does not directly
+            command or control live operational systems.
+        </p>
+
+    </section>
