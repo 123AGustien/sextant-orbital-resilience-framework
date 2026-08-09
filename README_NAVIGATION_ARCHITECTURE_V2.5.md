@@ -1060,3 +1060,191 @@ VERIFICATION
 This is a core architectural safeguard.
 
 The framework is designed to support human understanding and accountability rather than remove human responsibility.
+Human Authority and Responsibility
+
+The Human Authority Principle establishes a clear boundary between what the system can determine and what a human authority must decide.
+
+The architecture therefore distinguishes between:
+
+- System observation — what the system detects
+- Deterministic computation — what the defined rules calculate
+- System assessment — what the validated simulation determines
+- AI decision support — what Captain AI Lena interprets and recommends
+- Human authority — what the designated human decision-maker determines
+- Execution gate — whether an action is authorized within the simulation
+- Simulated action / safe state — what the model represents as the resulting outcome
+- Verification — whether the resulting simulated state satisfies defined conditions
+
+The system may provide increasingly sophisticated decision support, but the authority boundary remains explicit.
+
+Final Human Decision Gate
+
+Where a decision requires human authorization, the architecture introduces an explicit gate:
+
+AI DECISION SUPPORT
+
+↓
+
+RECOMMENDATION
+
+↓
+
+FINAL HUMAN DECISION
+
+↓
+
+EXECUTION GATE
+
+↓
+
+SIMULATED ACTION / SAFE STATE
+
+↓
+
+VERIFICATION
+
+A recommendation is therefore never treated as authorization.
+
+For example:
+
+Captain AI Lena:
+"PREVENTIVE CORRECTION RECOMMENDED"
+
+Human Authority:
+"MAINTAIN SAFE STATE"
+
+Execution Gate:
+"NO RECOVERY EXECUTED"
+
+Simulation State:
+"SAFE STATE MAINTAINED"
+
+Verification:
+"PASS"
+
+This creates a traceable distinction between what the system recommends and what the human authority actually authorizes.
+
+Accountability Boundary
+
+The framework deliberately avoids presenting autonomous system behaviour as a substitute for human responsibility.
+
+Its architecture maintains:
+
+AUTOMATIC EXECUTION = FALSE
+
+HUMAN AUTHORIZATION = REQUIRED
+
+SIMULATION ONLY = TRUE
+
+LIVE SYSTEM CONTROL = NOT CONNECTED
+
+These boundaries are architectural safeguards rather than optional interface settings.
+
+The purpose is to ensure that increasingly capable decision-support systems remain understandable, governable and accountable.
+
+Responsibility Principle
+
+The ultimate responsibility for an authorized decision remains with the appropriate human authority.
+
+Captain AI Lena may assist by:
+
+- identifying conditions
+- organizing information
+- analysing dependencies
+- evaluating cascade behaviour
+- identifying risks
+- presenting recovery options
+- recommending actions
+- identifying verification requirements
+- maintaining decision traceability
+
+Captain AI Lena does not independently assume operational authority.
+
+The framework therefore follows the principle:
+
+«Decision support may be automated. Responsibility may not.»
+
+Traceable Responsibility Chain
+
+Every significant simulated event should be capable of being traced through:
+
+EVENT
+
+↓
+
+OBSERVATION
+
+↓
+
+VERIFICATION
+
+↓
+
+ASSESSMENT
+
+↓
+
+AI DECISION SUPPORT
+
+↓
+
+HUMAN DECISION
+
+↓
+
+EXECUTION GATE
+
+↓
+
+SIMULATED OUTCOME / SAFE STATE
+
+↓
+
+VERIFICATION
+
+↓
+
+MEMORY
+
+↓
+
+AUDIT
+
+This provides a continuous evidence chain from the original event to the final simulated outcome.
+
+Governance Objective
+
+The objective is not to make the system autonomous for the sake of autonomy.
+
+The objective is to make complex system behaviour:
+
+UNDERSTANDABLE
+
+TRACEABLE
+
+TESTABLE
+
+VERIFIABLE
+
+GOVERNABLE
+
+ACCOUNTABLE
+
+The framework therefore treats human authority as an integral architectural component rather than an external control added after the system has been designed.
+
+Final Principle
+
+The Sextant architecture is built on a simple principle:
+
+«The system may calculate.
+The system may assess.
+The system may recommend.
+The human authority decides.
+The authorized boundary governs action.
+The result is verified and recorded.»
+
+This establishes the final responsibility boundary:
+
+INTELLIGENCE → UNDERSTANDING → DECISION SUPPORT → HUMAN AUTHORITY → ACCOUNTABILITY → RESPONSIBILITY
+
+Responsibility remains human.
