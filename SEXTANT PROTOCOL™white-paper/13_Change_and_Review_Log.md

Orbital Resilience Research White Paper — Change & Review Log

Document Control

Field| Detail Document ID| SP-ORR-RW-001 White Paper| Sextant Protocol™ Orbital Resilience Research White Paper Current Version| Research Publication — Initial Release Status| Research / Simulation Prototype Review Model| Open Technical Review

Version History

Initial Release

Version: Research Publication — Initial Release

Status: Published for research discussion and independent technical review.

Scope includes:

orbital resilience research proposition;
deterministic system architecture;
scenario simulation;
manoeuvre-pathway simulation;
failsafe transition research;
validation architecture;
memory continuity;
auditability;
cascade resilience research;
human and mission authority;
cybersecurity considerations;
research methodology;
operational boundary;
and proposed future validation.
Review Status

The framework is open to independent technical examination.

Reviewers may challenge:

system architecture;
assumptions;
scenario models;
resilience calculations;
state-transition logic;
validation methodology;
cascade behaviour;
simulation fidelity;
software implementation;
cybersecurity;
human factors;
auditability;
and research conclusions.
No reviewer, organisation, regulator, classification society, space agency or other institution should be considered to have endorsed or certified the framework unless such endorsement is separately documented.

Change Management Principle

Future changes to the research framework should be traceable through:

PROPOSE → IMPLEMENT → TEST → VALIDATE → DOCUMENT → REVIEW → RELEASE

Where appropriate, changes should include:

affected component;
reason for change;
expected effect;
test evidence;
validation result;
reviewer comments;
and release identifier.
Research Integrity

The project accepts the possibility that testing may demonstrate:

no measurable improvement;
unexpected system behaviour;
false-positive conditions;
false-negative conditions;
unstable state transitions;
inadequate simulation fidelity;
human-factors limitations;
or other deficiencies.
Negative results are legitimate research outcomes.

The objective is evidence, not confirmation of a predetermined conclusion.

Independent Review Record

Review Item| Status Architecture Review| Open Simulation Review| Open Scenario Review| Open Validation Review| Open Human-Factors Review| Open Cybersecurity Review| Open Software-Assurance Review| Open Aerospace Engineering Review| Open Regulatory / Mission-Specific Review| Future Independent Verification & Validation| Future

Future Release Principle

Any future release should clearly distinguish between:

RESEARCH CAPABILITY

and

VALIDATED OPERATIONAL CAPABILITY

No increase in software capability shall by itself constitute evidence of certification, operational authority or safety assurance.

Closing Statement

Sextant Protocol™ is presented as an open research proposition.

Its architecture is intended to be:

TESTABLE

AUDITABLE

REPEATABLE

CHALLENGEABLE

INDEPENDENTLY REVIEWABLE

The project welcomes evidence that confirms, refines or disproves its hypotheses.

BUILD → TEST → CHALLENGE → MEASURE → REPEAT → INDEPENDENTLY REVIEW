@@ -1,0 +1,444 @@
+SEXTANT PROTOCOL™
+
+Orbital Resilience Research White Paper — Change & Review Log
+
+Document Control
+
+Field| Detail
+Document ID| SP-ORR-RW-001
+White Paper| Sextant Protocol™ Orbital Resilience Research White Paper
+Current Version| Research Publication — Initial Release
+Status| Research / Simulation Prototype
+Review Model| Open Technical Review
+
+---
+
+13.1 Purpose
+
+This document records the change-management and independent-review principles applicable to the Sextant Protocol™ Orbital Resilience Research White Paper and its associated research framework.
+
+The purpose is to maintain traceability between research propositions, software and simulation changes, validation activities, experimental evidence and subsequent releases.
+
+The project is intended to remain open to technical challenge and independent examination.
+
+---
+
+13.2 Version History
+
+Initial Release
+
+Version: Research Publication — Initial Release
+
+Status: Published for research discussion and independent technical review.
+
+The initial research publication includes:
+
+- orbital resilience research proposition;
+- deterministic system architecture;
+- scenario simulation;
+- manoeuvre-pathway simulation;
+- failsafe transition research;
+- validation architecture;
+- memory continuity;
+- auditability;
+- cascade resilience research;
+- human and mission authority;
+- cybersecurity considerations;
+- experimental methodology;
+- operational boundary and assurance;
+- and proposed future validation.
+
+---
+
+13.3 Review Status
+
+The framework is open to independent technical examination.
+
+Reviewers may challenge:
+
+- system architecture;
+- research assumptions;
+- scenario models;
+- resilience calculations;
+- state-transition logic;
+- validation methodology;
+- cascade behaviour;
+- simulation fidelity;
+- software implementation;
+- cybersecurity;
+- human factors;
+- auditability;
+- and research conclusions.
+
+No reviewer, organisation, regulator, classification society, space agency or other institution should be considered to have endorsed, approved or certified the framework unless such endorsement or certification is separately and formally documented.
+
+---
+
+13.4 Change Management Principle
+
+Future changes to the research framework should be traceable through:
+
+PROPOSE → IMPLEMENT → TEST → VALIDATE → DOCUMENT → REVIEW → RELEASE
+
+Where appropriate, each significant change should identify:
+
+- affected component;
+- reason for change;
+- expected effect;
+- test evidence;
+- validation result;
+- reviewer comments;
+- limitations;
+- and release identifier.
+
+Material architectural changes should trigger appropriate regression testing.
+
+Previous experimental results should not automatically be assumed to remain valid following a material change.
+
+---
+
+13.5 Research Change Categories
+
+Changes may include:
+
+- architecture changes;
+- engine modifications;
+- new or modified scenarios;
+- resilience-calculation changes;
+- threshold changes;
+- state-transition changes;
+- validation changes;
+- memory-system changes;
+- audit-system changes;
+- authority-boundary changes;
+- cybersecurity changes;
+- documentation changes;
+- dependency changes;
+- and experimental-methodology changes.
+
+Each category should be assessed according to its potential effect on previously observed behaviour.
+
+---
+
+13.6 Research Integrity
+
+The project accepts the possibility that testing may demonstrate:
+
+- no measurable improvement;
+- unexpected system behaviour;
+- false-positive conditions;
+- false-negative conditions;
+- unstable state transitions;
+- inadequate simulation fidelity;
+- human-factors limitations;
+- cybersecurity weaknesses;
+- software defects;
+- reproducibility limitations;
+- or other deficiencies.
+
+Negative results are legitimate research outcomes.
+
+The objective is evidence, not confirmation of a predetermined conclusion.
+
+---
+
+13.7 Independent Review Record
+
+Review Item| Status
+Architecture Review| Open
+Simulation Review| Open
+Scenario Review| Open
+Validation Review| Open
+Human-Factors Review| Open
+Cybersecurity Review| Open
+Software-Assurance Review| Open
+Aerospace Engineering Review| Open
+Regulatory / Mission-Specific Review| Future
+Independent Verification & Validation| Future
+
+These statuses describe the research programme and must not be interpreted as evidence that a review has already occurred.
+
+---
+
+13.8 Reviewer Independence
+
+Independent reviewers should, where practical, have sufficient access to the relevant research artefacts to examine:
+
+- architecture definitions;
+- assumptions;
+- scenario configurations;
+- source-code versions;
+- experimental procedures;
+- test results;
+- audit records;
+- limitations;
+- and conclusions.
+
+Review independence should be preserved wherever reasonably possible.
+
+The objective of independent review is to expose weaknesses, inconsistencies or unsupported assumptions.
+
+---
+
+13.9 Review Findings
+
+Future review findings should be classified according to their nature.
+
+Possible classifications include:
+
+- observation;
+- recommendation;
+- clarification required;
+- minor deficiency;
+- major deficiency;
+- unresolved issue;
+- research limitation;
+- validation gap;
+- software defect;
+- modelling limitation;
+- or closed finding.
+
+Each significant finding should, where practical, include:
+
+FINDING → IMPACT → RESPONSE → CORRECTIVE ACTION → VERIFICATION → CLOSURE
+
+Open findings should remain visible until appropriately resolved or formally accepted as limitations.
+
+---
+
+13.10 Evidence Traceability
+
+Research claims should be traceable to available evidence.
+
+A representative chain is:
+
+RESEARCH CLAIM
+↓
+REQUIREMENT / HYPOTHESIS
+↓
+EXPERIMENT
+↓
+OBSERVATION
+↓
+MEASUREMENT
+↓
+VALIDATION
+↓
+REVIEW
+↓
+CONCLUSION
+
+Where evidence is unavailable, the statement should remain classified as a hypothesis, proposal or research assumption.
+
+---
+
+13.11 Release Control
+
+A research release should identify, where applicable:
+
+- release identifier;
+- software version;
+- scenario version;
+- configuration version;
+- documentation version;
+- major architectural changes;
+- validation status;
+- known limitations;
+- unresolved findings;
+- and review status.
+
+A release should not imply operational certification merely because the software or documentation has been updated.
+
+---
+
+13.12 Future Release Principle
+
+Any future release should clearly distinguish between:
+
+RESEARCH CAPABILITY
+
+and
+
+VALIDATED OPERATIONAL CAPABILITY
+
+No increase in software capability shall by itself constitute evidence of:
+
+- spacecraft certification;
+- flight qualification;
+- operational authority;
+- mission approval;
+- safety assurance;
+- or regulatory acceptance.
+
+Operational claims require appropriate independent evidence and mission-specific assurance.
+
+---
+
+13.13 Change Impact Assessment
+
+Before material changes are released, the project should consider their potential effect on:
+
+- scenario behaviour;
+- resilience scoring;
+- state transitions;
+- failsafe transitions;
+- validation outputs;
+- memory continuity;
+- audit records;
+- recovery pathways;
+- human decision authority;
+- cybersecurity assumptions;
+- and previously reported research results.
+
+The purpose is to identify unintended consequences before publication of a new research release.
+
+---
+
+13.14 Regression Requirement
+
+Material changes should trigger appropriate regression testing.
+
+Regression testing should examine whether previously tested behaviour remains consistent under the new configuration.
+
+Particular attention should be given to:
+
+- existing scenarios;
+- boundary conditions;
+- failure conditions;
+- authority gates;
+- audit trails;
+- validation pathways;
+- and known historical findings.
+
+A previously successful test should not automatically be considered valid for a materially different architecture.
+
+---
+
+13.15 Research Artefact Preservation
+
+Where practical, the project should preserve:
+
+- source-code versions;
+- scenario definitions;
+- configuration files;
+- test procedures;
+- experimental results;
+- audit records;
+- validation records;
+- release identifiers;
+- review findings;
+- and relevant documentation.
+
+Preservation of research artefacts supports later reproducibility and independent examination.
+
+---
+
+13.16 Negative Results
+
+The project explicitly recognises negative results as valid scientific and engineering evidence.
+
+Examples may include:
+
+- failure to detect an abnormal condition;
+- incorrect classification;
+- unnecessary escalation;
+- unexpected cascade propagation;
+- inconsistent recovery recommendations;
+- validation failure;
+- excessive operator workload;
+- cybersecurity weakness;
+- unexplained state transition;
+- or inability to reproduce a previous result.
+
+Such findings should not be removed merely because they conflict with the intended research proposition.
+
+---
+
+13.17 No Retrospective Certification
+
+A successful research result shall not be retrospectively represented as certification.
+
+Likewise, a successful simulation shall not be described as evidence of operational spacecraft safety unless the appropriate engineering verification, validation and assurance process has independently established that conclusion.
+
+The distinction remains:
+
+SIMULATION RESULT ≠ OPERATIONAL SAFETY EVIDENCE
+
+---
+
+13.18 Open Research Position
+
+Sextant Protocol™ is presented as an open research proposition.
+
+The project welcomes evidence that:
+
+- confirms its hypotheses;
+- refines its assumptions;
+- identifies limitations;
+- exposes deficiencies;
+- or disproves elements of the proposed architecture.
+
+Challenge is therefore considered part of the research process rather than opposition to it.
+
+---
+
+13.19 Review Governance
+
+Future governance of the research framework should maintain separation between:
+
+- development;
+- experimentation;
+- validation;
+- review;
+- publication;
+- and any future operational assurance activity.
+
+The current framework remains within the research and simulation boundary.
+
+No operational authority is created by this document.
+
+---
+
+13.20 Closing Statement
+
+The Sextant Protocol™ Orbital Resilience Research Framework is intended to remain:
+
+TESTABLE
+
+AUDITABLE
+
+REPEATABLE
+
+CHALLENGEABLE
+
+TRACEABLE
+
+INDEPENDENTLY REVIEWABLE
+
+The project does not seek automatic acceptance of its claims.
+
+It seeks evidence.
+
+The governing research sequence remains:
+
+BUILD → TEST → CHALLENGE → MEASURE → REPEAT → INDEPENDENTLY REVIEW
+
+---
+
+Research Position
+
+EVIDENCE BEFORE CLAIM
+
+VALIDATION BEFORE ASSUMPTION
+
+TRANSPARENCY BEFORE ACCEPTANCE
+
+INDEPENDENT REVIEW BEFORE HIGHER ASSURANCE
+
+SIMULATION BEFORE OPERATION
+
+HUMAN AUTHORITY PRESERVED
+
+SEXTANT PROTOCOL™
+
+ORBITAL RESILIENCE RESEARCH — NOT OPERATIONAL SPACECRAFT CONTROL
