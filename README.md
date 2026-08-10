@@ -1,3 +1,11 @@
+«📌 REPOSITORY NOTE
+
+The active Orbital Resilience Research documentation is maintained in the "command-centre" branch.
+
+Please use the "command-centre" branch for the current research files, White Paper, validation material, and associated documentation.
+
+"main" serves as the repository landing point only.»
+
 # 🧭 Sextant Orbital Resilience Framework
 ## Deterministic Dependency Cascade Simulation Engine
 
