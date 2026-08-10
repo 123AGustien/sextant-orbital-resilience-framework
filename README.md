@@ -1,4 +1,41 @@
 
+🐙 GitHub Repository — Cascade Resilience Branch
+
+Cascade Resilience Research Branch:
+
+https://github.com/123AGustien/sextant-orbital-resilience-framework/tree/feature/cascade-resilience
+
+This branch contains the Cascade Resilience research development, including the associated research documentation, simulation components, validation work and supporting artefacts.
+
+🌐 Live Framework
+
+https://123agustien.github.io/sextant-orbital-resilience-framework/
+
+📘 White Paper
+
+"white-paper/"
+
+The white paper contains the structured Orbital Resilience Research documentation, including:
+
+- Cascade Resilience Research
+- Validation and Experimental Methodology
+- Independent Review and Research Governance
+- Operational Boundary and Assurance
+- Cybersecurity and System Governance
+- Human and Mission Authority
+- Research classification and document control
+
+📊 System Resilience Score
+
+"SRS_System_Resilience_Score.md"
+
+The SRS specification is maintained as a standalone research metric for the orbital resilience framework.
+
+---
+
+Research Repository → Cascade Branch → White Paper → Live Simulation
+
+BUILD → TEST → CHALLENGE → MEASURE → REPEAT → INDEPENDENTLY REVIEW
 🛰️ Sextant Protocol™ Orbital Resilience Framework
 
 Orbital Resilience Research Repository
