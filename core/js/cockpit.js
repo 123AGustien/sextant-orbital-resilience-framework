@@ -111,7 +111,6 @@ function runScenario(type) {
 
     updateIntegrationStatus();
 
-
     // =================================
     // ORBITAL ENGINE
     // =================================
@@ -144,9 +143,7 @@ function runScenario(type) {
     ) {
 
         manoeuvre =
-            manoeuvreEngine.execute(
-                result
-            );
+            manoeuvreEngine.execute(result);
     }
 
 
@@ -163,9 +160,7 @@ function runScenario(type) {
     ) {
 
         failsafe =
-            failsafeEngine.evaluate(
-                result
-            );
+            failsafeEngine.evaluate(result);
     }
 
 
@@ -296,9 +291,7 @@ function runScenario(type) {
     // =================================
 
     const manoeuvreDisplay =
-        document.getElementById(
-            "manoeuvre"
-        );
+        document.getElementById("manoeuvre");
 
     if (manoeuvreDisplay) {
 
@@ -316,9 +309,7 @@ function runScenario(type) {
     // =================================
 
     const failsafeDisplay =
-        document.getElementById(
-            "failsafe"
-        );
+        document.getElementById("failsafe");
 
     if (failsafeDisplay) {
 
@@ -336,9 +327,7 @@ function runScenario(type) {
     // =================================
 
     const validationDisplay =
-        document.getElementById(
-            "validation"
-        );
+        document.getElementById("validation");
 
     if (validationDisplay) {
 
@@ -449,9 +438,7 @@ function runScenario(type) {
     // =================================
 
     const memoryDisplay =
-        document.getElementById(
-            "memory"
-        );
+        document.getElementById("memory");
 
     if (memoryDisplay) {
 
@@ -469,9 +456,7 @@ function runScenario(type) {
     // =================================
 
     const auditDisplay =
-        document.getElementById(
-            "audit"
-        );
+        document.getElementById("audit");
 
     if (auditDisplay) {
 
