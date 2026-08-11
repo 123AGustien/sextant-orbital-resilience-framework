@@ -1,47 +1,13 @@
-📘 Orbital Resilience Research White Paper
+«📌 REPOSITORY NOTE
 
-Sextant Protocol™ — Orbital Resilience Research Framework
+The active Orbital Resilience Research documentation is maintained in the "command-centre" branch.
 
-The Sextant Protocol™ Orbital Resilience Research White Paper describes the deterministic orbital-to-ground resilience research architecture, including:
+Please use the "command-centre" branch for the current research files, White Paper, validation material, and associated documentation.
 
-- layered system assessment;
-- failsafe transition architecture;
-- trial manoeuvre simulation;
-- validation and verification;
-- cascade-resilience research;
-- memory continuity;
-- auditability and traceability;
-- human / mission authority;
-- cybersecurity and governance;
-- and future autonomous-system assurance research.
+"main" serves as the repository landing point only.»
 
-Research principle:
-
-«SUPERVISORY INTELLIGENCE FIRST — AUTONOMOUS EXECUTION ONLY AFTER ASSURANCE»
-
-📄 "Read the Orbital Resilience Research White Paper" (docs/ORBITAL_RESILIENCE_RESEARCH_WHITE_PAPER.md)
-
-🛰️ "Open the Live Research Environment" (https://123agustien.github.io/sextant-orbital-resilience-framework/)
-
-🔬 "Explore the Research Repository" (https://github.com/123AGustien/sextant-orbital-resilience-framework)
-
-Research Boundary
-
-This repository represents a research and simulation framework.
-
-It is not certified spacecraft control software and does not claim operational authority over spacecraft, propulsion, attitude control, navigation, collision avoidance or mission operations.
-
-All simulated recovery pathways and decisions remain subject to validation, human / mission authority and future independent verification and validation.
-
-RESEARCH • SIMULATION • VALIDATION • GOVERNANCE • DECISION-SUPPORT
-
-DETERMINISTIC • TESTABLE • AUDITABLE • REPEATABLE
-
-COMPLEMENT — NOT REPLACE
-
-🛰️ Sextant Orbital Resilience Framework v2.4
-
-Deterministic Orbital Domain Simulation Framework
+# 🧭 Sextant Orbital Resilience Framework
+## Deterministic Dependency Cascade Simulation Engine
 
 ---
 
