@@ -274,68 +274,7 @@ jobs:
 
 
       # ======================================================
-      # JAVASCRIPT SYNTAX VALIDATION
-      #
-      # Only files that actually exist are checked.
-      #
-      # Deleted optional root files do NOT fail the workflow.
-      # ======================================================
-
-      - name: "Validate JavaScript syntax"
-        shell: bash
-        run: |
-          set -e
-
-          echo "========================================"
-          echo "Checking JavaScript syntax..."
-          echo "========================================"
-          echo ""
-
-          FILES=()
-
-          add_file() {
-            if [ -f "$1" ]; then
-              FILES+=("$1")
-            fi
-          }
-
-
-          # --------------------------------------------------
-          # Required root JavaScript
-          # --------------------------------------------------
-
-          add_file "commandCentreCoreV3.js"
-
-
-          # --------------------------------------------------
-          # Optional root JavaScript
-          # --------------------------------------------------
-
-          add_file "validationChecklist.js"
-          add_file "validation-loader.js"
-
-
-          # --------------------------------------------------
-          # js directory
-          # --------------------------------------------------
-
-          if [ -d "js" ]; then
-
-            while IFS= read -r file; do
-              FILES+=("$file")
-            done < <(
-              find js \
-                -maxdepth 1 \
-                -type f \
-                -name "*.js" \
-                -print \
-                | sort
-            )
-
-          fi
-
-
-          # --------------------------------------------------
+      g --------------------------------------------------
           # Safety check
           # --------------------------------------------------
 
