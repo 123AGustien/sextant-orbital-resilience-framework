@@ -192,9 +192,9 @@ jobs:
           # --------------------------------------------------
 
           if [ -f js/validationChecklist.js ]; then
-            echo "✔ ValidationChecklistV1 verified: js/validationChecklist.js"
+            echo "✔ ValidationChecklistV1 verified"
           elif [ -f validationChecklist.js ]; then
-            echo "✔ ValidationChecklistV1 verified: validationChecklist.js"
+            echo "✔ ValidationChecklistV1 verified"
           else
             echo "⚠ ValidationChecklistV1 source file not found"
           fi
@@ -233,6 +233,9 @@ jobs:
 
       # ======================================================
       # JAVASCRIPT SYNTAX VALIDATION
+      #
+      # Deterministic validation of every JavaScript module.
+      # The exact failing filename is reported.
       # ======================================================
 
       - name: "Validate JavaScript syntax"
@@ -243,39 +246,89 @@ jobs:
           echo "Checking JavaScript syntax..."
           echo ""
 
-          FILES=""
+          FILES=()
 
-          for file in \
-            commandCentreCoreV3.js \
-            validationChecklist.js \
-            validation-loader.js \
-            js/*.js
-          do
-            if [ -f "$file" ]; then
-              FILES="$FILES $file"
+          # --------------------------------------------------
+          # Root JavaScript files
+          # --------------------------------------------------
+
+          add_file() {
+            if [ -f "$1" ]; then
+              FILES+=("$1")
             fi
-          done
+          }
 
-          for file in $FILES; do
-            echo "Checking: $file"
-            node --check "$file"
-          done
+          add_file "commandCentreCoreV3.js"
+          add_file "validationChecklist.js"
+          add_file "validation-loader.js"
 
+          # --------------------------------------------------
+          # JavaScript modules
+          # --------------------------------------------------
+
+          if [ -d "js" ]; then
+            while IFS= read -r file; do
+              FILES+=("$file")
+            done < <(
+              find js \
+                -maxdepth 1 \
+                -type f \
+                -name "*.js" \
+                -print \
+                | sort
+            )
+          fi
+
+          # --------------------------------------------------
+          # Ensure JavaScript files exist
+          # --------------------------------------------------
+
+          if [ "${#FILES[@]}" -eq 0 ]; then
+            echo "❌ No JavaScript files found"
+            exit 1
+          fi
+
+          echo "JavaScript files selected for validation:"
+          printf '  - %s\n' "${FILES[@]}"
           echo ""
+
+          # --------------------------------------------------
+          # Check each file independently
+          # --------------------------------------------------
+
+          for file in "${FILES[@]}"; do
+
+            echo "----------------------------------------"
+            echo "Checking: $file"
+            echo "----------------------------------------"
+
+            if node --check "$file"; then
+              echo "✔ Syntax PASS: $file"
+            else
+              echo ""
+              echo "❌ JavaScript syntax failure:"
+              echo "$file"
+              echo ""
+              echo "The file above contains the syntax error."
+              exit 1
+            fi
+
+            echo ""
+
+          done
+
+          echo "========================================"
           echo "✔ JavaScript syntax validation PASS"
+          echo "========================================"
 
 
       # ======================================================
       # VALIDATION EVIDENCE FILE
       #
-      # IMPORTANT:
-      # node - "$FILE" executes the validation script from
-      # stdin and passes the JSON file as process.argv[2].
+      # Correct Node invocation:
+      # node - "$FILE"
       #
-      # DO NOT change this to:
-      # node "$FILE"
-      #
-      # because that attempts to execute JSON as JavaScript.
+      # The JSON file is read as data, not executed as JS.
       # ======================================================
 
       - name: "Validate orbital validation evidence"
@@ -306,7 +359,7 @@ jobs:
 
           if (!file) {
             throw new Error(
-              "Validation evidence file argument missing"
+              "Validation evidence filename was not supplied"
             );
           }
 
@@ -357,20 +410,10 @@ jobs:
             );
           }
 
-          if (
-            typeof data.checks !== "object" ||
-            data.checks === null
-          ) {
-            throw new Error(
-              "Validation evidence checks object missing"
-            );
-          }
-
           console.log("✔ Validation evidence JSON valid");
           console.log("✔ Scenario = SIGNAL_LOSS");
           console.log("✔ Domain = ORBITAL");
           console.log("✔ Final status = VALIDATION_COMPLETE");
-          console.log("✔ Validation checks object detected");
           NODE
 
 
@@ -406,7 +449,7 @@ jobs:
 
           if (!file) {
             throw new Error(
-              "Validation loader file argument missing"
+              "Validation loader filename was not supplied"
             );
           }
 
@@ -439,10 +482,11 @@ jobs:
       # ======================================================
       # VALIDATION CHECKLIST INTERFACE
       #
-      # IMPORTANT:
-      # Do NOT require literal "validationstatus" or
-      # "validationsummary" strings because the cockpit may
-      # generate these elements through JavaScript.
+      # The cockpit may generate validation elements
+      # dynamically through JavaScript.
+      #
+      # Therefore literal validationstatus /
+      # validationsummary strings are NOT mandatory.
       # ======================================================
 
       - name: "Validate checklist interface"
@@ -464,7 +508,7 @@ jobs:
 
           if (!file) {
             throw new Error(
-              "index.html argument missing"
+              "index.html filename was not supplied"
             );
           }
 
@@ -496,16 +540,7 @@ jobs:
             "validationstatus",
             "validation-status",
             "validation_status",
-            "validation status",
-            "validationresult",
-            "validation-result",
-            "validationresult",
-            "validationoutput",
-            "validation-output",
-            "validationpanel",
-            "validation-panel",
-            "checkliststatus",
-            "checklist-status"
+            "validation status"
           ];
 
           // ------------------------------------------------
@@ -530,17 +565,22 @@ jobs:
             );
 
           // ------------------------------------------------
-          // Alternative checklist indicators
+          // Alternative validation indicators
           // ------------------------------------------------
 
           const alternativeIndicators = [
+            "validationresult",
+            "validation-result",
+            "validationoutput",
+            "validation-output",
+            "validationpanel",
+            "validation-panel",
             "validationchecklist",
             "validation-checklist",
+            "checkliststatus",
+            "checklist-status",
             "validationcorev1",
-            "validationchecklistv1",
-            "validation-loader",
-            "validationloader",
-            "runvalidationchecklist"
+            "validationchecklistv1"
           ];
 
           const alternativeFound =
@@ -620,7 +660,7 @@ jobs:
 
           if (!file) {
             throw new Error(
-              "ValidationChecklistV1 file argument missing"
+              "ValidationChecklistV1 filename was not supplied"
             );
           }
 
@@ -1137,17 +1177,9 @@ jobs:
                   indent=2
               )
 
-          print(
-              "✔ Runtime validation output generated"
-          )
-
-          print(
-              "✔ Validation Checklist v1.1"
-          )
-
-          print(
-              "✔ FINAL STATUS = VALIDATION_COMPLETE"
-          )
+          print("✔ Runtime validation output generated")
+          print("✔ Validation Checklist v1.1")
+          print("✔ FINAL STATUS = VALIDATION_COMPLETE")
           PY
 
 
@@ -1447,6 +1479,15 @@ jobs:
           }
 
           if (
+            evidence.humanDecisionGate !==
+            "REQUIRED"
+          ) {
+            throw new Error(
+              "Evidence human decision gate failed"
+            );
+          }
+
+          if (
             evidence.simulationOnly !== true
           ) {
             throw new Error(
@@ -1463,21 +1504,44 @@ jobs:
           }
 
           if (
-            evidence.humanDecisionGate !==
-            "REQUIRED"
-          ) {
-            throw new Error(
-              "Evidence human decision gate failed"
-            );
-          }
-
-          if (
             evidence.trialManoeuvre !==
             "SIMULATION_ONLY"
           ) {
             throw new Error(
-              "Trial manoeuvre simulation boundary failed"
+              "Trial Manoeuvre simulation boundary failed"
             );
+          }
+
+          // ------------------------------------------------
+          // Checks
+          // ------------------------------------------------
+
+          const requiredChecks = [
+            "VC-001",
+            "VC-002",
+            "VC-003",
+            "VC-004",
+            "VC-005",
+            "VC-006",
+            "VC-007",
+            "VC-008",
+            "VC-009",
+            "VC-010",
+            "VC-011",
+            "VC-012",
+            "VC-013",
+            "VC-014"
+          ];
+
+          for (const check of requiredChecks) {
+            if (
+              evidence.checks[check] !==
+              "PASS"
+            ) {
+              throw new Error(
+                `Validation check failed: ${check}`
+              );
+            }
           }
 
           console.log(
@@ -1486,6 +1550,10 @@ jobs:
 
           console.log(
             "✔ Validation evidence safety validation PASS"
+          );
+
+          console.log(
+            "✔ VC-001 through VC-014 = PASS"
           );
 
           console.log(
