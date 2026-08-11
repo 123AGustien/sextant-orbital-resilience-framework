@@ -1,1 +1,23 @@
-g
+- name: "Find JavaScript syntax error"
+        shell: bash
+        run: |
+          set -e
+
+          echo "========================================"
+          echo "Checking JavaScript syntax"
+          echo "========================================"
+
+          find . -type f -name "*.js" -not -path "./node_modules/*" | sort | while read -r file
+          do
+            echo ""
+            echo "Checking: $file"
+
+            node --check "$file"
+
+            echo "✔ PASS: $file"
+          done
+
+          echo ""
+          echo "========================================"
+          echo "✔ JavaScript syntax check complete"
+          echo "========================================"
