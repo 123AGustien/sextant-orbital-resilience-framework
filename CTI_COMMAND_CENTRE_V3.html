@@ -1,0 +1,2029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sextant CTI Command-Centre V3</title>
+
+<style>
+:root {
+    --bg: #050b10;
+    --panel: #0b1720;
+    --panel2: #102531;
+    --line: #244354;
+    --text: #e8f1f5;
+    --muted: #91a9b5;
+    --green: #36d399;
+    --yellow: #f5c451;
+    --red: #ef6b73;
+    --blue: #58a6ff;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    background:
+        radial-gradient(circle at top center, #102532 0%, #050b10 55%);
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* =========================================================
+   TOP COMMAND HEADER
+========================================================= */
+
+.command-header {
+    position: relative;
+    padding: 28px 22px 22px;
+    border-bottom: 1px solid var(--line);
+    background: #07121a;
+    box-shadow: 0 8px 30px rgba(0,0,0,.35);
+}
+
+.command-header::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--green),
+        var(--blue),
+        var(--green),
+        transparent
+    );
+}
+
+.header-inner {
+    max-width: 1500px;
+    margin: auto;
+}
+
+.system-label {
+    color: var(--green);
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+
+h1 {
+    margin: 0;
+    font-size: clamp(25px, 4vw, 38px);
+    letter-spacing: .5px;
+}
+
+.subtitle {
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.status-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 18px;
+}
+
+.status {
+    padding: 8px 12px;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    background: #0b1a23;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: .4px;
+}
+
+.online {
+    color: var(--green);
+}
+
+.warning {
+    color: var(--yellow);
+}
+
+.locked {
+    color: var(--red);
+}
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+main {
+    width: min(1500px, 100%);
+    margin: auto;
+    padding: 18px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(290px, 1fr));
+    gap: 15px;
+}
+
+.panel {
+    background: rgba(11, 23, 32, .96);
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    padding: 17px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.18);
+}
+
+.full {
+    grid-column: 1 / -1;
+}
+
+.panel h2 {
+    margin: 0 0 15px;
+    font-size: 17px;
+}
+
+.panel h3 {
+    font-size: 14px;
+}
+
+/* =========================================================
+   COMMAND STATUS STRIP
+========================================================= */
+
+.command-strip {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+}
+
+.command-card {
+    padding: 15px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #0a1821;
+}
+
+.command-card .title {
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.command-card .value {
+    margin-top: 7px;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+/* =========================================================
+   METRICS
+========================================================= */
+
+.metric {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 9px 0;
+    border-bottom: 1px solid #19313f;
+}
+
+.metric:last-child {
+    border-bottom: none;
+}
+
+.label {
+    color: var(--muted);
+}
+
+.value {
+    font-weight: bold;
+    text-align: right;
+}
+
+/* =========================================================
+   GOLDEN RULE
+========================================================= */
+
+.golden-panel {
+    border-color: #496044;
+}
+
+.pipeline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+}
+
+.stage {
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    background: var(--panel2);
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.stage.authority {
+    border-color: var(--yellow);
+    color: var(--yellow);
+    box-shadow: 0 0 12px rgba(245,196,81,.12);
+}
+
+.arrow {
+    color: var(--blue);
+    font-weight: bold;
+}
+
+/* =========================================================
+   DECISION SUPPORT
+========================================================= */
+
+.decision-box {
+    border: 2px solid var(--yellow);
+    padding: 17px;
+    border-radius: 8px;
+    background: #17170f;
+}
+
+.safety-box {
+    border: 2px solid var(--green);
+    padding: 15px;
+    border-radius: 8px;
+    background: #0b1714;
+}
+
+.warning-box {
+    border: 2px solid var(--red);
+    padding: 15px;
+    border-radius: 8px;
+    background: #170d10;
+}
+
+/* =========================================================
+   HUMAN AUTHORITY
+========================================================= */
+
+.human-authority {
+    grid-column: 1 / -1;
+    border: 2px solid var(--yellow);
+    background:
+        linear-gradient(
+            135deg,
+            rgba(245,196,81,.08),
+            rgba(11,23,32,.98)
+        );
+}
+
+.authority-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.authority-badge {
+    padding: 8px 12px;
+    border: 1px solid var(--yellow);
+    border-radius: 5px;
+    color: var(--yellow);
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.decision-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 15px;
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+button {
+    border: 1px solid var(--line);
+    background: var(--panel2);
+    color: var(--text);
+    padding: 11px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 3px;
+}
+
+button:hover {
+    border-color: var(--blue);
+    transform: translateY(-1px);
+}
+
+button.primary {
+    border-color: var(--green);
+}
+
+button.danger {
+    border-color: var(--red);
+}
+
+button.navigation {
+    border-color: var(--blue);
+    background: #0c2130;
+}
+
+/* =========================================================
+   SCENARIO GRID
+========================================================= */
+
+.scenario-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(190px, 1fr));
+    gap: 7px;
+}
+
+.scenario-grid button {
+    width: 100%;
+    margin: 0;
+}
+
+/* =========================================================
+   AUDIT / RUNTIME
+========================================================= */
+
+pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+    background: #050b10;
+    padding: 13px;
+    border-radius: 6px;
+    border: 1px solid var(--line);
+    overflow-x: auto;
+    font-size: 12px;
+}
+
+.audit-chain {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    align-items: center;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.audit-chain span {
+    padding: 7px 9px;
+    background: var(--panel2);
+    border: 1px solid var(--line);
+    border-radius: 5px;
+}
+
+/* =========================================================
+   SAFETY
+========================================================= */
+
+.safety-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(190px, 1fr));
+    gap: 9px;
+}
+
+.safety-item {
+    background: var(--panel2);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 12px;
+}
+
+.safety-item strong {
+    display: block;
+    font-size: 11px;
+    margin-bottom: 6px;
+}
+
+.safety-item span {
+    color: var(--green);
+    font-weight: bold;
+}
+
+.notice {
+    color: var(--muted);
+    line-height: 1.55;
+    font-size: 13px;
+}
+
+/* =========================================================
+   NAVIGATION TO ORBITAL COCKPIT
+========================================================= */
+
+.next-system {
+    grid-column: 1 / -1;
+    padding: 22px;
+    border: 1px solid var(--blue);
+    border-radius: 9px;
+    background: #081923;
+    text-align: center;
+}
+
+.next-system h2 {
+    margin-bottom: 8px;
+}
+
+.next-system button {
+    margin-top: 10px;
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+    padding: 22px;
+    margin-top: 20px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    text-align: center;
+    font-size: 11px;
+    line-height: 1.7;
+}
+</style>
+</head>
+
+<body>
+
+<header class="command-header">
+
+<div class="header-inner">
+
+<div class="system-label">
+SEXTANT RESILIENCE ARCHITECTURE
+</div>
+
+<h1>🛰️ CTI COMMAND-CENTRE V3</h1>
+
+<div class="subtitle">
+Command, Verification, Resilience Assessment & Human Decision Support
+</div>
+
+<div class="status-bar">
+
+<div class="status online">
+● CTI CORE ONLINE
+</div>
+
+<div class="status online">
+● SIMULATION ACTIVE
+</div>
+
+<div class="status warning">
+● HUMAN DECISION REQUIRED
+</div>
+
+<div class="status locked">
+● AUTOMATIC EXECUTION: FALSE
+</div>
+
+<div class="status locked">
+● LIVE CONTROL: NOT CONNECTED
+</div>
+
+</div>
+
+</div>
+
+</header>
+
+
+<main>
+
+<div class="grid">
+
+<!-- =====================================================
+     TOP COMMAND STATUS
+===================================================== -->
+
+<div class="command-strip">
+
+<div class="command-card">
+<div class="title">OPERATING MODE</div>
+<div class="value">SIMULATION ONLY</div>
+</div>
+
+<div class="command-card">
+<div class="title">DECISION AUTHORITY</div>
+<div class="value">HUMAN</div>
+</div>
+
+<div class="command-card">
+<div class="title">GOLDEN RULE</div>
+<div class="value">ACTIVE</div>
+</div>
+
+<div class="command-card">
+<div class="title">EXECUTION GATE</div>
+<div class="value">LOCKED</div>
+</div>
+
+<div class="command-card">
+<div class="title">LIVE SYSTEM</div>
+<div class="value">DISCONNECTED</div>
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     SYSTEM STATUS
+===================================================== -->
+
+<section class="panel">
+
+<h2>🧭 Command-Centre Status</h2>
+
+<div class="metric">
+<span class="label">Framework</span>
+<span class="value">
+Sextant Orbital Resilience v2.4
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Core</span>
+<span class="value">
+CommandCentreCoreV3
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Mode</span>
+<span class="value">
+SIMULATION_ONLY
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Live Control</span>
+<span class="value">
+FALSE
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Golden Rule Authority</span>
+<span id="goldenRuleStatus" class="value">
+ACTIVE
+</span>
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     CORE STATUS
+===================================================== -->
+
+<section class="panel">
+
+<h2>⚙️ Core Components</h2>
+
+<div class="metric">
+<span class="label">CommandCentreCoreV3</span>
+<span id="coreStatus" class="value">READY</span>
+</div>
+
+<div class="metric">
+<span class="label">Decision Support</span>
+<span id="decisionSupportStatus" class="value">READY</span>
+</div>
+
+<div class="metric">
+<span class="label">Cascade Resilience</span>
+<span id="cascadeCoreStatus" class="value">READY</span>
+</div>
+
+<div class="metric">
+<span class="label">Failsafe Engine</span>
+<span id="failsafeCoreStatus" class="value">READY</span>
+</div>
+
+<div class="metric">
+<span class="label">ValidationCoreV1</span>
+<span id="validationCoreStatus" class="value">READY</span>
+</div>
+
+<div class="metric">
+<span class="label">MemoryCoreV1</span>
+<span id="memoryCoreStatus" class="value">READY</span>
+</div>
+
+<div class="metric">
+<span class="label">AuditCoreV1</span>
+<span id="auditCoreStatus" class="value">READY</span>
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     GOLDEN RULE
+===================================================== -->
+
+<section class="panel full golden-panel">
+
+<h2>⚖️ Golden Rule Decision Pipeline</h2>
+
+<div class="pipeline">
+
+<span class="stage">OBSERVE</span>
+<span class="arrow">→</span>
+
+<span class="stage">VERIFY</span>
+<span class="arrow">→</span>
+
+<span class="stage">ASSESS</span>
+<span class="arrow">→</span>
+
+<span class="stage">DECIDE</span>
+<span class="arrow">→</span>
+
+<span class="stage authority">
+FINAL HUMAN DECISION
+</span>
+
+<span class="arrow">→</span>
+
+<span class="stage">ACT</span>
+<span class="arrow">→</span>
+
+<span class="stage">UPDATE</span>
+
+</div>
+
+<p class="notice">
+The deterministic core provides assessment and decision support.
+The execution gate remains closed until the designated human
+authority records a decision. Simulation actions never constitute
+live system control.
+</p>
+
+</section>
+
+
+<!-- =====================================================
+     CURRENT ASSESSMENT
+===================================================== -->
+
+<section class="panel">
+
+<h2>🔎 Current Assessment</h2>
+
+<div class="metric">
+<span class="label">Scenario</span>
+<span id="scenario" class="value">
+NO SCENARIO SELECTED
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Severity</span>
+<span id="severity" class="value">
+UNASSESSED
+</span>
+</div>
+
+<div class="metric">
+<span class="label">System State</span>
+<span id="systemState" class="value">
+STABLE
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Cascade</span>
+<span id="cascadeStatus" class="value">
+NOT ASSESSED
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Failsafe</span>
+<span id="failsafeState" class="value">
+STABILIZED
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Transition</span>
+<span id="transitionState" class="value">
+NONE
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Recovery Readiness</span>
+<span id="recoveryReadiness" class="value">
+NOT ASSESSED
+</span>
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     CAPTAIN AI LENA
+===================================================== -->
+
+<section class="panel">
+
+<h2>🧠 Captain AI Lena</h2>
+
+<div class="decision-box">
+
+<div class="metric">
+<span class="label">Recommendation</span>
+<span id="recommendation" class="value">
+AWAITING ASSESSMENT
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Authority</span>
+<span class="value">
+HUMAN
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Automatic Execution</span>
+<span class="value">
+FALSE
+</span>
+</div>
+
+</div>
+
+<p id="currentAssessment" class="notice">
+Awaiting simulated system condition.
+</p>
+
+<p id="decisionRecommendation" class="notice">
+No recommendation generated.
+</p>
+
+</section>
+
+
+<!-- =====================================================
+     SCENARIOS
+===================================================== -->
+
+<section class="panel full">
+
+<h2>🧪 CTI Simulation Scenarios</h2>
+
+<p class="notice">
+All scenarios are deterministic simulations. No live operational
+system is connected.
+</p>
+
+<div class="scenario-grid">
+
+<button onclick="runScenario('LOCAL_DISTURBANCE')">
+LOCAL DISTURBANCE
+</button>
+
+<button onclick="runScenario('DEPENDENCY_FAILURE')">
+DEPENDENCY FAILURE
+</button>
+
+<button onclick="runScenario('CASCADE_EVENT')">
+CASCADE EVENT
+</button>
+
+<button onclick="runScenario('MULTI_NODE_FAILURE')">
+MULTI-NODE FAILURE
+</button>
+
+<button onclick="runScenario('SYSTEMIC_STRESS')">
+SYSTEMIC STRESS
+</button>
+
+<button onclick="runScenario('ORBITAL_DRIFT')">
+ORBITAL DRIFT
+</button>
+
+<button onclick="runScenario('SIGNAL_LOSS')">
+SIGNAL LOSS
+</button>
+
+<button onclick="runScenario('TELEMETRY_CORRUPTION')">
+TELEMETRY CORRUPTION
+</button>
+
+<button onclick="runScenario('POWER_FAILURE')">
+POWER FAILURE
+</button>
+
+<button onclick="runScenario('INERTIAL_DESYNCHRONIZATION')">
+INERTIAL DESYNCHRONIZATION
+</button>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     VERIFICATION
+===================================================== -->
+
+<section class="panel">
+
+<h2>🔐 Verification Gate</h2>
+
+<div class="metric">
+<span class="label">Event Validated</span>
+<span id="eventValidated" class="value">PENDING</span>
+</div>
+
+<div class="metric">
+<span class="label">Classification</span>
+<span id="eventClassification" class="value">NONE</span>
+</div>
+
+<div class="metric">
+<span class="label">Confidence</span>
+<span id="eventConfidence" class="value">NONE</span>
+</div>
+
+<div class="metric">
+<span class="label">Sensor Validation</span>
+<span id="sensorValidation" class="value">PENDING</span>
+</div>
+
+<div class="metric">
+<span class="label">Telemetry Verification</span>
+<span id="telemetryVerification" class="value">PENDING</span>
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     FAILSAFE
+===================================================== -->
+
+<section class="panel">
+
+<h2>🛡️ Failsafe & Cascade</h2>
+
+<div class="metric">
+<span class="label">Previous State</span>
+<span id="previousFailsafeState" class="value">NONE</span>
+</div>
+
+<div class="metric">
+<span class="label">Current State</span>
+<span id="currentFailsafeState" class="value">
+STABILIZED
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Isolation</span>
+<span id="isolationStatus" class="value">
+NOT ACTIVATED
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Propagation</span>
+<span id="propagationStatus" class="value">
+NOT ASSESSED
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Containment</span>
+<span id="containmentStatus" class="value">
+NOT ASSESSED
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Secondary System</span>
+<span id="secondarySystemStatus" class="value">
+STANDBY
+</span>
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     HUMAN DECISION AUTHORITY
+===================================================== -->
+
+<section class="human-authority">
+
+<div class="authority-header">
+
+<h2>👤 FINAL HUMAN DECISION AUTHORITY</h2>
+
+<div class="authority-badge">
+EXECUTION GATE — HUMAN CONTROLLED
+</div>
+
+</div>
+
+<p class="notice">
+Captain AI Lena provides decision support only. Final authority
+remains with the designated human operator or mission authority.
+</p>
+
+<div class="decision-buttons">
+
+<button
+class="primary"
+onclick="humanDecision('AUTHORIZE_RECOVERY')">
+AUTHORIZE RECOVERY
+</button>
+
+<button onclick="humanDecision('MAINTAIN_SAFE_STATE')">
+MAINTAIN SAFE STATE
+</button>
+
+<button onclick="humanDecision('REQUEST_DIAGNOSTICS')">
+REQUEST DIAGNOSTICS
+</button>
+
+<button
+class="danger"
+onclick="humanDecision('ABORT_RECOVERY')">
+ABORT RECOVERY
+</button>
+
+<button onclick="humanDecision('ESCALATE')">
+ESCALATE TO MISSION AUTHORITY
+</button>
+
+</div>
+
+<div class="decision-box">
+
+<h3>Human Decision Record</h3>
+
+<div class="metric">
+<span class="label">Decision</span>
+<span id="humanDecisionOutput" class="value">
+WAITING FOR HUMAN DECISION
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Authority</span>
+<span id="decisionAuthority" class="value">
+MISSION CONTROLLER
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Status</span>
+<span id="decisionStatus" class="value">
+AWAITING AUTHORIZATION
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Timestamp</span>
+<span id="decisionTimestamp" class="value">
+NONE
+</span>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     EXECUTION GATE
+===================================================== -->
+
+<section class="panel">
+
+<h2>🛡️ Execution Gate</h2>
+
+<div class="metric">
+<span class="label">Automatic Execution</span>
+<span id="automaticExecution" class="value">
+FALSE
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Human Authorization</span>
+<span id="humanAuthorization" class="value">
+REQUIRED
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Live System Control</span>
+<span id="liveSystemControl" class="value">
+FALSE
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Simulation Only</span>
+<span id="simulationOnly" class="value">
+TRUE
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Gate Authorized</span>
+<span id="gateAuthorized" class="value">
+FALSE
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Gate Status</span>
+<span id="gateStatus" class="value">
+HUMAN_AUTHORIZATION_PENDING
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Simulated Action</span>
+<span id="simulatedAction" class="value">
+NONE
+</span>
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     SIMULATION OUTCOME
+===================================================== -->
+
+<section class="panel">
+
+<h2>🛰️ Simulated Outcome</h2>
+
+<div class="metric">
+<span class="label">Scenario</span>
+<span id="outcomeScenario" class="value">
+NONE
+</span>
+</div>
+
+<div class="metric">
+<span class="label">System State</span>
+<span id="outcomeState" class="value">
+STANDBY
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Cascade</span>
+<span id="outcomeCascade" class="value">
+NOT ASSESSED
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Failsafe</span>
+<span id="outcomeFailsafe" class="value">
+STABILIZED
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Recovery</span>
+<span id="outcomeRecovery" class="value">
+NOT EXECUTED
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Final Status</span>
+<span id="finalStatus" class="value">
+SAFE STATE
+</span>
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     VALIDATION
+===================================================== -->
+
+<section class="panel">
+
+<h2>🧪 ValidationCoreV1</h2>
+
+<div class="metric">
+<span class="label">Architecture</span>
+<span id="architectureValidation" class="value">
+READY
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Self Test</span>
+<span id="selfTestValidation" class="value">
+PENDING
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Fault Identification</span>
+<span id="faultValidation" class="value">
+PENDING
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Failsafe Validation</span>
+<span id="failsafeValidation" class="value">
+PENDING
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Decision Core</span>
+<span id="decisionValidation" class="value">
+PENDING
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Human Gate</span>
+<span id="humanGateValidation" class="value">
+ACTIVE
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Simulation Boundary</span>
+<span id="simulationValidation" class="value">
+ACTIVE
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Re-Test</span>
+<span id="retestValidation" class="value">
+PENDING
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Final Validation</span>
+<span id="finalValidation" class="value">
+PENDING TEST
+</span>
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     MEMORY
+===================================================== -->
+
+<section class="panel">
+
+<h2>🧠 MemoryCoreV1</h2>
+
+<div class="metric">
+<span class="label">Status</span>
+<span id="memoryStatus" class="value">
+READY
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Previous Scenario</span>
+<span id="memoryScenario" class="value">
+NONE
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Previous Decision</span>
+<span id="memoryDecision" class="value">
+NONE
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Previous State</span>
+<span id="memoryState" class="value">
+NONE
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Execution</span>
+<span id="memoryExecution" class="value">
+NONE
+</span>
+</div>
+
+<div class="metric">
+<span class="label">Severity</span>
+<span id="memorySeverity" class="value">
+NONE
+</span>
+</div>
+
+</section>
+
+
+<!-- =====================================================
+     AUDIT
+===================================================== -->
+
+<section class="panel full">
+
+<h2>🧾 AuditCoreV1</h2>
+
+<div class="audit-chain">
+
+<span>EVENT</span>
+→
+<span>VERIFICATION</span>
+→
+<span>ASSESSMENT</span>
+→
+<span>DECISION</span>
+→
+<span>HUMAN DECISION</span>
+→
+<span>EXECUTION GATE</span>
+→
+<span>FINAL STATUS</span>
+
+</div>
+
+<pre id="auditRecord">
+Awaiting simulation event...
+</pre>
+
+</section>
+
+
+<!-- =====================================================
+     RUNTIME
+===================================================== -->
+
+<section class="panel full">
+
+<h2>📡 Runtime State</h2>
+
+<pre id="runtime">{
+  "status": "READY",
+  "mode": "SIMULATION_ONLY",
+  "automaticExecution": false,
+  "humanAuthorizationRequired": true,
+  "liveSystemControl": false,
+  "simulationOnly": true,
+  "goldenRuleAuthority": "GOLDEN_RULE_ENGINE"
+}</pre>
+
+</section>
+
+
+<!-- =====================================================
+     SAFETY
+===================================================== -->
+
+<section class="panel full">
+
+<h2>🔒 Safety & Human Authority Boundary</h2>
+
+<div class="safety-grid">
+
+<div class="safety-item">
+<strong>AUTOMATIC EXECUTION</strong>
+<span>FALSE</span>
+</div>
+
+<div class="safety-item">
+<strong>HUMAN AUTHORIZATION</strong>
+<span>REQUIRED</span>
+</div>
+
+<div class="safety-item">
+<strong>SIMULATION ONLY</strong>
+<span>TRUE</span>
+</div>
+
+<div class="safety-item">
+<strong>LIVE SYSTEM CONTROL</strong>
+<span>NOT CONNECTED</span>
+</div>
+
+<div class="safety-item">
+<strong>EXECUTION GATE</strong>
+<span>HUMAN CONTROLLED</span>
+</div>
+
+<div class="safety-item">
+<strong>DECISION SUPPORT</strong>
+<span>CAPTAIN AI LENA</span>
+</div>
+
+</div>
+
+<p class="notice">
+DATA ↓ OBSERVE ↓ VERIFY ↓ ASSESS ↓ DECIDE
+↓ FINAL HUMAN DECISION ↓ EXECUTION GATE
+↓ SIMULATED ACTION / SAFE STATE ↓ UPDATE
+</p>
+
+</section>
+
+
+<!-- =====================================================
+     NEXT SYSTEM
+===================================================== -->
+
+<section class="next-system">
+
+<h2>🛰️ Proceed to Sextant Orbital Resilience Cockpit</h2>
+
+<p class="notice">
+CTI Command-Centre V3 is the command and decision-support layer.
+The Orbital Resilience Cockpit remains a separate operational
+simulation interface.
+</p>
+
+<button
+class="navigation"
+onclick="openOrbitalCockpit()">
+OPEN ORBITAL RESILIENCE COCKPIT
+</button>
+
+</section>
+
+</div>
+
+</main>
+
+
+<footer>
+
+Sextant Orbital Resilience Framework v2.4<br>
+CTI Command-Centre Resilience Core v3<br>
+Deterministic Simulation & Decision Support<br>
+Golden Rule Engine — Human Decision Authority Required
+
+</footer>
+
+
+<script src="./commandCentreCoreV3.js"></script>
+
+<script>
+
+/* =========================================================
+   CTI UI BRIDGE
+========================================================= */
+
+function runScenario(scenario) {
+
+    if (
+        typeof window.commandCentreRunScenario ===
+        "function"
+    ) {
+
+        window.commandCentreRunScenario(scenario);
+        return;
+    }
+
+    updateIntegrationStatus(
+        "CORE NOT CONNECTED — SCENARIO NOT EXECUTED"
+    );
+}
+
+
+function humanDecision(decision) {
+
+    if (
+        typeof window.commandCentreHumanDecision ===
+        "function"
+    ) {
+
+        window.commandCentreHumanDecision(decision);
+        return;
+    }
+
+    updateIntegrationStatus(
+        "CORE NOT CONNECTED — HUMAN DECISION NOT EXECUTED"
+    );
+}
+
+
+function updateIntegrationStatus(message) {
+
+    const element =
+        document.getElementById("currentAssessment");
+
+    if (element) {
+        element.textContent = message;
+    }
+}
+
+
+/* =========================================================
+   ORBITAL COCKPIT NAVIGATION
+========================================================= */
+
+function openOrbitalCockpit() {
+
+    window.location.href = "./index.html";
+}
+
+
+/* =========================================================
+   SAFE VALUE RESOLVER
+========================================================= */
+
+function firstDefined() {
+
+    for (
+        let i = 0;
+        i < arguments.length;
+        i++
+    ) {
+
+        if (
+            arguments[i] !== undefined &&
+            arguments[i] !== null &&
+            arguments[i] !== ""
+        ) {
+
+            return arguments[i];
+        }
+    }
+
+    return "N/A";
+}
+
+
+/* =========================================================
+   CORE → UI ADAPTER
+========================================================= */
+
+window.updateCTIScreen = function(state) {
+
+    if (!state) {
+        return;
+    }
+
+    const setText =
+        function(id, value) {
+
+            const element =
+                document.getElementById(id);
+
+            if (element) {
+
+                element.textContent =
+                    firstDefined(value);
+            }
+        };
+
+
+    const failsafe =
+        state.failsafe ||
+        state.failsafeTransition ||
+        {};
+
+    const verification =
+        failsafe.verificationGate ||
+        state.verificationGate ||
+        {};
+
+    const cascade =
+        state.cascade ||
+        failsafe.cascadeControl ||
+        {};
+
+    const validation =
+        state.validation ||
+        {};
+
+    const memory =
+        state.memory ||
+        {};
+
+    const human =
+        state.humanDecision ||
+        {};
+
+    const humanRecord =
+        human.humanDecision ||
+        {};
+
+    const executionGate =
+        state.executionGate ||
+        human.executionGate ||
+        {};
+
+
+    /* ASSESSMENT */
+
+    setText("scenario", state.scenario);
+
+    setText(
+        "severity",
+        state.severity ||
+        state.assessment?.severity
+    );
+
+    setText(
+        "systemState",
+        state.systemState ||
+        failsafe.currentState
+    );
+
+    setText(
+        "cascadeStatus",
+        state.cascadeStatus ||
+        cascade.propagation
+    );
+
+    setText(
+        "failsafeState",
+        state.failsafeState ||
+        failsafe.currentState
+    );
+
+    setText(
+        "transitionState",
+        state.transition ||
+        failsafe.transition
+    );
+
+    setText(
+        "recoveryReadiness",
+        state.recoveryStatus ||
+        failsafe.recovery?.status
+    );
+
+
+    /* DECISION SUPPORT */
+
+    setText(
+        "recommendation",
+        state.recommendation ||
+        state.decision?.decision
+    );
+
+    setText(
+        "decisionRecommendation",
+        state.recommendation ||
+        state.decision?.decision ||
+        "No recommendation generated."
+    );
+
+    setText(
+        "currentAssessment",
+        state.assessment?.summary ||
+        state.assessment ||
+        "Assessment available from CTI core."
+    );
+
+
+    /* VERIFICATION */
+
+    setText(
+        "eventValidated",
+        verification.eventValidated
+    );
+
+    setText(
+        "eventClassification",
+        verification.classification ||
+        state.scenario
+    );
+
+    setText(
+        "eventConfidence",
+        verification.confidence
+    );
+
+    setText(
+        "sensorValidation",
+        state.sensorValidation ||
+        state.verification?.sensorValidation
+    );
+
+    setText(
+        "telemetryVerification",
+        state.telemetryVerification ||
+        state.verification?.telemetryVerification
+    );
+
+
+    /* FAILSAFE */
+
+    setText(
+        "previousFailsafeState",
+        failsafe.previousState
+    );
+
+    setText(
+        "currentFailsafeState",
+        failsafe.currentState
+    );
+
+    setText(
+        "isolationStatus",
+        failsafe.isolation?.activated
+            ? "ACTIVATED"
+            : "NOT ACTIVATED"
+    );
+
+    setText(
+        "propagationStatus",
+        cascade.propagation
+    );
+
+    setText(
+        "containmentStatus",
+        cascade.containment
+    );
+
+    setText(
+        "secondarySystemStatus",
+        failsafe.secondarySystem?.status
+    );
+
+
+    /* HUMAN DECISION */
+
+    setText(
+        "humanDecisionOutput",
+        humanRecord.decision ||
+        human.decision ||
+        "WAITING FOR HUMAN DECISION"
+    );
+
+    setText(
+        "decisionAuthority",
+        humanRecord.authority ||
+        human.authority ||
+        "MISSION CONTROLLER"
+    );
+
+    setText(
+        "decisionStatus",
+        humanRecord.status ||
+        human.status ||
+        "AWAITING AUTHORIZATION"
+    );
+
+    setText(
+        "decisionTimestamp",
+        humanRecord.timestamp ||
+        human.timestamp ||
+        "NONE"
+    );
+
+
+    /* EXECUTION */
+
+    setText(
+        "automaticExecution",
+        state.automaticExecution === false
+            ? "FALSE"
+            : state.automaticExecution
+    );
+
+    setText(
+        "humanAuthorization",
+        state.humanAuthorizationRequired === true
+            ? "REQUIRED"
+            : state.humanAuthorizationRequired
+    );
+
+    setText(
+        "liveSystemControl",
+        state.liveSystemControl === false
+            ? "FALSE"
+            : state.liveSystemControl
+    );
+
+    setText(
+        "simulationOnly",
+        state.simulationOnly === true
+            ? "TRUE"
+            : state.simulationOnly
+    );
+
+    setText(
+        "gateAuthorized",
+        executionGate.authorized === true
+            ? "TRUE"
+            : "FALSE"
+    );
+
+    setText(
+        "gateStatus",
+        executionGate.status ||
+        "HUMAN_AUTHORIZATION_PENDING"
+    );
+
+    setText(
+        "simulatedAction",
+        executionGate.action ||
+        "NONE"
+    );
+
+
+    /* OUTCOME */
+
+    setText(
+        "outcomeScenario",
+        state.scenario
+    );
+
+    setText(
+        "outcomeState",
+        state.systemState ||
+        failsafe.currentState
+    );
+
+    setText(
+        "outcomeCascade",
+        state.cascadeStatus ||
+        cascade.propagation
+    );
+
+    setText(
+        "outcomeFailsafe",
+        state.failsafeState ||
+        failsafe.currentState
+    );
+
+    setText(
+        "outcomeRecovery",
+        state.recoveryStatus ||
+        "NOT EXECUTED"
+    );
+
+    setText(
+        "finalStatus",
+        state.finalState ||
+        "SAFE STATE"
+    );
+
+
+    /* MEMORY */
+
+    setText(
+        "memoryStatus",
+        state.memoryStatus ||
+        "READY"
+    );
+
+    setText(
+        "memoryScenario",
+        memory.scenario ||
+        memory.lastScenario
+    );
+
+    setText(
+        "memoryDecision",
+        memory.decision ||
+        memory.lastDecision
+    );
+
+    setText(
+        "memoryState",
+        memory.state ||
+        memory.lastFailsafeState
+    );
+
+    setText(
+        "memoryExecution",
+        memory.execution ||
+        memory.executionStatus
+    );
+
+    setText(
+        "memorySeverity",
+        memory.severity ||
+        memory.lastSeverity
+    );
+
+
+    /* VALIDATION */
+
+    setText(
+        "architectureValidation",
+        validation.architecture ||
+        "READY"
+    );
+
+    setText(
+        "selfTestValidation",
+        validation.self_test?.status ||
+        validation.selfTest?.status ||
+        "PENDING"
+    );
+
+    setText(
+        "faultValidation",
+        validation.fault_identification?.status ||
+        validation.faultIdentification?.status ||
+        "PENDING"
+    );
+
+    setText(
+        "failsafeValidation",
+        validation.failsafe_validation?.status ||
+        validation.failsafeValidation?.status ||
+        "PENDING"
+    );
+
+    setText(
+        "decisionValidation",
+        validation.decision_core?.status ||
+        validation.decisionCore?.status ||
+        "PENDING"
+    );
+
+    setText(
+        "humanGateValidation",
+        validation.humanDecisionGate ||
+        "ACTIVE"
+    );
+
+    setText(
+        "simulationValidation",
+        validation.simulationBoundary ||
+        "ACTIVE"
+    );
+
+    setText(
+        "retestValidation",
+        validation.re_test_validation?.status ||
+        validation.reTestValidation?.status ||
+        "PENDING"
+    );
+
+    setText(
+        "finalValidation",
+        validation.final_status ||
+        validation.finalStatus ||
+        "PENDING TEST"
+    );
+
+
+    /* AUDIT */
+
+    if (state.audit) {
+
+        const audit =
+            document.getElementById("auditRecord");
+
+        if (audit) {
+
+            audit.textContent =
+                JSON.stringify(
+                    state.audit,
+                    null,
+                    2
+                );
+        }
+    }
+
+
+    /* RUNTIME */
+
+    const runtime =
+        document.getElementById("runtime");
+
+    if (runtime) {
+
+        runtime.textContent =
+            JSON.stringify(
+                state,
+                null,
+                2
+            );
+    }
+};
+
+
+/* =========================================================
+   INITIAL STATE
+========================================================= */
+
+window.updateCTIScreen({
+
+    scenario: "NO SCENARIO SELECTED",
+
+    severity: "UNASSESSED",
+
+    systemState: "STABLE",
+
+    cascadeStatus: "NOT ASSESSED",
+
+    failsafeState: "STABILIZED",
+
+    transition: "NONE",
+
+    recoveryStatus: "NOT ASSESSED",
+
+    recommendation: "AWAITING ASSESSMENT",
+
+    assessment:
+        "Awaiting simulated system condition.",
+
+    automaticExecution: false,
+
+    humanAuthorizationRequired: true,
+
+    liveSystemControl: false,
+
+    simulationOnly: true,
+
+    goldenRuleAuthority:
+        "GOLDEN_RULE_ENGINE",
+
+    humanDecision: {
+
+        status:
+            "AWAITING AUTHORIZATION",
+
+        authority:
+            "MISSION CONTROLLER",
+
+        decision:
+            null
+    },
+
+    executionGate: {
+
+        authorized: false,
+
+        status:
+            "HUMAN_AUTHORIZATION_PENDING",
+
+        action:
+            "NO_ACTION_EXECUTED"
+    },
+
+    memory: {
+
+        scenario: "NONE",
+        decision: "NONE",
+        state: "NONE",
+        execution: "NONE",
+        severity: "NONE"
+    },
+
+    validation: {
+
+        architecture: "READY",
+        safetyBoundary: "PASS",
+        humanDecisionGate: "ACTIVE",
+        simulationBoundary: "ACTIVE",
+        finalStatus: "PENDING TEST"
+    }
+
+});
+
+</script>
+
+</body>
+</html>

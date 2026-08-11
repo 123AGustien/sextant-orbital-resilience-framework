@@ -1,0 +1,689 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Sextant Orbital Resilience — Validation Checklist v2.4</title><style>
+body {
+    font-family: Arial, sans-serif;
+    background: #050b18;
+    color: white;
+    padding: 20px;
+    line-height: 1.5;
+}
+
+h1, h2, h3 {
+    color: #00d9ff;
+}
+
+.panel {
+    background: #101c33;
+    border: 1px solid #29405f;
+    padding: 18px;
+    margin: 15px 0;
+    border-radius: 8px;
+}
+
+.pass {
+    color: #00ff88;
+    font-weight: bold;
+}
+
+.fail {
+    color: #ff5555;
+    font-weight: bold;
+}
+
+.pending {
+    color: #ffaa00;
+    font-weight: bold;
+}
+
+.info {
+    color: #66ccff;
+}
+
+.warning {
+    color: #ffcc66;
+    font-weight: bold;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    border: 1px solid #29405f;
+    padding: 10px;
+    text-align: left;
+    vertical-align: top;
+}
+
+th {
+    color: #00d9ff;
+    background: #0b1528;
+}
+
+pre {
+    background: #000;
+    padding: 15px;
+    overflow: auto;
+    white-space: pre-wrap;
+    border-left: 3px solid #00d9ff;
+}
+
+.badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin: 3px;
+    font-weight: bold;
+}
+
+.badge-pass {
+    background: #063d29;
+    color: #00ff88;
+}
+
+.badge-critical {
+    background: #4a1515;
+    color: #ff7777;
+}
+
+.badge-sim {
+    background: #17324a;
+    color: #66ccff;
+}
+
+.status-box {
+    font-size: 1.1em;
+}
+
+button {
+    padding: 10px 15px;
+    margin: 5px;
+    cursor: pointer;
+    background: #10253d;
+    color: white;
+    border: 1px solid #29405f;
+    border-radius: 5px;
+}
+</style></head><body><h1>🛰️ Sextant Orbital Resilience Framework v2.4</h1><h2>ValidationCoreV1 — Validated Checklist & Evidence Record</h2><div class="panel">
+<h3>Validation Purpose</h3><p>
+This checklist provides structured validation evidence for the
+Sextant Orbital Resilience Framework v2.4 and its Command-Centre
+Core architecture.
+</p><p>
+The validation record verifies system integration, deterministic
+scenario behaviour, failsafe transition integrity, trial manoeuvre
+simulation, decision-support integrity, human decision authority,
+execution-gate behaviour, memory continuity and audit traceability.
+</p><p class="info">
+MODE: DETERMINISTIC SIMULATION / VALIDATION EVIDENCE
+</p><p>
+<span class="badge badge-pass">VALIDATION CORE: PASS</span>
+<span class="badge badge-sim">SIMULATION ONLY</span>
+<span class="badge badge-critical">LATEST SCENARIO: POWER FAILURE / CRITICAL</span>
+</p>
+</div><div class="panel">
+<h3>🛰️ Validation Record Identity</h3><table>
+<tr>
+<th>Parameter</th>
+<th>Recorded Value</th>
+</tr><tr>
+<td>Framework</td>
+<td>Sextant Orbital Resilience Framework v2.4</td>
+</tr><tr>
+<td>Primary Engine</td>
+<td>OrbitalEngineV1</td>
+</tr><tr>
+<td>Validation Engine</td>
+<td>ValidationCoreV1</td>
+</tr><tr>
+<td>Scenario</td>
+<td>POWER_FAILURE</td>
+</tr><tr>
+<td>Severity</td>
+<td class="fail">CRITICAL</td>
+</tr><tr>
+<td>Classification</td>
+<td>ENERGY_SYSTEM_FAILURE</td>
+</tr><tr>
+<td>Verification Confidence</td>
+<td class="pass">HIGH</td>
+</tr><tr>
+<td>Simulation Timestamp</td>
+<td>2026-08-11T03:41:23.093Z</td>
+</tr><tr>
+<td>Human Decision Timestamp</td>
+<td>2026-08-11T03:41:38.839Z</td>
+</tr><tr>
+<td>Operating Boundary</td>
+<td>SIMULATION ONLY — NO LIVE SYSTEM CONTROL</td>
+</tr>
+</table>
+</div><div class="panel">
+<h3>🧭 Validation Architecture</h3><pre>
+SELF-TEST
+    ↓
+FAULT IDENTIFICATION
+    ↓
+DECISION SUPPORT
+    ↓
+CORRECTIVE ACTION SIMULATION
+    ↓
+RE-TEST
+    ↓
+RECOVERY VERIFICATION
+    ↓
+PARAMETER VERIFICATION
+    ↓
+HUMAN DECISION GATE
+    ↓
+MEMORY VERIFICATION
+    ↓
+AUDIT VERIFICATION
+    ↓
+VALIDATION COMPLETE
+</pre></div><div class="panel">
+<h3>🔌 System Integration Validation</h3><table>
+<tr>
+<th>#</th>
+<th>Module</th>
+<th>Status</th>
+<th>Evidence</th>
+</tr><tr>
+<td>1</td>
+<td>OrbitalEngineV1</td>
+<td class="pass">CONNECTED</td>
+<td>Scenario assessment and deterministic processing operational.</td>
+</tr><tr>
+<td>2</td>
+<td>ManoeuvreEngineV1</td>
+<td class="pass">CONNECTED</td>
+<td>Trial manoeuvre simulation completed successfully.</td>
+</tr><tr>
+<td>3</td>
+<td>FailsafeTransitionEngineV1</td>
+<td class="pass">CONNECTED</td>
+<td>Containment transition executed in simulation.</td>
+</tr><tr>
+<td>4</td>
+<td>ValidationCoreV1</td>
+<td class="pass">CONNECTED / PASS</td>
+<td>Self-test and re-test validation passed.</td>
+</tr><tr>
+<td>5</td>
+<td>OperatorGuidanceEngineV1</td>
+<td class="pass">CONNECTED</td>
+<td>Structured operator guidance generated.</td>
+</tr><tr>
+<td>6</td>
+<td>HumanDecisionAuthorityV1</td>
+<td class="pass">INTERNAL_CONTROLLER</td>
+<td>Human decision gate successfully exercised.</td>
+</tr><tr>
+<td>7</td>
+<td>MemoryCoreV1</td>
+<td class="pass">CONNECTED</td>
+<td>Scenario and decision history recorded.</td>
+</tr><tr>
+<td>8</td>
+<td>AuditCoreV1</td>
+<td class="pass">CONNECTED</td>
+<td>Audit and human-decision evidence generated.</td>
+</tr><tr>
+<td>9</td>
+<td>Golden Rule Engine</td>
+<td class="pass">ACTIVE</td>
+<td>Decision authority remained within defined pipeline.</td>
+</tr>
+</table>
+</div><div class="panel">
+<h3>🧪 Core Validation Checklist</h3><table>
+<tr>
+<th>#</th>
+<th>Validation Area</th>
+<th>Verification Requirement</th>
+<th>Status</th>
+</tr><tr>
+<td>1</td>
+<td>System Startup</td>
+<td>Required modules initialise without unintended scenario execution.</td>
+<td class="pass">PASS</td>
+</tr><tr>
+<td>2</td>
+<td>OrbitalEngineV1</td>
+<td>POWER_FAILURE identified and classified as ENERGY_SYSTEM_FAILURE.</td>
+<td class="pass">PASS</td>
+</tr><tr>
+<td>3</td>
+<td>ManoeuvreEngineV1</td>
+<td>Recovery pathway remains simulation-only.</td>
+<td class="pass">PASS</td>
+</tr><tr>
+<td>4</td>
+<td>FailsafeTransitionEngineV1</td>
+<td>STABILIZED → ISOLATED transition verified.</td>
+<td class="pass">PASS</td>
+</tr><tr>
+<td>5</td>
+<td>Navigation Architecture</td>
+<td>Nine-layer operational abstraction remains logically ordered.</td>
+<td class="pass">PASS</td>
+</tr><tr>
+<td>6</td>
+<td>Cascade Architecture</td>
+<td>Containment prevents simulated cascade propagation.</td>
+<td class="pass">PASS</td>
+</tr><tr>
+<td>7</td>
+<td>Operator Guidance</td>
+<td>Validated scenario converted into structured guidance.</td>
+<td class="pass">PASS</td>
+</tr><tr>
+<td>8</td>
+<td>Golden Rule Engine</td>
+<td>Decision pathway remains within governing architecture.</td>
+<td class="pass">PASS</td>
+</tr><tr>
+<td>9</td>
+<td>Human Decision Authority</td>
+<td>Final decision remains with Mission Controller.</td>
+<td class="pass">PASS</td>
+</tr><tr>
+<td>10</td>
+<td>Execution Gate</td>
+<td>Unauthorised recovery cannot execute.</td>
+<td class="pass">PASS</td>
+</tr><tr>
+<td>11</td>
+<td>MemoryCoreV1</td>
+<td>Scenario, state, decision and execution status remain traceable.</td>
+<td class="pass">PASS</td>
+</tr><tr>
+<td>12</td>
+<td>AuditCoreV1</td>
+<td>Event, assessment, decision, recovery and authority are traceable.</td>
+<td class="pass">PASS</td>
+</tr><tr>
+<td>13</td>
+<td>Validation Integrity</td>
+<td>Self-test, fault identification and re-test remain consistent.</td>
+<td class="pass">PASS</td>
+</tr><tr>
+<td>14</td>
+<td>Operational Boundary</td>
+<td>No live spacecraft control or autonomous execution is connected.</td>
+<td class="pass">PASS</td>
+</tr>
+</table>
+</div><div class="panel">
+<h3>🛡️ Failsafe Transition Validation</h3><pre>
+PREVIOUS STATE:
+STABILIZED
+
+CURRENT STATE:
+ISOLATED
+
+TRANSITION:
+ACTIVATE_CONTAINMENT
+
+ANOMALY:
+POWER_FAILURE
+
+SEVERITY:
+CRITICAL
+
+VERIFICATION:
+EVENT VALIDATED
+
+CONFIDENCE:
+HIGH
+
+ISOLATION:
+ACTIVATED
+
+PURPOSE:
+CASCADE PREVENTION
+
+CASCADE PROPAGATION:
+BLOCKED
+
+CONTAINMENT:
+ACTIVE
+
+RECOVERY:
+REQUIRED
+
+CERTIFIED STATE:
+FALSE
+</pre><p class="pass">
+FAILSAFE VALIDATION: PASS
+</p>
+</div><div class="panel">
+<h3>🛰️ Trial Manoeuvre Validation</h3><pre>
+SCENARIO:
+POWER_FAILURE
+
+PROFILE:
+ENERGY_RECOVERY_MANOEUVRE
+
+OBJECTIVE:
+Maintain minimum operational state
+
+PLANNING:
+POWER_REBALANCING_SEQUENCE
+
+VERIFICATION:
+ENERGY_STABILITY_CHECK
+
+CORRECTION PATH:
+SIMULATED
+
+STABILITY VERIFICATION:
+PASSED
+
+RECOVERY ASSESSMENT:
+READY
+
+STATUS:
+SIMULATION_COMPLETE
+</pre><p class="pass">
+TRIAL MANOEUVRE VALIDATION: PASS
+</p>
+</div><div class="panel">
+<h3>👤 Human Decision Authority Verification</h3><pre>
+AUTHORITY:
+MISSION_CONTROLLER
+
+DECISION SUPPORT:
+CAPTAIN AI LENA
+
+AUTOMATIC EXECUTION:
+FALSE
+
+AUTHORIZATION REQUIRED:
+TRUE
+
+SIMULATION ONLY:
+TRUE
+
+LIVE SYSTEM CONTROL:
+NOT CONNECTED
+</pre><p>
+The system recommendation does not constitute operational
+authorization. Final authority remains with the designated human
+decision-maker.
+</p>
+</div><div class="panel">
+<h3>🚦 Human Decision Gate — Validated Result</h3><table>
+<tr>
+<th>Parameter</th>
+<th>Result</th>
+</tr><tr>
+<td>Decision Status</td>
+<td class="pass">AUTHORIZED</td>
+</tr><tr>
+<td>Human Decision</td>
+<td class="warning">ABORT_RECOVERY</td>
+</tr><tr>
+<td>Reason</td>
+<td>Mission Controller aborted the proposed recovery sequence.</td>
+</tr><tr>
+<td>Recovery Authorized</td>
+<td class="fail">FALSE</td>
+</tr><tr>
+<td>Recovery Executed</td>
+<td class="pass">NO</td>
+</tr><tr>
+<td>Execution Gate</td>
+<td class="pass">RECOVERY_ABORTED</td>
+</tr><tr>
+<td>Execution Action</td>
+<td class="pass">NO_RECOVERY_EXECUTED</td>
+</tr>
+</table><p class="pass">
+HUMAN DECISION GATE: PASS
+</p>
+</div><div class="panel">
+<h3>🔗 Cascade Validation</h3><pre>
+EVENT
+  ↓
+DEPENDENCY
+  ↓
+PROPAGATION
+  ↓
+CASCADE ASSESSMENT
+  ↓
+CONTAINMENT
+  ↓
+STATE TRANSITION
+  ↓
+RECOVERY PREPARATION
+  ↓
+HUMAN DECISION
+  ↓
+VERIFICATION
+</pre><table>
+<tr>
+<th>Parameter</th>
+<th>Validated Result</th>
+</tr><tr>
+<td>Propagation</td>
+<td class="pass">BLOCKED</td>
+</tr><tr>
+<td>Containment</td>
+<td class="pass">ACTIVE</td>
+</tr><tr>
+<td>Recovery Preparation</td>
+<td class="pass">READY</td>
+</tr><tr>
+<td>Recovery Execution</td>
+<td class="pass">NOT EXECUTED</td>
+</tr>
+</table>
+</div><div class="panel">
+<h3>🧠 Memory Continuity Verification</h3><table>
+<tr>
+<th>Memory Element</th>
+<th>Recorded Value</th>
+</tr><tr>
+<td>Last Scenario</td>
+<td>POWER_FAILURE</td>
+</tr><tr>
+<td>Severity</td>
+<td>CRITICAL</td>
+</tr><tr>
+<td>Previous Failsafe State</td>
+<td>STABILIZED</td>
+</tr><tr>
+<td>Last Failsafe State</td>
+<td>ISOLATED</td>
+</tr><tr>
+<td>Last Transition</td>
+<td>ACTIVATE_CONTAINMENT</td>
+</tr><tr>
+<td>Cascade Status</td>
+<td>BLOCKED</td>
+</tr><tr>
+<td>Recovery Pathway</td>
+<td>DIAGNOSTIC_ASSESSMENT → CORRECTIVE_PLANNING → STATE_VERIFICATION → PRIMARY_RESTORATION → CERTIFIED_STABLE</td>
+</tr><tr>
+<td>Human Decision</td>
+<td>ABORT_RECOVERY</td>
+</tr><tr>
+<td>Execution Status</td>
+<td>RECOVERY_ABORTED / NO_RECOVERY_EXECUTED</td>
+</tr>
+</table><p class="pass">
+MEMORY CONTINUITY: PASS
+</p>
+</div><div class="panel">
+<h3>📋 Audit Traceability Verification</h3><pre>
+EVENT
+ ↓
+ASSESSMENT
+ ↓
+DECISION SUPPORT
+ ↓
+RECOVERY PATH
+ ↓
+FAILSAFE TRANSITION
+ ↓
+VALIDATION
+ ↓
+HUMAN DECISION
+ ↓
+EXECUTION GATE
+ ↓
+FINAL STATUS
+</pre><p class="pass">
+AUDIT CHAIN: PASS
+</p>
+</div><div class="panel">
+<h3>🧭 Golden Rule Verification</h3><pre>
+OBSERVE
+   ↓
+VERIFY
+   ↓
+ASSESS
+   ↓
+DECIDE
+   ↓
+FINAL HUMAN DECISION
+   ↓
+ACT
+   ↓
+UPDATE
+</pre><p class="pass">
+GOLDEN RULE PATHWAY: PASS
+</p>
+</div><div class="panel">
+<h3>🧪 ValidationCoreV1 Evidence</h3><table>
+<tr>
+<th>Validation Test</th>
+<th>Result</th>
+</tr><tr>
+<td>Self Test</td>
+<td class="pass">PASS</td>
+</tr><tr>
+<td>Fault Identification</td>
+<td class="pass">NO FAULTS</td>
+</tr><tr>
+<td>Failsafe Validation</td>
+<td class="pass">OPERATIONAL</td>
+</tr><tr>
+<td>Decision Core</td>
+<td class="pass">OPERATIONAL</td>
+</tr><tr>
+<td>Corrective Action</td>
+<td class="pass">NO CORRECTION REQUIRED</td>
+</tr><tr>
+<td>Re-Test Validation</td>
+<td class="pass">PASS</td>
+</tr><tr>
+<td>Final Validation</td>
+<td class="pass">VALIDATION COMPLETE</td>
+</tr>
+</table>
+</div><div class="panel">
+<h3>⚠️ Evidence Consistency Note</h3><p class="warning">
+The validation record distinguishes between the initial human
+decision state and the subsequently recorded human decision.
+</p><pre>
+INITIAL STATE
+HUMAN_AUTHORIZATION_PENDING
+        ↓
+HUMAN DECISION RECEIVED
+        ↓
+ABORT_RECOVERY
+        ↓
+RECOVERY_ABORTED
+        ↓
+NO_RECOVERY_EXECUTED
+</pre><p>
+This sequence is treated as the authoritative final human-decision
+record for the completed simulation cycle.
+</p>
+</div><div class="panel">
+<h3>📊 Final Validation Status</h3><pre class="status-box">
+VALIDATION CHECKLIST:
+LOADED
+
+SYSTEM INTEGRATION:
+PASS
+
+SCENARIO VALIDATION:
+PASS
+
+FAILSAFE VALIDATION:
+PASS
+
+TRIAL MANOEUVRE:
+PASS
+
+CASCADE CONTAINMENT:
+PASS
+
+HUMAN DECISION AUTHORITY:
+PASS
+
+EXECUTION GATE:
+PASS
+
+MEMORY CONTINUITY:
+PASS
+
+AUDIT TRACEABILITY:
+PASS
+
+GOLDEN RULE PIPELINE:
+PASS
+
+VALIDATIONCORE SELF-TEST:
+PASS
+
+RE-TEST:
+PASS
+
+AUTOMATIC EXECUTION:
+DISABLED
+
+LIVE SYSTEM CONTROL:
+NOT CONNECTED
+
+HUMAN DECISION:
+ABORT_RECOVERY
+
+RECOVERY EXECUTED:
+NO
+
+FINAL STATUS:
+VALIDATION COMPLETE
+</pre><p class="pass">
+🟢 VALIDATION COMPLETE — SIMULATION EVIDENCE RECORDED
+</p>
+</div><div class="panel">
+<h3>📜 Validation Declaration</h3><p>
+The Validation Checklist is an evidence and verification interface
+for the Sextant Orbital Resilience Framework.
+</p><p>
+It does not itself authorise operational execution, alter the
+simulation engines, or connect the framework to live spacecraft
+systems.
+</p><p>
+All recovery pathways remain simulated. Human / mission authority
+remains the final decision authority.
+</p><p>
+Validation status reflects the recorded deterministic simulation
+cycle and its associated evidence.
+</p><p class="pass">
+🟢 VALIDATION CHECKLIST — VALIDATED SIMULATION RECORD
+</p>
+</div><div class="panel">
+<button onclick="window.location.href='index.html'">
+⬅ RETURN TO COCKPIT
+</button>
+</div></body>
+</html>

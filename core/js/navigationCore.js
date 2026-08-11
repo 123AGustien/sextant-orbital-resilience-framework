@@ -1,28 +1,27 @@
-/**
- * ============================================================
- * Sextant Orbital Resilience Framework
- *
- * Navigation Core v1.0
- *
- * Nine-Layer Operational Abstraction Stack
- *
- * Classification:
- * Conceptual Architecture Layer
- * Non-operational
- * Display and interpretation support only
- *
- * Purpose:
- * Provides architectural navigation metadata
- * for the Sextant Orbital Resilience Cockpit.
- *
- * SAFETY:
- * - Display only
- * - Simulation only
- * - No live navigation control
- * - No manoeuvre execution
- * - Human authority remains external
- * ============================================================
- */
+/*
+============================================================
+Sextant Orbital Resilience Framework
+Navigation Core v1.0
+
+Nine-Layer Operational Abstraction Stack
+
+Classification:
+Conceptual Architecture Layer
+Non-operational
+Display and interpretation support only
+
+Purpose:
+Provides architectural navigation metadata
+for the Sextant Orbital Resilience Cockpit.
+
+SAFETY:
+- Display only
+- Simulation only
+- No live navigation control
+- No manoeuvre execution
+- Human authority remains external
+============================================================
+*/
 
 const NavigationCore = {
 
@@ -171,7 +170,9 @@ const NavigationCore = {
         simulationOnly: true,
 
         liveControl: false
+
     },
+
 
     getArchitecture() {
 
@@ -183,11 +184,9 @@ const NavigationCore = {
 
             domain: this.domain,
 
-            classification:
-                this.classification,
+            classification: this.classification,
 
-            operatingMode:
-                this.operatingMode,
+            operatingMode: this.operatingMode,
 
             automaticExecution:
                 this.automaticExecution,
@@ -202,23 +201,36 @@ const NavigationCore = {
                 this.layers.length,
 
             layers:
-                this.layers.map(
-                    layer => ({
+                this.layers.map(function (layer) {
+
+                    return {
+
                         id: layer.id,
+
                         name: layer.name,
+
                         responsibility:
                             layer.responsibility
-                    })
-                )
+
+                    };
+
+                })
+
         };
+
     },
+
 
     getLayer(id) {
 
-        return this.layers.find(
-            layer => layer.id === id
-        ) || null;
+        return this.layers.find(function (layer) {
+
+            return layer.id === id;
+
+        }) || null;
+
     },
+
 
     setContext(
         scenario,
@@ -249,38 +261,55 @@ const NavigationCore = {
 
             liveControl:
                 false
+
         };
 
         return {
+
             ...this.navigationState
+
         };
+
     },
+
 
     getState() {
 
         return {
+
             ...this.navigationState
+
         };
+
     },
+
 
     getSafetyStatus() {
 
         return {
 
-            automaticExecution: false,
+            automaticExecution:
+                false,
 
-            humanAuthorizationRequired: true,
+            humanAuthorizationRequired:
+                true,
 
-            simulationOnly: true,
+            simulationOnly:
+                true,
 
-            liveSystemControl: false,
+            liveSystemControl:
+                false,
 
-            operationalControl: false,
+            operationalControl:
+                false,
 
             status:
                 "SIMULATION_ONLY"
+
         };
+
     },
+
 
     validate() {
 
@@ -288,10 +317,14 @@ const NavigationCore = {
             this.layers.length === 9;
 
         const sequentialLayers =
-            this.layers.every(
-                (layer, index) =>
-                    layer.id === index + 1
-            );
+            this.layers.every(function (
+                layer,
+                index
+            ) {
+
+                return layer.id === index + 1;
+
+            });
 
         const safetyBoundary =
             this.automaticExecution === false &&
@@ -328,15 +361,19 @@ const NavigationCore = {
                 )
                     ? "PASS"
                     : "FAIL"
+
         };
+
     }
 
 };
 
 
-// ============================================================
-// BROWSER EXPORT
-// ============================================================
+/*
+============================================================
+GLOBAL BROWSER EXPOSURE
+============================================================
+*/
 
 if (
     typeof window !== "undefined"
@@ -344,12 +381,15 @@ if (
 
     window.NavigationCore =
         NavigationCore;
+
 }
 
 
-// ============================================================
-// NODE.JS EXPORT
-// ============================================================
+/*
+============================================================
+NODE.JS EXPORT
+============================================================
+*/
 
 if (
     typeof module !== "undefined" &&
@@ -358,12 +398,15 @@ if (
 
     module.exports =
         NavigationCore;
+
 }
 
 
-// ============================================================
-// INTERNAL VALIDATION
-// ============================================================
+/*
+============================================================
+INITIAL VALIDATION
+============================================================
+*/
 
 try {
 
@@ -378,6 +421,7 @@ try {
             "NavigationCore v1.0:",
             validation.status
         );
+
     }
 
 } catch (error) {
@@ -390,5 +434,7 @@ try {
             "NavigationCore validation error:",
             error
         );
+
     }
+
 }
