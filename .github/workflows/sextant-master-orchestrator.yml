@@ -1,1 +1,89 @@
-g
+name: "Sextant JavaScript Syntax Check"
+
+on:
+  workflow_dispatch:
+
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  syntax-check:
+
+    name: "JavaScript Syntax Diagnostic"
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: "Checkout repository"
+        uses: actions/checkout@v4
+
+      - name: "Setup Node.js"
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: "Check JavaScript syntax"
+        shell: bash
+        run: |
+          set -e
+
+          echo "========================================"
+          echo "🛰️ SEXTANT JAVASCRIPT SYNTAX CHECK"
+          echo "========================================"
+          echo ""
+
+          FOUND=0
+
+          while IFS= read -r file
+          do
+
+            FOUND=1
+
+            echo "----------------------------------------"
+            echo "Checking: $file"
+            echo "----------------------------------------"
+
+            if node --check "$file"; then
+
+              echo "✔ SYNTAX PASS: $file"
+
+            else
+
+              echo ""
+              echo "❌ JAVASCRIPT SYNTAX ERROR"
+              echo ""
+              echo "FAILED FILE:"
+              echo "$file"
+              echo ""
+              echo "Fix this file before restoring the Master Orchestrator."
+              exit 1
+
+            fi
+
+            echo ""
+
+          done < <(
+            find . \
+              -type f \
+              -name "*.js" \
+              -not -path "./node_modules/*" \
+              -not -path "./.git/*" \
+              -print \
+              | sort
+          )
+
+          if [ "$FOUND" -eq 0 ]; then
+
+            echo "❌ No JavaScript files found"
+            exit 1
+
+          fi
+
+          echo "========================================"
+          echo "🟢 ALL JAVASCRIPT SYNTAX CHECKS PASSED"
+          echo "========================================"
