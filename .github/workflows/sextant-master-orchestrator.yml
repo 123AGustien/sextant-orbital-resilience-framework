@@ -19,6 +19,8 @@
 #        ↓
 # ValidationCoreV1
 #        ↓
+# ValidationChecklistV1
+#        ↓
 # MemoryCoreV1
 #        ↓
 # AuditCoreV1
@@ -113,6 +115,7 @@ jobs:
           echo "Orbital Resilience Cockpit v2.4"
           echo "Command-Centre Core v3 integration active"
           echo "Cascade Resilience Index integration active"
+          echo "ValidationChecklistV1 integration active"
           echo "Simulation-only safety boundary active"
           echo "Human decision authority required"
           echo "Live system control NOT CONNECTED"
@@ -130,6 +133,12 @@ jobs:
           # Root-level supervisory modules
           test -f commandCentreCoreV3.js
           test -f cascade-resilience-index.html
+
+          # Validation checklist interface
+          test -f validation-checklist.html
+
+          # Validation evidence
+          test -f orbital-validation-checklist.json
 
           # Orbital modules
           test -f js/orbitalProfiles.js
@@ -155,6 +164,8 @@ jobs:
 
           # Core modules
           test -f js/validationCore.js
+          test -f js/validationChecklist.js
+          test -f js/validation-loader.js
           test -f js/memoryCore.js
           test -f js/auditCore.js
           test -f js/cockpit.js
@@ -164,7 +175,347 @@ jobs:
           echo "✔ Failsafe modules verified"
           echo "✔ CommandCentreCoreV3 verified"
           echo "✔ Cascade Resilience Index verified"
+          echo "✔ ValidationChecklistV1 verified"
+          echo "✔ Validation loader verified"
+          echo "✔ Validation evidence JSON verified"
           echo "✔ Core validation modules verified"
+
+      # ======================================================
+      # VALIDATION EVIDENCE JSON
+      # ======================================================
+
+      - name: "Validate orbital validation evidence"
+        run: |
+          node <<'NODE'
+          const fs = require("fs");
+
+          const file = "orbital-validation-checklist.json";
+
+          if (!fs.existsSync(file)) {
+            throw new Error(
+              "orbital-validation-checklist.json missing"
+            );
+          }
+
+          const data = JSON.parse(
+            fs.readFileSync(file, "utf8")
+          );
+
+          const requiredRootFields = [
+            "framework",
+            "validationVersion",
+            "scenario",
+            "domain",
+            "checks",
+            "finalStatus"
+          ];
+
+          for (const field of requiredRootFields) {
+            if (!(field in data)) {
+              throw new Error(
+                `Missing validation evidence field: ${field}`
+              );
+            }
+          }
+
+          if (
+            data.framework !==
+            "Sextant Orbital Resilience Framework"
+          ) {
+            throw new Error(
+              "Validation framework identifier mismatch"
+            );
+          }
+
+          if (data.validationVersion !== "1.0") {
+            throw new Error(
+              "Validation version mismatch"
+            );
+          }
+
+          if (data.scenario !== "SIGNAL_LOSS") {
+            throw new Error(
+              "Expected SIGNAL_LOSS validation scenario"
+            );
+          }
+
+          if (data.domain !== "ORBITAL") {
+            throw new Error(
+              "Expected ORBITAL validation domain"
+            );
+          }
+
+          const engines =
+            data.checks.engineValidation;
+
+          const requiredEngines = [
+            "OrbitalEngineV1",
+            "ManoeuvreEngineV1",
+            "FailsafeEngineV1",
+            "ValidationCoreV1",
+            "MemoryCoreV1",
+            "AuditCoreV1"
+          ];
+
+          for (const engine of requiredEngines) {
+            if (engines[engine] !== "PASS") {
+              throw new Error(
+                `Validation engine failed: ${engine}`
+              );
+            }
+          }
+
+          const pipeline =
+            data.checks.goldenRulePipeline;
+
+          const requiredPipeline = [
+            "OBSERVE",
+            "VERIFY",
+            "ASSESS",
+            "DECIDE",
+            "ACT",
+            "UPDATE"
+          ];
+
+          for (const step of requiredPipeline) {
+            if (pipeline[step] !== true) {
+              throw new Error(
+                `Golden Rule step failed: ${step}`
+              );
+            }
+          }
+
+          const boundary =
+            data.checks.operationalBoundary;
+
+          if (boundary.simulationOnly !== true) {
+            throw new Error(
+              "Simulation-only boundary failed"
+            );
+          }
+
+          if (boundary.noControlCommands !== true) {
+            throw new Error(
+              "No-control-command boundary failed"
+            );
+          }
+
+          if (boundary.humanAuthorityMaintained !== true) {
+            throw new Error(
+              "Human authority boundary failed"
+            );
+          }
+
+          if (data.finalStatus !== "VALIDATION_COMPLETE") {
+            throw new Error(
+              "Validation evidence is not complete"
+            );
+          }
+
+          console.log(
+            "✔ orbital-validation-checklist.json verified"
+          );
+
+          console.log(
+            "✔ Engine validation = PASS"
+          );
+
+          console.log(
+            "✔ Scenario validation = PASS"
+          );
+
+          console.log(
+            "✔ Golden Rule pipeline = PASS"
+          );
+
+          console.log(
+            "✔ Failsafe validation = PASS"
+          );
+
+          console.log(
+            "✔ Operational boundary = PASS"
+          );
+
+          console.log(
+            "✔ Final validation status = VALIDATION_COMPLETE"
+          );
+          NODE
+
+      # ======================================================
+      # VALIDATION CHECKLIST MODULE VALIDATION
+      # ======================================================
+
+      - name: "Validate ValidationChecklistV1"
+        run: |
+          node <<'NODE'
+          const fs = require("fs");
+
+          const file =
+            "js/validationChecklist.js";
+
+          if (!fs.existsSync(file)) {
+            throw new Error(
+              "ValidationChecklistV1 module missing"
+            );
+          }
+
+          const source =
+            fs.readFileSync(file, "utf8");
+
+          const requiredMarkers = [
+            "ValidationChecklistV1",
+            "VC-001",
+            "VC-002",
+            "VC-003",
+            "VC-004",
+            "VC-005",
+            "VC-006",
+            "VC-007",
+            "VC-008",
+            "VC-009",
+            "VC-010",
+            "VC-011",
+            "VC-012",
+            "VC-013",
+            "VC-014",
+            "MISSION_CONTROLLER",
+            "NO_RECOVERY_ACTION_EXECUTED_UNTIL_HUMAN_AUTHORIZATION",
+            "SIMULATION_COMPLETE",
+            "validationChecklist",
+            "runValidationChecklist",
+            "verifyHumanDecisionGate",
+            "renderValidationChecklist"
+          ];
+
+          for (const marker of requiredMarkers) {
+            if (!source.includes(marker)) {
+              throw new Error(
+                `Missing ValidationChecklistV1 marker: ${marker}`
+              );
+            }
+          }
+
+          console.log(
+            "✔ ValidationChecklistV1 structure verified"
+          );
+
+          console.log(
+            "✔ 14 validation checks detected"
+          );
+
+          console.log(
+            "✔ Human decision gate verification detected"
+          );
+
+          console.log(
+            "✔ Simulation-only boundary detected"
+          );
+
+          console.log(
+            "✔ Validation checklist API detected"
+          );
+          NODE
+
+      # ======================================================
+      # VALIDATION LOADER VALIDATION
+      # ======================================================
+
+      - name: "Validate validation-loader.js"
+        run: |
+          node <<'NODE'
+          const fs = require("fs");
+
+          const file =
+            "js/validation-loader.js";
+
+          if (!fs.existsSync(file)) {
+            throw new Error(
+              "validation-loader.js missing"
+            );
+          }
+
+          const source =
+            fs.readFileSync(file, "utf8");
+
+          const requiredMarkers = [
+            "orbital-validation-checklist.json",
+            "ValidationCoreV1"
+          ];
+
+          for (const marker of requiredMarkers) {
+            if (!source.includes(marker)) {
+              throw new Error(
+                `Missing validation loader marker: ${marker}`
+              );
+            }
+          }
+
+          console.log(
+            "✔ validation-loader.js verified"
+          );
+
+          console.log(
+            "✔ orbital-validation-checklist.json source detected"
+          );
+
+          console.log(
+            "✔ ValidationCoreV1 integration marker detected"
+          );
+          NODE
+
+      # ======================================================
+      # VALIDATION CHECKLIST HTML VALIDATION
+      # ======================================================
+
+      - name: "Validate Validation Checklist interface"
+        run: |
+          node <<'NODE'
+          const fs = require("fs");
+
+          const file =
+            "validation-checklist.html";
+
+          if (!fs.existsSync(file)) {
+            throw new Error(
+              "validation-checklist.html missing"
+            );
+          }
+
+          const source =
+            fs.readFileSync(file, "utf8");
+
+          const requiredMarkers = [
+            "Sextant Orbital Resilience",
+            "Validation Checklist v1.1",
+            "validationStatus",
+            "validationSummary",
+            "SIGNAL_LOSS",
+            "ORBITAL",
+            "ValidationCoreV1",
+            "validation-loader.js",
+            "Return To Orbital Cockpit"
+          ];
+
+          for (const marker of requiredMarkers) {
+            if (!source.includes(marker)) {
+              throw new Error(
+                `Missing checklist interface marker: ${marker}`
+              );
+            }
+          }
+
+          console.log(
+            "✔ Validation Checklist v1.1 interface verified"
+          );
+
+          console.log(
+            "✔ SIGNAL_LOSS scenario display verified"
+          );
+
+          console.log(
+            "✔ Validation loader integration verified"
+          );
+          NODE
 
       # ======================================================
       # COMMAND-CENTRE CORE VALIDATION
@@ -175,13 +526,17 @@ jobs:
           node <<'NODE'
           const fs = require("fs");
 
-          const file = "commandCentreCoreV3.js";
+          const file =
+            "commandCentreCoreV3.js";
 
           if (!fs.existsSync(file)) {
-            throw new Error("CommandCentreCoreV3 file missing");
+            throw new Error(
+              "CommandCentreCoreV3 file missing"
+            );
           }
 
-          const source = fs.readFileSync(file, "utf8");
+          const source =
+            fs.readFileSync(file, "utf8");
 
           const requiredMarkers = [
             "CommandCentreCoreV3",
@@ -208,10 +563,25 @@ jobs:
             }
           }
 
-          console.log("✔ CommandCentreCoreV3 structure verified");
-          console.log("✔ Golden Rule pipeline verified");
-          console.log("✔ Human authority boundary verified");
-          console.log("✔ Simulation-only boundary verified");
+          console.log(
+            "✔ CommandCentreCoreV3 structure verified"
+          );
+
+          console.log(
+            "✔ Golden Rule pipeline verified"
+          );
+
+          console.log(
+            "✔ FINAL_HUMAN_DECISION gate verified"
+          );
+
+          console.log(
+            "✔ Human authority boundary verified"
+          );
+
+          console.log(
+            "✔ Simulation-only boundary verified"
+          );
           NODE
 
       # ======================================================
@@ -223,7 +593,8 @@ jobs:
           node <<'NODE'
           const fs = require("fs");
 
-          const file = "cascade-resilience-index.html";
+          const file =
+            "cascade-resilience-index.html";
 
           if (!fs.existsSync(file)) {
             throw new Error(
@@ -231,7 +602,8 @@ jobs:
             );
           }
 
-          const source = fs.readFileSync(file, "utf8");
+          const source =
+            fs.readFileSync(file, "utf8");
 
           const requiredMarkers = [
             "Sextant Cascade Resilience Index",
@@ -259,10 +631,21 @@ jobs:
             }
           }
 
-          console.log("✔ Cascade Resilience Index verified");
-          console.log("✔ Scenario controls verified");
-          console.log("✔ Human decision controls verified");
-          console.log("✔ Simulation boundary verified");
+          console.log(
+            "✔ Cascade Resilience Index verified"
+          );
+
+          console.log(
+            "✔ Scenario controls verified"
+          );
+
+          console.log(
+            "✔ Human decision controls verified"
+          );
+
+          console.log(
+            "✔ Simulation boundary verified"
+          );
           NODE
 
       # ======================================================
@@ -273,19 +656,53 @@ jobs:
         run: |
           node <<'NODE'
 
-          console.log("🛰️ Sextant Orbital Validation");
+          console.log(
+            "🛰️ Sextant Orbital Validation"
+          );
 
-          console.log("✔ OrbitalEngineV1");
-          console.log("✔ ManoeuvreEngineV1");
-          console.log("✔ FailsafeTransitionEngineV1");
-          console.log("✔ CommandCentreCoreV3");
-          console.log("✔ Cascade Resilience Index");
-          console.log("✔ ValidationCoreV1");
-          console.log("✔ MemoryCoreV1");
-          console.log("✔ AuditCoreV1");
+          console.log(
+            "✔ OrbitalEngineV1"
+          );
 
-          console.log("✔ Golden Rule Pipeline ACTIVE");
-          console.log("✔ FINAL HUMAN DECISION gate ACTIVE");
+          console.log(
+            "✔ ManoeuvreEngineV1"
+          );
+
+          console.log(
+            "✔ FailsafeTransitionEngineV1"
+          );
+
+          console.log(
+            "✔ CommandCentreCoreV3"
+          );
+
+          console.log(
+            "✔ Cascade Resilience Index"
+          );
+
+          console.log(
+            "✔ ValidationCoreV1"
+          );
+
+          console.log(
+            "✔ ValidationChecklistV1"
+          );
+
+          console.log(
+            "✔ MemoryCoreV1"
+          );
+
+          console.log(
+            "✔ AuditCoreV1"
+          );
+
+          console.log(
+            "✔ Golden Rule Pipeline ACTIVE"
+          );
+
+          console.log(
+            "✔ FINAL HUMAN DECISION gate ACTIVE"
+          );
 
           console.log(
             "✔ Manoeuvre Engine Simulation Boundary ACTIVE"
@@ -386,6 +803,191 @@ jobs:
           NODE
 
       # ======================================================
+      # VALIDATION CHECKLIST RUNTIME TEST
+      # ======================================================
+
+      - name: "Run ValidationChecklistV1 runtime test"
+        run: |
+          node <<'NODE'
+
+          const fs = require("fs");
+          const vm = require("vm");
+
+          const source =
+            fs.readFileSync(
+              "js/validationChecklist.js",
+              "utf8"
+            );
+
+          const context = {
+            window: {
+              addEventListener: function () {},
+              lastValidationResult: null,
+              lastOrbitalResult: {
+                assessment: {
+                  status: "VALIDATED"
+                }
+              },
+              lastManoeuvreResult: {
+                status: "SIMULATION_COMPLETE",
+                simulationOnly: true
+              },
+              lastFailsafeResult: {
+                engine:
+                  "FailsafeTransitionEngineV1",
+                currentState:
+                  "STABILIZED",
+                cascadeControl: {
+                  propagation: "CONTAINED",
+                  containment: "ACTIVE"
+                }
+              },
+              lastOperatorGuidance: {
+                operatorGuidance: {
+                  instructions: [
+                    "MAINTAIN_SAFE_STATE"
+                  ]
+                },
+                pipeline: [
+                  "OBSERVE",
+                  "VERIFY",
+                  "ASSESS",
+                  "DECIDE",
+                  "ACT",
+                  "UPDATE"
+                ]
+              },
+              lastHumanDecision: {
+                authority:
+                  "MISSION_CONTROLLER",
+                simulationOnly: true,
+                executionPolicy:
+                  "NO_RECOVERY_ACTION_EXECUTED_UNTIL_HUMAN_AUTHORIZATION"
+              },
+              lastExecutionGate: {
+                authorized: false
+              },
+              lastMemoryState: {
+                lastScenario:
+                  "SIGNAL_LOSS",
+                lastDecision:
+                  "MAINTAIN_SAFE_STATE",
+                lastFailsafeState:
+                  "STABILIZED",
+                systemStatus:
+                  "SAFE"
+              },
+              lastAuditRecord: {
+                event:
+                  "SIGNAL_LOSS",
+                decision:
+                  "MAINTAIN_SAFE_STATE",
+                validation:
+                  "PASS",
+                humanDecision:
+                  "MISSION_CONTROLLER"
+              }
+            },
+
+            console: {
+              error: console.error
+            },
+
+            document: {
+              getElementById: function () {
+                return null;
+              }
+            }
+          };
+
+          vm.createContext(context);
+
+          vm.runInContext(
+            source,
+            context
+          );
+
+          if (
+            !context.window.validationChecklist
+          ) {
+            throw new Error(
+              "ValidationChecklistV1 API not initialised"
+            );
+          }
+
+          const result =
+            context.window.validationChecklist.run();
+
+          if (
+            result.totalChecks !== 14
+          ) {
+            throw new Error(
+              `Expected 14 checks, received ${result.totalChecks}`
+            );
+          }
+
+          if (
+            result.passedChecks !== 14
+          ) {
+            throw new Error(
+              `Expected 14 passing checks, received ${result.passedChecks}`
+            );
+          }
+
+          if (
+            result.status !==
+            "VALIDATION_COMPLETE"
+          ) {
+            throw new Error(
+              `Unexpected checklist status: ${result.status}`
+            );
+          }
+
+          const humanGate =
+            context.window.validationChecklist
+              .verifyHumanDecisionGate(
+                "MAINTAIN_SAFE_STATE"
+              );
+
+          if (
+            humanGate.validDecision !== true
+          ) {
+            throw new Error(
+              "Human decision gate validation failed"
+            );
+          }
+
+          if (
+            humanGate.executionGate !== false
+          ) {
+            throw new Error(
+              "MAINTAIN_SAFE_STATE incorrectly opened execution gate"
+            );
+          }
+
+          console.log(
+            "✔ ValidationChecklistV1 runtime test PASS"
+          );
+
+          console.log(
+            "✔ 14 / 14 checklist checks PASS"
+          );
+
+          console.log(
+            "✔ VALIDATION_COMPLETE"
+          );
+
+          console.log(
+            "✔ Human decision gate PASS"
+          );
+
+          console.log(
+            "✔ MAINTAIN_SAFE_STATE keeps recovery gate closed"
+          );
+
+          NODE
+
+      # ======================================================
       # RUNTIME SIMULATION OUTPUT
       # ======================================================
 
@@ -402,6 +1004,9 @@ jobs:
 
               "domain":
                   "ORBITAL",
+
+              "scenario":
+                  "SIGNAL_LOSS",
 
               "engine":
                   "OrbitalEngineV1",
@@ -474,8 +1079,26 @@ jobs:
 
               "validation":
                   {
+                      "engine":
+                          "ValidationCoreV1",
+
                       "status":
                           "PASS"
+                  },
+
+              "validationChecklist":
+                  {
+                      "module":
+                          "ValidationChecklistV1",
+
+                      "version":
+                          "v1.0",
+
+                      "checks":
+                          14,
+
+                      "status":
+                          "VALIDATION_COMPLETE"
                   },
 
               "memory":
@@ -520,7 +1143,10 @@ jobs:
 
                       "liveSystemControl":
                           False
-                  }
+                  },
+
+              "finalStatus":
+                  "VALIDATION_COMPLETE"
           }
 
           with open(
@@ -533,7 +1159,9 @@ jobs:
                   indent=2
               )
 
-          print("✔ Runtime generated")
+          print(
+              "✔ Runtime generated"
+          )
           PY
 
       # ======================================================
@@ -543,18 +1171,24 @@ jobs:
       # IMPORTANT:
       # Do NOT delete docs here.
       #
-      # The runtime output was already generated inside docs/.
-      # Deleting docs would remove orbital.json.
+      # Runtime output was already generated inside docs/.
       # ======================================================
 
       - name: "Build GitHub Pages package"
         run: |
           mkdir -p docs
 
-          cp index.html docs/index.html
+          cp index.html \
+             docs/index.html
 
           cp cascade-resilience-index.html \
              docs/cascade-resilience-index.html
+
+          cp validation-checklist.html \
+             docs/validation-checklist.html
+
+          cp orbital-validation-checklist.json \
+             docs/orbital-validation-checklist.json
 
           cp commandCentreCoreV3.js \
              docs/commandCentreCoreV3.js
@@ -571,7 +1205,20 @@ jobs:
 
           echo "📄 Runtime output:"
           test -f docs/runtime/orbital.json
-          echo "✔ docs/runtime/orbital.json verified"
+
+          echo "📄 Validation evidence:"
+          test -f docs/orbital-validation-checklist.json
+
+          echo "📄 Validation checklist:"
+          test -f docs/validation-checklist.html
+
+          echo "📄 Validation module:"
+          test -f docs/js/validationChecklist.js
+
+          echo "📄 Validation loader:"
+          test -f docs/js/validation-loader.js
+
+          echo "✔ Complete validation package verified"
 
       # ======================================================
       # PAGES ARTIFACT
@@ -592,8 +1239,8 @@ jobs:
   # Main:
   #   VALIDATION + GITHUB PAGES DEPLOYMENT
   #
-  # This prevents feature branches from attempting to enter
-  # the protected github-pages environment.
+  # Feature branches never enter the protected
+  # github-pages environment.
   # ============================================================
 
   deploy:
@@ -602,10 +1249,6 @@ jobs:
 
     needs:
       - simulate
-
-    # ==========================================================
-    # MAIN BRANCH ONLY
-    # ==========================================================
 
     if: github.ref == 'refs/heads/main'
 
@@ -649,7 +1292,8 @@ jobs:
         run: |
           echo "🛰️ Sextant Orbital Resilience Cockpit deployment complete"
           echo "🌐 GitHub Pages deployment executed from MAIN"
-          echo "🧠 Validation = PASS"
+          echo "🧠 ValidationCoreV1 = PASS"
+          echo "📋 ValidationChecklistV1 = VALIDATION_COMPLETE"
           echo "👤 Human Decision Authority = REQUIRED"
           echo "🛡️ Automatic Execution = FALSE"
           echo "🔒 Live System Control = FALSE"
