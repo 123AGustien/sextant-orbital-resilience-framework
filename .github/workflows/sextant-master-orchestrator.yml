@@ -64,6 +64,7 @@ jobs:
       - name: "Checkout repository"
         uses: actions/checkout@v4
 
+
       # ======================================================
       # NODE
       # ======================================================
@@ -72,6 +73,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
+
 
       # ======================================================
       # PYTHON
@@ -88,7 +90,10 @@ jobs:
       # ======================================================
 
       - name: "System health check"
+        shell: bash
         run: |
+          set -e
+
           echo "🛰️ Sextant Framework Online"
           echo "Orbital Resilience Framework v2.4"
           echo "Validation Checklist v1.1"
@@ -110,49 +115,86 @@ jobs:
 
           echo "Checking simulation architecture..."
 
+          # --------------------------------------------------
+          # Core
+          # --------------------------------------------------
+
           test -f index.html
 
+          # --------------------------------------------------
           # Supervisory modules
+          # --------------------------------------------------
+
           test -f commandCentreCoreV3.js
           test -f cascade-resilience-index.html
 
+          # --------------------------------------------------
           # Orbital
+          # --------------------------------------------------
+
           test -f js/orbitalProfiles.js
           test -f js/orbitalEngine.js
 
+          # --------------------------------------------------
           # Manoeuvre
+          # --------------------------------------------------
+
           test -f js/manoeuvreProfiles.js
           test -f js/manoeuvreEngine.js
 
+          # --------------------------------------------------
           # Failsafe
+          # --------------------------------------------------
+
           test -f js/failsafeProfiles.js
           test -f js/failsafeEngine.js
 
+          # --------------------------------------------------
           # Navigation
+          # --------------------------------------------------
+
           test -f js/navigationCore.js
 
+          # --------------------------------------------------
           # Validation
+          # --------------------------------------------------
+
           test -f js/validationCore.js
 
+          # --------------------------------------------------
           # Memory
+          # --------------------------------------------------
+
           test -f js/memoryCore.js
 
+          # --------------------------------------------------
           # Audit
+          # --------------------------------------------------
+
           test -f js/auditCore.js
 
+          # --------------------------------------------------
           # Cockpit
+          # --------------------------------------------------
+
           test -f js/cockpit.js
 
-          # Validation checklist module
+          # --------------------------------------------------
+          # Optional Validation Checklist
+          # --------------------------------------------------
+
           if [ -f js/validationChecklist.js ]; then
-            echo "✔ ValidationChecklistV1 verified"
+            echo "✔ js/validationChecklist.js verified"
           elif [ -f validationChecklist.js ]; then
-            echo "✔ ValidationChecklistV1 verified"
+            echo "✔ validationChecklist.js verified"
           else
-            echo "⚠ ValidationChecklistV1 file not found"
+            echo "⚠ ValidationChecklistV1 source file not found"
           fi
 
-          # Validation loader
+          # --------------------------------------------------
+          # Optional validation loader
+          # --------------------------------------------------
+
           if [ -f validation-loader.js ]; then
             echo "✔ validation-loader.js verified"
           elif [ -f js/validation-loader.js ]; then
@@ -161,7 +203,10 @@ jobs:
             echo "⚠ validation-loader.js not found"
           fi
 
-          # Checklist evidence
+          # --------------------------------------------------
+          # Optional evidence file
+          # --------------------------------------------------
+
           if [ -f orbital-validation-checklist.json ]; then
             echo "✔ orbital-validation-checklist.json verified"
           elif [ -f docs/orbital-validation-checklist.json ]; then
@@ -174,8 +219,64 @@ jobs:
           echo "✔ Core orbital modules verified"
           echo "✔ Manoeuvre modules verified"
           echo "✔ Failsafe modules verified"
+          echo "✔ Navigation module verified"
+          echo "✔ Validation module verified"
+          echo "✔ Memory module verified"
+          echo "✔ Audit module verified"
           echo "✔ Command-Centre Core verified"
           echo "✔ Cascade Resilience Index verified"
+
+
+      # ======================================================
+      # JAVASCRIPT SYNTAX VALIDATION
+      # ======================================================
+
+      - name: "Validate JavaScript syntax"
+        shell: bash
+        run: |
+          set -e
+
+          echo "Checking JavaScript syntax..."
+
+          JS_FILES="
+          commandCentreCoreV3.js
+          js/orbitalProfiles.js
+          js/orbitalEngine.js
+          js/manoeuvreProfiles.js
+          js/manoeuvreEngine.js
+          js/failsafeProfiles.js
+          js/failsafeEngine.js
+          js/navigationCore.js
+          js/validationCore.js
+          js/memoryCore.js
+          js/auditCore.js
+          js/cockpit.js
+          "
+
+          for FILE in $JS_FILES; do
+            if [ -f "$FILE" ]; then
+              node --check "$FILE"
+              echo "✔ Syntax valid: $FILE"
+            fi
+          done
+
+          if [ -f js/validationChecklist.js ]; then
+            node --check js/validationChecklist.js
+            echo "✔ Syntax valid: js/validationChecklist.js"
+          elif [ -f validationChecklist.js ]; then
+            node --check validationChecklist.js
+            echo "✔ Syntax valid: validationChecklist.js"
+          fi
+
+          if [ -f validation-loader.js ]; then
+            node --check validation-loader.js
+            echo "✔ Syntax valid: validation-loader.js"
+          elif [ -f js/validation-loader.js ]; then
+            node --check js/validation-loader.js
+            echo "✔ Syntax valid: js/validation-loader.js"
+          fi
+
+          echo "✔ JavaScript syntax validation PASS"
 
 
       # ======================================================
@@ -322,10 +423,7 @@ jobs:
 
           FILE="index.html"
 
-          if [ ! -f "$FILE" ]; then
-            echo "❌ index.html missing"
-            exit 1
-          fi
+          test -f "$FILE"
 
           node - "$FILE" <<'NODE'
           const fs = require("fs");
@@ -433,8 +531,7 @@ jobs:
             );
           }
 
-          const source =
-            fs.readFileSync(file, "utf8");
+          const source = fs.readFileSync(file, "utf8");
 
           const requiredMarkers = [
             "CommandCentreCoreV3",
@@ -480,8 +577,7 @@ jobs:
           node <<'NODE'
           const fs = require("fs");
 
-          const file =
-            "cascade-resilience-index.html";
+          const file = "cascade-resilience-index.html";
 
           if (!fs.existsSync(file)) {
             throw new Error(
@@ -489,8 +585,7 @@ jobs:
             );
           }
 
-          const source =
-            fs.readFileSync(file, "utf8");
+          const source = fs.readFileSync(file, "utf8");
 
           const requiredMarkers = [
             "Sextant Cascade Resilience Index",
@@ -518,21 +613,10 @@ jobs:
             }
           }
 
-          console.log(
-            "✔ Cascade Resilience Index verified"
-          );
-
-          console.log(
-            "✔ Scenario controls verified"
-          );
-
-          console.log(
-            "✔ Human decision controls verified"
-          );
-
-          console.log(
-            "✔ Simulation boundary verified"
-          );
+          console.log("✔ Cascade Resilience Index verified");
+          console.log("✔ Scenario controls verified");
+          console.log("✔ Human decision controls verified");
+          console.log("✔ Simulation boundary verified");
           NODE
 
 
@@ -578,11 +662,10 @@ jobs:
           node <<'NODE'
           const fs = require("fs");
 
-          const source =
-            fs.readFileSync(
-              "commandCentreCoreV3.js",
-              "utf8"
-            );
+          const source = fs.readFileSync(
+            "commandCentreCoreV3.js",
+            "utf8"
+          );
 
           const requiredMarkers = [
             "automaticExecution",
@@ -627,25 +710,11 @@ jobs:
             );
           }
 
-          console.log(
-            "✔ Command-Centre safety boundary PASS"
-          );
-
-          console.log(
-            "✔ Automatic execution = FALSE"
-          );
-
-          console.log(
-            "✔ Human authorization = REQUIRED"
-          );
-
-          console.log(
-            "✔ Live system control = FALSE"
-          );
-
-          console.log(
-            "✔ Simulation-only boundary = ACTIVE"
-          );
+          console.log("✔ Command-Centre safety boundary PASS");
+          console.log("✔ Automatic execution = FALSE");
+          console.log("✔ Human authorization = REQUIRED");
+          console.log("✔ Live system control = FALSE");
+          console.log("✔ Simulation-only boundary = ACTIVE");
           NODE
 
 
@@ -669,7 +738,7 @@ jobs:
                   "Sextant Orbital Resilience Framework v2.4",
 
               "validationVersion":
-                  "1.0",
+                  "1.1",
 
               "scenario":
                   "SIGNAL_LOSS",
@@ -835,6 +904,7 @@ jobs:
               )
 
           print("✔ Runtime validation output generated")
+          print("✔ VALIDATION_COMPLETE")
           PY
 
 
@@ -847,48 +917,83 @@ jobs:
         run: |
           set -e
 
-          mkdir -p docs
+          rm -rf docs
+          mkdir -p docs/runtime
+
+          # --------------------------------------------------
+          # Main cockpit
+          # --------------------------------------------------
 
           cp index.html docs/index.html
+
+          # --------------------------------------------------
+          # Cascade Resilience Index
+          # --------------------------------------------------
 
           cp cascade-resilience-index.html \
              docs/cascade-resilience-index.html
 
+          # --------------------------------------------------
+          # Command-Centre Core
+          # --------------------------------------------------
+
           cp commandCentreCoreV3.js \
              docs/commandCentreCoreV3.js
 
-          # Validation checklist interface if present
+          # --------------------------------------------------
+          # JavaScript modules
+          # --------------------------------------------------
+
+          if [ -d js ]; then
+            cp -r js docs/js
+          fi
+
+          # --------------------------------------------------
+          # Validation checklist interface
+          # --------------------------------------------------
+
           if [ -f orbital-validation-checklist.html ]; then
             cp orbital-validation-checklist.html \
                docs/orbital-validation-checklist.html
           fi
 
-          # Validation evidence if present
+          # --------------------------------------------------
+          # Validation evidence
+          # --------------------------------------------------
+
           if [ -f orbital-validation-checklist.json ]; then
             cp orbital-validation-checklist.json \
                docs/orbital-validation-checklist.json
+          elif [ -f docs/orbital-validation-checklist.json ]; then
+            echo "✔ Existing docs validation evidence retained"
           fi
 
-          # Loader if present
+          # --------------------------------------------------
+          # Validation loader
+          # --------------------------------------------------
+
           if [ -f validation-loader.js ]; then
             cp validation-loader.js \
                docs/validation-loader.js
+          elif [ -f js/validation-loader.js ]; then
+            echo "✔ js/validation-loader.js retained"
           fi
 
-          if [ -d js ]; then
-            rm -rf docs/js
-            cp -r js docs/js
-          fi
+          # --------------------------------------------------
+          # Runtime evidence must exist
+          # --------------------------------------------------
 
+          test -f docs/runtime/orbital.json
+
+          echo ""
           echo "✔ GitHub Pages package prepared"
 
           echo ""
           echo "📦 Pages package contents:"
-          find docs -maxdepth 4 -type f | sort
+          find docs -maxdepth 5 -type f | sort
 
           echo ""
           echo "📄 Runtime output:"
-          test -f docs/runtime/orbital.json
           echo "✔ docs/runtime/orbital.json verified"
 
 
@@ -902,22 +1007,38 @@ jobs:
           set -e
 
           test -f docs/index.html
+          test -f docs/cascade-resilience-index.html
+          test -f docs/commandCentreCoreV3.js
           test -f docs/runtime/orbital.json
 
           node <<'NODE'
           const fs = require("fs");
 
-          const file =
-            "docs/runtime/orbital.json";
+          const file = "docs/runtime/orbital.json";
 
-          const data =
-            JSON.parse(
-              fs.readFileSync(file, "utf8")
-            );
+          const data = JSON.parse(
+            fs.readFileSync(file, "utf8")
+          );
 
           if (data.finalStatus !== "VALIDATION_COMPLETE") {
             throw new Error(
               "Runtime validation final status is not complete"
+            );
+          }
+
+          if (
+            data.scenario !== "SIGNAL_LOSS"
+          ) {
+            throw new Error(
+              "Runtime scenario validation failed"
+            );
+          }
+
+          if (
+            data.domain !== "ORBITAL"
+          ) {
+            throw new Error(
+              "Runtime domain validation failed"
             );
           }
 
@@ -953,8 +1074,44 @@ jobs:
             );
           }
 
+          if (
+            data.humanAuthority !== "MISSION_CONTROLLER"
+          ) {
+            throw new Error(
+              "Mission Controller authority boundary failed"
+            );
+          }
+
           console.log(
             "✔ Final runtime safety validation PASS"
+          );
+
+          console.log(
+            "✔ Scenario = SIGNAL_LOSS"
+          );
+
+          console.log(
+            "✔ Domain = ORBITAL"
+          );
+
+          console.log(
+            "✔ Human Authority = MISSION_CONTROLLER"
+          );
+
+          console.log(
+            "✔ Automatic Execution = FALSE"
+          );
+
+          console.log(
+            "✔ Human Authorization = REQUIRED"
+          );
+
+          console.log(
+            "✔ Simulation Only = TRUE"
+          );
+
+          console.log(
+            "✔ Live System Control = FALSE"
           );
 
           console.log(
@@ -1004,15 +1161,32 @@ jobs:
 
     steps:
 
+      # ======================================================
+      # PAGES CONFIGURATION
+      # ======================================================
+
       - name: "Setup Pages"
         uses: actions/configure-pages@v5
+
+
+      # ======================================================
+      # DEPLOY
+      # ======================================================
 
       - name: "Deploy to GitHub Pages"
         id: deployment
         uses: actions/deploy-pages@v4
 
+
+      # ======================================================
+      # DEPLOYMENT CONFIRMATION
+      # ======================================================
+
       - name: "Deployment confirmation"
+        shell: bash
         run: |
+          set -e
+
           echo "🛰️ Sextant Orbital Resilience Cockpit deployment complete"
           echo "🌐 GitHub Pages deployment executed from MAIN"
           echo "🧠 Validation = PASS"
@@ -1020,3 +1194,6 @@ jobs:
           echo "🛡️ Automatic Execution = FALSE"
           echo "🔒 Live System Control = FALSE"
           echo "🧪 Simulation Only = TRUE"
+          echo "📡 Scenario = SIGNAL_LOSS"
+          echo "🛰️ Domain = ORBITAL"
+          echo "✅ VALIDATION_COMPLETE"
