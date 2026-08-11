@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>
+Sextant Orbital Validation Checklist v1.2
+</title>
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+
+<style>
+
+body {
+
+    margin: 0;
+
+    font-family: Arial, sans-serif;
+
+    background: #0b0f14;
+
+    color: #2bd4ff;
+
+    text-align: center;
+
+}
+
+
+h1 {
+
+    margin-top: 20px;
+
+}
+
+
+.panel {
+
+    margin: 20px;
+
+    padding: 20px;
+
+    background: #111826;
+
+    border: 1px solid #2bd4ff;
+
+    border-radius: 8px;
+
+}
+
+
+.check {
+
+    text-align: left;
+
+    margin: 10px;
+
+    padding: 10px;
+
+    border: 1px solid #24506b;
+
+    border-radius: 5px;
+
+}
+
+
+.pass {
+
+    color: #00ff88;
+
+    font-weight: bold;
+
+}
+
+
+.pending {
+
+    color: #ffaa00;
+
+    font-weight: bold;
+
+}
+
+
+.status {
+
+    font-size: 22px;
+
+    font-weight: bold;
+
+    margin: 15px;
+
+}
+
+
+button {
+
+    width: 90%;
+
+    max-width: 400px;
+
+    padding: 15px;
+
+    margin: 15px;
+
+    background: #111826;
+
+    color: #2bd4ff;
+
+    border: 1px solid #2bd4ff;
+
+    border-radius: 6px;
+
+    font-size: 16px;
+
+}
+
+
+.note {
+
+    color: #7aa2b7;
+
+    font-size: 13px;
+
+}
+
+
+table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    margin-top: 15px;
+
+}
+
+
+th,
+td {
+
+    border: 1px solid #24506b;
+
+    padding: 8px;
+
+    text-align: left;
+
+    vertical-align: top;
+
+}
+
+
+th {
+
+    color: #2bd4ff;
+
+    background: #0b1520;
+
+}
+
+
+pre {
+
+    text-align: left;
+
+    white-space: pre-wrap;
+
+    background: #05080c;
+
+    padding: 15px;
+
+    border-radius: 5px;
+
+    overflow-x: auto;
+
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<h1>
+
+🛰️ Sextant Orbital Resilience
+
+<br>
+
+Validation Checklist v1.2
+
+</h1>
+
+
+
+<div class="panel">
+
+
+<div id="validationStatus"
+     class="status">
+
+VALIDATION LOADING...
+
+</div>
+
+
+<div id="validationSummary">
+
+Loading validation summary...
+
+</div>
+
+
+</div>
+
+
+
+<div class="panel">
+
+<h2>
+Validation Evidence
+</h2>
+
+<div id="validationChecklistEvidence">
+
+ValidationChecklistV1 loading...
+
+</div>
+
+</div>
+
+
+
+<div class="panel">
+
+
+<h2>
+Validation Source
+</h2>
+
+
+<div class="check">
+
+<strong>Checklist Module:</strong>
+
+<br>
+
+js/validationChecklist.js
+
+<br><br>
+
+<strong>Validation Data:</strong>
+
+<br>
+
+orbital-validation-checklist.json
+
+<br><br>
+
+<strong>Loader:</strong>
+
+<br>
+
+js/validation-loader.js
+
+<br><br>
+
+<strong>Core:</strong>
+
+<br>
+
+ValidationCoreV1
+
+</div>
+
+
+</div>
+
+
+
+<div class="panel">
+
+
+<h2>
+Scenario Validation
+</h2>
+
+
+<div class="check">
+
+<strong>Scenario:</strong>
+
+SIGNAL_LOSS
+
+<br><br>
+
+<strong>Domain:</strong>
+
+ORBITAL
+
+<br><br>
+
+<strong>Mode:</strong>
+
+DETERMINISTIC SIMULATION / VALIDATION
+
+<br><br>
+
+<strong>Operational Control:</strong>
+
+NOT CONNECTED
+
+</div>
+
+
+</div>
+
+
+
+<div class="panel">
+
+
+<h2>
+Human Decision Authority</h2>
+
+
+<div class="check">
+
+☑ Mission Controller Authority
+
+<br>
+
+☑ Human Authorization Required
+
+<br>
+
+☑ Automatic Execution Disabled
+
+<br>
+
+☑ Recovery Cannot Bypass Human Decision
+
+<br><br>
+
+<span class="pass">
+
+HUMAN DECISION AUTHORITY: VERIFIED
+
+</span>
+
+</div>
+
+
+</div>
+
+
+
+<div class="panel">
+
+
+<h2>
+Golden Rule Pipeline
+</h2>
+
+
+<div class="check">
+
+OBSERVE
+
+↓
+
+VERIFY
+
+↓
+
+ASSESS
+
+↓
+
+DECIDE
+
+↓
+
+FINAL HUMAN DECISION
+
+↓
+
+ACT
+
+↓
+
+UPDATE
+
+<br><br>
+
+<span class="pass">
+
+PIPELINE: VALIDATION PATH VERIFIED
+
+</span>
+
+</div>
+
+
+</div>
+
+
+
+<div class="panel">
+
+
+<h2>
+Operational Boundary
+</h2>
+
+
+<div class="check">
+
+☑ Simulation Only
+
+<br>
+
+☑ No Spacecraft Commands
+
+<br>
+
+☑ No Propulsion Commands
+
+<br>
+
+☑ No Autonomous Navigation Authority
+
+<br>
+
+☑ Human Authority Maintained
+
+<br>
+
+☑ Execution Gate Protected
+
+<br><br>
+
+<span class="pass">
+
+OPERATIONAL BOUNDARY: CONFIRMED
+
+</span>
+
+</div>
+
+
+</div>
+
+
+
+<div class="panel">
+
+
+<h2>
+Final Validation Record
+</h2>
+
+
+<pre id="validationRecord">
+
+ValidationChecklistV1
+Status: LOADING...
+
+</pre>
+
+
+</div>
+
+
+
+<button onclick="returnToCockpit()">
+
+⬅ Return To Orbital Cockpit
+
+</button>
+
+
+
+<div class="note">
+
+Sextant Orbital Resilience Framework
+
+<br>
+
+Deterministic Simulation and Assessment Environment
+
+<br>
+
+Research and Evaluation Use Only
+
+<br><br>
+
+Validation does not constitute operational authorization.
+
+</div>
+
+
+
+<!-- ========================================================
+     MODULE LOAD ORDER
+     ======================================================== -->
+
+<script src="js/validationCore.js"></script>
+
+<script src="js/validation-loader.js"></script>
+
+<script src="js/validationChecklist.js"></script>
+
+
+
+<script>
+
+"use strict";
+
+
+/*
+============================================================
+VALIDATION CHECKLIST PAGE CONTROLLER
+============================================================
+*/
+
+
+function updateValidationDisplay(result) {
+
+    if (!result) {
+
+        document.getElementById(
+            "validationStatus"
+        ).textContent =
+            "VALIDATION RESULT UNAVAILABLE";
+
+        document.getElementById(
+            "validationStatus"
+        ).className =
+            "status pending";
+
+        return;
+
+    }
+
+
+    const status =
+        document.getElementById(
+            "validationStatus"
+        );
+
+
+    const summary =
+        document.getElementById(
+            "validationSummary"
+        );
+
+
+    const record =
+        document.getElementById(
+            "validationRecord"
+        );
+
+
+    status.textContent =
+        result.status;
+
+
+    status.className =
+        result.status ===
+        "VALIDATION_COMPLETE"
+
+            ? "status pass"
+
+            : "status pending";
+
+
+    summary.innerHTML = `
+
+        <strong>
+            ValidationChecklistV1
+        </strong>
+
+        <br><br>
+
+        Passed:
+        ${result.passedChecks}
+        /
+        ${result.totalChecks}
+
+        <br>
+
+        Completion:
+        ${result.completion}%
+
+        <br>
+
+        Mode:
+        ${result.mode}
+
+        <br>
+
+        Automatic Execution:
+        ${result.automaticExecution}
+
+        <br>
+
+        Simulation Only:
+        ${result.simulationOnly}
+
+    `;
+
+
+    record.textContent =
+
+`ValidationChecklistV1
+
+Module:
+${result.module}
+
+Version:
+${result.version}
+
+Timestamp:
+${result.timestamp}
+
+Status:
+${result.status}
+
+Checks:
+${result.passedChecks}/${result.totalChecks}
+
+Completion:
+${result.completion}%
+
+Authority:
+${result.authority}
+
+Human Authority:
+${result.humanAuthority}
+
+Automatic Execution:
+${result.automaticExecution}
+
+Simulation Only:
+${result.simulationOnly}
+
+Execution Policy:
+${result.executionPolicy}
+`;
+
+}
+
+
+
+/*
+============================================================
+PAGE INITIALISATION
+============================================================
+*/
+
+
+window.addEventListener(
+    "load",
+    function () {
+
+        try {
+
+            if (
+                !window.validationChecklist
+            ) {
+
+                throw new Error(
+                    "ValidationChecklistV1 not loaded."
+                );
+
+            }
+
+
+            const result =
+                window.validationChecklist.run();
+
+
+            window.lastValidationChecklist =
+                result;
+
+
+            updateValidationDisplay(
+                result
+            );
+
+
+            window.validationChecklist.render(
+                "validationChecklistEvidence",
+                result
+            );
+
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Validation checklist page error:",
+                error
+            );
+
+
+            document.getElementById(
+                "validationStatus"
+            ).textContent =
+                "VALIDATION MODULE ERROR";
+
+
+            document.getElementById(
+                "validationStatus"
+            ).className =
+                "status pending";
+
+
+            document.getElementById(
+                "validationSummary"
+            ).textContent =
+                error.message;
+
+        }
+
+    }
+);
+
+
+
+/*
+============================================================
+RETURN TO COCKPIT
+============================================================
+*/
+
+
+function returnToCockpit() {
+
+    window.location.href =
+        "index.html";
+
+}
+
+</script>
+
+
+</body>
+
+</html>

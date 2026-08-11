@@ -1,161 +1,193 @@
-# 🛰️ Sextant Orbital Resilience Framework  
-## Nine-Layer Operational Abstraction Stack (Extended Spec v1)
+# 🛰️ Sextant Orbital Resilience Framework v2.4
 
-This document defines the **conceptual architecture stack** of the Sextant Orbital Resilience Framework.
+## Deterministic Orbital Domain Simulation Framework
 
-It is a **non-operational governance and design specification layer**, used for system interpretation, modelling consistency, and architectural alignment.
+The Sextant Orbital Resilience Framework is a deterministic simulation architecture designed to evaluate system resilience, recovery pathways, failsafe transitions, validation integrity, memory continuity, and audit traceability.
 
----
+The framework integrates:
 
-# 🧭 Core Principle
+- OrbitalEngineV1
+- ManoeuvreEngineV1
+- FailsafeTransitionEngineV1
+- Navigation Architecture Layer
+- ValidationCoreV1
+- MemoryCoreV1
+- AuditCoreV1
+- Golden Rule Engine Decision Authority
 
-The system is structured as a **layered abstraction model of resilience, control, and transition behaviour**.
+## System Operational Flow
 
-Each layer represents a distinct operational or conceptual responsibility in the simulation architecture.
+Scenario Selection
+↓
+OrbitalEngineV1
+↓
+Trial Manoeuvre Simulation Engine
+↓
+Failsafe Transition Architecture
+↓
+Validation Core
+↓
+Memory Core
+↓
+Audit Core
+↓
+Captain AI Lena Display
 
----
+# 🛰️ Trial Manoeuvre Engine v1.0
 
-# 🧱 Nine-Layer Stack (Canonical Order)
+## Purpose
 
-## 1. Sensor Layer
-Responsible for raw system observation.
+The Trial Manoeuvre Engine is a deterministic simulation and assessment layer within the Sextant Orbital Resilience Framework.
 
-- Node state detection  
-- Environmental input capture  
-- System telemetry ingestion  
+Its purpose is to simulate possible recovery and stability pathways after an identified system event.
 
----
+The engine:
 
-## 2. Relay Layer
-Responsible for data propagation.
+- Receives scenario outputs from OrbitalEngineV1
+- Selects an appropriate manoeuvre profile
+- Simulates a corrective pathway
+- Performs stability verification
+- Provides validated assessment data to the decision pipeline
 
-- Signal forwarding  
-- Inter-node communication paths  
-- Data normalization between components  
+Example:
 
----
+SIGNAL_LOSS
+→ COMMUNICATION_RECOVERY_MANOEUVRE
+→ BACKUP_COMMUNICATION_PATH
+→ STABILITY VERIFICATION
 
-## 3. Dependency Layer
-Defines structural relationships.
+# ⚠️ Operational Boundary
 
-- Node dependency mapping  
-- System graph construction  
-- Influence chain definition  
+The Trial Manoeuvre Engine is a simulation component only.
 
----
+It is not:
 
-## 4. Cascade Layer
-Handles failure propagation logic.
+- A vessel autopilot system
+- An autonomous navigation controller
+- A collision avoidance system
+- A replacement for a qualified navigator or operator
 
-- Failure spread modelling  
-- Dependency-based cascade execution  
-- System degradation tracking  
+The current engine does not generate suggested course changes, collision avoidance manoeuvres, or CPA/TCPA alteration recommendations.
 
----
+Navigation decisions, including collision avoidance actions, remain under the authority of the responsible operator and applicable regulations.
+🏗️ System Architecture
 
-## 5. Transition Layer
-Defines state evolution mechanisms.
+Integrated Orbital Resilience Framework
 
-- System state transitions  
-- Scenario progression logic  
-- Temporal evolution of nodes  
+The Sextant Orbital Resilience Framework is organised as a deterministic, modular architecture. Each module performs a single verified responsibility while communicating through clearly defined interfaces.
 
----
+Scenario Selection
+        │
+        ▼
+OrbitalEngineV1
+        │
+        ▼
+Trial Manoeuvre Engine
+        │
+        ▼
+Failsafe Transition Engine
+        │
+        ▼
+Validation Core
+        │
+        ▼
+Memory Core
+        │
+        ▼
+Audit Core
+        │
+        ▼
+Captain AI Lena Decision Display
 
-## 6. Isolation Layer
-Handles containment and segmentation.
+OrbitalEngineV1
 
-- Failure containment zones  
-- Node isolation rules  
-- Cascade boundary enforcement  
+Responsible for deterministic scenario evaluation.
 
----
+Functions include:
 
-## 7. Recovery Layer
-Handles restoration logic.
-
-- System recovery simulation  
-- Node restoration pathways  
-- Stability rebalancing mechanisms  
-
----
-
-## 8. Governance Layer
-Implements oversight and decision structure.
-
-- System evaluation rules  
-- Mission state classification  
-- Audit and compliance logic  
-- Control decisions over simulation states  
-
----
-
-## 9. Supervisory Layer
-Highest-level system interpretation layer.
-
-- Global system interpretation  
-- Multi-scenario comparison  
-- Strategic resilience assessment  
-- Final system state arbitration  
-
----
-
-# 🧠 Extended Conceptual Additions (Non-Operational)
-
-These are **theoretical extension constructs** included for architectural completeness.
-
----
-
-## 🕶️ Stealth Mode (Observability Suppression Concept)
-
-A conceptual execution mode where:
-
-- Intermediate system states may be hidden  
-- Event logging may be selectively reduced  
-- Only final or governance-approved outputs are exposed  
-
-**Purpose:**
-- Reduce signal noise in high-complexity simulations  
-- Enable audit-only evaluation modes  
-- Support controlled observability in analysis environments  
+- Scenario classification
+- Risk assessment
+- Recovery determination
+- Golden Rule Engine integration
 
 ---
 
-## ⚛️ Quantum Transition Layer (Probabilistic Branching Concept)
+Trial Manoeuvre Engine
 
-A conceptual model for multi-path system evolution.
+Provides deterministic simulation of recovery pathways.
 
-- System state may branch into multiple outcomes  
-- Cascade outcomes may diverge probabilistically  
-- Scenario execution may follow parallel evaluation paths  
+Functions include:
 
-**Purpose:**
-- Model uncertainty in complex dependency systems  
-- Simulate alternative failure realities  
-- Support advanced resilience forecasting  
+- Scenario profile selection
+- Recovery pathway simulation
+- Stability verification
+- Recovery readiness assessment
 
----
-
-# ⚠️ Governance Classification
-
-This document is:
-
-- ✔ conceptual specification only  
-- ✔ non-executable  
-- ✔ non-operational  
-- ✔ architecture documentation layer  
-
-It does not modify runtime behaviour of any system module.
+The engine currently supports simulation-based resilience analysis and is designed for future expansion into advanced navigation decision-support modules.
 
 ---
 
-# 🛰️ System Alignment Note
+Failsafe Transition Engine
 
-The Sextant Orbital Resilience Framework treats this stack as:
+Responsible for maintaining system stability.
 
-> “Architectural meaning layer above deterministic simulation execution.”
+Functions include:
+
+- State transition management
+- Cascade prevention
+- Secondary system preparation
+- Recovery pathway management
+- Stabilization verification
 
 ---
 
-# 📄 Version
-v1.0 – Extended Nine-Layer Abstraction Specification
+Validation Core
+
+Provides deterministic verification of every simulation cycle.
+
+Functions include:
+
+- Self-test
+- Fault identification
+- Decision validation
+- Re-test verification
+- Final validation status
+
+---
+
+Memory Core
+
+Maintains deterministic operational continuity.
+
+Functions include:
+
+- Previous scenario history
+- Transition history
+- Recovery history
+- System state persistence
+
+---
+
+Audit Core
+
+Produces a complete deterministic audit trail.
+
+Functions include:
+
+- Event logging
+- Decision traceability
+- Validation recording
+- Recovery documentation
+- Golden Rule Engine authority verification
+
+---
+
+Golden Rule Engine
+
+The Golden Rule Engine remains the governing authority throughout the framework.
+
+Every operational cycle follows:
+
+OBSERVE → VERIFY → ASSESS → DECIDE → ACT → UPDATE
+
+No module bypasses this decision pipeline, ensuring deterministic behaviour, traceability, and consistent resilience assessment across the entire Sextant Orbital Resilience Framework.
